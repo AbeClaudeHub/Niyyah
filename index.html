@@ -200,7 +200,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .insight-desc{font-size:0.78rem;color:var(--ink-2);font-weight:300;line-height:1.6;}
 .insight-desc .p{color:var(--gold);font-weight:600;font-family:'JetBrains Mono',monospace;}
 .verse{background:linear-gradient(140deg,rgba(218,180,98,0.1),rgba(218,180,98,0.03) 50%,transparent 80%);border:1px solid rgba(218,180,98,0.18);border-left:3px solid var(--gold);border-radius:0 var(--r-lg) var(--r-lg) 0;padding:22px 24px;position:relative;box-shadow:inset 0 0 40px rgba(218,180,98,0.02);}
-.verse::before{content:'"'';' position:absolute;top:-10px;left:18px;font-family:'Cormorant Garamond',serif;font-size:5rem;color:var(--gold);opacity:0.12;line-height:1;pointer-events:none;}
+.verse::before{content:'\201C';position:absolute;top:-10px;left:18px;font-family:'Cormorant Garamond',serif;font-size:5rem;color:var(--gold);opacity:0.12;line-height:1;pointer-events:none;}
 .verse-ar{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--gold);margin-bottom:7px;text-align:right;line-height:1.6;font-weight:500;}
 .verse-en{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.96rem;color:var(--ink);margin-bottom:6px;line-height:1.65;}
 .verse-ref{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);}
@@ -525,7 +525,7 @@ body{font-size:15px;}
 .sub-status-bar.show{display:block;}
 
 /* ── LANDING PAGE ── */
-.landing{position:fixed;inset:0;z-index:700;background:#0a0906;overflow-y:auto;display:flex;flex-direction:column;}
+.landing{position:fixed;inset:0;z-index:700;background:rgba(10,9,6,0.96);overflow-y:auto;display:flex;flex-direction:column;}
 .landing.hide{display:none;}
 .lnav{padding:16px 44px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(218,180,98,0.07);position:sticky;top:0;background:rgba(9,8,6,0.97);backdrop-filter:blur(32px);z-index:10;box-shadow:0 1px 0 rgba(218,180,98,0.05);}
 .lnav-brand{display:flex;align-items:center;gap:12px;}
@@ -601,10 +601,109 @@ body{font-size:15px;}
 .lfooter-brand{font-family:'Cormorant Garamond',serif;font-size:0.92rem;color:var(--ink-3);}
 .lfooter-note{font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-4);}
 
+/* ── MODERN LANDING ENHANCEMENTS ─────────────────────────────────────── */
+
+/* Starfield canvas */
+#star-canvas{position:fixed;inset:0;pointer-events:none;z-index:699;opacity:0.5;}
+.landing{isolation:isolate;}
+
+/* Animated gradient headline */
+.lhero-h1 em{
+  background:linear-gradient(135deg,#f8e4a8 0%,#ecc878 30%,#dab462 55%,#c9a030 80%,#f8e4a8 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:gradientShift 4s linear infinite;
+}
+
+/* Typing cursor */
+.typing-cursor{display:inline-block;width:3px;height:0.9em;background:var(--gold);margin-left:3px;vertical-align:middle;animation:blink 0.9s step-end infinite;border-radius:1px;}
+
+/* Count-up numbers */
+.stat-num{display:inline-block;transition:all 0.1s;}
+
+/* Feature card glow on hover */
+.lfeat-card::after{content:'';position:absolute;inset:0;border-radius:16px;background:radial-gradient(ellipse 60% 60% at 50% 0%,rgba(218,180,98,0.12),transparent 70%);opacity:0;transition:opacity 0.4s ease;pointer-events:none;}
+.lfeat-card:hover::after{opacity:1;}
+.lfeat-icon{transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s;}
+.lfeat-card:hover .lfeat-icon{transform:translateY(-4px) scale(1.08);box-shadow:0 8px 28px rgba(218,180,98,0.28);}
+
+/* Scroll reveal base state */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity 0.75s cubic-bezier(0.16,1,0.3,1),transform 0.75s cubic-bezier(0.16,1,0.3,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:0.1s;}
+.reveal-delay-2{transition-delay:0.18s;}
+.reveal-delay-3{transition-delay:0.26s;}
+.reveal-delay-4{transition-delay:0.34s;}
+.reveal-delay-5{transition-delay:0.42s;}
+.reveal-delay-6{transition-delay:0.5s;}
+
+/* Floating gold orb decoration */
+.landing-orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(80px);}
+.orb-1{width:520px;height:520px;background:radial-gradient(circle,rgba(218,180,98,0.09) 0%,transparent 70%);top:-160px;left:-180px;animation:floatY 8s ease-in-out infinite;}
+.orb-2{width:380px;height:380px;background:radial-gradient(circle,rgba(112,184,142,0.06) 0%,transparent 70%);bottom:-100px;right:-120px;animation:floatY 10s ease-in-out infinite reverse;}
+.orb-3{width:280px;height:280px;background:radial-gradient(circle,rgba(218,180,98,0.06) 0%,transparent 70%);top:40%;right:5%;animation:floatY 12s ease-in-out infinite;}
+
+/* Hero badge */
+.lhero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:40px;background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.2);font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;opacity:0;animation:fadeIn 0.7s ease 0.05s forwards;}
+.lhero-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);animation:pulse 2s ease-in-out infinite;}
+
+/* Social proof trust bar */
+.trust-bar{display:flex;align-items:center;justify-content:center;gap:28px;padding:0 40px 60px;flex-wrap:wrap;}
+.trust-item{display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-4);}
+.trust-item svg{opacity:0.4;}
+
+/* Enhanced pricing card */
+.lprice-card::after{content:'';position:absolute;inset:0;border-radius:22px;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(218,180,98,0.08),transparent 60%);pointer-events:none;}
+.lprice-glow{position:absolute;inset:-2px;border-radius:24px;background:linear-gradient(135deg,rgba(218,180,98,0.3),transparent 40%,transparent 60%,rgba(218,180,98,0.2));opacity:0;transition:opacity 0.4s;pointer-events:none;z-index:-1;filter:blur(10px);}
+.lprice-card:hover .lprice-glow{opacity:1;}
+.lprice-section:hover .lprice-num{text-shadow:0 0 80px rgba(218,180,98,0.5);}
+
+/* Testimonial enhancements */
+.testi-stars{display:flex;gap:4px;margin-bottom:12px;}
+.testi-star{color:var(--gold);font-size:0.85rem;}
+
+/* Geometric Islamic decoration */
+.geo-pattern{position:absolute;opacity:0.025;pointer-events:none;font-family:'Cormorant Garamond',serif;}
+
+/* Nav CTA micro-animation */
+.lnav-btns .btn-gold{animation:ringPulse 3s ease-in-out infinite;}
+.lnav-btns .btn-gold:hover{animation:none;}
+
+/* Animated mock preview */
+@keyframes mockPulse{0%,100%{border-color:rgba(218,180,98,0.15);}50%{border-color:rgba(218,180,98,0.32);}}
+.lmock{animation:mockPulse 4s ease-in-out infinite;}
+
+/* Scroll indicator pulse */
+@keyframes scrollBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
+
+/* Stats counter section */
+.lstat-item{position:relative;overflow:hidden;}
+.lstat-item::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(218,180,98,0.06),transparent 50%);opacity:0;transition:opacity 0.3s;}
+.lstat-item:hover::before{opacity:1;}
+.lstat-num{transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);}
+.lstat-item:hover .lstat-num{transform:scale(1.06);}
+
+/* Mobile nav improvements */
+@media(max-width:580px){
+  .lnav{padding:12px 16px;}
+  .lnav-btns .lnav-signin{display:none;}
+  .lhero-badge{font-size:0.48rem;padding:6px 14px;}
+  .trust-bar{gap:16px;padding:0 16px 40px;}
+  .founder-testimonial-grid{grid-template-columns:1fr!important;}
+}
+
+/* Pricing CTA pulse */
+@keyframes ctaPulse{0%,100%{box-shadow:0 4px 20px rgba(218,180,98,0.35),0 1px 0 rgba(255,255,255,0.15) inset;}50%{box-shadow:0 8px 40px rgba(218,180,98,0.55),0 0 0 4px rgba(218,180,98,0.08),0 1px 0 rgba(255,255,255,0.15) inset;}}
+.btn-cta-pulse{animation:ctaPulse 2.5s ease-in-out infinite;}
+.btn-cta-pulse:hover{animation:none;}
+
 </style>
 </head>
 <body>
 
+<canvas id="star-canvas"></canvas>
 <div class="landing" id="landing">
   <!-- NAV -->
   <nav class="lnav">
@@ -614,23 +713,25 @@ body{font-size:15px;}
     </div>
     <div class="lnav-btns">
       <button class="lnav-signin" onclick="showAuth('signin')">Sign In</button>
-      <button class="btn btn-gold btn-sm" onclick="showAuth('signup')" style="padding:8px 18px;font-size:0.78rem;">Get Started →</button>
+      <button class="btn btn-gold btn-sm btn-cta-pulse" onclick="showAuth('signup')" style="padding:8px 18px;font-size:0.78rem;">Get Started →</button>
     </div>
   </nav>
 
   <!-- HERO -->
-  <div class="lhero">
-    <div class="lhero-eye"><span class="lhero-dot"></span>FOR MUSLIM TRADERS · BUILT ON ISLAMIC PSYCHOLOGY</div>
+  <div class="lhero" style="position:relative;overflow:visible;">
+    <div class="orb-1 landing-orb"></div>
+    <div class="orb-3 landing-orb"></div>
+    <div class="lhero-badge"><span class="lhero-badge-dot"></span>For Muslim Traders · Built on Islamic Psychology</div>
     <h1 class="lhero-h1">Most traders fail because of<br><em>psychology</em>, not strategy.</h1>
-    <p class="lhero-sub">The only trading journal that connects your <strong>salah, nafs, and P&L</strong> into one system. Because the real reason you blow up has nothing to do with your strategy.</p>
+    <p class="lhero-sub">The only trading journal that connects your <strong>salah, nafs, and P&amp;L</strong> into one system. Because the real reason you blow up has nothing to do with your strategy.</p>
     <div class="lhero-btns">
-      <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 32px;">Start Your Journey — $27/mo</button>
+      <button class="btn btn-gold btn-lg btn-cta-pulse" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 32px;">Start Your Journey — $27/mo</button>
       <button class="btn btn-outline btn-lg" onclick="scrollToFeatures()" style="backdrop-filter:blur(8px);">See How It Works ↓</button>
     </div>
     <div class="lhero-price">Cancel anytime · Secure via Stripe · 7-day refund guarantee</div>
-    <div style="margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.4;cursor:pointer;" onclick="scrollToFeatures()">
+    <div style="margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.45;cursor:pointer;animation:scrollBounce 2s ease-in-out infinite;" onclick="scrollToFeatures()">
       <div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-3);">SCROLL</div>
-      <div style="width:1px;height:28px;background:linear-gradient(to bottom,var(--gold),transparent);animation:pulse 2s ease-in-out infinite;"></div>
+      <div style="width:1px;height:32px;background:linear-gradient(to bottom,var(--gold),transparent);"></div>
     </div>
   </div>
 
@@ -688,19 +789,27 @@ body{font-size:15px;}
     </div>
   </div>
 
+  <!-- TRUST BAR -->
+  <div class="trust-bar reveal">
+    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Stripe Secure Checkout</div>
+    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Firebase Encrypted Data</div>
+    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Cancel Anytime</div>
+    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>7-Day Full Refund</div>
+  </div>
+
   <!-- STATS BAR -->
-  <div style="padding:0 40px 72px;max-width:860px;margin:0 auto;width:100%;">
+  <div style="padding:0 40px 72px;max-width:860px;margin:0 auto;width:100%;" class="reveal">
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(218,180,98,0.1);border-radius:16px;overflow:hidden;border:1px solid rgba(218,180,98,0.12);">
-      <div style="background:linear-gradient(145deg,#1a1710,#0f0d09);padding:28px 24px;text-align:center;">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:600;color:var(--gold);line-height:1;letter-spacing:-0.04em;">14</div>
+      <div class="lstat-item" style="background:linear-gradient(145deg,#1a1710,#0f0d09);padding:28px 24px;text-align:center;">
+        <div class="lstat-num stat-num" data-target="14" style="font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:600;color:var(--gold);line-height:1;letter-spacing:-0.04em;">0</div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-top:8px;">Features</div>
       </div>
-      <div style="background:linear-gradient(145deg,#1a1710,#0f0d09);padding:28px 24px;text-align:center;border-left:1px solid rgba(218,180,98,0.1);border-right:1px solid rgba(218,180,98,0.1);">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:600;color:var(--gold);line-height:1;letter-spacing:-0.04em;">5</div>
+      <div class="lstat-item" style="background:linear-gradient(145deg,#1a1710,#0f0d09);padding:28px 24px;text-align:center;border-left:1px solid rgba(218,180,98,0.1);border-right:1px solid rgba(218,180,98,0.1);">
+        <div class="lstat-num stat-num" data-target="5" style="font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:600;color:var(--gold);line-height:1;letter-spacing:-0.04em;">0</div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-top:8px;">Islamic Pillars</div>
       </div>
-      <div style="background:linear-gradient(145deg,#1a1710,#0f0d09);padding:28px 24px;text-align:center;">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:600;color:var(--gold);line-height:1;letter-spacing:-0.04em;">1</div>
+      <div class="lstat-item" style="background:linear-gradient(145deg,#1a1710,#0f0d09);padding:28px 24px;text-align:center;">
+        <div class="lstat-num stat-num" data-target="1" style="font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:600;color:var(--gold);line-height:1;letter-spacing:-0.04em;">0</div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-top:8px;">App Like This</div>
       </div>
     </div>
@@ -708,36 +817,36 @@ body{font-size:15px;}
 
   <!-- FEATURES -->
   <div class="lfeatures" id="features-section">
-    <div class="lfeatures-eye">WHAT MAKES IT DIFFERENT</div>
-    <h2 class="lfeatures-h2">Not a journal.<br>A <em>mirror.</em></h2>
-    <p class="lfeatures-sub">Every feature exists because of one belief: your inner state determines your P&L. Not the market. Not the setup. <strong style="color:var(--ink);">You.</strong></p>
+    <div class="lfeatures-eye reveal">WHAT MAKES IT DIFFERENT</div>
+    <h2 class="lfeatures-h2 reveal reveal-delay-1">Not a journal.<br>A <em>mirror.</em></h2>
+    <p class="lfeatures-sub reveal reveal-delay-2">Every feature exists because of one belief: your inner state determines your P&amp;L. Not the market. Not the setup. <strong style="color:var(--ink);">You.</strong></p>
     <div class="lfeatures-grid">
-      <div class="lfeat-card">
+      <div class="lfeat-card reveal reveal-delay-1">
         <div class="lfeat-icon">🤲</div>
         <div class="lfeat-title">Prayer → Performance Radar</div>
         <div class="lfeat-desc">The app tracks your win rate on days you prayed each salah vs days you missed. <strong>The data proves what we already know.</strong></div>
       </div>
-      <div class="lfeat-card">
+      <div class="lfeat-card reveal reveal-delay-2">
         <div class="lfeat-icon">🚪</div>
         <div class="lfeat-title">Pre-Trade Gate</div>
         <div class="lfeat-desc">3 honest questions before every trade. If you answer No, the app shows your last 5 trades in that emotional state. <strong>The mirror doesn't lie.</strong></div>
       </div>
-      <div class="lfeat-card">
+      <div class="lfeat-card reveal reveal-delay-3">
         <div class="lfeat-icon">☽</div>
         <div class="lfeat-title">Nafs Tracking</div>
         <div class="lfeat-desc">Weekly Sabr, Tawakkul, Kibr, and Shukr ratings. <strong>Inner work and trading performance are directly correlated.</strong> This is where to start.</div>
       </div>
-      <div class="lfeat-card">
+      <div class="lfeat-card reveal reveal-delay-4">
         <div class="lfeat-icon">📅</div>
         <div class="lfeat-title">Trading Calendar</div>
-        <div class="lfeat-desc">Full monthly heatmap. Green days, red days, P&L per day — <strong>color-coded by P&L intensity — your whole month at a glance.</strong></div>
+        <div class="lfeat-desc">Full monthly heatmap. Green days, red days, P&amp;L per day — <strong>color-coded by P&amp;L intensity — your whole month at a glance.</strong></div>
       </div>
-      <div class="lfeat-card">
+      <div class="lfeat-card reveal reveal-delay-5">
         <div class="lfeat-icon">⚡</div>
         <div class="lfeat-title">Two-Part Trade Log</div>
         <div class="lfeat-desc">Log entry when you enter. <strong>Go trade.</strong> Come back to close it. No journaling mid-trade. No pressure. Just tawakkul.</div>
       </div>
-      <div class="lfeat-card">
+      <div class="lfeat-card reveal reveal-delay-6">
         <div class="lfeat-icon">✦</div>
         <div class="lfeat-title">Quality Score (0–100)</div>
         <div class="lfeat-desc">Every trade scored on gate answers, emotion, Islamic criteria, and outcome. <strong>A high-quality loss beats a lucky win.</strong> This metric proves it.</div>
@@ -747,10 +856,10 @@ body{font-size:15px;}
 
 
   <!-- FOUNDER + TESTIMONIAL -->
-  <div style="max-width:900px;margin:0 auto 80px;padding:0 40px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+  <div class="founder-testimonial-grid reveal" style="max-width:900px;margin:0 auto 80px;padding:0 40px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
 
     <!-- Founder Story -->
-    <div style="background:linear-gradient(145deg,#1e1b12,#0f0d09);border:1px solid rgba(218,180,98,0.2);border-radius:20px;padding:32px;position:relative;overflow:hidden;"><div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(218,180,98,0.2),transparent);"></div>
+    <div style="background:linear-gradient(145deg,#1e1b12,#0f0d09);border:1px solid rgba(218,180,98,0.2);border-radius:20px;padding:32px;position:relative;overflow:hidden;transition:border-color 0.3s,transform 0.3s;cursor:default;" onmouseenter="this.style.borderColor='rgba(218,180,98,0.4)';this.style.transform='translateY(-4px)'" onmouseleave="this.style.borderColor='rgba(218,180,98,0.2)';this.style.transform=''"><div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(218,180,98,0.2),transparent);"></div>
       <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">WHY I BUILT THIS</div>
       <p style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--ink);line-height:1.75;margin-bottom:14px;">"I kept blowing up accounts not because I didn't know how to trade — but because I couldn't control myself. Revenge trades after losses. Forcing entries out of boredom. Missing prayers because a trade was open."</p>
       <p style="font-size:0.82rem;color:var(--ink-3);line-height:1.7;margin-bottom:16px;">I built Niyyah because no existing journal addressed the real problem. The issue was never the strategy — it was the nafs. This app is the accountability system I wish I had.</p>
@@ -764,11 +873,14 @@ body{font-size:15px;}
     </div>
 
     <!-- Testimonial -->
-    <div style="background:linear-gradient(145deg,#1e1b12,#0f0d09);border:1px solid rgba(218,180,98,0.2);border-radius:20px;padding:32px;position:relative;overflow:hidden;"><div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(218,180,98,0.2),transparent);"></div>
-      <div style="font-size:3rem;color:var(--gold);opacity:0.2;position:absolute;top:16px;left:20px;font-family:'Cormorant Garamond',serif;line-height:1;">"</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;">EARLY USER</div>
+    <div style="background:linear-gradient(145deg,#1e1b12,#0f0d09);border:1px solid rgba(218,180,98,0.2);border-radius:20px;padding:32px;position:relative;overflow:hidden;transition:border-color 0.3s,transform 0.3s;cursor:default;" onmouseenter="this.style.borderColor='rgba(218,180,98,0.4)';this.style.transform='translateY(-4px)'" onmouseleave="this.style.borderColor='rgba(218,180,98,0.2)';this.style.transform=''"><div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(218,180,98,0.2),transparent);"></div>
+      <div style="font-size:3rem;color:var(--gold);opacity:0.15;position:absolute;top:16px;left:20px;font-family:'Cormorant Garamond',serif;line-height:1;">"</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">EARLY USER</div>
+      <div class="testi-stars" style="margin-bottom:12px;">
+        <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
+      </div>
       <p style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--ink);line-height:1.75;margin-bottom:14px;">"The pre-trade gate alone stopped me from taking 3 bad trades in my first week. Seeing my win rate on days I prayed Fajr vs days I missed it was honestly humbling."</p>
-      <p style="font-size:0.82rem;color:var(--ink-3);line-height:1.7;margin-bottom:16px;">The dhikr counter while in trade sounds simple but it genuinely keeps you off the P&L screen. That detachment is real tawakkul.</p>
+      <p style="font-size:0.82rem;color:var(--ink-3);line-height:1.7;margin-bottom:16px;">The dhikr counter while in trade sounds simple but it genuinely keeps you off the P&amp;L screen. That detachment is real tawakkul.</p>
       <div style="display:flex;align-items:center;gap:10px;">
         <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4a8a6a,#2a5a4a);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:0.85rem;">M</div>
         <div>
@@ -779,14 +891,8 @@ body{font-size:15px;}
     </div>
   </div>
 
-  <style>
-    @media(max-width:680px){
-      .founder-grid{grid-template-columns:1fr!important;}
-    }
-  </style>
-
   <!-- DEEN SECTION -->
-  <div class="ldeen">
+  <div class="ldeen reveal">
     <div class="ldeen-ar">وَعَلَى اللَّهِ فَتَوَكَّلُوا</div>
     <div class="ldeen-en">"And upon Allah rely, if you should be believers."</div>
     <div class="ldeen-ref">Surah Al-Ma'idah · 5:23</div>
@@ -794,8 +900,9 @@ body{font-size:15px;}
   </div>
 
   <!-- PRICING -->
-  <div class="lprice-section">
+  <div class="lprice-section reveal">
     <div class="lprice-card">
+      <div class="lprice-glow"></div>
       <div class="lprice-tag">ONE PLAN · EVERYTHING INCLUDED</div>
       <div class="lprice-num">$27<span>/mo</span></div>
       <ul class="lprice-list">
@@ -809,7 +916,7 @@ body{font-size:15px;}
         <li>Synced across all your devices</li>
         <li>Quality Score for every trade</li>
       </ul>
-      <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="width:100%;justify-content:center;font-size:0.95rem;">Begin with Niyyah — $27/mo</button>
+      <button class="btn btn-gold btn-lg btn-cta-pulse" onclick="showAuth('signup')" style="width:100%;justify-content:center;font-size:0.95rem;">Begin with Niyyah — $27/mo</button>
       <div class="lprice-fine">Secure checkout via Stripe · Cancel anytime</div>
       <div style="margin-top:12px;padding:12px 14px;background:rgba(218,180,98,0.05);border:1px solid rgba(218,180,98,0.12);border-radius:10px;font-size:0.78rem;color:var(--ink-3);text-align:left;line-height:1.7;">
         <div style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;">REFUND POLICY</div>
@@ -1738,10 +1845,23 @@ function subscribe(){
   if(btn){btn.textContent = 'Loading…';btn.style.opacity='0.7';}
   var createCheckout = FUNCTIONS.httpsCallable('createCheckoutSession');
   createCheckout({origin: window.location.origin}).then(function(result){
-    window.location.href = result.data.url;
+    if(result && result.data && result.data.url){
+      window.location.href = result.data.url;
+    } else {
+      throw new Error('Invalid response');
+    }
   }).catch(function(e){
-    toast('Error: ' + (e.message||'Please try again'), 'e');
     if(btn){btn.textContent = 'Subscribe — $27 / month';btn.style.opacity='';}
+    // Show friendly message when Stripe/Functions not yet configured
+    var pwCard = btn ? btn.closest('.paywall-card') : null;
+    var existing = pwCard ? pwCard.querySelector('.stripe-pending') : null;
+    if(pwCard && !existing){
+      var notice = document.createElement('div');
+      notice.className = 'stripe-pending';
+      notice.style.cssText = 'margin-top:14px;padding:13px 16px;background:rgba(218,180,98,0.07);border:1px solid rgba(218,180,98,0.2);border-radius:10px;font-size:0.8rem;color:var(--ink-2);text-align:center;line-height:1.65;';
+      notice.innerHTML = '<strong style="color:var(--gold);">Payment setup in progress.</strong><br>We\'re finalizing secure checkout. Email <strong style="color:var(--ink);">support@niyyahtrader.app</strong> to get early access.';
+      btn.insertAdjacentElement('afterend', notice);
+    }
   });
 }
 
@@ -2817,23 +2937,7 @@ function resetAll(){if(!confirm('This will permanently delete ALL your data. Are
 function exportData(){var d={trades:S.trades,journals:S.journals,morning:S.morning,challenge:S.challenge,goal:S.goal,settings:S.settings,dailyPrayers:S.dailyPrayers,playbook:S.playbook,exportedAt:new Date().toISOString()};var b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download='niyyah-'+localDate()+'.json';a.click();URL.revokeObjectURL(u);toast('\u2713 Exported','s');}
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
-// ── SCROLL REVEAL ──────────────────────────────────────────────────────────
-function initScrollReveal(){
-  var els=document.querySelectorAll('.lfeat-card,.ldeen,.lprice-section,.lmock');
-  if(!els.length)return;
-  var obs=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';obs.unobserve(e.target);}
-    });
-  },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
-  els.forEach(function(el,i){
-    el.style.opacity='0';
-    el.style.transform='translateY(28px)';
-    el.style.transition='opacity 0.7s cubic-bezier(0.16,1,0.3,1) '+(i*0.08)+'s, transform 0.7s cubic-bezier(0.16,1,0.3,1) '+(i*0.08)+'s';
-    obs.observe(el);
-  });
-}
-document.addEventListener('DOMContentLoaded',function(){setTimeout(initScrollReveal,100);});
+// initScrollReveal replaced by initReveal below
 
 // ── FRIDAY MUHASABAH ENGINE ─────────────────────────────────────────────────
 function runFridayMuhasabah(){
@@ -3097,7 +3201,7 @@ function runMuhasabah(){
 
   // ── BUILD THE UI ───────────────────────────────────────────────────────
   var html='<div class="muhasabah-card">';
-  html+='<div class="muh-eye">TONIGHT'S MUHASABAH</div>';
+  html+='<div class="muh-eye">TONIGHT’S MUHASABAH</div>';
   html+='<div class="muh-title">What your <em>nafs</em> did today.</div>';
 
   if(insights.warn){
@@ -3115,7 +3219,7 @@ function runMuhasabah(){
   }
 
   html+='<div class="muh-intention">';
-  html+='<div class="muh-intention-label">Tomorrow's Intention</div>';
+  html+='<div class="muh-intention-label">Tomorrow’s Intention</div>';
   html+='<div class="muh-intention-text">'+insights.tomorrow+'</div>';
   html+='</div>';
   html+='</div>';
@@ -3136,6 +3240,110 @@ function init(){
     if(!ob)setTimeout(showOB,500);
   });
 }
+
+// ── STAR FIELD ANIMATION ──────────────────────────────────────────────────
+(function(){
+  var canvas=document.getElementById('star-canvas');
+  if(!canvas)return;
+  var ctx=canvas.getContext('2d');
+  var stars=[];
+  var W,H;
+
+  function resize(){
+    W=canvas.width=window.innerWidth;
+    H=canvas.height=window.innerHeight;
+  }
+
+  function createStars(){
+    stars=[];
+    var count=Math.floor((W*H)/9000);
+    for(var i=0;i<count;i++){
+      stars.push({
+        x:Math.random()*W,
+        y:Math.random()*H,
+        r:Math.random()*1.2+0.2,
+        a:Math.random(),
+        da:(Math.random()-0.5)*0.004,
+        vx:(Math.random()-0.5)*0.08,
+        vy:(Math.random()-0.5)*0.06
+      });
+    }
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<stars.length;i++){
+      var s=stars[i];
+      s.a+=s.da;
+      if(s.a<=0||s.a>=1)s.da*=-1;
+      s.x+=s.vx;s.y+=s.vy;
+      if(s.x<0)s.x=W;if(s.x>W)s.x=0;
+      if(s.y<0)s.y=H;if(s.y>H)s.y=0;
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(218,180,98,'+s.a.toFixed(2)+')';
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize',function(){resize();createStars();});
+  resize();createStars();draw();
+})();
+
+// ── COUNT-UP ANIMATION ────────────────────────────────────────────────────
+function animateCounters(){
+  var els=document.querySelectorAll('.stat-num[data-target]');
+  els.forEach(function(el){
+    var target=parseInt(el.getAttribute('data-target'),10);
+    var start=0;
+    var duration=1200;
+    var startTime=null;
+    function step(ts){
+      if(!startTime)startTime=ts;
+      var prog=Math.min((ts-startTime)/duration,1);
+      var ease=1-Math.pow(1-prog,3);
+      el.textContent=Math.round(start+(target-start)*ease);
+      if(prog<1)requestAnimationFrame(step);
+      else el.textContent=target;
+    }
+    requestAnimationFrame(step);
+  });
+}
+
+// ── ENHANCED SCROLL REVEAL (covers .reveal + legacy .lfeat-card etc.) ────
+function initReveal(){
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        // Trigger counter animation when stat bar comes into view
+        if(e.target.querySelector&&e.target.querySelector('.stat-num')){
+          animateCounters();
+        }
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+
+  // Reveal classes
+  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+
+  // Legacy lfeat-card / ldeen / lprice-section scroll reveal
+  var legacy=document.querySelectorAll('.lfeat-card:not(.reveal),.ldeen:not(.reveal),.lprice-section:not(.reveal),.lmock:not(.reveal)');
+  legacy.forEach(function(el,i){
+    if(!el.style.opacity){
+      el.style.opacity='0';
+      el.style.transform='translateY(28px)';
+      el.style.transition='opacity 0.7s cubic-bezier(0.16,1,0.3,1) '+(i*0.06)+'s, transform 0.7s cubic-bezier(0.16,1,0.3,1) '+(i*0.06)+'s';
+    }
+    obs.observe(el);
+  });
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  setTimeout(initReveal,80);
+});
 </script>
 </body>
 </html>
