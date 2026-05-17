@@ -63,7 +63,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .brand{padding:19px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:11px;}
 .brand-mark{width:37px;height:37px;border-radius:9px;background:radial-gradient(circle at 35% 30%,var(--gold-deep),#0e0a02);border:1px solid rgba(218,180,98,0.35);display:flex;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:0 0 28px rgba(218,180,98,0.35);flex-shrink:0;}
 .brand-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);}
-.brand-sub{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--gold-deep);letter-spacing:0.18em;text-transform:uppercase;margin-top:3px;}
+.brand-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.72rem;color:var(--ink-3);margin-top:1px;letter-spacing:0;}
 .nav{padding:12px 0;flex:1;overflow-y:auto;}.nav::-webkit-scrollbar{width:0;}
 .nav-sect{font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--ink-4);padding:12px 18px 5px;}
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 18px;cursor:pointer;font-size:0.85rem;color:var(--ink-2);transition:var(--t);border-left:2px solid transparent;user-select:none;}
@@ -76,7 +76,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sidebar-foot{padding:11px 15px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;}
 .sf-av{width:31px;height:31px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-deep));display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--bg);font-size:0.8rem;flex-shrink:0;}
 .sf-name{font-size:0.82rem;color:var(--ink);font-weight:500;}
-.sf-plan{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;margin-top:2px;}
+.sf-plan{font-size:0.66rem;color:var(--ink-4);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;}
 .main{flex:1;overflow-y:auto;min-width:0;position:relative;z-index:1;background:#0a0906;}
 .main::-webkit-scrollbar{width:5px;}.main::-webkit-scrollbar-thumb{background:var(--gold-deep);border-radius:3px;}
 .topbar{position:sticky;top:0;z-index:40;background:rgba(9,8,6,0.97);backdrop-filter:blur(40px);border-bottom:1px solid rgba(218,180,98,0.07);padding:14px 32px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 32px rgba(0,0,0,0.4);}
@@ -101,8 +101,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .btn-ghost:hover{color:var(--ink);background:var(--surface-2);}
 .btn-red{background:var(--red-soft);border:1px solid rgba(210,130,130,0.25);color:var(--red);}
 .btn-sm{padding:5px 11px;font-size:0.7rem;}.btn-lg{padding:12px 24px;font-size:0.87rem;}
-.fab{position:fixed;bottom:28px;right:28px;width:60px;height:60px;border-radius:50%;background:linear-gradient(145deg,#f8e5a8,#ecc878,#dab462,#b8962a);color:#0b0a08;display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:700;box-shadow:0 8px 36px rgba(218,180,98,0.55),0 0 0 1px rgba(218,180,98,0.2);cursor:pointer;border:none;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);z-index:90;animation:ringPulse 3s ease-in-out infinite;}
-.fab:hover{transform:scale(1.12) rotate(90deg);box-shadow:0 12px 44px rgba(218,180,98,0.65),0 0 0 2px rgba(218,180,98,0.3);animation:none;}
+.fab{position:fixed;bottom:28px;right:28px;width:60px;height:60px;border-radius:50%;background:linear-gradient(145deg,#f8e5a8,#ecc878,#dab462,#b8962a);color:#0b0a08;display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:700;box-shadow:0 8px 36px rgba(218,180,98,0.45),0 0 0 1px rgba(218,180,98,0.18);cursor:pointer;border:none;transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.25s;z-index:90;}
+.fab:hover{transform:scale(1.08);box-shadow:0 12px 44px rgba(218,180,98,0.55),0 0 0 2px rgba(218,180,98,0.28);}
+.fab:active{transform:scale(0.96);}
 .panel{background:linear-gradient(160deg,#1f1c13 0%,#141109 100%);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:22px;margin-bottom:12px;transition:border-color 0.2s,box-shadow 0.2s;position:relative;overflow:hidden;}.panel::after{content:"";position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(218,180,98,0.06),transparent);pointer-events:none;}
 .panel:hover{border-color:rgba(218,180,98,0.18);box-shadow:0 4px 24px rgba(0,0,0,0.25);}
 .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:17px;gap:10px;flex-wrap:wrap;}
@@ -110,7 +111,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 @media(max-width:840px){.grid-2{grid-template-columns:1fr;}}
 .chart-wrap{position:relative;height:255px;}
-.hero{background:linear-gradient(135deg,rgba(218,180,98,0.18),rgba(218,180,98,0.06) 50%,transparent 80%),linear-gradient(180deg,#1c1912,#0d0b08);border:1px solid rgba(218,180,98,0.25);border-radius:var(--r-xl);padding:36px 40px;margin-bottom:14px;position:relative;overflow:hidden;animation:glow 4s ease-in-out infinite;box-shadow:0 0 60px rgba(218,180,98,0.06),inset 0 1px 0 rgba(218,180,98,0.12);}
+.hero{background:linear-gradient(135deg,rgba(218,180,98,0.18),rgba(218,180,98,0.06) 50%,transparent 80%),linear-gradient(180deg,#1c1912,#0d0b08);border:1px solid rgba(218,180,98,0.22);border-radius:var(--r-xl);padding:36px 40px;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 0 60px rgba(218,180,98,0.04),inset 0 1px 0 rgba(218,180,98,0.1);}
 .hero::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 5%,rgba(218,180,98,0.8) 50%,transparent 95%);}
 .hero::after{content:'☽';position:absolute;bottom:-30px;right:-20px;font-size:10rem;opacity:0.025;line-height:1;pointer-events:none;}
 .hero-eye{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--gold);margin-bottom:11px;display:flex;align-items:center;gap:8px;}
@@ -139,8 +140,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .salah-btn .sn{display:block;font-size:0.56rem;}
 .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
 @media(max-width:700px){.kpi-row{grid-template-columns:1fr 1fr;}}
-.kpi{background:linear-gradient(145deg,#221f15,#131009);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:20px 22px;transition:border-color 0.2s,transform 0.25s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.2s;position:relative;overflow:hidden;}.kpi::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(218,180,98,0.15),transparent);}
-.kpi:hover{border-color:rgba(218,180,98,0.28);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(218,180,98,0.08);}
+.kpi{background:linear-gradient(145deg,#221f15,#131009);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:20px 22px;transition:border-color 0.2s,box-shadow 0.2s;position:relative;overflow:hidden;}.kpi::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(218,180,98,0.15),transparent);}
+.kpi:hover{border-color:rgba(218,180,98,0.22);box-shadow:0 6px 18px rgba(0,0,0,0.3);}
 .kpi-label{font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;}
 .kpi-val{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:600;color:var(--ink);line-height:1;letter-spacing:-0.03em;}
 .kpi-val.g{color:var(--green);}.kpi-val.r{color:var(--red);}.kpi-val.o{color:var(--gold);}
@@ -259,7 +260,7 @@ input,textarea,select{width:100%;background:rgba(15,13,10,0.8);border:1px solid 
 input:focus,textarea:focus,select:focus{border-color:rgba(218,180,98,0.5);background:#0c0a07;box-shadow:0 0 0 3px rgba(218,180,98,0.08),0 0 20px rgba(218,180,98,0.04);}
 input::placeholder,textarea::placeholder{color:var(--ink-4);}
 select option{background:var(--bg);color:var(--ink);}
-label{display:block;font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;}
+label{display:block;font-family:'Inter',sans-serif;font-size:0.74rem;font-weight:500;letter-spacing:0.01em;color:var(--ink-2);margin-bottom:6px;}
 .field{margin-bottom:12px;}
 .field-row{display:grid;gap:10px;}
 .field-row.c2{grid-template-columns:1fr 1fr;}
@@ -684,13 +685,9 @@ body{font-size:15px;}
 /* Geometric decoration */
 .geo-pattern{position:absolute;opacity:0.025;pointer-events:none;font-family:'Cormorant Garamond',serif;}
 
-/* Nav button pulse */
-.lnav-btns .btn-gold{animation:ringPulse 3s ease-in-out infinite;}
-.lnav-btns .btn-gold:hover{animation:none;}
+/* Nav button — quiet by default, comes alive on hover */
 
-/* Mock preview breathe */
-@keyframes mockPulse{0%,100%{border-color:rgba(218,180,98,0.15);box-shadow:0 40px 100px rgba(0,0,0,0.7);}50%{border-color:rgba(218,180,98,0.32);box-shadow:0 40px 100px rgba(0,0,0,0.7),0 0 80px rgba(218,180,98,0.06);}}
-.lmock{animation:mockPulse 5s ease-in-out infinite;}
+/* Mock preview — static; static reads more confident than constant breathing */
 
 /* Scroll indicator */
 @keyframes scrollBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
@@ -711,10 +708,8 @@ body{font-size:15px;}
   .founder-testimonial-grid{grid-template-columns:1fr!important;}
 }
 
-/* CTA pulse */
-@keyframes ctaPulse{0%,100%{box-shadow:0 4px 20px rgba(218,180,98,0.35),0 1px 0 rgba(255,255,255,0.15) inset;}50%{box-shadow:0 8px 40px rgba(218,180,98,0.55),0 0 0 4px rgba(218,180,98,0.08),0 1px 0 rgba(255,255,255,0.15) inset;}}
-.btn-cta-pulse{animation:ctaPulse 2.5s ease-in-out infinite;}
-.btn-cta-pulse:hover{animation:none;}
+/* CTA pulse removed — the gold button's built-in shimmer is the only motion accent we need on primary CTAs */
+.btn-cta-pulse{/* legacy class kept as no-op */}
 
 /* ── CUSTOM CONFIRM MODAL ──────────────────────────────────────────────── */
 .confirm-modal{position:fixed;inset:0;z-index:9000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:24px;}
@@ -811,7 +806,7 @@ body{font-size:15px;}
     </div>
     <div class="lnav-btns">
       <button class="lnav-signin" onclick="showAuth('signin')">Sign In</button>
-      <button class="btn btn-gold btn-sm btn-cta-pulse" onclick="showAuth('signup')" style="padding:8px 18px;font-size:0.78rem;">Get Started →</button>
+      <button class="btn btn-gold btn-sm" onclick="showAuth('signup')" style="padding:8px 18px;font-size:0.78rem;">Get Started →</button>
     </div>
   </nav>
 
@@ -819,14 +814,14 @@ body{font-size:15px;}
   <div class="lhero" style="position:relative;overflow:visible;">
     <div class="orb-1 landing-orb"></div>
     <div class="orb-3 landing-orb"></div>
-    <div class="lhero-badge"><span class="lhero-badge-dot"></span>For Muslim Traders · Built on Islamic Psychology</div>
+    <div class="lhero-badge"><span class="lhero-badge-dot"></span>The Trading Journal for Muslim Traders</div>
     <h1 class="lhero-h1">Most traders fail because of<br><em>psychology</em>, not strategy.</h1>
-    <p class="lhero-sub">The only trading journal that connects your <strong>salah, nafs, and P&amp;L</strong> into one system. Because the real reason you blow up has nothing to do with your strategy.</p>
+    <p class="lhero-sub">Niyyah is the journal that connects your <strong>salah, nafs, and P&amp;L</strong> — so the discipline that holds your prayers holds your rules.</p>
     <div class="lhero-btns">
-      <button class="btn btn-gold btn-lg btn-cta-pulse" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 32px;">Start Your Journey — $27/mo</button>
-      <button class="btn btn-outline btn-lg" onclick="scrollToFeatures()" style="backdrop-filter:blur(8px);">See How It Works ↓</button>
+      <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 32px;">Start with Bismillah — $27/mo</button>
+      <button class="btn btn-outline btn-lg" onclick="scrollToFeatures()" style="backdrop-filter:blur(8px);">See how it works</button>
     </div>
-    <div class="lhero-price">Cancel anytime · Secure via Stripe · 7-day refund guarantee</div>
+    <div class="lhero-price">7-day full refund · Cancel anytime · Secure via Stripe</div>
     <div style="margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.45;cursor:pointer;animation:scrollBounce 2s ease-in-out infinite;" onclick="scrollToFeatures()">
       <div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-3);">SCROLL</div>
       <div style="width:1px;height:32px;background:linear-gradient(to bottom,var(--gold),transparent);"></div>
@@ -895,20 +890,23 @@ body{font-size:15px;}
     <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>7-Day Full Refund</div>
   </div>
 
-  <!-- STATS BAR -->
-  <div style="padding:0 40px 72px;max-width:860px;margin:0 auto;width:100%;" class="reveal">
+  <!-- PILLARS -->
+  <div style="padding:0 40px 72px;max-width:920px;margin:0 auto;width:100%;" class="reveal">
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(218,180,98,0.1);border-radius:16px;overflow:hidden;border:1px solid rgba(218,180,98,0.12);">
-      <div class="lstat-item" style="background:linear-gradient(145deg,#1a1710,#0f0d09);padding:28px 24px;text-align:center;">
-        <div class="lstat-num stat-num" data-target="14" style="font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:600;color:var(--gold);line-height:1;letter-spacing:-0.04em;">0</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-top:8px;">Features</div>
+      <div class="lstat-item" style="background:linear-gradient(145deg,#1a1710,#0f0d09);padding:26px 22px;text-align:left;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:10px;">01 · Before</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--ink);line-height:1.25;margin-bottom:4px;">Pre-trade gate</div>
+        <div style="font-size:0.78rem;color:var(--ink-3);line-height:1.6;font-weight:300;">Three honest questions stop the trade you'd regret.</div>
       </div>
-      <div class="lstat-item" style="background:linear-gradient(145deg,#1a1710,#0f0d09);padding:28px 24px;text-align:center;border-left:1px solid rgba(218,180,98,0.1);border-right:1px solid rgba(218,180,98,0.1);">
-        <div class="lstat-num stat-num" data-target="5" style="font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:600;color:var(--gold);line-height:1;letter-spacing:-0.04em;">0</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-top:8px;">Islamic Pillars</div>
+      <div class="lstat-item" style="background:linear-gradient(145deg,#1a1710,#0f0d09);padding:26px 22px;text-align:left;border-left:1px solid rgba(218,180,98,0.1);border-right:1px solid rgba(218,180,98,0.1);">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:10px;">02 · During</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--ink);line-height:1.25;margin-bottom:4px;">Tawakkul mode</div>
+        <div style="font-size:0.78rem;color:var(--ink-3);line-height:1.6;font-weight:300;">Dhikr counter keeps you off the P&amp;L tick-by-tick.</div>
       </div>
-      <div class="lstat-item" style="background:linear-gradient(145deg,#1a1710,#0f0d09);padding:28px 24px;text-align:center;">
-        <div class="lstat-num stat-num" data-target="1" style="font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:600;color:var(--gold);line-height:1;letter-spacing:-0.04em;">0</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-top:8px;">App Like This</div>
+      <div class="lstat-item" style="background:linear-gradient(145deg,#1a1710,#0f0d09);padding:26px 22px;text-align:left;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:10px;">03 · After</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--ink);line-height:1.25;margin-bottom:4px;">Nightly muhasabah</div>
+        <div style="font-size:0.78rem;color:var(--ink-3);line-height:1.6;font-weight:300;">The mirror that shows what your nafs actually did.</div>
       </div>
     </div>
   </div>
@@ -1003,6 +1001,7 @@ body{font-size:15px;}
       <div class="lprice-glow"></div>
       <div class="lprice-tag">ONE PLAN · EVERYTHING INCLUDED</div>
       <div class="lprice-num">$27<span>/mo</span></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);margin-top:4px;margin-bottom:6px;">Less than a single NQ point</div>
       <ul class="lprice-list">
         <li>Full trade journal — entry, close, lesson</li>
         <li>Prayer ↔ performance analytics</li>
@@ -1014,7 +1013,7 @@ body{font-size:15px;}
         <li>Synced across all your devices</li>
         <li>Quality Score for every trade</li>
       </ul>
-      <button class="btn btn-gold btn-lg btn-cta-pulse" onclick="showAuth('signup')" style="width:100%;justify-content:center;font-size:0.95rem;">Begin with Niyyah — $27/mo</button>
+      <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="width:100%;justify-content:center;font-size:0.95rem;">Begin with Niyyah — $27/mo</button>
       <div class="lprice-fine">Secure checkout via Stripe · Cancel anytime</div>
       <div style="margin-top:12px;padding:12px 14px;background:rgba(218,180,98,0.05);border:1px solid rgba(218,180,98,0.12);border-radius:10px;font-size:0.78rem;color:var(--ink-3);text-align:left;line-height:1.7;">
         <div style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;">REFUND POLICY</div>
@@ -1101,10 +1100,10 @@ body{font-size:15px;}
   </div>
 </div>
 
-<div class="onboard" id="onboard"><div class="ob-card"><div class="ob-icon">☽</div><div class="ob-eye" id="ob-eye">WELCOME</div><div class="ob-title" id="ob-title">As-salamu <em>alaykum</em></div><div class="ob-text" id="ob-text"></div><div style="display:flex;justify-content:center;"><button class="btn btn-gold btn-lg" id="ob-btn" onclick="obNext()">Continue →</button></div><div class="ob-dots"><div class="ob-dot on" id="od1"></div><div class="ob-dot" id="od2"></div><div class="ob-dot" id="od3"></div><div class="ob-dot" id="od4"></div><div class="ob-dot" id="od5"></div></div></div></div>
+<div class="onboard" id="onboard"><div class="ob-card"><div class="ob-icon">☽</div><div class="ob-eye" id="ob-eye">WELCOME</div><div class="ob-title" id="ob-title">As-salamu <em>alaykum</em></div><div class="ob-text" id="ob-text"></div><div style="display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;"><button class="btn btn-gold btn-lg" id="ob-btn" onclick="obNext()">Continue →</button><button class="btn btn-ghost btn-sm" id="ob-skip" onclick="obSkip()" style="font-size:0.74rem;">Skip</button></div><div class="ob-dots"><div class="ob-dot on" id="od1"></div><div class="ob-dot" id="od2"></div><div class="ob-dot" id="od3"></div></div></div></div>
 <div class="sb-overlay" id="sb-overlay" onclick="toggleSB()"></div>
 <aside class="sidebar" id="sidebar">
-  <div class="brand"><div class="brand-mark">☽</div><div><div class="brand-name">Niyyah</div><div class="brand-sub">BEHAVIORAL TRADING SYSTEM</div></div></div>
+  <div class="brand"><div class="brand-mark">☽</div><div><div class="brand-name">Niyyah</div><div class="brand-sub">Trade with intention</div></div></div>
   <nav class="nav">
     <div class="nav-item active" data-page="dashboard" onclick="go('dashboard',this)"><span class="nav-icon">⌂</span>Dashboard<span class="nav-badge" id="nav-muh-dot" style="display:none;background:var(--gold);"></span></div>
     <div class="nav-item" id="nav-intrade" data-page="intrade" onclick="go('intrade',this)"><span class="nav-icon">⚡</span>In Trade<span class="nav-badge" id="nav-oc"></span></div>
@@ -1121,7 +1120,7 @@ body{font-size:15px;}
     <div class="nav-item" data-page="goals" onclick="go('goals',this)"><span class="nav-icon">◎</span>Goals</div>
     <div class="nav-item" data-page="blueprint" onclick="go('blueprint',this)"><span class="nav-icon">❋</span>Blueprint</div>
   </nav>
-  <div class="sidebar-foot"><div class="sf-av" id="sf-av">A</div><div style="flex:1;min-width:0;"><div class="sf-name" id="sf-name">Welcome</div><div class="sf-plan">PRO MEMBER</div></div><button style="background:transparent;border:none;color:var(--ink-3);cursor:pointer;font-size:0.95rem;padding:6px;" onclick="go('settings',null)">⚙</button></div>
+  <div class="sidebar-foot"><div class="sf-av" id="sf-av">A</div><div style="flex:1;min-width:0;"><div class="sf-name" id="sf-name">Welcome</div><div class="sf-plan" id="sf-plan-label">Account</div></div><button aria-label="Open settings" title="Settings" style="background:transparent;border:none;color:var(--ink-3);cursor:pointer;font-size:0.95rem;padding:6px;border-radius:6px;transition:color var(--t),background var(--t);" onmouseover="this.style.color='var(--gold)';this.style.background='var(--surface-2)';" onmouseout="this.style.color='var(--ink-3)';this.style.background='transparent';" onclick="go('settings',null)">⚙</button></div>
 </aside>
 <main class="main">
 <div class="topbar"><button class="mob-toggle" onclick="toggleSB()">☰</button><div class="topbar-title" id="topbar-title">Today</div><div class="topbar-date" id="topbar-date"></div><div class="topbar-spacer"></div><button class="btn btn-outline btn-sm" onclick="exportData()">↓ Export</button></div>
@@ -1632,12 +1631,12 @@ body{font-size:15px;}
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script defer>
 'use strict';
 
 // ── FIREBASE CONFIG ────────────────────────────────────────────────────────
@@ -2163,39 +2162,31 @@ function setText(id,t){var e=el(id);if(e)e.textContent=t;}
 var OB=[
   {
     eye:'BISMILLAH · WELCOME',
-    title:'As-salamu <em>alaykum</em>',
-    text:'Niyyah is not a trading journal.<br><br>It is a <strong>behavioral mirror</strong> — built for Muslim traders who already know their strategy but keep breaking their own rules.<br><br>If that sounds familiar, you are exactly who this was built for.'
+    title:'A mirror, not a <em>journal</em>.',
+    text:'Niyyah is built for traders who already know the strategy but keep breaking their own rules.<br><br>It tracks the three things every other journal ignores: your <strong>salah</strong>, your <strong>nafs</strong>, and the <strong>gap</strong> between what you said you would do and what you actually did.'
   },
   {
-    eye:'THE REAL PROBLEM',
-    title:'Your strategy is not <em>the issue</em>.',
-    text:'Revenge trades. FOMO entries. Moving stops. Sizing up after wins.<br><br>These are not knowledge gaps. They are <strong>nafs patterns</strong>.<br><br>Every Muslim trader who has ever blown an account knew what they were doing was wrong <em>while they were doing it</em>. The problem was never information. It was self-control.'
+    eye:'THE DAILY LOOP',
+    title:'Four moments. <em>Every day.</em>',
+    text:'<div style="text-align:left;display:flex;flex-direction:column;gap:10px;"><div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(218,180,98,0.15);border:1px solid rgba(218,180,98,0.3);display:flex;align-items:center;justify-content:center;font-family:\'JetBrains Mono\',monospace;font-size:0.6rem;color:var(--gold);flex-shrink:0;">1</div><div style="font-size:0.86rem;color:var(--ink-2);line-height:1.55;"><strong style="color:var(--ink);">Morning</strong> — set your niyyah. Tap prayers as you pray them.</div></div><div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(218,180,98,0.15);border:1px solid rgba(218,180,98,0.3);display:flex;align-items:center;justify-content:center;font-family:\'JetBrains Mono\',monospace;font-size:0.6rem;color:var(--gold);flex-shrink:0;">2</div><div style="font-size:0.86rem;color:var(--ink-2);line-height:1.55;"><strong style="color:var(--ink);">Before a trade</strong> — three honest questions. Your own history holds you accountable.</div></div><div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(218,180,98,0.15);border:1px solid rgba(218,180,98,0.3);display:flex;align-items:center;justify-content:center;font-family:\'JetBrains Mono\',monospace;font-size:0.6rem;color:var(--gold);flex-shrink:0;">3</div><div style="font-size:0.86rem;color:var(--ink-2);line-height:1.55;"><strong style="color:var(--ink);">In trade</strong> — dhikr counter keeps you off the P&amp;L tick by tick.</div></div><div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(218,180,98,0.15);border:1px solid rgba(218,180,98,0.3);display:flex;align-items:center;justify-content:center;font-family:\'JetBrains Mono\',monospace;font-size:0.6rem;color:var(--gold);flex-shrink:0;">4</div><div style="font-size:0.86rem;color:var(--ink-2);line-height:1.55;"><strong style="color:var(--ink);">Evening</strong> — muhasabah. The app reflects what your nafs actually did.</div></div></div>'
   },
   {
-    eye:'THREE CONNECTIONS',
-    title:'No other app <em>measures</em> these.',
-    text:'<strong style="color:var(--gold);">Prayer ↔ Execution.</strong> The same discipline that keeps your prayers keeps your rules.<br><br><strong style="color:var(--gold);">Emotion ↔ Outcome.</strong> Your calm trades vs your FOMO trades — the gap will surprise you.<br><br><strong style="color:var(--gold);">What you said vs what you did.</strong> That gap is where the work is.'
-  },
-  {
-    eye:'WHAT THIS LOOKS LIKE · EXAMPLE',
-    title:'Here is what Niyyah <em>shows you</em>.',
-    text:`<div style="background:linear-gradient(145deg,rgba(218,180,98,0.07),transparent);border:1px solid rgba(218,180,98,0.18);border-left:3px solid var(--gold);border-radius:0 12px 12px 0;padding:14px 16px;text-align:left;margin-bottom:12px;font-size:0.85rem;color:var(--ink-2);line-height:1.7;"><div style="font-family:'JetBrains Mono',monospace;font-size:0.46rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;">EXAMPLE INSIGHT</div>Your last <strong style="color:var(--ink);">4 revenge trades</strong> produced a <strong style="color:var(--red);">22% win rate</strong> and cost you <strong style="color:var(--red);">-$340</strong>. Your calm trades this month: <strong style="color:var(--green);">68% win rate</strong>.</div><div style="background:rgba(112,184,142,0.06);border:1px solid rgba(112,184,142,0.18);border-left:3px solid var(--green);border-radius:0 12px 12px 0;padding:14px 16px;text-align:left;font-size:0.85rem;color:var(--ink-2);line-height:1.7;"><div style="font-family:'JetBrains Mono',monospace;font-size:0.46rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:5px;">EXAMPLE · FULL SALAH DAYS</div>On days with all 5 prayers: <strong style="color:var(--ink);">71% win rate</strong>. Other days: <strong style="color:var(--ink);">44% win rate</strong>. This pattern has held across <strong style="color:var(--ink);">3 months</strong> of data.</div><div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;color:var(--ink-4);margin-top:12px;">These are illustrative examples. Your actual insights are generated from your own trade data.</div>`
-  },
-  {
-    eye:'YOUR DAILY RITUAL',
-    title:'The loop that <em>changes</em> you.',
-    text:`<div style="text-align:left;"><div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(218,180,98,0.15);border:1px solid rgba(218,180,98,0.3);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--gold);flex-shrink:0;">1</div><div style="font-size:0.85rem;color:var(--ink-2);line-height:1.6;"><strong style="color:var(--ink);">Morning</strong> — set your intention. Tap your prayers as you pray them.</div></div><div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(218,180,98,0.15);border:1px solid rgba(218,180,98,0.3);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--gold);flex-shrink:0;">2</div><div style="font-size:0.85rem;color:var(--ink-2);line-height:1.6;"><strong style="color:var(--ink);">Before a trade</strong> — answer 3 honest questions. The app shows your own history back to you.</div></div><div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(218,180,98,0.15);border:1px solid rgba(218,180,98,0.3);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--gold);flex-shrink:0;">3</div><div style="font-size:0.85rem;color:var(--ink-2);line-height:1.6;"><strong style="color:var(--ink);">While in trade</strong> — dhikr to stay off the P&L screen. Tawakkul is the practice.</div></div><div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(218,180,98,0.15);border:1px solid rgba(218,180,98,0.3);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--gold);flex-shrink:0;">4</div><div style="font-size:0.85rem;color:var(--ink-2);line-height:1.6;"><strong style="color:var(--ink);">Evening</strong> — Muhasabah. The app reflects back what your nafs did today.</div></div></div>`
+    eye:'YOUR FIRST 60 SECONDS',
+    title:'Three taps to <em>begin</em>.',
+    text:'<div style="text-align:left;font-size:0.88rem;color:var(--ink-2);line-height:1.85;">→ Tap the <strong style="color:var(--gold);">+</strong> button to log a trade — entry now, close when done.<br>→ Tap a prayer pill on the dashboard when you pray it.<br>→ That is it. Patterns appear after 5 trades.</div><div style="margin-top:14px;font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.16em;color:var(--ink-4);">YOU CAN OPEN THE GUIDE ANYTIME FROM THE SIDEBAR.</div>'
   }
 ];
 function showOB(){S.obStep=0;renderOB();}
 function renderOB(){
   var s=OB[S.obStep];if(!s)return;
-  var eye=el('ob-eye'),title=el('ob-title'),text=el('ob-text'),btn=el('ob-btn');
+  var eye=el('ob-eye'),title=el('ob-title'),text=el('ob-text'),btn=el('ob-btn'),skip=el('ob-skip');
   if(eye)eye.textContent=s.eye;
   if(title)title.innerHTML=s.title;
   if(text)text.innerHTML=s.text;
-  if(btn)btn.textContent=S.obStep<OB.length-1?'Continue →':'Bismillah — let’s begin';
-  for(var i=0;i<5;i++){var d=el('od'+(i+1));if(d)d.classList.toggle('on',i===S.obStep);}
+  var isLast=S.obStep>=OB.length-1;
+  if(btn)btn.textContent=isLast?'Bismillah — begin':'Continue →';
+  if(skip)skip.style.display=isLast?'none':'';
+  for(var i=0;i<OB.length;i++){var d=el('od'+(i+1));if(d)d.classList.toggle('on',i===S.obStep);}
   var ob=el('onboard');if(ob)ob.classList.add('show');
   var card=document.querySelector('.ob-card');
   if(card){card.style.animation='none';card.offsetHeight;card.style.animation='scaleIn 0.35s cubic-bezier(0.16,1,0.3,1)';}
@@ -2204,13 +2195,15 @@ function obNext(){
   S.obStep++;
   sv('obStep',S.obStep);
   if(S.obStep<OB.length){renderOB();}
-  else{
-    var ob=el('onboard');if(ob)ob.classList.remove('show');
-    sv('onboarded',true);
-    if(window._prePaywallMode){
-      window._prePaywallMode = false;
-      var pw=el('paywall-screen');if(pw)pw.classList.add('show');
-    }
+  else{ obFinish(); }
+}
+function obSkip(){ S.obStep=OB.length; obFinish(); }
+function obFinish(){
+  var ob=el('onboard');if(ob)ob.classList.remove('show');
+  sv('onboarded',true);
+  if(window._prePaywallMode){
+    window._prePaywallMode = false;
+    var pw=el('paywall-screen');if(pw)pw.classList.add('show');
   }
 }
 
@@ -2690,8 +2683,8 @@ function renderDash(){
   } else if(!S.trades.length){
     if(eyeEl)eyeEl.textContent='BISMILLAH \u00b7 BEGIN';
     if(greetEl)greetEl.innerHTML='As-salamu alaykum, <em>'+name+'</em>.';
-    if(subEl)subEl.textContent='Start by setting your playbook, your goal, and logging your first trade.';
-    if(actEl)actEl.innerHTML='<button class="btn btn-gold" onclick="openEntryModal()">+ Log First Trade</button><button class="btn btn-outline" onclick="go(\'guide\',null)">Read the Guide</button>';
+    if(subEl)subEl.textContent='Three taps to start: log a trade, tap your prayers, come back tonight.';
+    if(actEl)actEl.innerHTML='<button class="btn btn-gold" onclick="openEntryModal()">+ Log first trade</button><button class="btn btn-outline" onclick="go(\'guide\',null)">Read the Guide</button>';
   } else {
     if(eyeEl)eyeEl.textContent='TODAY \u00b7 '+new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}).toUpperCase();
     if(greetEl)greetEl.innerHTML=greet+', <em>'+name+'</em>.';
@@ -2737,15 +2730,15 @@ function renderDash(){
 
   // ── KPI VALUES ─────────────────────────────────────────────────────────
   var pe=el('kpi-pnl');if(pe){pe.textContent=closed.length?fmt(totalPnl,true):'—';pe.className='today-card-val '+(totalPnl>0?'g':totalPnl<0?'r':'');}
-  setText('kpi-pnl-m',closed.length?closed.length+' closed trades':'No closed trades');
+  setText('kpi-pnl-m',closed.length?closed.length+' closed trades':'Log your first close to begin');
   setText('kpi-wr',wr!==null?wr+'%':'\u2014');
-  setText('kpi-wr-m',wr!==null?wins.length+'W \u00b7 '+losses.length+'L':'\u2014');
+  setText('kpi-wr-m',wr!==null?wins.length+'W \u00b7 '+losses.length+'L':'Appears after 1 closed trade');
   setText('kpi-deen',deen!==null?deen+'/100':'\u2014');
-  setText('kpi-deen-m',deen!==null?(deen>=80?'Mashallah \u2746':deen>=60?'Strong foundation':'Keep building'):'Track daily prayers');
+  setText('kpi-deen-m',deen!==null?(deen>=80?'Mashallah \u2746':deen>=60?'Strong foundation':'Keep building'):'Tap a prayer pill above');
   var lastClosed=closed[0];
   var lqEl=el('kpi-last-q');
   if(lqEl){lqEl.textContent=lastClosed?(lastClosed.quality||0)+'/100':'—';lqEl.className='today-card-val '+(lastClosed&&(lastClosed.quality||0)>=70?'g':lastClosed&&(lastClosed.quality||0)>=40?'gold':'r');}
-  setText('kpi-last-q-m',lastClosed?lastClosed.instrument+' \u00b7 '+fmtDate(lastClosed.date):'No trades yet');
+  setText('kpi-last-q-m',lastClosed?lastClosed.instrument+' \u00b7 '+fmtDate(lastClosed.date):'Set after your first close');
 
   // ── ADVANCED SECTION ───────────────────────────────────────────────────
   var adv=el('today-advanced');
@@ -3486,8 +3479,10 @@ function runMuhasabah(){
 function init(){
   var td=el('topbar-date');if(td)td.textContent=new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
   loadAll().then(function(ob){
+    var user=AUTH.currentUser;
     if(S.settings.name){setText('sf-av',S.settings.name[0].toUpperCase());setText('sf-name',S.settings.name);}
-    else{var user=AUTH.currentUser;if(user&&user.displayName){setText('sf-av',user.displayName[0].toUpperCase());setText('sf-name',user.displayName);}}
+    else if(user&&user.displayName){setText('sf-av',user.displayName[0].toUpperCase());setText('sf-name',user.displayName);}
+    if(user&&user.email){setText('sf-plan-label',user.email);}
     if(S.openTradeId){var found=S.trades.find(function(t){return t.id===S.openTradeId&&t.status==='open';});if(!found){S.openTradeId=null;sv('openTradeId',null);}}
     updateNav();
     try{renderDash();}catch(e){console.error('Init renderDash:',e);}
@@ -3620,6 +3615,26 @@ function initReveal(){
 
 document.addEventListener('DOMContentLoaded',function(){
   setTimeout(initReveal,80);
+});
+
+// ── MODAL KEYBOARD SUPPORT ────────────────────────────────────────────────
+// Escape closes the topmost open modal. Cmd/Ctrl+Enter submits the entry/exit modal.
+// Confirm modal handles its own keys; we skip while it's open.
+document.addEventListener('keydown',function(e){
+  var confirmOpen=el('confirm-modal')&&el('confirm-modal').classList.contains('show');
+  if(confirmOpen)return;
+  var entryOpen=el('entry-modal')&&el('entry-modal').classList.contains('show');
+  var exitOpen=el('exit-modal')&&el('exit-modal').classList.contains('show');
+  if(!entryOpen&&!exitOpen)return;
+  if(e.key==='Escape'){
+    e.preventDefault();
+    if(entryOpen)closeEntry();
+    else if(exitOpen)closeExit();
+  } else if((e.metaKey||e.ctrlKey)&&e.key==='Enter'){
+    e.preventDefault();
+    if(entryOpen){var b=el('save-entry-btn');if(b&&!b.disabled)b.click();}
+    else if(exitOpen){var b2=el('save-exit-btn');if(b2&&!b2.disabled)b2.click();}
+  }
 });
 </script>
 </body>
