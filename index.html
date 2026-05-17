@@ -802,13 +802,6 @@ body{font-size:15px;}
 }
 
 /* STICKY MOBILE CTA — captures conversion without requiring scroll-to-pricing */
-.sticky-mobile-cta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:50;background:linear-gradient(180deg,rgba(10,9,6,0.4),rgba(10,9,6,0.98) 40%);padding:14px 16px 18px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(218,180,98,0.18);}
-.sticky-mobile-cta .btn{width:100%;justify-content:center;font-size:0.92rem;padding:14px 20px;}
-.sticky-mobile-cta-meta{text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.14em;color:var(--ink-4);margin-top:8px;}
-@media(max-width:640px){
-  .sticky-mobile-cta{display:block;}
-  .landing{padding-bottom:90px;}
-}
 
 </style>
 </head>
@@ -902,27 +895,52 @@ body{font-size:15px;}
           <div class="lmock-nav-item"><span class="dot"></span>Playbook</div>
         </div>
         <div class="lmock-main">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">TODAY'S SALAH</div>
-          <div class="lmock-prayers">
+          <!-- KPI row -->
+          <div class="lmock-kpis" style="margin-bottom:10px;">
+            <div class="lmock-kpi"><div class="lmock-kpi-lbl">Net P&amp;L</div><div class="lmock-kpi-val" style="color:#70b88e;">+$1,240</div></div>
+            <div class="lmock-kpi"><div class="lmock-kpi-lbl">Win Rate</div><div class="lmock-kpi-val" style="color:#dab462;">68%</div></div>
+            <div class="lmock-kpi"><div class="lmock-kpi-lbl">Deen Score</div><div class="lmock-kpi-val" style="color:#dab462;">82/100</div></div>
+          </div>
+          <!-- Salah row -->
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.44rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Today's Salah</div>
+          <div class="lmock-prayers" style="margin-bottom:10px;">
             <div class="lmock-prayer done">🌙<br>Fajr</div>
             <div class="lmock-prayer done">☀️<br>Dhuhr</div>
             <div class="lmock-prayer done">🌤<br>Asr</div>
             <div class="lmock-prayer">🌅<br>Mag</div>
             <div class="lmock-prayer">⭐<br>Isha</div>
           </div>
-          <div class="lmock-kpis">
-            <div class="lmock-kpi"><div class="lmock-kpi-lbl">Net P&L</div><div class="lmock-kpi-val" style="color:#70b88e;">+$1,240</div></div>
-            <div class="lmock-kpi"><div class="lmock-kpi-lbl">Win Rate</div><div class="lmock-kpi-val" style="color:#dab462;">68%</div></div>
-            <div class="lmock-kpi"><div class="lmock-kpi-lbl">Deen Score</div><div class="lmock-kpi-val" style="color:#dab462;">82/100</div></div>
+          <!-- Pre-trade gate snippet -->
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.44rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;">Pre-Trade Gate</div>
+          <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:6px;background:rgba(218,180,98,0.05);border:1px solid rgba(218,180,98,0.1);border-radius:5px;padding:4px 8px;">
+              <div style="width:7px;height:7px;border-radius:50%;background:#6cb088;flex-shrink:0;"></div>
+              <div style="font-size:0.5rem;color:var(--ink-2);">Prayed before session?</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;background:rgba(218,180,98,0.05);border:1px solid rgba(218,180,98,0.1);border-radius:5px;padding:4px 8px;">
+              <div style="width:7px;height:7px;border-radius:50%;background:#6cb088;flex-shrink:0;"></div>
+              <div style="font-size:0.5rem;color:var(--ink-2);">Setup matches playbook?</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;background:rgba(218,180,98,0.05);border:1px solid rgba(218,180,98,0.1);border-radius:5px;padding:4px 8px;">
+              <div style="width:7px;height:7px;border-radius:50%;background:rgba(210,130,130,0.8);flex-shrink:0;"></div>
+              <div style="font-size:0.5rem;color:var(--ink-2);">Emotionally neutral?</div>
+            </div>
           </div>
+          <!-- Insight / behavioral pattern card -->
+          <div style="background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.14);border-radius:7px;padding:7px 9px;margin-bottom:10px;">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.42rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Behavioral Insight</div>
+            <div style="font-size:0.5rem;color:var(--ink-2);line-height:1.5;">On days you miss Fajr, your avg loss is <strong style="color:#d28282;">-$380</strong> vs <strong style="color:#6cb088;">+$210</strong> on days all 5 are prayed.</div>
+          </div>
+          <!-- Mini equity chart -->
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.44rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;">Equity Curve</div>
           <div class="lmock-chart-bar">
             <div class="lmock-bar" style="height:30%;background:rgba(210,130,130,0.55);"></div>
-            <div class="lmock-bar" style="height:50%;background:rgba(108,176,136,0.55);"></div>
-            <div class="lmock-bar" style="height:80%;background:rgba(108,176,136,0.75);"></div>
-            <div class="lmock-bar" style="height:60%;background:rgba(108,176,136,0.6);"></div>
-            <div class="lmock-bar" style="height:40%;background:rgba(210,130,130,0.45);"></div>
+            <div class="lmock-bar" style="height:45%;background:rgba(108,176,136,0.55);"></div>
+            <div class="lmock-bar" style="height:60%;background:rgba(108,176,136,0.65);"></div>
+            <div class="lmock-bar" style="height:50%;background:rgba(210,130,130,0.4);"></div>
+            <div class="lmock-bar" style="height:75%;background:rgba(108,176,136,0.7);"></div>
             <div class="lmock-bar" style="height:90%;background:#6cb088;"></div>
-            <div class="lmock-bar" style="height:70%;background:rgba(108,176,136,0.7);"></div>
+            <div class="lmock-bar" style="height:80%;background:rgba(108,176,136,0.8);"></div>
           </div>
         </div>
       </div>
@@ -1182,11 +1200,6 @@ body{font-size:15px;}
     </div>
   </div>
 
-  <!-- STICKY MOBILE CTA — always-visible conversion path on small screens -->
-  <div class="sticky-mobile-cta">
-    <button class="btn btn-gold" onclick="showAuth('signup')">Begin — Bismillah →</button>
-    <div class="sticky-mobile-cta-meta">$27/mo · 7-DAY FULL REFUND · CANCEL ANYTIME</div>
-  </div>
 </div>
 
 
