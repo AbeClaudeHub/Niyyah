@@ -41,16 +41,13 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 @keyframes pulse{0%,100%{opacity:0.5;}50%{opacity:1;}}
 @keyframes glow{0%,100%{box-shadow:0 0 24px rgba(218,180,98,0.07);}50%{box-shadow:0 0 56px rgba(218,180,98,0.22);}}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
-@keyframes shimmer{0%{background-position:-200% center;}100%{background-position:200% center;}}
-@keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
 @keyframes scaleIn{from{opacity:0;transform:scale(0.94);}to{opacity:1;transform:scale(1);}}
 @keyframes gradientShift{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
-@keyframes ringPulse{0%{box-shadow:0 0 0 0 rgba(218,180,98,0.4);}70%{box-shadow:0 0 0 12px rgba(218,180,98,0);}100%{box-shadow:0 0 0 0 rgba(218,180,98,0);}}
 .onboard{position:fixed;inset:0;z-index:500;background:rgba(11,10,8,0.97);backdrop-filter:blur(28px);display:none;align-items:center;justify-content:center;padding:24px;}
 .onboard.show{display:flex;animation:fadeIn 0.4s ease;}
 .ob-card{max-width:480px;width:100%;background:linear-gradient(160deg,#1d1a12 0%,#0e0c09 100%);border:1px solid rgba(218,180,98,0.18);border-radius:26px;padding:52px 44px;text-align:center;box-shadow:0 40px 100px rgba(0,0,0,0.75),0 0 0 1px rgba(218,180,98,0.04);position:relative;}
 .ob-card::before{content:'';position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
-.ob-icon{width:72px;height:72px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#c49a28,#0e0a02);border:1.5px solid rgba(218,180,98,0.42);display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 28px;box-shadow:0 0 36px rgba(218,180,98,0.22),0 0 0 8px rgba(218,180,98,0.04);animation:floatY 4s ease-in-out infinite;}
+.ob-icon{width:72px;height:72px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#c49a28,#0e0a02);border:1.5px solid rgba(218,180,98,0.42);display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 28px;box-shadow:0 0 36px rgba(218,180,98,0.22),0 0 0 8px rgba(218,180,98,0.04);}
 .ob-eye{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:11px;}
 .ob-title{font-family:'Cormorant Garamond',serif;font-size:2.35rem;font-weight:500;color:var(--ink);line-height:1.05;margin-bottom:14px;letter-spacing:-0.02em;}
 .ob-title em{color:var(--gold);font-style:italic;font-weight:600;}
@@ -86,14 +83,14 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .topbar-spacer{flex:1;}
 .mob-toggle{display:none;background:transparent;border:none;width:33px;height:33px;align-items:center;justify-content:center;color:var(--ink);cursor:pointer;border-radius:6px;font-size:1.05rem;}
 .page{display:none;padding:28px 30px 100px;max-width:1280px;margin:0 auto;}
-.page.active{display:block;animation:slideIn 0.45s cubic-bezier(0.16,1,0.3,1);}
+.page.active{display:block;animation:slideIn 0.22s cubic-bezier(0.16,1,0.3,1);}
 .ph{margin-bottom:24px;}
 .ph-eye{font-family:'JetBrains Mono',monospace;font-size:0.57rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:5px;}
 .ph-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:500;color:var(--ink);letter-spacing:-0.025em;line-height:1.05;}
 .ph-title em{color:var(--gold);font-style:italic;font-weight:600;}
 .ph-sub{font-size:0.89rem;color:var(--ink-3);font-weight:300;margin-top:7px;max-width:540px;line-height:1.65;}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:8px;font-size:0.77rem;font-weight:500;cursor:pointer;transition:var(--t);border:none;font-family:'Inter',sans-serif;white-space:nowrap;}
-.btn-gold{background:linear-gradient(160deg,#f8e5a8 0%,#ecc878 35%,#dab462 70%,#c9a254 100%);color:#0b0a08;font-weight:700;box-shadow:0 4px 20px rgba(218,180,98,0.35),0 1px 0 rgba(255,255,255,0.15) inset;letter-spacing:0.01em;position:relative;overflow:hidden;}.btn-gold::after{content:"";position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent);animation:shimmer 3s ease-in-out infinite;}
+.btn-gold{background:linear-gradient(160deg,#f8e5a8 0%,#ecc878 35%,#dab462 70%,#c9a254 100%);color:#0b0a08;font-weight:700;box-shadow:0 4px 20px rgba(218,180,98,0.35),0 1px 0 rgba(255,255,255,0.15) inset;letter-spacing:0.01em;position:relative;overflow:hidden;}
 .btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(218,180,98,0.45),0 1px 0 rgba(255,255,255,0.15) inset;filter:brightness(1.05);}
 .btn-outline{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.12);color:var(--ink-2);backdrop-filter:blur(4px);}
 .btn-outline:hover{border-color:rgba(218,180,98,0.5);color:var(--gold);background:rgba(218,180,98,0.07);}
@@ -123,7 +120,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .hero-cta{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;}
 .open-banner{background:linear-gradient(135deg,rgba(218,180,98,0.16),rgba(218,180,98,0.04)),linear-gradient(160deg,#1e1b12,#121009);border:1.5px solid rgba(218,180,98,0.36);border-radius:var(--r-lg);padding:18px 22px;margin-bottom:14px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;box-shadow:0 0 40px rgba(218,180,98,0.06),0 4px 16px rgba(0,0,0,0.3);}
 .open-badge{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);padding:4px 12px;border-radius:20px;background:rgba(218,180,98,0.1);border:1px solid rgba(218,180,98,0.28);}
-.open-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);animation:blink 1.5s ease-in-out infinite;}
+.open-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px var(--gold);animation:pulse 2.5s ease-in-out infinite;}
 .open-info{flex:1;min-width:0;}
 .open-inst{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--ink);}
 .open-meta{font-size:0.74rem;color:var(--ink-3);margin-top:2px;font-family:'JetBrains Mono',monospace;}
@@ -250,7 +247,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .e-tag.r{background:var(--red-soft);color:var(--red);border-color:rgba(210,130,130,0.2);}
 .e-tag.o{background:var(--gold-soft);color:var(--gold);border-color:rgba(218,180,98,0.2);}
 .open-pill{display:inline-flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);padding:2px 7px;border-radius:10px;background:var(--gold-soft);border:1px solid rgba(218,180,98,0.2);}
-.open-pill::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--gold);animation:blink 1.5s infinite;}
+.open-pill::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--gold);box-shadow:0 0 5px var(--gold);animation:pulse 2.5s ease-in-out infinite;}
 .q-score{font-family:'JetBrains Mono',monospace;font-size:0.68rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;}
 .q-bar{width:22px;height:3px;background:var(--surface-3);border-radius:2px;overflow:hidden;}
 .q-fill{height:100%;background:var(--gold);border-radius:2px;}
@@ -489,7 +486,7 @@ body{font-size:15px;}
 .auth-screen.show{display:flex;animation:fadeIn 0.4s ease;}
 .auth-card{max-width:420px;width:100%;background:linear-gradient(160deg,#1c1914 0%,#0f0d0a 100%);border:1px solid rgba(218,180,98,0.18);border-radius:24px;padding:46px 40px;box-shadow:0 40px 100px rgba(0,0,0,0.7),0 0 0 1px rgba(218,180,98,0.05);position:relative;}
 .auth-card::before{content:'';position:absolute;top:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
-.auth-logo{font-size:2.8rem;text-align:center;margin-bottom:16px;line-height:1;filter:drop-shadow(0 0 20px rgba(218,180,98,0.4));animation:floatY 4s ease-in-out infinite;}
+.auth-logo{font-size:2.8rem;text-align:center;margin-bottom:16px;line-height:1;filter:drop-shadow(0 0 20px rgba(218,180,98,0.4));}
 .auth-brand{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:500;color:var(--ink);text-align:center;margin-bottom:4px;letter-spacing:-0.02em;}
 .auth-brand em{color:var(--gold);font-style:italic;font-weight:600;}
 .auth-tagline{font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--gold-deep);text-align:center;margin-bottom:32px;}
@@ -633,10 +630,7 @@ body{font-size:15px;}
   animation:gradientShift 4s linear infinite;
 }
 
-/* Badge shimmer sweep */
-.lhero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:40px;background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.2);font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;position:relative;overflow:hidden;animation:fadeIn 0.7s ease 0.05s both;}
-.lhero-badge::after{content:'';position:absolute;top:0;left:-150%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.13),transparent);animation:badgeShimmer 5s ease-in-out 1.5s infinite;}
-@keyframes badgeShimmer{0%{left:-150%;}40%,100%{left:150%;}}
+.lhero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:40px;background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.2);font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;animation:fadeIn 0.7s ease 0.05s both;}
 .lhero-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);animation:pulse 2s ease-in-out infinite;}
 
 /* Typing cursor */
@@ -790,6 +784,10 @@ body{font-size:15px;}
     <div class="confirm-icon" id="confirm-icon">⚠</div>
     <div class="confirm-title" id="confirm-title">Are you sure?</div>
     <div class="confirm-text" id="confirm-text"></div>
+    <div class="field" id="confirm-input-wrap" style="display:none;text-align:left;margin-bottom:18px;">
+      <label id="confirm-input-label" style="font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;display:block;">Type to confirm</label>
+      <input type="text" id="confirm-input" autocomplete="off" autocapitalize="characters" spellcheck="false">
+    </div>
     <div class="confirm-actions">
       <button class="btn btn-outline" id="confirm-cancel">Cancel</button>
       <button class="btn btn-gold" id="confirm-ok">Confirm</button>
@@ -1125,7 +1123,7 @@ body{font-size:15px;}
   <div class="sidebar-foot"><div class="sf-av" id="sf-av">A</div><div style="flex:1;min-width:0;"><div class="sf-name" id="sf-name">Welcome</div><div class="sf-plan" id="sf-plan-label">Account</div></div><button aria-label="Open settings" title="Settings" style="background:transparent;border:none;color:var(--ink-3);cursor:pointer;font-size:0.95rem;padding:6px;border-radius:6px;transition:color var(--t),background var(--t);" onmouseover="this.style.color='var(--gold)';this.style.background='var(--surface-2)';" onmouseout="this.style.color='var(--ink-3)';this.style.background='transparent';" onclick="go('settings',null)">⚙</button></div>
 </aside>
 <main class="main">
-<div class="topbar"><button class="mob-toggle" onclick="toggleSB()">☰</button><div class="topbar-title" id="topbar-title">Today</div><div class="topbar-date" id="topbar-date"></div><div class="topbar-spacer"></div><button class="btn btn-outline btn-sm" id="topbar-export-btn" onclick="exportData()" style="display:none;">↓ Export</button></div>
+<div class="topbar"><button class="mob-toggle" onclick="toggleSB()">☰</button><div class="topbar-title" id="topbar-title">Today</div><div class="topbar-date" id="topbar-date"></div><div class="topbar-spacer"></div></div>
 
 <div class="page active" id="page-dashboard">
   <div class="today-view">
@@ -1202,9 +1200,11 @@ body{font-size:15px;}
 <div class="page" id="page-intrade">
   <div class="ph"><div class="ph-eye" id="intrade-eye">IN TRADE MODE</div><div class="ph-title" id="intrade-title">Stay <em>grounded</em>.</div><div class="ph-sub" id="intrade-sub">Islamic psychology to keep you calm while your position runs.</div></div>
   <div id="open-trade-detail"></div>
-  <div class="panel"><div class="panel-head"><div class="panel-title">The Reminder</div></div><div class="intrade-verse"><div class="intrade-ar">وَعَلَى اللَّهِ فَتَوَكَّلُوا إِن كُنتُم مُّؤْمِنِينَ</div><div class="intrade-en">"And upon Allah rely, if you should be believers."</div><div class="intrade-ref">Surah Al-Ma'idah · 5:23</div><div class="intrade-lesson">You entered with analysis. You set your stop and your target. Your job is done. The outcome belongs to Allah. Moving your stop, adding to the position, checking P&amp;L every 30 seconds — none of this changes what was written. Breathe.</div></div></div>
-  <div class="panel"><div class="panel-head"><div class="panel-title">Dhikr While You Wait</div><span style="font-size:0.76rem;color:var(--ink-3);">Tap to count. Let your tongue be in remembrance.</span></div><div class="dhikr-grid"><button class="dhikr-btn" onclick="cDhikr('sub')"><span class="dhikr-ar">سُبْحَانَ اللَّه</span><span class="dhikr-count" id="dhikr-sub">0</span><span class="dhikr-word">SubhanAllah</span></button><button class="dhikr-btn" onclick="cDhikr('alh')"><span class="dhikr-ar">الحمد لله</span><span class="dhikr-count" id="dhikr-alh">0</span><span class="dhikr-word">Alhamdulillah</span></button><button class="dhikr-btn" onclick="cDhikr('akb')"><span class="dhikr-ar">اللَّهُ أَكْبَر</span><span class="dhikr-count" id="dhikr-akb">0</span><span class="dhikr-word">Allahu Akbar</span></button></div><div style="margin-top:8px;"><button class="btn btn-ghost btn-sm" onclick="resetDhikr()">Reset counter</button></div></div>
-  <div class="panel"><div class="panel-head"><div class="panel-title">Do Not Deviate</div></div><div class="rule-item">Your stop was set with a clear mind before entering. It stays there.</div><div class="rule-item">Do not add to this position. One plan, one outcome.</div><div class="rule-item">P&amp;L fluctuation is not information. The trade is not over until it's over.</div><div class="rule-item red">If you hit your stop — that is the outcome Allah chose. Accept it. Log it. Move on.</div></div>
+  <div id="intrade-active-panels" style="display:none;">
+    <div class="panel"><div class="panel-head"><div class="panel-title">The Reminder</div></div><div class="intrade-verse"><div class="intrade-ar">وَعَلَى اللَّهِ فَتَوَكَّلُوا إِن كُنتُم مُّؤْمِنِينَ</div><div class="intrade-en">"And upon Allah rely, if you should be believers."</div><div class="intrade-ref">Surah Al-Ma'idah · 5:23</div><div class="intrade-lesson">You entered with analysis. You set your stop and your target. Your job is done. The outcome belongs to Allah. Moving your stop, adding to the position, checking P&amp;L every 30 seconds — none of this changes what was written. Breathe.</div></div></div>
+    <div class="panel"><div class="panel-head"><div class="panel-title">Dhikr While You Wait</div><span style="font-size:0.76rem;color:var(--ink-3);">Tap to count. Let your tongue be in remembrance.</span></div><div class="dhikr-grid"><button class="dhikr-btn" onclick="cDhikr('sub')"><span class="dhikr-ar">سُبْحَانَ اللَّه</span><span class="dhikr-count" id="dhikr-sub">0</span><span class="dhikr-word">SubhanAllah</span></button><button class="dhikr-btn" onclick="cDhikr('alh')"><span class="dhikr-ar">الحمد لله</span><span class="dhikr-count" id="dhikr-alh">0</span><span class="dhikr-word">Alhamdulillah</span></button><button class="dhikr-btn" onclick="cDhikr('akb')"><span class="dhikr-ar">اللَّهُ أَكْبَر</span><span class="dhikr-count" id="dhikr-akb">0</span><span class="dhikr-word">Allahu Akbar</span></button></div><div style="margin-top:8px;"><button class="btn btn-ghost btn-sm" onclick="resetDhikr()">Reset counter</button></div></div>
+    <div class="panel"><div class="panel-head"><div class="panel-title">Do Not Deviate</div></div><div class="rule-item">Your stop was set with a clear mind before entering. It stays there.</div><div class="rule-item">Do not add to this position. One plan, one outcome.</div><div class="rule-item">P&amp;L fluctuation is not information. The trade is not over until it's over.</div><div class="rule-item red">If you hit your stop — that is the outcome Allah chose. Accept it. Log it. Move on.</div></div>
+  </div>
   <div style="display:flex;justify-content:center;gap:12px;margin-top:16px;flex-wrap:wrap;"><button class="btn btn-gold btn-lg" onclick="openExitModal()" id="close-trade-btn" style="display:none;">Close This Trade →</button><button class="btn btn-outline" onclick="openEntryModal()">+ Enter a Trade</button></div>
 </div>
 
@@ -1244,7 +1244,7 @@ body{font-size:15px;}
 <div class="page" id="page-journal">
   <div class="ph"><div class="ph-eye">DAILY PRACTICE</div><div class="ph-title">Morning · Evening · <em>Nafs</em></div><div class="ph-sub">One page for your whole day.</div></div>
   <div class="panel">
-    <div class="j-section"><div class="j-title">Morning <em>Intention</em></div><div class="field"><label>Today I will…</label><textarea id="j-int" rows="2" placeholder="Today I intend to trade with patience. My max risk is $__. Max __ trades."></textarea></div><div class="field-row c3"><div class="field"><label>Loss Limit ($)</label><input type="number" id="j-ll" placeholder="400"></div><div class="field"><label>Max Trades</label><input type="number" id="j-mt" value="3"></div><div class="field"><label>Key Level</label><input type="text" id="j-kl" placeholder="PDH / round no."></div></div><div id="chk-wrap"></div></div>
+    <div class="j-section"><div class="j-title">Morning <em>Intention</em></div><div class="field"><label>Today I will…</label><textarea id="j-int" rows="2" placeholder="Today I intend to trade with patience. My max risk is $__. Max __ trades."></textarea></div><div class="field-row c3"><div class="field"><label>Loss Limit ($)</label><input type="number" inputmode="decimal" id="j-ll" placeholder="400"></div><div class="field"><label>Max Trades</label><input type="number" inputmode="numeric" id="j-mt" value="3"></div><div class="field"><label>Key Level</label><input type="text" inputmode="decimal" id="j-kl" placeholder="PDH / round no."></div></div><div id="chk-wrap"></div></div>
     <div class="j-section" style="border-top:1px solid var(--line-2);padding-top:16px;margin-top:4px;"><div class="j-title">Evening <em>Reflection</em></div><div class="field"><label>Did you follow your rules today?</label><select id="j-rules"><option value="">Select…</option><option value="yes">Yes — every rule</option><option value="mostly">Mostly</option><option value="partial">Partially</option><option value="no">No</option><option value="nt">Did not trade today</option></select></div><div class="field"><label>What happened?</label><textarea id="j-what" rows="3"></textarea></div><div class="field"><label>One fix for tomorrow</label><textarea id="j-fix" rows="2"></textarea></div><div class="field"><label>Shukr — what are you grateful for?</label><textarea id="j-shukr" rows="2"></textarea></div></div>
     <div class="j-section" style="border-top:1px solid var(--line-2);padding-top:16px;margin-top:4px;"><div class="j-title">Nafs <em>Check</em> <span style="font-size:0.68rem;font-family:'JetBrains Mono',monospace;color:var(--ink-3);font-weight:400;">(OPTIONAL · SAVED WITH ENTRY)</span></div><p style="font-size:0.76rem;color:var(--ink-3);margin-bottom:13px;">Rate yourself 1–5 this week.</p><div class="nafs-grid"><div class="nafs-card"><div class="nafs-ar">صَبْر</div><div class="nafs-name">Sabr</div><div class="nafs-desc">Did you wait for your setups?</div><div class="nafs-dots" id="nd-sabr"></div></div><div class="nafs-card"><div class="nafs-ar">تَوَكُّل</div><div class="nafs-name">Tawakkul</div><div class="nafs-desc">Did you release outcomes?</div><div class="nafs-dots" id="nd-tawakkul"></div></div><div class="nafs-card"><div class="nafs-ar">كِبْر</div><div class="nafs-name">Kibr</div><div class="nafs-desc">Did arrogance appear after wins?</div><div class="nafs-dots" id="nd-kibr"></div></div><div class="nafs-card"><div class="nafs-ar">شُكْر</div><div class="nafs-name">Shukr</div><div class="nafs-desc">Gratitude every session?</div><div class="nafs-dots" id="nd-shukr"></div></div></div></div>
     <div style="display:flex;justify-content:flex-end;gap:8px;"><button class="btn btn-outline" onclick="clearJournal()">Clear</button><button class="btn btn-gold btn-lg" onclick="saveJournal()">Save Entry</button></div>
@@ -1258,7 +1258,7 @@ body{font-size:15px;}
     <div class="panel-head"><div class="panel-title" id="pb-form-title">Add New Setup</div></div>
     <div class="field-row c2"><div class="field"><label>Setup Name</label><input type="text" id="pb-name" placeholder="e.g. Opening Range Breakout, VWAP Reclaim"></div><div class="field"><label>Best Market Condition</label><input type="text" id="pb-condition" placeholder="e.g. Trending, High volatility open"></div></div>
     <div class="field"><label>Description</label><textarea id="pb-desc" rows="2" placeholder="What is this setup? When does it work?"></textarea></div>
-    <div class="field-row c3"><div class="field"><label>Min R:R Required</label><input type="number" id="pb-rr" placeholder="2" step="0.5"></div><div class="field"><label>Preferred Instrument</label><input type="text" id="pb-inst" placeholder="NQ, ES, MGC"></div><div class="field"><label>Typical Hold Time</label><input type="text" id="pb-hold" placeholder="e.g. 5-15 min"></div></div>
+    <div class="field-row c3"><div class="field"><label>Min R:R Required</label><input type="number" inputmode="decimal" id="pb-rr" placeholder="2" step="0.5"></div><div class="field"><label>Preferred Instrument</label><input type="text" id="pb-inst" placeholder="NQ, ES, MGC"></div><div class="field"><label>Typical Hold Time</label><input type="text" id="pb-hold" placeholder="e.g. 5-15 min"></div></div>
     <div class="field"><label>Entry Rules — must be present (one per line)</label><textarea id="pb-entry" rows="3" placeholder="Price breaks above pre-market high&#10;Volume confirms the move&#10;VWAP is below entry"></textarea></div>
     <div class="field"><label>Exit Rules</label><textarea id="pb-exit" rows="2" placeholder="Target at next major level&#10;Stop below the breakout candle"></textarea></div>
     <div class="field"><label>What Invalidates This Setup (avoid)</label><textarea id="pb-avoid" rows="2" placeholder="News within 30 min&#10;Spread wider than 2 points"></textarea></div>
@@ -1272,10 +1272,10 @@ body{font-size:15px;}
   <div class="grid-2">
     <div class="panel">
       <div class="panel-title" style="margin-bottom:16px;">Calculate Position Size</div>
-      <div class="field"><label>Account Size ($)</label><input type="number" id="rc-account" placeholder="50000" oninput="calcRisk()"></div>
-      <div class="field"><label>Risk Per Trade (%)</label><input type="number" id="rc-risk-pct" placeholder="1" step="0.25" value="1" oninput="calcRisk()"></div>
-      <div class="field"><label>Entry Price</label><input type="number" id="rc-entry" placeholder="21050" oninput="calcRisk()"></div>
-      <div class="field"><label>Stop Loss Price</label><input type="number" id="rc-stop" placeholder="21000" oninput="calcRisk()"></div>
+      <div class="field"><label>Account Size ($)</label><input type="number" inputmode="decimal" id="rc-account" placeholder="50000" oninput="calcRisk()"></div>
+      <div class="field"><label>Risk Per Trade (%)</label><input type="number" inputmode="decimal" id="rc-risk-pct" placeholder="1" step="0.25" value="1" oninput="calcRisk()"></div>
+      <div class="field"><label>Entry Price</label><input type="number" inputmode="decimal" id="rc-entry" placeholder="21050" oninput="calcRisk()"></div>
+      <div class="field"><label>Stop Loss Price</label><input type="number" inputmode="decimal" id="rc-stop" placeholder="21000" oninput="calcRisk()"></div>
       <div class="field"><label>Instrument Type</label><select id="rc-type" onchange="calcRisk()"><option value="futures-micro">Micro Futures (MNQ/MES/MGC) — $2/pt</option><option value="futures-mini">Mini Futures (NQ/ES/GC) — $20/pt</option><option value="forex">Forex (per 0.01 lot)</option><option value="stock">Stock / shares</option></select></div>
       <div id="risk-result"></div>
     </div>
@@ -1295,8 +1295,8 @@ body{font-size:15px;}
   <div class="ph"><div class="ph-eye">TARGETS</div><div class="ph-title">Goal + <em>Challenge</em></div><div class="ph-sub">Set your profit target and challenge parameters. The progress bar updates automatically as you log trades.</div></div>
   <div id="goal-display"></div>
   <div class="grid-2">
-    <div class="panel"><div class="panel-title" style="margin-bottom:13px;">Your Goal</div><div class="field"><label>Goal</label><input type="text" id="g-desc" placeholder="Pass $50K Topstep challenge"></div><div class="field"><label>Target ($)</label><input type="number" id="g-target" placeholder="3000"></div><div class="field"><label>Deadline</label><input type="date" id="g-dl"></div><div style="display:flex;justify-content:flex-end;"><button class="btn btn-gold" onclick="saveGoal()">Save</button></div></div>
-    <div class="panel"><div class="panel-title" style="margin-bottom:13px;">Challenge</div><div class="field"><label>Firm</label><input type="text" id="ch-firm" placeholder="Topstep, FundedNext…"></div><div class="field"><label>Profit Target ($)</label><input type="number" id="ch-target" placeholder="3000"></div><div class="field"><label>Max Drawdown ($)</label><input type="number" id="ch-dd" placeholder="2500"></div><div class="field"><label>Daily Limit ($)</label><input type="number" id="ch-daily" placeholder="1000"></div><div style="display:flex;justify-content:flex-end;"><button class="btn btn-gold" onclick="saveChallenge()">Save</button></div></div>
+    <div class="panel"><div class="panel-title" style="margin-bottom:13px;">Your Goal</div><div class="field"><label>Goal</label><input type="text" id="g-desc" placeholder="Pass $50K Topstep challenge"></div><div class="field"><label>Target ($)</label><input type="number" inputmode="decimal" id="g-target" placeholder="3000"></div><div class="field"><label>Deadline</label><input type="date" id="g-dl"></div><div style="display:flex;justify-content:flex-end;"><button class="btn btn-gold" onclick="saveGoal()">Save</button></div></div>
+    <div class="panel"><div class="panel-title" style="margin-bottom:13px;">Challenge</div><div class="field"><label>Firm</label><input type="text" id="ch-firm" placeholder="Topstep, FundedNext…"></div><div class="field"><label>Profit Target ($)</label><input type="number" inputmode="decimal" id="ch-target" placeholder="3000"></div><div class="field"><label>Max Drawdown ($)</label><input type="number" inputmode="decimal" id="ch-dd" placeholder="2500"></div><div class="field"><label>Daily Limit ($)</label><input type="number" inputmode="decimal" id="ch-daily" placeholder="1000"></div><div style="display:flex;justify-content:flex-end;"><button class="btn btn-gold" onclick="saveChallenge()">Save</button></div></div>
   </div>
 </div>
 
@@ -1574,7 +1574,7 @@ body{font-size:15px;}
    <div class="fs-label">Trade Details</div>
    <div class="field-row c3"><div class="field"><label>Date</label><input type="date" id="e-date"></div><div class="field"><label>Time</label><input type="time" id="e-time"></div><div class="field"><label>Instrument</label><input type="text" id="e-inst" placeholder="ES, NQ, MGC…"></div></div>
    <div class="field-row c3"><div class="field"><label>Direction</label><select id="e-dir"><option value="LONG">Long</option><option value="SHORT">Short</option></select></div><div class="field"><label>Setup (Playbook)</label><select id="e-setup-sel"><option value="">— Select or type below —</option></select></div><div class="field"><label>Or type setup name</label><input type="text" id="e-setup" placeholder="ORB, VWAP, BPB…"></div></div>
-   <div class="field-row c3"><div class="field"><label>Entry Price</label><input type="text" id="e-entry" placeholder="21,050"></div><div class="field"><label>Stop Loss</label><input type="text" id="e-stop" placeholder="21,000"></div><div class="field"><label>Target</label><input type="text" id="e-target" placeholder="21,150"></div></div>
+   <div class="field-row c3"><div class="field"><label>Entry Price</label><input type="text" inputmode="decimal" autocomplete="off" id="e-entry" placeholder="21,050"></div><div class="field"><label>Stop Loss</label><input type="text" inputmode="decimal" autocomplete="off" id="e-stop" placeholder="21,000"></div><div class="field"><label>Target</label><input type="text" inputmode="decimal" autocomplete="off" id="e-target" placeholder="21,150"></div></div>
    <div class="fs-label">Islamic Pre-Trade Check</div>
    <div class="ic-grid">
     <div class="ic-item" id="ic-bismillah" onclick="toggleIC('bismillah')"><div class="ic-circle" id="icc-bismillah">✓</div><div><span class="ic-arabic">بِسْمِ اللَّه</span><span class="ic-text">Said Bismillah?</span></div></div>
@@ -1603,7 +1603,7 @@ body{font-size:15px;}
   <div class="modal-head"><div class="modal-title">Close <em>Trade</em></div><button class="modal-close" onclick="closeExit()">×</button></div>
   <div class="modal-body">
    <div id="exit-ref" style="background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);padding:12px 14px;margin-bottom:14px;font-size:0.84rem;color:var(--ink-2);"></div>
-   <div class="field-row c2"><div class="field"><label>Exit Price</label><input type="text" id="x-exit" placeholder="21,095"></div><div class="field"><label>P&amp;L ($)</label><input type="number" id="x-pnl" placeholder="225 or -120"></div></div>
+   <div class="field-row c2"><div class="field"><label>Exit Price</label><input type="text" inputmode="decimal" autocomplete="off" id="x-exit" placeholder="21,095"></div><div class="field"><label>P&amp;L ($)</label><input type="number" inputmode="decimal" id="x-pnl" placeholder="225 or -120"></div></div>
    <div class="field"><label>Outcome</label><select id="x-outcome"><option value="win">Win — followed all rules</option><option value="win-broke">Win — but broke a rule</option><option value="loss">Loss — followed all rules</option><option value="loss-broke">Loss — broke a rule</option><option value="be">Break even</option></select></div>
    <div class="field"><label>Emotion at exit</label>
     <div class="emotion-grid">
@@ -1626,6 +1626,20 @@ body{font-size:15px;}
 <div class="modal-bg" id="td-modal" onclick="if(event.target===this)closeTD()">
  <div class="modal"><div class="modal-head"><div class="modal-title" id="td-title">Trade <em>Detail</em></div><button class="modal-close" onclick="closeTD()">×</button></div><div class="modal-body" id="td-body"></div><div class="modal-foot"><button class="btn btn-outline" onclick="closeTD()">Close</button><button class="btn btn-gold btn-sm" id="td-edit-btn" onclick="editTrade(currentTDId)" style="display:none;">Edit P&amp;L</button></div></div>
 </div>
+
+<!-- EDIT P&L MODAL -->
+<div class="modal-bg" id="edit-pnl-modal" onclick="if(event.target===this)closeEditPnl()">
+ <div class="modal" style="max-width:380px;">
+  <div class="modal-head"><div class="modal-title">Edit <em>P&amp;L</em></div><button class="modal-close" onclick="closeEditPnl()">×</button></div>
+  <div class="modal-body">
+   <div id="edit-pnl-ref" style="background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);padding:10px 13px;margin-bottom:14px;font-size:0.82rem;color:var(--ink-2);"></div>
+   <div class="field"><label>P&amp;L ($)</label><input type="number" inputmode="decimal" id="edit-pnl-input" placeholder="225 or -120" onkeydown="if(event.key==='Enter')saveEditPnl();"></div>
+   <div style="font-size:0.7rem;color:var(--ink-4);margin-top:-4px;line-height:1.55;">Updating this will recalculate the trade's Quality score.</div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-outline" onclick="closeEditPnl()">Cancel</button><button class="btn btn-gold" id="edit-pnl-save" onclick="saveEditPnl()">Save</button></div>
+ </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
@@ -1889,15 +1903,42 @@ function renderStreak(){
 
 // ── EDIT TRADE ────────────────────────────────────────────────────────────
 var currentTDId=null;
+var _editPnlId=null;
 function editTrade(id){
   var t=S.trades.find(function(x){return x.id===id;});if(!t||t.status==='open')return;
-  var np=prompt('Edit P&L ($) for '+t.instrument+' '+t.direction+' on '+fmtDate(t.date)+':',t.pnl);
-  if(np===null)return;
-  var parsed=parseFloat(np);if(isNaN(parsed)){toast('Invalid amount','e');return;}
-  t.pnl=parsed;t.quality=calcQ(t);sv('trades',S.trades);
-  closeTD();toast('Trade updated','s');
-  if(el('page-dashboard').classList.contains('active'))renderDash();
-  if(el('page-trades').classList.contains('active'))renderTrades();
+  _editPnlId=id;
+  var ref=el('edit-pnl-ref');
+  if(ref)ref.innerHTML='<strong style="color:var(--ink);">'+t.instrument+' '+t.direction+'</strong> · '+fmtDate(t.date)+(t.time?' at '+t.time:'');
+  var input=el('edit-pnl-input');
+  if(input){input.value=(t.pnl||0);}
+  var m=el('edit-pnl-modal');if(m)m.classList.add('show');
+  document.body.style.overflow='hidden';
+  setTimeout(function(){if(input){input.focus();input.select();}},80);
+}
+function closeEditPnl(){
+  var m=el('edit-pnl-modal');if(m)m.classList.remove('show');
+  document.body.style.overflow='';
+  _editPnlId=null;
+}
+function saveEditPnl(){
+  if(_editPnlId===null)return;
+  var t=S.trades.find(function(x){return x.id===_editPnlId;});if(!t){closeEditPnl();return;}
+  var input=el('edit-pnl-input');var raw=input?input.value:'';
+  var parsed=parseFloat(raw);
+  if(raw===''||isNaN(parsed)){toast('Enter a valid number','e');return;}
+  var prior=t.pnl;
+  t.pnl=parsed;t.quality=calcQ(t);
+  var btn=el('edit-pnl-save'),orig=btn?btn.innerHTML:'';
+  if(btn){btn.disabled=true;btn.classList.add('is-loading');btn.innerHTML='<span class="spinner"></span>Saving…';}
+  sv('trades',S.trades).then(function(){
+    closeEditPnl();closeTD();toast('✓ Trade updated','s');
+    if(el('page-dashboard').classList.contains('active'))renderDash();
+    if(el('page-trades').classList.contains('active'))renderTrades();
+  }).catch(function(){
+    t.pnl=prior;t.quality=calcQ(t);
+  }).then(function(){
+    if(btn){btn.disabled=false;btn.classList.remove('is-loading');btn.innerHTML=orig;}
+  });
 }
 
 function doSignOut(){
@@ -2047,8 +2088,6 @@ AUTH.onAuthStateChanged(function(user){
 var S={trades:[],journals:[],morning:{},challenge:null,goal:null,settings:{},
        dailyPrayers:{},playbook:[],nafs:{sabr:0,tawakkul:0,kibr:0,shukr:0},
        dhikr:{sub:0,alh:0,akb:0},openTradeId:null,
-       // Suhbah Circles — v2 social accountability layer (data structure only)
-       suhbah:{circleId:null,weeklyIntention:'',witnessedCommitments:[],reflectionShared:false},
        selEmotion:null,selExEmotion:null,gateAns:{},
        icChecked:{bismillah:false,prayer:false,setup:false,stop:false},
        eqRange:'all',calMonth:new Date(),tradeFilter:'all',obStep:1,
@@ -2133,24 +2172,48 @@ function confirmModal(opts){
     ok.className = 'btn ' + (opts.danger ? 'btn-danger' : 'btn-gold');
     ok.textContent = opts.okText || 'Confirm';
     cn.textContent = opts.cancelText || 'Cancel';
+    // Optional type-to-confirm gate for catastrophic actions
+    var wrap = el('confirm-input-wrap');
+    var input = el('confirm-input');
+    var lbl = el('confirm-input-label');
+    var requireText = opts.requireText || '';
+    var needsType = !!requireText;
+    if(wrap && input){
+      if(needsType){
+        wrap.style.display = '';
+        input.value = '';
+        if(lbl) lbl.textContent = 'Type ' + requireText + ' to confirm';
+        input.placeholder = requireText;
+        ok.disabled = true;
+        input.oninput = function(){
+          ok.disabled = input.value.trim().toUpperCase() !== requireText.toUpperCase();
+        };
+      } else {
+        wrap.style.display = 'none';
+        ok.disabled = false;
+        input.oninput = null;
+      }
+    }
     m.classList.add('show');
     document.body.style.overflow = 'hidden';
     function cleanup(result){
       m.classList.remove('show');
       document.body.style.overflow = '';
       ok.onclick = null; cn.onclick = null; m.onclick = null;
+      if(input) input.oninput = null;
+      ok.disabled = false;
       document.removeEventListener('keydown', onKey);
       resolve(result);
     }
     function onKey(e){
       if(e.key === 'Escape') cleanup(false);
-      else if(e.key === 'Enter') cleanup(true);
+      else if(e.key === 'Enter' && !ok.disabled) cleanup(true);
     }
-    ok.onclick = function(){ cleanup(true); };
+    ok.onclick = function(){ if(!ok.disabled) cleanup(true); };
     cn.onclick = function(){ cleanup(false); };
     m.onclick  = function(e){ if(e.target === m) cleanup(false); };
     document.addEventListener('keydown', onKey);
-    setTimeout(function(){ cn.focus(); }, 50);
+    setTimeout(function(){ if(needsType && input) input.focus(); else cn.focus(); }, 50);
   });
 }
 function setText(id,t){var e=el(id);if(e)e.textContent=t;}
@@ -2536,8 +2599,6 @@ function updateNav(){
   if(oc)oc.textContent=hasOpen?'\u25cf':'';
   if(ni)ni.className='nav-item'+(hasOpen?' alert':'');
   var cb=el('close-trade-btn');if(cb)cb.style.display=hasOpen?'':'none';
-  // Export only makes sense once there's data to export.
-  var exp=el('topbar-export-btn');if(exp)exp.style.display=S.trades.length?'':'none';
 }
 
 // ── VERSES ─────────────────────────────────────────────────────────────────
@@ -2948,13 +3009,17 @@ function renderRecentTrades(){
 function renderInTrade(){
   var t=S.openTradeId?S.trades.find(function(x){return x.id===S.openTradeId&&x.status==='open';}):null;
   var de=el('open-trade-detail'),pe=el('intrade-eye'),pt=el('intrade-title'),ps=el('intrade-sub'),cb=el('close-trade-btn');
+  var panels=el('intrade-active-panels');
   if(!t){
     if(pe)pe.textContent='IN TRADE MODE';if(pt)pt.innerHTML='Stay <em>grounded</em>.';
-    if(ps)ps.textContent='Use this space when in a trade. The dhikr counter and rules are always here.';
+    if(ps)ps.textContent='When a trade is open, your dhikr counter and tawakkul reminder appear here.';
     if(de)de.innerHTML='<div class="panel" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:18px 20px;border-color:rgba(218,180,98,0.12);"><div><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.52rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;">NO ACTIVE POSITION</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:1.1rem;color:var(--ink-2);">Enter a trade to see your live position details here.</div></div><button class="btn btn-gold" onclick="openEntryModal()">+ Enter a Trade</button></div>';
-    if(cb)cb.style.display='none';return;
+    if(cb)cb.style.display='none';
+    if(panels)panels.style.display='none';
+    return;
   }
   if(pe)pe.textContent='YOU ARE IN A TRADE';if(pt)pt.innerHTML='Tawakkul \u2014 <em>Release</em> the outcome.';if(ps)ps.textContent='Your analysis is done. Your stop is set. Trust Allah with what happens next.';if(cb)cb.style.display='';
+  if(panels)panels.style.display='';
   if(de)de.innerHTML='<div class="panel" style="border-color:rgba(218,180,98,0.3);background:linear-gradient(135deg,rgba(218,180,98,0.07),transparent),var(--surface);position:relative;overflow:hidden;"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);"></div><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;"><div><div class="open-badge" style="margin-bottom:11px;">LIVE POSITION</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:2rem;font-weight:600;color:var(--ink);letter-spacing:-0.02em;margin-bottom:9px;">'+t.instrument+' <span style="color:'+(t.direction==='LONG'?'var(--green)':'var(--red)')+';">'+t.direction+'</span></div><div style="display:flex;gap:16px;font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;color:var(--ink-3);flex-wrap:wrap;line-height:2;">'+(t.entryPrice?'<span>Entry\u00a0<strong style="color:var(--ink);">'+t.entryPrice+'</strong></span>':'')+(t.stopPrice?'<span>Stop\u00a0<strong style="color:var(--red);">'+t.stopPrice+'</strong></span>':'')+(t.targetPrice?'<span>Target\u00a0<strong style="color:var(--green);">'+t.targetPrice+'</strong></span>':'')+(t.setup?'<span>Setup\u00a0<strong style="color:var(--gold);">'+t.setup+'</strong></span>':'')+'</div></div><div style="text-align:right;flex-shrink:0;"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px;">QUALITY</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:2rem;font-weight:600;color:var(--gold);">'+(t.quality||'\u2014')+'</div></div></div></div>';
 }
 
@@ -3144,10 +3209,11 @@ function saveSettings(){var sn=el('s-name');S.settings.name=sn?sn.value:'';sv('s
 function confirmResetAll(){
   confirmModal({
     title:'Reset all your data?',
-    text:'This permanently deletes all trades, journals, prayer history, and playbook setups. Your account stays — you can sign back in and start fresh.',
-    okText:'Yes, reset everything',
+    text:'This permanently deletes every trade, journal, prayer record, and playbook setup. Your account stays — you can sign back in and start fresh.',
+    okText:'Reset everything',
     cancelText:'Cancel',
     danger:true,
+    requireText:'RESET',
     icon:'⚠'
   }).then(function(ok){if(ok)resetAll();});
 }
@@ -3166,6 +3232,7 @@ function deleteAccount(){
     okText:'Delete forever',
     cancelText:'Keep my account',
     danger:true,
+    requireText:'DELETE',
     icon:'⚠'
   }).then(function(ok){
     if(!ok)return;
@@ -3636,10 +3703,12 @@ document.addEventListener('keydown',function(e){
   if(confirmOpen)return;
   var entryOpen=el('entry-modal')&&el('entry-modal').classList.contains('show');
   var exitOpen=el('exit-modal')&&el('exit-modal').classList.contains('show');
-  if(!entryOpen&&!exitOpen)return;
+  var editPnlOpen=el('edit-pnl-modal')&&el('edit-pnl-modal').classList.contains('show');
+  if(!entryOpen&&!exitOpen&&!editPnlOpen)return;
   if(e.key==='Escape'){
     e.preventDefault();
-    if(entryOpen)closeEntry();
+    if(editPnlOpen)closeEditPnl();
+    else if(entryOpen)closeEntry();
     else if(exitOpen)closeExit();
   } else if((e.metaKey||e.ctrlKey)&&e.key==='Enter'){
     e.preventDefault();
