@@ -527,6 +527,14 @@ body{font-size:15px;}
 /* ── LANDING PAGE ── */
 .landing{position:fixed;inset:0;z-index:700;background:#0a0906;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;-webkit-overflow-scrolling:touch;overscroll-behavior:none;}
 .landing.hide{display:none;}
+/* Visitor on a legal page (no auth) — hide app chrome, show only the page. */
+body.legal-visitor .sidebar,
+body.legal-visitor .topbar,
+body.legal-visitor .sb-overlay{display:none!important;}
+body.legal-visitor .main{padding-top:0;}
+.legal-back{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;margin:0 0 18px;border-radius:8px;background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.15);color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:background 0.15s,border-color 0.15s;}
+.legal-back:hover{background:rgba(218,180,98,0.1);border-color:rgba(218,180,98,0.3);}
+body:not(.legal-visitor) .legal-back{display:none;}
 .lnav{padding:16px 44px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(218,180,98,0.07);position:sticky;top:0;background:rgba(9,8,6,0.97);backdrop-filter:blur(32px);z-index:10;box-shadow:0 1px 0 rgba(218,180,98,0.05);}
 .lnav-brand{display:flex;align-items:center;gap:12px;}
 .lnav-mark{width:38px;height:38px;border-radius:10px;background:radial-gradient(circle at 35% 30%,#b89030,#0e0a02);border:1px solid rgba(218,180,98,0.4);display:flex;align-items:center;justify-content:center;font-size:1.15rem;box-shadow:0 0 22px rgba(218,180,98,0.32),inset 0 1px 0 rgba(255,255,255,0.06);}
@@ -763,11 +771,15 @@ body{font-size:15px;}
   .lprice-num{font-size:3.6rem;}
   .lprice-section{padding:50px 16px;}
   .lprice-list li{font-size:0.78rem;}
-  .ldeen{padding:60px 20px;}
-  .ldeen-ar{font-size:1.8rem;}
-  .ldeen-en{font-size:0.95rem;}
-  .ldeen-text{font-size:0.88rem;}
-  .ldeen::before{font-size:14rem;}
+  /* Quran section — tightened so the whole verse + commentary fits the viewport. */
+  .ldeen{padding:44px 20px;}
+  .ldeen-ar{font-size:1.55rem;line-height:1.45;margin-bottom:14px;text-shadow:0 0 22px rgba(218,180,98,0.22);}
+  .ldeen-en{font-size:0.92rem;line-height:1.55;margin-bottom:6px;padding:0 4px;}
+  .ldeen-ref{font-size:0.5rem;margin-bottom:22px;}
+  .ldeen-text{font-size:0.84rem;line-height:1.7;padding:0 4px;}
+  /* The huge decorative ☽ is invisible on mobile (alpha 0.025) but inflates the
+     section. Remove it on small viewports so the verse content sits naturally. */
+  .ldeen::before{display:none;}
   .lfeat-card{padding:22px;}
   .lfeatures-h2{font-size:2.1rem;}
   /* Constrain orbs so they don't push viewport */
@@ -1121,7 +1133,7 @@ body{font-size:15px;}
       <div class="lprice-fine">Secure checkout via Stripe</div>
       <div style="margin-top:12px;padding:12px 14px;background:rgba(218,180,98,0.05);border:1px solid rgba(218,180,98,0.12);border-radius:10px;font-size:0.78rem;color:var(--ink-3);text-align:left;line-height:1.7;">
         <div style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;">REFUND POLICY</div>
-        If you're not satisfied in your first 7 days, email <a href="mailto:support@niyyahtrader.app" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.app</a> for a full refund. No questions asked.
+        If you're not satisfied in your first 7 days, email <a href="mailto:support@niyyahtrader.app" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.app</a> for a full refund. No questions asked. <a onclick="showLegalPage('refund')" style="color:var(--gold);text-decoration:underline;cursor:pointer;">Read the full policy →</a>
       </div>
     </div>
   </div>
@@ -1132,6 +1144,7 @@ body{font-size:15px;}
     <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;">
       <a onclick="showLegalPage('privacy')" style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-4);cursor:pointer;text-decoration:none;">Privacy Policy</a>
       <a onclick="showLegalPage('terms')" style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-4);cursor:pointer;text-decoration:none;">Terms of Service</a>
+      <a onclick="showLegalPage('refund')" style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-4);cursor:pointer;text-decoration:none;">Refund Policy</a>
       <div class="lfooter-note">Disciplined trading aligned with values.</div>
     </div>
   </div>
@@ -1548,6 +1561,7 @@ body{font-size:15px;}
     <div style="display:flex;gap:10px;flex-wrap:wrap;">
       <button class="btn btn-ghost btn-sm" onclick="go('privacy',null)">Privacy Policy</button>
       <button class="btn btn-ghost btn-sm" onclick="go('terms',null)">Terms of Service</button>
+      <button class="btn btn-ghost btn-sm" onclick="go('refund',null)">Refund Policy</button>
     </div>
   </div>
   <div class="panel" style="max-width:460px;">
@@ -1573,7 +1587,8 @@ body{font-size:15px;}
 
 <!-- PRIVACY POLICY -->
 <div class="page" id="page-privacy">
-  <div class="ph"><div class="ph-eye">LEGAL</div><div class="ph-title">Privacy <em>Policy</em></div><div class="ph-sub">Last updated: May 2025</div></div>
+  <a class="legal-back" onclick="backToLanding()">← Back to home</a>
+  <div class="ph"><div class="ph-eye">LEGAL</div><div class="ph-title">Privacy <em>Policy</em></div><div class="ph-sub">Last updated: May 2026</div></div>
   <div class="panel" style="max-width:720px;">
     <div style="font-size:0.87rem;color:var(--ink-2);line-height:2;">
 
@@ -1616,7 +1631,8 @@ body{font-size:15px;}
 
 <!-- TERMS OF SERVICE -->
 <div class="page" id="page-terms">
-  <div class="ph"><div class="ph-eye">LEGAL</div><div class="ph-title">Terms of <em>Service</em></div><div class="ph-sub">Last updated: May 2025</div></div>
+  <a class="legal-back" onclick="backToLanding()">← Back to home</a>
+  <div class="ph"><div class="ph-eye">LEGAL</div><div class="ph-title">Terms of <em>Service</em></div><div class="ph-sub">Last updated: May 2026</div></div>
   <div class="panel" style="max-width:720px;">
     <div style="font-size:0.87rem;color:var(--ink-2);line-height:2;">
 
@@ -1632,10 +1648,10 @@ body{font-size:15px;}
       <p style="margin-bottom:8px;">→ Past performance shown in your journal does not guarantee future results</p>
       <p style="margin-bottom:16px;">→ You are solely responsible for your trading decisions</p>
 
-      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">3. Subscription & Billing</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">3. Subscription &amp; Billing</div>
       <p style="margin-bottom:8px;">→ Niyyah costs <strong style="color:var(--ink);">$27/month</strong></p>
       <p style="margin-bottom:8px;">→ You can cancel at any time — your access continues until the end of the billing period</p>
-      <p style="margin-bottom:8px;">→ Payments are processed by Stripe and are non-refundable unless required by law</p>
+      <p style="margin-bottom:8px;">→ <strong style="color:var(--ink);">7-day full refund</strong> from your initial subscription date. Email <a href="mailto:support@niyyahtrader.app" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.app</a> within 7 days for a full refund — no questions asked. See our <a onclick="go('refund',null)" style="color:var(--gold);text-decoration:none;cursor:pointer;">Refund Policy</a> for details.</p>
       <p style="margin-bottom:16px;">→ We reserve the right to change pricing with 30 days notice</p>
 
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">4. Your Account</div>
@@ -1657,7 +1673,40 @@ body{font-size:15px;}
       <p style="margin-bottom:16px;">Niyyah is provided as-is. We are not liable for any trading losses, data loss, or damages arising from use of this platform. Our total liability is limited to the amount you paid in the last 30 days.</p>
 
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">8. Contact</div>
-      <p>Questions: <strong style="color:var(--ink);">support@niyyahtrader.app</strong></p>
+      <p>Questions: <a href="mailto:support@niyyahtrader.app" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.app</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- REFUND POLICY -->
+<div class="page" id="page-refund">
+  <a class="legal-back" onclick="backToLanding()">← Back to home</a>
+  <div class="ph"><div class="ph-eye">LEGAL</div><div class="ph-title">Refund <em>Policy</em></div><div class="ph-sub">Last updated: May 2026</div></div>
+  <div class="panel" style="max-width:720px;">
+    <div style="font-size:0.87rem;color:var(--ink-2);line-height:2;">
+
+      <p style="margin-bottom:16px;color:var(--ink-3);font-style:italic;">We want you to be confident that Niyyah will work for you. If it doesn't, we'll refund you in full.</p>
+
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">1. 7-Day Full Refund</div>
+      <p style="margin-bottom:16px;">Every new subscription comes with a <strong style="color:var(--ink);">7-day full refund window</strong> from the date of your first payment. If Niyyah isn't right for you for any reason within that window, you get your money back in full.</p>
+
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">2. How To Request a Refund</div>
+      <p style="margin-bottom:8px;">→ Email <a href="mailto:support@niyyahtrader.app?subject=Refund%20request" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.app</a> from the address on your account</p>
+      <p style="margin-bottom:8px;">→ Include the email tied to your subscription</p>
+      <p style="margin-bottom:16px;">→ We'll process it within 2 business days. No forms. No questions asked. No friction.</p>
+
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">3. After the 7-Day Window</div>
+      <p style="margin-bottom:8px;">After 7 days, subscriptions are non-refundable for the remainder of the current billing period, but you can <strong style="color:var(--ink);">cancel at any time from Settings</strong> to prevent future charges.</p>
+      <p style="margin-bottom:16px;">When you cancel, access continues until the end of the period you've already paid for. Your journal data is preserved on your account whether you stay subscribed or not.</p>
+
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">4. Annual Plans</div>
+      <p style="margin-bottom:16px;">If we offer annual plans in the future, the same 7-day refund window applies from the first payment date.</p>
+
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">5. Disputes</div>
+      <p style="margin-bottom:16px;">Please reach out to us before filing a chargeback with your bank. We respond quickly and would much rather resolve any issue directly.</p>
+
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">6. Contact</div>
+      <p>Refund requests or questions: <a href="mailto:support@niyyahtrader.app" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.app</a></p>
     </div>
   </div>
 </div>
@@ -1780,7 +1829,12 @@ try {
 // ── AUTH ───────────────────────────────────────────────────────────────────
 
 // ── LANDING PAGE FUNCTIONS ────────────────────────────────────────────────
+// True when an unauthenticated visitor has navigated to a legal page (privacy,
+// terms, refund). Prevents the auth observer from bouncing them back to landing
+// since unauthenticated state would otherwise re-show landing.
+var _showingLegalPage = false;
 function showAuth(mode){
+  _showingLegalPage = false;
   var landing=el('landing');if(landing)landing.classList.add('hide');
   authMode=mode||'signin';
   var as=el('auth-screen');if(as)as.classList.add('show');
@@ -1794,8 +1848,18 @@ function showAuth(mode){
 }
 
 function showLegalPage(page){
+  _showingLegalPage = true;
+  document.body.classList.add('legal-visitor');
   var landing=el('landing');if(landing)landing.classList.add('hide');
   go(page,null);
+}
+function backToLanding(){
+  _showingLegalPage = false;
+  document.body.classList.remove('legal-visitor');
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  var dash=el('page-dashboard');if(dash)dash.classList.add('active');
+  var landing=el('landing');if(landing)landing.classList.remove('hide');
+  window.scrollTo(0,0);
 }
 
 function scrollToFeatures(){
@@ -2190,10 +2254,14 @@ AUTH.onAuthStateChanged(function(user){
     }
     if(authScreen) authScreen.classList.remove('show');
     if(pwScreen)   pwScreen.classList.remove('show');
-    var lg=el('landing');if(lg)lg.classList.remove('hide');
-    // Clear state when signed out
+    // Clear state when signed out (always — separate from view routing below).
     S.trades=[];S.journals=[];S.morning={};S.challenge=null;S.goal=null;
     S.settings={};S.dailyPrayers={};S.playbook=[];S.openTradeId=null;
+    if(_showingLegalPage){
+      // Visitor intentionally navigated to a legal page; leave them there.
+      return;
+    }
+    var lg=el('landing');if(lg)lg.classList.remove('hide');
   }
 });
 
@@ -2455,8 +2523,8 @@ function obFinish(){
 }
 
 // ── NAVIGATION ─────────────────────────────────────────────────────────────
-var PAGE_TITLES={dashboard:'Today',intrade:'In Trade',trades:'Trade Log',calendar:'Calendar',analytics:'Analytics',journal:'Journal',playbook:'Playbook',risk:'Risk Calc',goals:'Goals',blueprint:'Blueprint',guide:'Guide',settings:'Settings',privacy:'Privacy',terms:'Terms'}
-var PAGE_FNS={privacy:function(){},terms:function(){},guide:function(){},blueprint:function(){},dashboard:renderDash,intrade:renderInTrade,trades:renderTrades,
+var PAGE_TITLES={dashboard:'Today',intrade:'In Trade',trades:'Trade Log',calendar:'Calendar',analytics:'Analytics',journal:'Journal',playbook:'Playbook',risk:'Risk Calc',goals:'Goals',blueprint:'Blueprint',guide:'Guide',settings:'Settings',privacy:'Privacy',terms:'Terms',refund:'Refund Policy'}
+var PAGE_FNS={privacy:function(){},terms:function(){},refund:function(){},guide:function(){},blueprint:function(){},dashboard:renderDash,intrade:renderInTrade,trades:renderTrades,
   calendar:renderCal,analytics:renderAnalytics,journal:renderJournal,
   playbook:renderPlaybook,risk:renderRisk,goals:renderGoals,settings:renderSettings};
 
