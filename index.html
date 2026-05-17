@@ -716,6 +716,22 @@ body{font-size:15px;}
 .btn-cta-pulse{animation:ctaPulse 2.5s ease-in-out infinite;}
 .btn-cta-pulse:hover{animation:none;}
 
+/* ── CUSTOM CONFIRM MODAL ──────────────────────────────────────────────── */
+.confirm-modal{position:fixed;inset:0;z-index:9000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:24px;}
+.confirm-modal.show{display:flex;animation:fadeIn 0.18s ease;}
+.confirm-card{background:linear-gradient(160deg,#1e1b13,#0f0d09);border:1px solid rgba(218,180,98,0.24);border-radius:18px;padding:30px 26px 22px;max-width:380px;width:100%;box-shadow:0 40px 100px rgba(0,0,0,0.75);text-align:center;animation:scaleIn 0.22s cubic-bezier(0.34,1.56,0.64,1);position:relative;overflow:hidden;}
+.confirm-card::before{content:'';position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,rgba(218,180,98,0.5),transparent);}
+.confirm-icon{font-size:2.2rem;margin-bottom:14px;line-height:1;}
+.confirm-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--ink);margin-bottom:10px;line-height:1.2;letter-spacing:-0.01em;}
+.confirm-text{font-size:0.85rem;color:var(--ink-3);line-height:1.65;margin-bottom:22px;}
+.confirm-actions{display:flex;gap:10px;justify-content:center;}
+.confirm-actions .btn{flex:1;justify-content:center;max-width:160px;}
+@media(max-width:480px){.confirm-card{padding:24px 20px 18px;}.confirm-actions .btn{padding:11px 14px;font-size:0.78rem;}}
+
+/* Danger button variant for destructive confirms */
+.btn-danger{background:linear-gradient(160deg,#d68484,#a85858);color:#fff;}
+.btn-danger:hover{background:linear-gradient(160deg,#e09a9a,#b66464);box-shadow:0 6px 24px rgba(214,132,132,0.4);}
+
 /* ── LOADING SPINNER + DISABLED BUTTON ─────────────────────────────────── */
 .spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(218,180,98,0.25);border-top-color:var(--gold);border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:-2px;margin-right:7px;flex-shrink:0;}
 @keyframes spin{to{transform:rotate(360deg);}}
@@ -770,6 +786,19 @@ body{font-size:15px;}
 </style>
 </head>
 <body>
+
+<!-- CUSTOM CONFIRM MODAL — replaces native browser confirm() -->
+<div class="confirm-modal" id="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+  <div class="confirm-card">
+    <div class="confirm-icon" id="confirm-icon">⚠</div>
+    <div class="confirm-title" id="confirm-title">Are you sure?</div>
+    <div class="confirm-text" id="confirm-text"></div>
+    <div class="confirm-actions">
+      <button class="btn btn-outline" id="confirm-cancel">Cancel</button>
+      <button class="btn btn-gold" id="confirm-ok">Confirm</button>
+    </div>
+  </div>
+</div>
 
 <div class="landing" id="landing">
 <canvas id="star-canvas"></canvas>
@@ -1429,8 +1458,14 @@ body{font-size:15px;}
   <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:4px;">
     <button class="btn btn-gold" onclick="saveSettings()">Save</button>
     <button class="btn btn-outline" onclick="exportData()">&#8595; Export Data</button>
-    <button class="btn btn-red" onclick="if(confirm('Reset all data?'))resetAll()">Reset All Data</button><div style="font-size:0.72rem;color:var(--ink-4);margin-top:6px;line-height:1.5;">Permanently deletes all trades, journals, and prayer data. Your account remains active — you can sign back in.</div>
+    <button class="btn btn-danger" onclick="confirmResetAll()">Reset All Data</button>
     <button class="btn btn-outline" onclick="doSignOut()" style="margin-left:auto;">Sign Out</button>
+  </div>
+  <div style="font-size:0.72rem;color:var(--ink-4);margin-top:10px;line-height:1.55;">Reset All Data permanently deletes all trades, journals, and prayer history. Your account remains active.</div>
+  <div style="margin-top:22px;padding-top:18px;border-top:1px solid rgba(214,132,132,0.18);">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--red);margin-bottom:8px;">DANGER ZONE</div>
+    <button class="btn btn-danger" onclick="deleteAccount()">Delete Account Permanently</button>
+    <div style="font-size:0.72rem;color:var(--ink-4);margin-top:8px;line-height:1.55;">Deletes your account and all data forever. This cannot be undone.</div>
   </div>
 </div>
 </div>
@@ -1870,7 +1905,9 @@ function editTrade(id){
 }
 
 function doSignOut(){
-  if(!confirm('Sign out of Niyyah?'))return;
+  confirmModal({title:'Sign out?',text:'You can sign back in anytime — your data stays safe.',okText:'Sign out',icon:'👋'}).then(function(ok){if(ok)_doSignOut();});
+}
+function _doSignOut(){
   AUTH.signOut();
 }
 
@@ -2085,6 +2122,41 @@ function pad(n){return String(n).padStart(2,'0');}
 function fmtDate(s){if(!s)return'\u2014';var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString('en-US',{month:'short',day:'numeric'});}
 function fmt(v,sign){var a=Math.abs(v),f=a>=10000?'$'+(a/1000).toFixed(1)+'K':'$'+a.toLocaleString('en-US',{maximumFractionDigits:0});return sign?(v>=0?'+':'-')+f:f;}
 function toast(m,t){var e=el('toast');if(!e)return;e.textContent=m;e.className='toast show '+(t||'s');setTimeout(function(){e.classList.remove('show');},2700);}
+
+// Promise-based custom confirm — replaces native browser confirm()
+// Usage: confirmModal({title:'...', text:'...', okText:'Delete', danger:true, icon:'⚠'}).then(function(ok){ if(ok) ... });
+function confirmModal(opts){
+  opts = opts || {};
+  return new Promise(function(resolve){
+    var m = el('confirm-modal');
+    if(!m){ resolve(window.confirm(opts.text || opts.title || 'Are you sure?')); return; }
+    el('confirm-title').textContent = opts.title || 'Are you sure?';
+    el('confirm-text').textContent  = opts.text || '';
+    el('confirm-icon').textContent  = opts.icon || '⚠';
+    var ok = el('confirm-ok'), cn = el('confirm-cancel');
+    ok.className = 'btn ' + (opts.danger ? 'btn-danger' : 'btn-gold');
+    ok.textContent = opts.okText || 'Confirm';
+    cn.textContent = opts.cancelText || 'Cancel';
+    m.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    function cleanup(result){
+      m.classList.remove('show');
+      document.body.style.overflow = '';
+      ok.onclick = null; cn.onclick = null; m.onclick = null;
+      document.removeEventListener('keydown', onKey);
+      resolve(result);
+    }
+    function onKey(e){
+      if(e.key === 'Escape') cleanup(false);
+      else if(e.key === 'Enter') cleanup(true);
+    }
+    ok.onclick = function(){ cleanup(true); };
+    cn.onclick = function(){ cleanup(false); };
+    m.onclick  = function(e){ if(e.target === m) cleanup(false); };
+    document.addEventListener('keydown', onKey);
+    setTimeout(function(){ cn.focus(); }, 50);
+  });
+}
 function setText(id,t){var e=el(id);if(e)e.textContent=t;}
 
 // ── ONBOARDING ─────────────────────────────────────────────────────────────
@@ -2347,7 +2419,16 @@ function openEntryModal(){
   var sel=el('e-setup-sel');
   if(sel){sel.innerHTML='<option value="">— Select from Playbook —</option>';S.playbook.forEach(function(p){sel.innerHTML+='<option value="'+p.name+'">'+p.name+'</option>';});}
 }
-function closeEntry(){var m=el('entry-modal');if(!m)return;var inst=el('e-inst')&&el('e-inst').value;if(inst&&!confirm('Close without saving this trade?'))return;m.classList.remove('show');document.body.style.overflow='';}
+function closeEntry(force){
+  var m=el('entry-modal');if(!m)return;
+  var inst=el('e-inst')&&el('e-inst').value;
+  if(inst && !force){
+    confirmModal({title:'Discard this trade?',text:'You have unsaved entry details. They will be lost.',okText:'Discard',cancelText:'Keep editing',danger:true,icon:'⚠'})
+      .then(function(ok){if(ok)closeEntry(true);});
+    return;
+  }
+  m.classList.remove('show');document.body.style.overflow='';
+}
 function saveEntry(){
   var inst=(el('e-inst')?el('e-inst').value:'').toUpperCase().trim();
   if(!inst){toast('Please enter the instrument','e');return;}
@@ -2861,7 +2942,7 @@ function setEq(r,btn){S.eqRange=r;btn.parentElement.querySelectorAll('.tg-btn').
 
 function renderRecentTrades(){
   var e=el('recent-wrap');if(!e)return;var r=S.trades.slice(0,6);
-  if(!r.length){e.innerHTML='<div class="empty"><div class="empty-icon">\ud83d\udcc8</div><div class="empty-title">No trades yet</div><div class="empty-text">Tap + to log your first trade entry.</div></div>';return;}
+  if(!r.length){e.innerHTML='<div class="empty"><div class="empty-icon">\ud83d\udcc8</div><div class="empty-title">No trades yet</div><div class="empty-text">Log your first trade entry to start building your journal.</div><button class="btn btn-gold" onclick="openEntryModal()" style="margin-top:18px;">+ Log your first trade</button></div>';return;}
   e.innerHTML=r.map(function(t){return'<div style="display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid var(--line-2);cursor:pointer;" onclick="openTD('+t.id+')" title="Click for full detail"><span class="t-side '+(t.direction==='LONG'?'long':'short')+'">'+t.direction+'</span><div style="flex:1;min-width:0;"><div style="font-size:0.88rem;font-weight:600;color:var(--ink);">'+t.instrument+'</div><div style="font-size:0.68rem;color:var(--ink-3);margin-top:2px;">'+fmtDate(t.date)+(t.setup?' \u00b7 '+t.setup:'')+(t.emotion?' \u00b7 '+t.emotion:'')+'</div></div>'+(t.status==='open'?'<span class="open-pill">OPEN</span><button class="btn btn-gold btn-sm" onclick="event.stopPropagation();openExitModal()">Close</button>':'<div class="q-score"><div class="q-bar"><div class="q-fill" style="width:'+(t.quality||0)+'%;"></div></div>'+(t.quality||0)+'</div><div class="t-pnl '+(t.pnl>=0?'pos':'neg')+'">'+fmt(t.pnl,true)+'</div>')+'</div>';}).join('');
 }
 
@@ -3000,7 +3081,7 @@ function saveJournal(){
 function clearJournal(){['j-int','j-what','j-fix','j-shukr'].forEach(function(id){var e=el(id);if(e)e.value='';});var jr=el('j-rules');if(jr)jr.value='';S.nafs={sabr:0,tawakkul:0,kibr:0,shukr:0};NK.forEach(function(k){renderNafsDots(k);});}
 function renderJournalList(){
   var e=el('journal-list');if(!e)return;
-  if(!S.journals.length){e.innerHTML='<div class="empty"><div class="empty-icon">\ud83d\udcd3</div><div class="empty-title">No entries yet</div></div>';return;}
+  if(!S.journals.length){e.innerHTML='<div class="empty"><div class="empty-icon">\ud83d\udcd3</div><div class="empty-title">No entries yet</div><div class="empty-text">Use the form above to log your first reflection.</div></div>';return;}
   e.innerHTML=S.journals.slice(0,8).map(function(j){return'<div style="padding:12px 0;border-bottom:1px solid var(--line-2);"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.56rem;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px;">'+fmtDate(j.date)+'</div>'+(j.fix?'<div style="font-size:0.8rem;color:var(--ink-2);margin-bottom:4px;line-height:1.55;"><strong style="color:var(--ink);">Tomorrow:</strong> '+j.fix+'</div>':'')+(j.shukr?'<div style="font-size:0.8rem;color:var(--ink-2);line-height:1.55;"><strong style="color:var(--gold);">Shukr:</strong> '+j.shukr+'</div>':'')+'</div>';}).join('');
 }
 
@@ -3012,7 +3093,15 @@ function savePBSetup(){
   sv('playbook',S.playbook);clearPBForm();toast('\u2713 Setup saved to Playbook','s');renderPlaybook();
 }
 function clearPBForm(){['pb-name','pb-condition','pb-desc','pb-rr','pb-inst','pb-hold','pb-entry','pb-exit','pb-avoid'].forEach(function(id){var e=el(id);if(e)e.value='';});S.editPBId=null;var ft=el('pb-form-title');if(ft)ft.textContent='Add New Setup';}
-function deletePB(id){if(!confirm('Delete this setup?'))return;S.playbook=S.playbook.filter(function(p){return p.id!==id;});sv('playbook',S.playbook);renderPlaybook();}
+function deletePB(id){
+  confirmModal({title:'Delete this setup?',text:'The setup will be removed from your playbook.',okText:'Delete',danger:true,icon:'🗑'})
+    .then(function(ok){
+      if(!ok)return;
+      S.playbook=S.playbook.filter(function(p){return p.id!==id;});
+      sv('playbook',S.playbook);
+      renderPlaybook();
+    });
+}
 function editPB(id){var p=S.playbook.find(function(x){return x.id===id;});if(!p)return;S.editPBId=id;var fields={name:p.name,condition:p.condition,desc:p.desc,rr:p.rr,inst:p.inst,hold:p.hold,entry:p.entry,exit:p.exit,avoid:p.avoid};Object.keys(fields).forEach(function(k){var e=el('pb-'+k);if(e)e.value=fields[k]||'';});var ft=el('pb-form-title');if(ft)ft.textContent='Edit Setup';window.scrollTo(0,0);}
 function renderPlaybook(){
   var e=el('playbook-list');if(!e)return;
@@ -3054,7 +3143,51 @@ function renderSettings(){
   }
 }
 function saveSettings(){var sn=el('s-name');S.settings.name=sn?sn.value:'';sv('settings',S.settings);if(S.settings.name){setText('sf-av',S.settings.name[0].toUpperCase());setText('sf-name',S.settings.name);}toast('\u2713 Saved','s');}
-function resetAll(){if(!confirm('This will permanently delete ALL your data. Are you sure?'))return;if(!UID)return;DB.collection('users').doc(UID).delete().then(function(){location.reload();}).catch(function(e){toast('Error resetting data','e');});}
+function confirmResetAll(){
+  confirmModal({
+    title:'Reset all your data?',
+    text:'This permanently deletes all trades, journals, prayer history, and playbook setups. Your account stays — you can sign back in and start fresh.',
+    okText:'Yes, reset everything',
+    cancelText:'Cancel',
+    danger:true,
+    icon:'⚠'
+  }).then(function(ok){if(ok)resetAll();});
+}
+function resetAll(){
+  if(!UID)return;
+  DB.collection('users').doc(UID).delete()
+    .then(function(){location.reload();})
+    .catch(function(){toast('Could not reset — check your connection','e');});
+}
+
+// GDPR-compliant: deletes Firestore data AND Firebase Auth user
+function deleteAccount(){
+  confirmModal({
+    title:'Delete your account forever?',
+    text:'Your Niyyah account and ALL data (trades, journals, prayer history) will be permanently deleted. This cannot be undone.',
+    okText:'Delete forever',
+    cancelText:'Keep my account',
+    danger:true,
+    icon:'⚠'
+  }).then(function(ok){
+    if(!ok)return;
+    var user = AUTH.currentUser;
+    if(!user){toast('Not signed in','e');return;}
+    DB.collection('users').doc(UID).delete()
+      .then(function(){return user.delete();})
+      .then(function(){
+        toast('✓ Account deleted','s');
+        setTimeout(function(){location.reload();},900);
+      })
+      .catch(function(e){
+        if(e && e.code === 'auth/requires-recent-login'){
+          toast('For security, sign out and back in, then try again','e');
+        } else {
+          toast('Could not delete account — try again','e');
+        }
+      });
+  });
+}
 function exportData(){var d={trades:S.trades,journals:S.journals,morning:S.morning,challenge:S.challenge,goal:S.goal,settings:S.settings,dailyPrayers:S.dailyPrayers,playbook:S.playbook,exportedAt:new Date().toISOString()};var b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download='niyyah-'+localDate()+'.json';a.click();URL.revokeObjectURL(u);toast('\u2713 Exported','s');}
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
