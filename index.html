@@ -1829,12 +1829,26 @@ try {
 // ── AUTH ───────────────────────────────────────────────────────────────────
 
 // ── LANDING PAGE FUNCTIONS ────────────────────────────────────────────────
-// True when an unauthenticated visitor has navigated to a legal page (privacy,
-// terms, refund). Prevents the auth observer from bouncing them back to landing
-// since unauthenticated state would otherwise re-show landing.
+// True while a legal page (privacy, terms, refund) is being shown. Prevents
+// the auth observer / checkSubscription from slamming landing or paywall back
+// on top of the legal page.
 var _showingLegalPage = false;
+// Snapshot of which view was active right before the user opened a legal
+// page, so backToLanding() can restore *that* exact view instead of guessing.
+// Possible values: 'landing' | 'auth' | 'paywall' | 'onboard' | 'page:<id>'.
+var _legalReturnTo = null;
+function _captureCurrentView(){
+  var lg=el('landing');     if(lg && !lg.classList.contains('hide')) return 'landing';
+  var au=el('auth-screen'); if(au && au.classList.contains('show'))  return 'auth';
+  var pw=el('paywall-screen'); if(pw && pw.classList.contains('show')) return 'paywall';
+  var ob=el('onboard');     if(ob && ob.classList.contains('show'))  return 'onboard';
+  var ap=document.querySelector('.page.active');
+  if(ap) return 'page:' + ap.id.replace('page-','');
+  return 'landing';
+}
 function showAuth(mode){
   _showingLegalPage = false;
+  _legalReturnTo = null;
   document.body.classList.remove('legal-visitor');
   var landing=el('landing');if(landing)landing.classList.add('hide');
   authMode=mode||'signin';
@@ -1850,10 +1864,12 @@ function showAuth(mode){
 }
 
 function showLegalPage(page){
+  // Capture which view to restore on the way back. Only on first entry,
+  // so navigating from one legal page to another preserves the original.
+  if(!_showingLegalPage) _legalReturnTo = _captureCurrentView();
   _showingLegalPage = true;
   document.body.classList.add('legal-visitor');
   // Hide every full-screen overlay so the legal page actually shows.
-  // Without this the paywall (signed-in / no sub) or auth screen sits on top.
   var landing=el('landing');if(landing)landing.classList.add('hide');
   var auth=el('auth-screen');if(auth)auth.classList.remove('show');
   var pw=el('paywall-screen');if(pw)pw.classList.remove('show');
@@ -1863,15 +1879,36 @@ function showLegalPage(page){
 function backToLanding(){
   _showingLegalPage = false;
   document.body.classList.remove('legal-visitor');
-  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
-  var dash=el('page-dashboard');if(dash)dash.classList.add('active');
-  // Route back to wherever the user actually belongs:
-  //   - signed in (with or without sub) → re-evaluate via checkSubscription
-  //   - signed out → landing
-  if(UID){
-    if(typeof checkSubscription==='function') checkSubscription();
-  }else{
-    var landing=el('landing');if(landing)landing.classList.remove('hide');
+  var ret = _legalReturnTo;
+  _legalReturnTo = null;
+  // Clear all overlay states first; we'll re-show exactly one below.
+  var landing=el('landing');if(landing)landing.classList.add('hide');
+  var auth=el('auth-screen');if(auth)auth.classList.remove('show');
+  var pw=el('paywall-screen');if(pw)pw.classList.remove('show');
+  var ob=el('onboard');if(ob)ob.classList.remove('show');
+
+  if(ret === 'landing'){
+    if(landing) landing.classList.remove('hide');
+  } else if(ret === 'auth'){
+    if(auth) auth.classList.add('show');
+  } else if(ret === 'paywall'){
+    if(pw) pw.classList.add('show');
+  } else if(ret === 'onboard'){
+    if(ob) ob.classList.add('show');
+  } else if(ret && ret.indexOf('page:') === 0){
+    var pname = ret.slice(5);
+    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+    var pg = el('page-'+pname);
+    if(pg) pg.classList.add('active');
+    var tt = el('topbar-title');
+    if(tt && PAGE_TITLES[pname]) tt.innerHTML = PAGE_TITLES[pname];
+  } else {
+    // No captured view (e.g. deep-link or direct refresh) — route by auth state.
+    if(UID){
+      if(typeof checkSubscription==='function') checkSubscription();
+    } else {
+      if(landing) landing.classList.remove('hide');
+    }
   }
   window.scrollTo(0,0);
   _push('/');
