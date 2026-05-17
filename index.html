@@ -18,6 +18,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:focus-visible{outline:2px solid rgba(218,180,98,0.7);outline-offset:3px;border-radius:4px;}
+button:focus-visible{outline-offset:2px;}
 :root{
   --bg:#0a0906;--bg-2:#0f0d0a;--bg-3:#100f0c;
   --surface:#161410;--surface-2:#1d1b15;--surface-3:#252219;
@@ -232,6 +234,19 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .mbar-base{position:absolute;left:0;right:0;bottom:22px;height:1px;background:rgba(255,255,255,0.06);}
 .table-wrap{overflow-x:auto;}
 .t-table{width:100%;border-collapse:collapse;min-width:600px;}
+/* Mobile trade cards */
+.trade-cards{display:flex;flex-direction:column;gap:9px;}
+.tc-item{background:linear-gradient(145deg,#1a1710,#0f0d09);border:1px solid rgba(255,255,255,0.06);border-radius:var(--r-lg);padding:15px 16px;cursor:pointer;transition:all 0.2s cubic-bezier(0.4,0,0.2,1);position:relative;overflow:hidden;}
+.tc-item::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(218,180,98,0.08),transparent);}
+.tc-item:hover,.tc-item:active{border-color:rgba(218,180,98,0.25);transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,0.35);}
+.tc-item.open-row{border-color:rgba(218,180,98,0.22);background:linear-gradient(145deg,rgba(218,180,98,0.05),#0f0d09);}
+.tc-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;}
+.tc-inst{font-size:0.97rem;font-weight:700;color:var(--ink);font-family:'Cormorant Garamond',serif;letter-spacing:-0.01em;}
+.tc-pnl{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.85rem;}
+.tc-pnl.pos{color:var(--green);}.tc-pnl.neg{color:var(--red);}
+.tc-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.tc-date{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--ink-4);}
+.tc-close-btn{margin-left:auto;}
 .t-table thead{background:var(--surface-2);}
 .t-table th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:0.53rem;letter-spacing:0.13em;text-transform:uppercase;color:var(--ink-3);padding:11px 12px;border-bottom:1px solid var(--line);}
 .t-table td{padding:12px;border-bottom:1px solid var(--line-2);font-size:0.83rem;color:var(--ink-2);vertical-align:middle;}
@@ -464,8 +479,8 @@ label{display:block;font-family:'JetBrains Mono',monospace;font-size:0.54rem;let
 .toast{position:fixed;bottom:96px;right:26px;background:linear-gradient(135deg,#221f15,#141109);border:1px solid rgba(218,180,98,0.18);border-radius:var(--r-lg);padding:12px 18px;font-size:0.83rem;color:var(--ink);transform:translateY(16px);opacity:0;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);z-index:300;box-shadow:0 16px 48px rgba(0,0,0,0.6),0 0 0 1px rgba(218,180,98,0.05);font-weight:500;}
 .toast.show{transform:translateY(0);opacity:1;}
 .toast.s{border-left:3px solid var(--green);box-shadow:0 16px 48px rgba(0,0,0,0.6),0 0 20px rgba(112,184,142,0.08);}.toast.e{border-left:3px solid var(--red);box-shadow:0 16px 48px rgba(0,0,0,0.6),0 0 20px rgba(214,132,132,0.08);}
-.sb-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99;display:none;}
-.sb-overlay.show{display:block;}
+.sb-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99;opacity:0;pointer-events:none;transition:opacity 0.25s ease;}
+.sb-overlay.show{opacity:1;pointer-events:auto;}
 @media(max-width:768px){
 .sidebar{position:fixed;left:0;top:0;transform:translateX(-100%);z-index:100;}
 .sidebar.open{transform:translateX(0);box-shadow:var(--shadow-lg);}
@@ -717,9 +732,12 @@ body{font-size:15px;}
 .btn-cta-pulse:hover{animation:none;}
 
 /* ── CUSTOM CONFIRM MODAL ──────────────────────────────────────────────── */
-.confirm-modal{position:fixed;inset:0;z-index:9000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:24px;}
+@keyframes scaleOut{from{opacity:1;transform:scale(1);}to{opacity:0;transform:scale(0.94);}}
+.confirm-modal{position:fixed;inset:0;z-index:9000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:24px;transition:opacity 0.18s ease;}
 .confirm-modal.show{display:flex;animation:fadeIn 0.18s ease;}
+.confirm-modal.closing{animation:none;opacity:0;}
 .confirm-card{background:linear-gradient(160deg,#1e1b13,#0f0d09);border:1px solid rgba(218,180,98,0.24);border-radius:18px;padding:30px 26px 22px;max-width:380px;width:100%;box-shadow:0 40px 100px rgba(0,0,0,0.75);text-align:center;animation:scaleIn 0.22s cubic-bezier(0.34,1.56,0.64,1);position:relative;overflow:hidden;}
+.confirm-modal.closing .confirm-card{animation:scaleOut 0.16s cubic-bezier(0.4,0,1,1) forwards;}
 .confirm-card::before{content:'';position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,rgba(218,180,98,0.5),transparent);}
 .confirm-icon{font-size:2.2rem;margin-bottom:14px;line-height:1;}
 .confirm-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--ink);margin-bottom:10px;line-height:1.2;letter-spacing:-0.01em;}
@@ -1124,7 +1142,7 @@ body{font-size:15px;}
   <div class="sidebar-foot"><div class="sf-av" id="sf-av">A</div><div style="flex:1;min-width:0;"><div class="sf-name" id="sf-name">Welcome</div><div class="sf-plan">PRO MEMBER</div></div><button style="background:transparent;border:none;color:var(--ink-3);cursor:pointer;font-size:0.95rem;padding:6px;" onclick="go('settings',null)">⚙</button></div>
 </aside>
 <main class="main">
-<div class="topbar"><button class="mob-toggle" onclick="toggleSB()">☰</button><div class="topbar-title" id="topbar-title">Today</div><div class="topbar-date" id="topbar-date"></div><div class="topbar-spacer"></div><button class="btn btn-outline btn-sm" onclick="exportData()">↓ Export</button></div>
+<div class="topbar"><button class="mob-toggle" onclick="toggleSB()" aria-label="Toggle menu" id="mob-toggle-btn">☰</button><div class="topbar-title" id="topbar-title">Today</div><div class="topbar-date" id="topbar-date"></div><div class="topbar-spacer"></div><button class="btn btn-outline btn-sm" onclick="exportData()">↓ Export</button></div>
 
 <div class="page active" id="page-dashboard">
   <div class="today-view">
@@ -1214,7 +1232,7 @@ body{font-size:15px;}
 
 <div class="page" id="page-trades">
   <div class="ph"><div class="ph-eye">TRADE LOG</div><div class="ph-title">All Your <em>Trades</em></div><div class="ph-sub">Complete history. Click any row to see full detail.</div></div>
-  <div style="margin-bottom:12px;"><input type="text" id="trade-search" placeholder="Search instrument, setup, date..." oninput="renderTrades()" style="max-width:360px;"></div>
+  <div style="margin-bottom:12px;"><input type="text" id="trade-search" placeholder="Search instrument, setup, date..." oninput="clearTimeout(_srchT);_srchT=setTimeout(renderTrades,220)" style="max-width:360px;"></div>
   <div class="panel"><div class="panel-head"><div class="panel-title">History</div><div class="toggle-group"><button class="tg-btn active" onclick="filterT('all',this)">All</button><button class="tg-btn" onclick="filterT('open',this)">Open</button><button class="tg-btn" onclick="filterT('wins',this)">Wins</button><button class="tg-btn" onclick="filterT('losses',this)">Losses</button></div></div><div id="trade-table-wrap"></div></div>
 </div>
 
@@ -2060,7 +2078,8 @@ var S={trades:[],journals:[],morning:{},challenge:null,goal:null,settings:{},
 var C={};
 
 // ── STORAGE (Firestore) ────────────────────────────────────────────────────
-var _saveErrorAt = 0; // debounce error toasts so we don't spam
+var _saveErrorAt = 0;
+var _srchT = null;
 function sv(k,v){
   if(!UID||!DB)return Promise.resolve();
   var u={};
@@ -2140,11 +2159,14 @@ function confirmModal(opts){
     m.classList.add('show');
     document.body.style.overflow = 'hidden';
     function cleanup(result){
-      m.classList.remove('show');
-      document.body.style.overflow = '';
+      m.classList.add('closing');
       ok.onclick = null; cn.onclick = null; m.onclick = null;
       document.removeEventListener('keydown', onKey);
-      resolve(result);
+      setTimeout(function(){
+        m.classList.remove('show','closing');
+        document.body.style.overflow = '';
+        resolve(result);
+      }, 160);
     }
     function onKey(e){
       if(e.key === 'Escape') cleanup(false);
@@ -2231,12 +2253,15 @@ function go(page,navEl){
   closeDP();
   var sb=el('sidebar');if(sb)sb.classList.remove('open');
   var sbo=el('sb-overlay');if(sbo)sbo.classList.remove('show');
+  var btn=el('mob-toggle-btn');if(btn)btn.textContent='☰';
   window.scrollTo(0,0);
   if(PAGE_FNS[page])try{PAGE_FNS[page]();}catch(err){console.error('Page error:',page,err);}
 }
 function toggleSB(){
   var sb=el('sidebar');if(sb)sb.classList.toggle('open');
   var sbo=el('sb-overlay');if(sbo)sbo.classList.toggle('show');
+  var btn=el('mob-toggle-btn');
+  if(btn)btn.textContent=sb&&sb.classList.contains('open')?'✕':'☰';
 }
 
 // ── SALAH ──────────────────────────────────────────────────────────────────
@@ -2418,6 +2443,7 @@ function openEntryModal(){
   resetIC();
   var sel=el('e-setup-sel');
   if(sel){sel.innerHTML='<option value="">— Select from Playbook —</option>';S.playbook.forEach(function(p){sel.innerHTML+='<option value="'+p.name+'">'+p.name+'</option>';});}
+  setTimeout(function(){var inst=el('e-inst');if(inst)inst.focus();},120);
 }
 function closeEntry(force){
   var m=el('entry-modal');if(!m)return;
@@ -2972,7 +2998,31 @@ function renderTrades(){
   if(sq)t=t.filter(function(x){return(x.instrument||'').toLowerCase().includes(sq)||(x.setup||'').toLowerCase().includes(sq)||(x.date||'').includes(sq)||(x.emotion||'').toLowerCase().includes(sq);});
   if(!t.length){w.innerHTML='<div class="empty"><div class="empty-icon">\ud83d\udcca</div><div class="empty-title">No trades match this filter</div></div>';return;}
   function etag(e){if(['calm','patient','focused'].includes(e||''))return'g';if(['fomo','revenge','urgency','overconf','anxious'].includes(e||''))return'r';return'o';}
-  w.innerHTML='<div class="table-wrap"><table class="t-table"><thead><tr><th>Date</th><th>Instrument</th><th>Side</th><th>Setup</th><th>State</th><th>Quality</th><th>P&L</th></tr></thead><tbody>'+t.map(function(x){return'<tr style="cursor:pointer;" onclick="openTD('+x.id+')" class="'+(x.status==='open'?'open-row':'')+'"><td style="font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;">'+fmtDate(x.date)+'</td><td style="color:var(--ink);font-weight:600;">'+x.instrument+'</td><td><span class="t-side '+(x.direction==='LONG'?'long':'short')+'">'+x.direction+'</span></td><td style="color:var(--ink-3);font-size:0.8rem;">'+(x.setup||'\u2014')+'</td><td><span class="e-tag '+etag(x.emotion)+'">'+(x.emotion||'\u2014')+'</span></td><td>'+(x.status==='open'?'<span class="open-pill">OPEN</span>':'<div class="q-score"><div class="q-bar"><div class="q-fill" style="width:'+(x.quality||0)+'%;"></div></div>'+(x.quality||0)+'</div>')+'</td><td>'+(x.status==='open'?'<button class="btn btn-gold btn-sm" onclick="event.stopPropagation();openExitModal()">Close</button>':'<div class="t-pnl '+(x.pnl>=0?'pos':'neg')+'">'+fmt(x.pnl,true)+'</div>')+'</td></tr>';}).join('')+'</tbody></table></div>';
+  if(window.innerWidth < 640){
+    w.innerHTML='<div class="trade-cards">'+t.map(function(x){
+      var isOpen=x.status==='open';
+      var pnlHtml=isOpen
+        ?'<span class="open-pill">OPEN</span>'
+        :'<span class="tc-pnl '+(x.pnl>=0?'pos':'neg')+'">'+fmt(x.pnl,true)+'</span>';
+      var closeBtnHtml=isOpen
+        ?'<button class="btn btn-gold btn-sm tc-close-btn" onclick="event.stopPropagation();openExitModal()">Close \u2192</button>'
+        :'';
+      var quality=!isOpen&&x.quality?'<div class="q-score" style="font-size:0.62rem;"><div class="q-bar"><div class="q-fill" style="width:'+x.quality+'%;"></div></div>'+x.quality+'</div>':'';
+      return '<div class="tc-item '+(isOpen?'open-row':'')+'" onclick="openTD('+x.id+')">'
+        +'<div class="tc-top"><span class="tc-inst">'+x.instrument+'</span>'+pnlHtml+'</div>'
+        +'<div class="tc-meta">'
+        +'<span class="t-side '+(x.direction==='LONG'?'long':'short')+'">'+x.direction+'</span>'
+        +(x.emotion?'<span class="e-tag '+etag(x.emotion)+'">'+x.emotion+'</span>':'')
+        +(x.setup?'<span style="font-size:0.7rem;color:var(--ink-3);">'+x.setup+'</span>':'')
+        +quality
+        +'<span class="tc-date">'+fmtDate(x.date)+'</span>'
+        +closeBtnHtml
+        +'</div>'
+        +'</div>';
+    }).join('')+'</div>';
+  } else {
+    w.innerHTML='<div class="table-wrap"><table class="t-table"><thead><tr><th>Date</th><th>Instrument</th><th>Side</th><th>Setup</th><th>State</th><th>Quality</th><th>P&L</th></tr></thead><tbody>'+t.map(function(x){return'<tr style="cursor:pointer;" onclick="openTD('+x.id+')" class="'+(x.status==='open'?'open-row':'')+'"><td style="font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;">'+fmtDate(x.date)+'</td><td style="color:var(--ink);font-weight:600;">'+x.instrument+'</td><td><span class="t-side '+(x.direction==='LONG'?'long':'short')+'">'+x.direction+'</span></td><td style="color:var(--ink-3);font-size:0.8rem;">'+(x.setup||'\u2014')+'</td><td><span class="e-tag '+etag(x.emotion)+'">'+(x.emotion||'\u2014')+'</span></td><td>'+(x.status==='open'?'<span class="open-pill">OPEN</span>':'<div class="q-score"><div class="q-bar"><div class="q-fill" style="width:'+(x.quality||0)+'%;"></div></div>'+(x.quality||0)+'</div>')+'</td><td>'+(x.status==='open'?'<button class="btn btn-gold btn-sm" onclick="event.stopPropagation();openExitModal()">Close</button>':'<div class="t-pnl '+(x.pnl>=0?'pos':'neg')+'">'+fmt(x.pnl,true)+'</div>')+'</td></tr>';}).join('')+'</tbody></table></div>';
+  }
 }
 
 // ── CALENDAR ─────────────────────────────────────────────────────────────────
@@ -3550,7 +3600,14 @@ function init(){
     requestAnimationFrame(draw);
   }
 
-  window.addEventListener('resize',function(){resize();createStars();});
+  var _resizeRT=null;
+  window.addEventListener('resize',function(){
+    resize();createStars();
+    clearTimeout(_resizeRT);
+    _resizeRT=setTimeout(function(){
+      if(document.getElementById('trade-table-wrap'))renderTrades();
+    },180);
+  });
   resize();createStars();draw();
 
   // Mouse spotlight — update CSS variable on mousemove inside landing
