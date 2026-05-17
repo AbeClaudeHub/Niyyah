@@ -723,6 +723,19 @@ body{font-size:15px;}
 .btn-danger{background:linear-gradient(160deg,#d68484,#a85858);color:#fff;}
 .btn-danger:hover{background:linear-gradient(160deg,#e09a9a,#b66464);box-shadow:0 6px 24px rgba(214,132,132,0.4);}
 
+/* ── MILESTONE CELEBRATION — first-close, week-one, etc. ─────────────────── */
+.milestone-modal{position:fixed;inset:0;z-index:9100;display:none;align-items:center;justify-content:center;background:rgba(4,3,2,0.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:24px;}
+.milestone-modal.show{display:flex;animation:fadeIn 0.25s ease;}
+.milestone-card{background:linear-gradient(160deg,#211d12,#0f0d09);border:1px solid rgba(218,180,98,0.32);border-radius:22px;padding:42px 32px 26px;max-width:420px;width:100%;text-align:center;box-shadow:0 50px 110px rgba(0,0,0,0.8),0 0 80px rgba(218,180,98,0.12);position:relative;overflow:hidden;animation:scaleIn 0.4s cubic-bezier(0.16,1,0.3,1);}
+.milestone-card::before{content:'';position:absolute;top:0;left:15%;right:15%;height:1.5px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.milestone-card::after{content:'☽';position:absolute;bottom:-40px;right:-30px;font-size:14rem;opacity:0.04;line-height:1;pointer-events:none;color:var(--gold);font-family:'Cormorant Garamond',serif;}
+.milestone-eye{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.32em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.milestone-title{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:500;color:var(--ink);line-height:1.1;letter-spacing:-0.025em;margin-bottom:16px;}
+.milestone-title em{color:var(--gold);font-style:italic;font-weight:600;}
+.milestone-text{font-size:0.92rem;color:var(--ink-2);font-weight:300;line-height:1.75;margin-bottom:22px;}
+.milestone-text strong{color:var(--ink);font-weight:500;}
+.milestone-stat{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);padding:6px 14px;border-radius:20px;background:rgba(218,180,98,0.08);border:1px solid rgba(218,180,98,0.22);margin-bottom:22px;}
+
 /* ── LOADING SPINNER + DISABLED BUTTON ─────────────────────────────────── */
 .spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(218,180,98,0.25);border-top-color:var(--gold);border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:-2px;margin-right:7px;flex-shrink:0;}
 @keyframes spin{to{transform:rotate(360deg);}}
@@ -774,6 +787,29 @@ body{font-size:15px;}
   .landing,.main{overscroll-behavior-y:none;}
 }
 
+/* FAQ — disclosure rotation */
+.faq-item[open]{border-color:rgba(218,180,98,0.32)!important;background:linear-gradient(145deg,#1e1b12,#100e0a)!important;}
+.faq-item[open] .faq-plus{transform:rotate(45deg);}
+.faq-item .faq-plus{transition:transform 0.22s cubic-bezier(0.4,0,0.2,1);display:inline-block;}
+.faq-item summary{outline:none;}
+.faq-item summary::-webkit-details-marker{display:none;}
+
+/* Comparison grid — collapse on mobile */
+@media(max-width:680px){
+  .comp-grid{grid-template-columns:1.6fr 0.7fr 0.7fr!important;}
+  .comp-grid > div{padding:11px 13px!important;font-size:0.74rem!important;}
+  .week1-grid{grid-template-columns:1fr!important;}
+}
+
+/* STICKY MOBILE CTA — captures conversion without requiring scroll-to-pricing */
+.sticky-mobile-cta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:50;background:linear-gradient(180deg,rgba(10,9,6,0.4),rgba(10,9,6,0.98) 40%);padding:14px 16px 18px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(218,180,98,0.18);}
+.sticky-mobile-cta .btn{width:100%;justify-content:center;font-size:0.92rem;padding:14px 20px;}
+.sticky-mobile-cta-meta{text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.14em;color:var(--ink-4);margin-top:8px;}
+@media(max-width:640px){
+  .sticky-mobile-cta{display:block;}
+  .landing{padding-bottom:90px;}
+}
+
 </style>
 </head>
 <body>
@@ -792,6 +828,17 @@ body{font-size:15px;}
       <button class="btn btn-outline" id="confirm-cancel">Cancel</button>
       <button class="btn btn-gold" id="confirm-ok">Confirm</button>
     </div>
+  </div>
+</div>
+
+<!-- MILESTONE CELEBRATION MODAL — first close, 5 trades, 20 trades, etc. -->
+<div class="milestone-modal" id="milestone-modal" role="dialog" aria-modal="true">
+  <div class="milestone-card">
+    <div class="milestone-eye" id="milestone-eye">MASHALLAH</div>
+    <div class="milestone-title" id="milestone-title">Your first <em>close</em>.</div>
+    <div class="milestone-stat" id="milestone-stat" style="display:none;"></div>
+    <div class="milestone-text" id="milestone-text"></div>
+    <button class="btn btn-gold btn-lg" id="milestone-btn" onclick="closeMilestone()" style="min-width:160px;justify-content:center;">Bismillah →</button>
   </div>
 </div>
 
@@ -814,14 +861,14 @@ body{font-size:15px;}
   <div class="lhero" style="position:relative;overflow:visible;">
     <div class="orb-1 landing-orb"></div>
     <div class="orb-3 landing-orb"></div>
-    <div class="lhero-badge"><span class="lhero-badge-dot"></span>For Muslim Traders</div>
-    <h1 class="lhero-h1">Most traders fail because of<br><em>psychology</em>, not strategy.</h1>
-    <p class="lhero-sub"><strong>Niyyah ends the loop.</strong> The accountability system for traders whose strategy already works — but whose nafs keeps getting in the way.</p>
+    <div class="lhero-badge"><span class="lhero-badge-dot"></span>Built by a Muslim trader · For Muslim traders</div>
+    <h1 class="lhero-h1">You don't have a strategy problem.<br>You have a <em>nafs</em> problem.</h1>
+    <p class="lhero-sub"><strong>Niyyah is the trading journal that asks: did you pray?</strong> In week one it surfaces the exact behavioral leak draining your account — revenge, FOMO, broken rules — and shows you, in your own data, how salah correlates with your P&amp;L.</p>
     <div class="lhero-btns">
-      <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 32px;">Start with Bismillah — $27/mo</button>
+      <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 32px;">Begin — Bismillah →</button>
       <button class="btn btn-outline btn-lg" onclick="scrollToFeatures()" style="backdrop-filter:blur(8px);">See how it works</button>
     </div>
-    <div class="lhero-price">7-day full refund · Cancel anytime · Secure via Stripe</div>
+    <div class="lhero-price">$27/mo · 7-day full refund · Cancel anytime · Secure via Stripe</div>
     <div style="margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.45;cursor:pointer;animation:scrollBounce 2s ease-in-out infinite;" onclick="scrollToFeatures()">
       <div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-3);">SCROLL</div>
       <div style="width:1px;height:32px;background:linear-gradient(to bottom,var(--gold),transparent);"></div>
@@ -884,10 +931,10 @@ body{font-size:15px;}
 
   <!-- TRUST BAR -->
   <div class="trust-bar reveal">
-    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Stripe Secure Checkout</div>
-    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Firebase Encrypted Data</div>
-    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Cancel Anytime</div>
-    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>7-Day Full Refund</div>
+    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l1.5 5h5l-4 3.5L16 16l-4-3-4 3 1.5-5.5L5.5 7h5z"/></svg>Built by a Muslim trader</div>
+    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Stripe secure checkout</div>
+    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>7-day full refund</div>
+    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Cancel anytime</div>
   </div>
 
   <!-- PILLARS -->
@@ -951,6 +998,32 @@ body{font-size:15px;}
   </div>
 
 
+  <!-- WEEK 1 OUTCOMES — concrete promise -->
+  <div class="reveal" style="max-width:920px;margin:0 auto 80px;padding:0 40px;">
+    <div style="text-align:center;margin-bottom:36px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;">WHAT YOU'LL DISCOVER IN YOUR FIRST WEEK</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:500;color:var(--ink);letter-spacing:-0.035em;line-height:1.1;">Specific patterns. <em style="color:var(--gold);font-weight:600;">Your own data.</em></h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;" class="week1-grid">
+      <div style="background:linear-gradient(145deg,#1c1a12,#0f0d09);border:1px solid rgba(218,180,98,0.18);border-left:3px solid var(--gold);border-radius:14px;padding:24px 22px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:10px;">DAY 1–3</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:8px;">Your trigger trade</div>
+        <div style="font-size:0.82rem;color:var(--ink-3);line-height:1.7;font-weight:300;">The first trade in a revenge sequence. Niyyah names it. You stop taking the next four.</div>
+      </div>
+      <div style="background:linear-gradient(145deg,#1c1a12,#0f0d09);border:1px solid rgba(218,180,98,0.18);border-left:3px solid var(--gold);border-radius:14px;padding:24px 22px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:10px;">DAY 4–5</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:8px;">Your fajr gap</div>
+        <div style="font-size:0.82rem;color:var(--ink-3);line-height:1.7;font-weight:300;">Win rate on days you prayed Fajr vs days you missed it. Most users find a 15–30% delta. That is your edge.</div>
+      </div>
+      <div style="background:linear-gradient(145deg,#1c1a12,#0f0d09);border:1px solid rgba(218,180,98,0.18);border-left:3px solid var(--gold);border-radius:14px;padding:24px 22px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:10px;">DAY 6–7</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:8px;">Your friday muhasabah</div>
+        <div style="font-size:0.82rem;color:var(--ink-3);line-height:1.7;font-weight:300;">A weekly mirror in your own data — what your nafs actually did, not what you'll tell yourself it did.</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:26px;font-size:0.82rem;color:var(--ink-4);font-style:italic;font-family:'Cormorant Garamond',serif;">If week one doesn't surface a pattern you didn't know about — email us, we refund every penny.</div>
+  </div>
+
   <!-- FOUNDER + TESTIMONIAL -->
   <div class="founder-testimonial-grid reveal" style="max-width:900px;margin:0 auto 80px;padding:0 40px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
 
@@ -971,17 +1044,17 @@ body{font-size:15px;}
     <!-- Testimonial -->
     <div style="background:linear-gradient(145deg,#1e1b12,#0f0d09);border:1px solid rgba(218,180,98,0.2);border-radius:20px;padding:32px;position:relative;overflow:hidden;transition:border-color 0.3s,transform 0.3s;cursor:default;" onmouseenter="this.style.borderColor='rgba(218,180,98,0.4)';this.style.transform='translateY(-4px)'" onmouseleave="this.style.borderColor='rgba(218,180,98,0.2)';this.style.transform=''"><div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(218,180,98,0.2),transparent);"></div>
       <div style="font-size:3rem;color:var(--gold);opacity:0.15;position:absolute;top:16px;left:20px;font-family:'Cormorant Garamond',serif;line-height:1;">"</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">EARLY USER</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">EARLY USER · NQ FUTURES</div>
       <div class="testi-stars" style="margin-bottom:12px;">
         <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
       </div>
-      <p style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--ink);line-height:1.75;margin-bottom:14px;">"The pre-trade gate alone stopped me from taking 3 bad trades in my first week. Seeing my win rate on days I prayed Fajr vs days I missed it was honestly humbling."</p>
-      <p style="font-size:0.82rem;color:var(--ink-3);line-height:1.7;margin-bottom:16px;">The dhikr counter while in trade sounds simple but it genuinely keeps you off the P&amp;L screen. That detachment is real tawakkul.</p>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--ink);line-height:1.75;margin-bottom:14px;">"In week one Niyyah showed me 4 of my last 7 losses came in the same 30-minute window after I'd missed Dhuhr. I would never have spotted that on my own. Stopped trading that window. P&amp;L flipped the next week."</p>
+      <p style="font-size:0.82rem;color:var(--ink-3);line-height:1.7;margin-bottom:16px;">The dhikr counter while in-trade is the part I didn't expect to love. It sounds simple — but it keeps me off the P&amp;L tick by tick. That detachment is real tawakkul.</p>
       <div style="display:flex;align-items:center;gap:10px;">
         <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4a8a6a,#2a5a4a);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:0.85rem;">M</div>
         <div>
           <div style="font-size:0.84rem;font-weight:600;color:var(--ink);">Mohammed R.</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);">NQ Futures Trader · Beta User</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);">Funded trader · Topstep $50K</div>
         </div>
       </div>
     </div>
@@ -995,13 +1068,87 @@ body{font-size:15px;}
     <p class="ldeen-text">Most traders have a system. Few have the discipline to follow it. Niyyah is built on the belief that <strong style="color:var(--ink);">emotional control, patience, and releasing outcomes are not soft skills — they are your actual edge.</strong> The Islamic framework is the structure that makes it real.</p>
   </div>
 
+  <!-- COMPARISON — counter-position vs other journals -->
+  <div class="reveal" style="max-width:900px;margin:0 auto 80px;padding:0 40px;">
+    <div style="text-align:center;margin-bottom:32px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;">WHY NOT TRADERVUE OR EDGEWONK?</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:500;color:var(--ink);letter-spacing:-0.035em;line-height:1.1;">Same numbers. <em style="color:var(--gold);font-weight:600;">Different mirror.</em></h2>
+    </div>
+    <div style="background:linear-gradient(160deg,#1c1a12,#0f0d09);border:1px solid rgba(218,180,98,0.18);border-radius:18px;overflow:hidden;">
+      <div class="comp-grid" style="display:grid;grid-template-columns:1.4fr 1fr 1fr;">
+        <div style="padding:18px 22px;border-bottom:1px solid rgba(255,255,255,0.05);font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-4);">FEATURE</div>
+        <div style="padding:18px 22px;border-bottom:1px solid rgba(255,255,255,0.05);border-left:1px solid rgba(255,255,255,0.05);font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-4);">TRADERVUE / EDGEWONK</div>
+        <div style="padding:18px 22px;border-bottom:1px solid rgba(255,255,255,0.05);border-left:1px solid rgba(255,255,255,0.05);font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);background:rgba(218,180,98,0.04);">NIYYAH</div>
+
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--ink-2);border-bottom:1px solid rgba(255,255,255,0.04);">P&amp;L, equity curve, win rate</div>
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--green);border-bottom:1px solid rgba(255,255,255,0.04);border-left:1px solid rgba(255,255,255,0.05);">✓</div>
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--green);border-bottom:1px solid rgba(255,255,255,0.04);border-left:1px solid rgba(255,255,255,0.05);background:rgba(218,180,98,0.04);">✓</div>
+
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--ink-2);border-bottom:1px solid rgba(255,255,255,0.04);">Pre-trade gate that quotes your own past losses back at you</div>
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--red);border-bottom:1px solid rgba(255,255,255,0.04);border-left:1px solid rgba(255,255,255,0.05);">✕</div>
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--green);border-bottom:1px solid rgba(255,255,255,0.04);border-left:1px solid rgba(255,255,255,0.05);background:rgba(218,180,98,0.04);">✓</div>
+
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--ink-2);border-bottom:1px solid rgba(255,255,255,0.04);">Prayer ↔ P&amp;L correlation radar</div>
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--red);border-bottom:1px solid rgba(255,255,255,0.04);border-left:1px solid rgba(255,255,255,0.05);">✕</div>
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--green);border-bottom:1px solid rgba(255,255,255,0.04);border-left:1px solid rgba(255,255,255,0.05);background:rgba(218,180,98,0.04);">✓</div>
+
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--ink-2);border-bottom:1px solid rgba(255,255,255,0.04);">In-trade dhikr counter to keep you off the chart</div>
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--red);border-bottom:1px solid rgba(255,255,255,0.04);border-left:1px solid rgba(255,255,255,0.05);">✕</div>
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--green);border-bottom:1px solid rgba(255,255,255,0.04);border-left:1px solid rgba(255,255,255,0.05);background:rgba(218,180,98,0.04);">✓</div>
+
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--ink-2);border-bottom:1px solid rgba(255,255,255,0.04);">Nightly muhasabah — what your nafs actually did today</div>
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--red);border-bottom:1px solid rgba(255,255,255,0.04);border-left:1px solid rgba(255,255,255,0.05);">✕</div>
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--green);border-bottom:1px solid rgba(255,255,255,0.04);border-left:1px solid rgba(255,255,255,0.05);background:rgba(218,180,98,0.04);">✓</div>
+
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--ink-2);">Price</div>
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--ink-3);border-left:1px solid rgba(255,255,255,0.05);">$30–$80/mo</div>
+        <div style="padding:14px 22px;font-size:0.86rem;color:var(--gold);font-weight:600;border-left:1px solid rgba(255,255,255,0.05);background:rgba(218,180,98,0.04);">$27/mo</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:18px;font-size:0.8rem;color:var(--ink-4);font-style:italic;font-family:'Cormorant Garamond',serif;line-height:1.65;">Other journals tell you <em>what</em> you did. Niyyah is the only one that asks <em>who you were</em> when you did it.</div>
+  </div>
+
+  <!-- FAQ — addresses real Muslim-trader concerns -->
+  <div class="reveal" style="max-width:760px;margin:0 auto 80px;padding:0 40px;" id="faq-section">
+    <div style="text-align:center;margin-bottom:36px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;">HONEST ANSWERS</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:500;color:var(--ink);letter-spacing:-0.035em;line-height:1.1;">Questions you're <em style="color:var(--gold);font-weight:600;">actually asking.</em></h2>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;" id="faq-list">
+      <details class="faq-item" style="background:linear-gradient(145deg,#1a1810,#0f0d09);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 22px;cursor:pointer;transition:border-color 0.2s;">
+        <summary style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;">Is what I trade halal? Does Niyyah work with futures, forex, options?<span class="faq-plus" style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.3rem;">+</span></summary>
+        <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.75;font-weight:300;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);">Niyyah is a journal — it doesn't trade for you and doesn't take a position on the halal/haram debate around specific instruments. That is between you and your scholar. What Niyyah <em>does</em> do is hold you to whatever standards you've set: no maysir (gambling without a defined stop), no abandoning prayers for a chart, no recklessness with what Allah entrusted to you. Works with anything you log — futures, forex, equities, options.</div>
+      </details>
+      <details class="faq-item" style="background:linear-gradient(145deg,#1a1810,#0f0d09);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 22px;cursor:pointer;transition:border-color 0.2s;">
+        <summary style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;">Will it judge me if I miss prayers or break rules?<span class="faq-plus" style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.3rem;">+</span></summary>
+        <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.75;font-weight:300;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);">No. Niyyah reflects, it doesn't shame. The muhasabah panel uses your own words, your own data. If you missed a salah, you'll see what your win rate was on that day vs full-prayer days — that is the mirror. The accountability is between you and Allah; the app is just a tool that won't let you lie to yourself about what happened.</div>
+      </details>
+      <details class="faq-item" style="background:linear-gradient(145deg,#1a1810,#0f0d09);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 22px;cursor:pointer;transition:border-color 0.2s;">
+        <summary style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;">Is my data private? Can anyone else see my trades or prayers?<span class="faq-plus" style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.3rem;">+</span></summary>
+        <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.75;font-weight:300;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);">Only you. Your trades, prayers, journal entries and nafs ratings are stored in Firebase (Google) under server-side rules that lock every record to your account. We never sell data, never share it, and there is no team dashboard, no employer view, no public profile. You can export everything from Settings and delete your account permanently at any time.</div>
+      </details>
+      <details class="faq-item" style="background:linear-gradient(145deg,#1a1810,#0f0d09);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 22px;cursor:pointer;transition:border-color 0.2s;">
+        <summary style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;">I'm down on the year — is $27/mo really worth it right now?<span class="faq-plus" style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.3rem;">+</span></summary>
+        <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.75;font-weight:300;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);">If Niyyah saves you from one revenge trade that would have been one futures contract — it has already paid for the year. The honest answer is: if you've been unprofitable for more than 3 months, the leak is not your strategy, it's behavioral. And no journal you've tried so far has fixed that. Try it for seven days. If it does not surface a leak you didn't know about, email <strong style="color:var(--ink);">support@niyyahtrader.app</strong> and we refund every penny.</div>
+      </details>
+      <details class="faq-item" style="background:linear-gradient(145deg,#1a1810,#0f0d09);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 22px;cursor:pointer;transition:border-color 0.2s;">
+        <summary style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;">How long until I see results?<span class="faq-plus" style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.3rem;">+</span></summary>
+        <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.75;font-weight:300;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);">Pattern detection unlocks after 5 closed trades. The prayer radar needs about 10 trades across mixed prayer days. Most users find their first real behavioral leak in week one and see P&amp;L impact in week two — not because the app is magic, but because you finally see in your own data what you've been ignoring.</div>
+      </details>
+      <details class="faq-item" style="background:linear-gradient(145deg,#1a1810,#0f0d09);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 22px;cursor:pointer;transition:border-color 0.2s;">
+        <summary style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;">Do I keep my data if I cancel?<span class="faq-plus" style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.3rem;">+</span></summary>
+        <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.75;font-weight:300;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);">Yes. Export your full journal to JSON anytime from Settings. If you cancel, your data is preserved on the account; resubscribe at any time and pick up where you left off.</div>
+      </details>
+    </div>
+  </div>
+
   <!-- PRICING -->
   <div class="lprice-section reveal">
     <div class="lprice-card">
       <div class="lprice-glow"></div>
       <div class="lprice-tag">ONE PLAN · EVERYTHING INCLUDED</div>
       <div class="lprice-num">$27<span>/mo</span></div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);margin-top:4px;margin-bottom:6px;">Less than a single NQ point</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);margin-top:4px;margin-bottom:6px;">One revenge trade saved &gt; one year of niyyah</div>
       <ul class="lprice-list">
         <li>Full trade journal — entry, close, lesson</li>
         <li>Prayer ↔ performance analytics</li>
@@ -1013,7 +1160,7 @@ body{font-size:15px;}
         <li>Synced across all your devices</li>
         <li>Quality Score for every trade</li>
       </ul>
-      <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="width:100%;justify-content:center;font-size:0.95rem;">Begin with Niyyah — $27/mo</button>
+      <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="width:100%;justify-content:center;font-size:0.95rem;">Begin — Bismillah →</button>
       <div class="lprice-fine">Secure checkout via Stripe · Cancel anytime</div>
       <div style="margin-top:12px;padding:12px 14px;background:rgba(218,180,98,0.05);border:1px solid rgba(218,180,98,0.12);border-radius:10px;font-size:0.78rem;color:var(--ink-3);text-align:left;line-height:1.7;">
         <div style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;">REFUND POLICY</div>
@@ -1033,6 +1180,12 @@ body{font-size:15px;}
       <a onclick="showLegalPage('terms')" style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-4);cursor:pointer;text-decoration:none;">Terms of Service</a>
       <div class="lfooter-note">Disciplined trading aligned with values.</div>
     </div>
+  </div>
+
+  <!-- STICKY MOBILE CTA — always-visible conversion path on small screens -->
+  <div class="sticky-mobile-cta">
+    <button class="btn btn-gold" onclick="showAuth('signup')">Begin — Bismillah →</button>
+    <div class="sticky-mobile-cta-meta">$27/mo · 7-DAY FULL REFUND · CANCEL ANYTIME</div>
   </div>
 </div>
 
@@ -1081,6 +1234,9 @@ body{font-size:15px;}
     <div style="margin:14px 0;padding:12px 14px;background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.15);border-radius:10px;font-size:0.8rem;color:var(--ink-3);line-height:1.7;text-align:left;">
       <strong style="color:var(--ink);">Try it for 7 days.</strong> If Niyyah does not surface a behavioral pattern you did not know about yourself, email us and we will refund every penny. No forms, no friction.
     </div>
+    <div style="margin:10px 0 14px;padding:11px 14px;background:rgba(108,176,142,0.05);border:1px solid rgba(108,176,142,0.15);border-radius:10px;font-size:0.78rem;color:var(--ink-3);line-height:1.65;text-align:left;">
+      <strong style="color:var(--green);">Your data stays yours.</strong> Export to JSON anytime. Cancel anytime and your journal is preserved on your account — resume whenever.
+    </div>
     <div class="sub-status-bar" id="sub-status-bar"></div>
     <ul class="paywall-features">
       <li>Full trade journal with Islamic pre-trade gate</li>
@@ -1093,14 +1249,14 @@ body{font-size:15px;}
       <li>Synced across all your devices</li>
       <li>Prayer ↔ P&L correlation — exists nowhere else</li>
     </ul>
-    <button class="btn btn-gold btn-lg" id="subscribe-btn" onclick="subscribe()" style="width:100%;justify-content:center;font-size:0.95rem;">Subscribe &#8212; $27 / month</button>
+    <button class="btn btn-gold btn-lg" id="subscribe-btn" onclick="subscribe()" style="width:100%;justify-content:center;font-size:0.95rem;">Begin — Bismillah · $27/mo</button>
     <div class="paywall-secure">&#128274; Secure payment via Stripe &nbsp;&middot;&nbsp; Cancel anytime</div>
     <div class="paywall-manage"><a onclick="manageSubscription()">Already subscribed? Manage your plan &#8594;</a></div>
     <div style="text-align:center;margin-top:10px;"><button class="btn btn-ghost btn-sm" onclick="doSignOut()" style="font-size:0.72rem;color:var(--ink-4);">Sign out</button></div>
   </div>
 </div>
 
-<div class="onboard" id="onboard"><div class="ob-card"><div class="ob-icon">☽</div><div class="ob-eye" id="ob-eye">WELCOME</div><div class="ob-title" id="ob-title">As-salamu <em>alaykum</em></div><div class="ob-text" id="ob-text"></div><div style="display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;"><button class="btn btn-gold btn-lg" id="ob-btn" onclick="obNext()">Continue →</button><button class="btn btn-ghost btn-sm" id="ob-skip" onclick="obSkip()" style="font-size:0.74rem;">Skip</button></div><div class="ob-dots"><div class="ob-dot on" id="od1"></div><div class="ob-dot" id="od2"></div><div class="ob-dot" id="od3"></div></div></div></div>
+<div class="onboard" id="onboard"><div class="ob-card"><div class="ob-icon">☽</div><div class="ob-eye" id="ob-eye">WELCOME</div><div class="ob-title" id="ob-title">As-salamu <em>alaykum</em></div><div class="ob-text" id="ob-text"></div><div style="display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;"><button class="btn btn-gold btn-lg" id="ob-btn" onclick="obNext()">Continue →</button><button class="btn btn-ghost btn-sm" id="ob-skip" onclick="obSkip()" style="font-size:0.74rem;">Skip</button></div><div class="ob-dots"><div class="ob-dot on" id="od1"></div><div class="ob-dot" id="od2"></div><div class="ob-dot" id="od3"></div><div class="ob-dot" id="od4"></div></div></div></div>
 <div class="sb-overlay" id="sb-overlay" onclick="toggleSB()"></div>
 <aside class="sidebar" id="sidebar">
   <div class="brand"><div class="brand-mark">☽</div><div><div class="brand-name">Niyyah</div><div class="brand-sub">Trade with intention</div></div></div>
@@ -1884,16 +2040,16 @@ function calcDisciplineStreak(){
 function renderStreak(){
   var s=calcStreak();var e=document.getElementById('streak-wrap');if(!e)return;
   var dStreak=calcDisciplineStreak();
-  if(s<2&&dStreak<2){e.innerHTML='';return;}
+  if(s<1&&dStreak<1){e.innerHTML='';return;}
 
   var html='';
 
-  if(s>=2){
-    var msg=s>=30?'Mashallah. A full month of discipline.':s>=14?'Two weeks of consistency. Sabr is real.':s>=7?'One week straight. The nafs is being tamed.':'Keep going. Build the habit.';
+  if(s>=1){
+    var msg=s>=30?'Mashallah. A full month of discipline.':s>=14?'Two weeks of consistency. Sabr is real.':s>=7?'One week straight. The nafs is being tamed.':s>=2?'Keep going. Build the habit.':'Day one of your streak. Return tomorrow to make it two.';
     html+='<div class="streak-banner"><div class="streak-num">'+s+'</div><div class="streak-info"><div class="streak-label">Trading Streak</div><div class="streak-sub">'+msg+'</div></div></div>';
   }
 
-  if(dStreak>=3&&dStreak!==s){
+  if(dStreak>=2&&dStreak!==s){
     var dmsg=dStreak>=14?'Two weeks of quality execution.':dStreak>=7?'A full week trading with discipline.':'Quality trades on '+dStreak+' consecutive days.';
     html+='<div class="streak-banner" style="border-color:rgba(112,184,142,0.25);background:linear-gradient(135deg,rgba(112,184,142,0.08),rgba(112,184,142,0.02));margin-top:8px;"><div class="streak-num" style="color:var(--green);">'+dStreak+'</div><div class="streak-info"><div class="streak-label" style="color:var(--green);">Discipline Streak</div><div class="streak-sub">'+dmsg+'</div></div></div>';
   }
@@ -2158,6 +2314,34 @@ function fmtDate(s){if(!s)return'\u2014';var p=s.split('-');return new Date(+p[0
 function fmt(v,sign){var a=Math.abs(v),f=a>=10000?'$'+(a/1000).toFixed(1)+'K':'$'+a.toLocaleString('en-US',{maximumFractionDigits:0});return sign?(v>=0?'+':'-')+f:f;}
 function toast(m,t){var e=el('toast');if(!e)return;e.textContent=m;e.className='toast show '+(t||'s');setTimeout(function(){e.classList.remove('show');},2700);}
 
+// ── MILESTONE CELEBRATIONS — for first close, 5/20/50/100 trades ────────
+// These exist because the first close is the single biggest psychological
+// moment for a new user. Default success toast disappears; the milestone
+// stays until acknowledged, giving the activation actual weight.
+var MILESTONES={
+  1:{eye:'MASHALLAH · FIRST CLOSE',title:'Your first <em>close</em>.',text:function(t){return'Quality <strong>'+(t.quality||0)+'/100</strong>. The mirror is starting to form. Log <strong>4 more closes</strong> and your behavioral patterns unlock — revenge sequences, prayer correlation, calm-vs-emotional gap.';},stat:function(t){return'1 OF 5 TRADES TO PATTERN UNLOCK';}},
+  5:{eye:'PATTERNS UNLOCKED',title:'Your <em>mirror</em> is live.',text:function(t){return'5 closed trades. The insights panel, the prayer radar, and the muhasabah engine now have enough data to reflect <strong>your</strong> patterns — not generic ones. Open the dashboard. See what your nafs has been doing.';},stat:function(t){return'PATTERN ENGINE · ACTIVE';}},
+  20:{eye:'TWENTY TRADES',title:'You\'ve been <em>honest</em>.',text:function(t){return'20 closed trades logged. Most traders cherry-pick their journal by trade 10. You did not. That honesty is the work — it\'s why the analytics page now tells you the truth.';},stat:function(t){return'DEEP ANALYTICS · UNLOCKED';}},
+  50:{eye:'FIFTY TRADES · ALHAMDULILLAH',title:'Your edge is <em>measurable</em> now.',text:function(t){return'50 closes. Statistical significance. Every metric — profit factor, expectancy, prayer-day delta — is now real signal, not noise. Read your analytics with confidence.';},stat:function(t){return'STATISTICAL SIGNIFICANCE';}},
+  100:{eye:'ONE HUNDRED TRADES',title:'A real <em>track record</em>.',text:function(t){return'100 closed trades, journaled with discipline. This is a body of evidence about who you are as a trader. Few make it here. Mashallah.';},stat:function(t){return'CENTURY · COMPLETE';}}
+};
+
+function showMilestone(n,trade){
+  var m=MILESTONES[n];if(!m)return;
+  var modal=el('milestone-modal');if(!modal)return;
+  var eye=el('milestone-eye'),title=el('milestone-title'),text=el('milestone-text'),stat=el('milestone-stat');
+  if(eye)eye.textContent=m.eye;
+  if(title)title.innerHTML=m.title;
+  if(text)text.innerHTML=m.text(trade||{});
+  if(stat){var s=m.stat?m.stat(trade||{}):'';if(s){stat.textContent=s;stat.style.display='';}else{stat.style.display='none';}}
+  modal.classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeMilestone(){
+  var m=el('milestone-modal');if(m)m.classList.remove('show');
+  document.body.style.overflow='';
+}
+
 // Promise-based custom confirm — replaces native browser confirm()
 // Usage: confirmModal({title:'...', text:'...', okText:'Delete', danger:true, icon:'⚠'}).then(function(ok){ if(ok) ... });
 function confirmModal(opts){
@@ -2231,11 +2415,29 @@ var OB=[
     text:'<div style="text-align:left;display:flex;flex-direction:column;gap:10px;"><div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(218,180,98,0.15);border:1px solid rgba(218,180,98,0.3);display:flex;align-items:center;justify-content:center;font-family:\'JetBrains Mono\',monospace;font-size:0.6rem;color:var(--gold);flex-shrink:0;">1</div><div style="font-size:0.86rem;color:var(--ink-2);line-height:1.55;"><strong style="color:var(--ink);">Morning</strong> — set your niyyah. Tap prayers as you pray them.</div></div><div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(218,180,98,0.15);border:1px solid rgba(218,180,98,0.3);display:flex;align-items:center;justify-content:center;font-family:\'JetBrains Mono\',monospace;font-size:0.6rem;color:var(--gold);flex-shrink:0;">2</div><div style="font-size:0.86rem;color:var(--ink-2);line-height:1.55;"><strong style="color:var(--ink);">Before a trade</strong> — three honest questions. Your own history holds you accountable.</div></div><div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(218,180,98,0.15);border:1px solid rgba(218,180,98,0.3);display:flex;align-items:center;justify-content:center;font-family:\'JetBrains Mono\',monospace;font-size:0.6rem;color:var(--gold);flex-shrink:0;">3</div><div style="font-size:0.86rem;color:var(--ink-2);line-height:1.55;"><strong style="color:var(--ink);">In trade</strong> — dhikr counter keeps you off the P&amp;L tick by tick.</div></div><div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(218,180,98,0.15);border:1px solid rgba(218,180,98,0.3);display:flex;align-items:center;justify-content:center;font-family:\'JetBrains Mono\',monospace;font-size:0.6rem;color:var(--gold);flex-shrink:0;">4</div><div style="font-size:0.86rem;color:var(--ink-2);line-height:1.55;"><strong style="color:var(--ink);">Evening</strong> — muhasabah. The app reflects what your nafs actually did.</div></div></div>'
   },
   {
+    eye:'PERSONAL · BE HONEST',
+    title:'What\'s your <em>biggest leak</em>?',
+    text:'<div style="font-size:0.84rem;color:var(--ink-3);margin-bottom:14px;line-height:1.6;">Pick the one that costs you the most. Niyyah will calibrate your dashboard to it.</div><div id="ob-leak-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:left;"><button class="ob-leak-btn" data-leak="revenge" onclick="obPickLeak(this)" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">Revenge trading</div><div style="font-size:0.72rem;color:var(--ink-4);">Adding after a loss</div></button><button class="ob-leak-btn" data-leak="fomo" onclick="obPickLeak(this)" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">FOMO entries</div><div style="font-size:0.72rem;color:var(--ink-4);">Chasing the move</div></button><button class="ob-leak-btn" data-leak="rules" onclick="obPickLeak(this)" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">Breaking my rules</div><div style="font-size:0.72rem;color:var(--ink-4);">Moving stops, oversizing</div></button><button class="ob-leak-btn" data-leak="overconf" onclick="obPickLeak(this)" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">Kibr after wins</div><div style="font-size:0.72rem;color:var(--ink-4);">Sizing up, getting cocky</div></button><button class="ob-leak-btn" data-leak="missing" onclick="obPickLeak(this)" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">Missing salah</div><div style="font-size:0.72rem;color:var(--ink-4);">For a chart, regularly</div></button><button class="ob-leak-btn" data-leak="boredom" onclick="obPickLeak(this)" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">Boredom trades</div><div style="font-size:0.72rem;color:var(--ink-4);">Forcing setups</div></button></div>'
+  },
+  {
     eye:'YOUR FIRST 60 SECONDS',
     title:'Three taps to <em>begin</em>.',
     text:'<div style="text-align:left;font-size:0.88rem;color:var(--ink-2);line-height:1.85;">→ Tap the <strong style="color:var(--gold);">+</strong> button to log a trade — entry now, close when done.<br>→ Tap a prayer pill on the dashboard when you pray it.<br>→ That is it. Patterns appear after 5 trades.</div><div style="margin-top:14px;font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.16em;color:var(--ink-4);">YOU CAN OPEN THE GUIDE ANYTIME FROM THE SIDEBAR.</div>'
   }
 ];
+
+// User picks their biggest leak during onboarding. Persisted to settings so
+// the dashboard insight panel can speak to it specifically until enough
+// trade data exists to find leaks empirically.
+function obPickLeak(btn){
+  var leak=btn.getAttribute('data-leak');
+  document.querySelectorAll('.ob-leak-btn').forEach(function(b){b.style.borderColor='rgba(255,255,255,0.08)';b.style.background='linear-gradient(145deg,#1a1810,#0f0d09)';});
+  btn.style.borderColor='var(--gold)';btn.style.background='linear-gradient(135deg,rgba(218,180,98,0.14),rgba(218,180,98,0.04))';
+  if(!S.settings)S.settings={};
+  S.settings.leak=leak;sv('settings',S.settings);
+  // Auto-advance after a short beat so the selection feels satisfying
+  setTimeout(function(){obNext();},420);
+}
 function showOB(){S.obStep=0;renderOB();}
 function renderOB(){
   var s=OB[S.obStep];if(!s)return;
@@ -2244,12 +2446,27 @@ function renderOB(){
   if(title)title.innerHTML=s.title;
   if(text)text.innerHTML=s.text;
   var isLast=S.obStep>=OB.length-1;
-  if(btn)btn.textContent=isLast?'Bismillah — begin':'Continue →';
+  // The leak-selection step (eye starts with PERSONAL) has its own buttons
+  // that auto-advance — the standard Continue would let users skip the
+  // question, which defeats the personalization.
+  var isLeakStep=(s.eye||'').indexOf('PERSONAL')===0;
+  if(btn){
+    btn.textContent=isLast?'Bismillah — begin':'Continue →';
+    btn.style.display=isLeakStep?'none':'';
+  }
   if(skip)skip.style.display=isLast?'none':'';
   for(var i=0;i<OB.length;i++){var d=el('od'+(i+1));if(d)d.classList.toggle('on',i===S.obStep);}
   var ob=el('onboard');if(ob)ob.classList.add('show');
   var card=document.querySelector('.ob-card');
   if(card){card.style.animation='none';card.offsetHeight;card.style.animation='scaleIn 0.35s cubic-bezier(0.16,1,0.3,1)';}
+  // If we re-enter the leak step (e.g. via back/skip recovery), highlight
+  // the previously chosen leak so the user sees their selection persisted.
+  if(isLeakStep && S.settings && S.settings.leak){
+    setTimeout(function(){
+      var prior=document.querySelector('.ob-leak-btn[data-leak="'+S.settings.leak+'"]');
+      if(prior){prior.style.borderColor='var(--gold)';prior.style.background='linear-gradient(135deg,rgba(218,180,98,0.14),rgba(218,180,98,0.04))';}
+    },30);
+  }
 }
 function obNext(){
   S.obStep++;
@@ -2550,7 +2767,13 @@ function saveExit(){
     .then(function(){
       closeExit();
       ['x-exit','x-pnl','x-lesson'].forEach(function(id){var e=el(id);if(e)e.value='';});
-      updateNav();toast('\u2713 Trade closed \u00b7 Quality '+t.quality+'/100','s');
+      updateNav();
+      // Quality toast for every close; milestone celebrations layered on top.
+      toast('\u2713 Trade closed \u00b7 Quality '+t.quality+'/100','s');
+      var closedCount=S.trades.filter(function(x){return x.status==='closed';}).length;
+      if(closedCount===1||closedCount===5||closedCount===20||closedCount===50||closedCount===100){
+        setTimeout(function(){showMilestone(closedCount,t);},400);
+      }
       if(el('page-dashboard').classList.contains('active'))renderDash();
       if(el('page-trades').classList.contains('active'))renderTrades();
       if(el('page-intrade').classList.contains('active'))renderInTrade();
@@ -2636,10 +2859,8 @@ function renderDailyReflection(){
   var e=el('daily-reflection-wrap');
   if(!e)return;
 
-  // Day 1 (no trades yet): suppress so it does not compete with the activation CTA.
-  if(!S.trades.length){e.innerHTML='';return;}
-
-  // Only show in the morning and afternoon (before 20:00)
+  // Only suppress late at night (after 20:00) — show on day 1 too so the
+  // user has a reason to open the app even before their first trade.
   var h=new Date().getHours();
   if(h>=20){e.innerHTML='';return;}
 
@@ -2855,7 +3076,31 @@ function saveTodayIntention(){
 function renderTodayInsight(){
   var e=el('today-insight-wrap');if(!e)return;
   var closed=S.trades.filter(function(t){return t.status==='closed';});
-  if(closed.length<3){e.innerHTML='';return;}
+  // Anticipation: show how many trades remain before patterns unlock.
+  // Day-0 user gets a calm welcome; 1–4 closed trades see a progress meter
+  // so they know what they are working toward.
+  if(closed.length<3){
+    if(closed.length===0){
+      // Personalized welcome — if the user told us their biggest leak during
+      // onboarding, speak to it directly. Otherwise fall back to the generic.
+      var leak=S.settings&&S.settings.leak;
+      var leakCopy={
+        revenge:{label:'YOUR LEAK · REVENGE',text:'You named <strong>revenge trading</strong> as your biggest leak. The pre-trade gate will surface your last 5 revenge trades the moment you answer "No" to the calm question — your own history, before you take the next one.'},
+        fomo:{label:'YOUR LEAK · FOMO',text:'You named <strong>FOMO</strong> as your biggest leak. Once you have 5 trades logged, Niyyah will show you the win rate of trades you took urgently vs trades you waited for. The pattern is usually brutal.'},
+        rules:{label:'YOUR LEAK · BROKEN RULES',text:'You named <strong>breaking your rules</strong>. Every trade gets a quality score; rule-breaks compress it. After your first 5 closes you\'ll see exactly what each rule-break has cost you in dollars.'},
+        overconf:{label:'YOUR LEAK · KIBR',text:'You named <strong>kibr after wins</strong>. Niyyah will warn you in the pre-trade gate when you are on a win streak — same rules, always. The data will show you what happens when you don\'t listen.'},
+        missing:{label:'YOUR LEAK · MISSED SALAH',text:'You named <strong>missing salah for charts</strong>. The prayer radar will show you, in your own data, what win rate looks like on full-prayer days vs missed-prayer days. Most users find a 15–30% gap.'},
+        boredom:{label:'YOUR LEAK · BOREDOM TRADES',text:'You named <strong>boredom trades</strong>. Zero trades on a day with no setup will be celebrated as a winning session. The pre-trade gate will ask if you actually waited — every time.'}
+      };
+      var lc=(leak&&leakCopy[leak])||{label:'YOUR JOURNEY · BEGINS',text:'Your behavioral patterns unlock at <strong>5 closed trades</strong>. Until then, every trade you log is building the mirror. The first reflection is the hardest — and the most honest.'};
+      e.innerHTML='<div class="today-insight" style="cursor:default;border-left-color:var(--gold);"><div class="today-insight-label">'+lc.label+'</div><div class="today-insight-text">'+lc.text+'</div></div>';
+    } else {
+      var remaining=5-closed.length;
+      var pct=Math.round((closed.length/5)*100);
+      e.innerHTML='<div class="today-insight" style="cursor:default;"><div class="today-insight-label">PATTERN DETECTION · '+closed.length+' OF 5</div><div class="today-insight-text"><strong>'+remaining+' more closed trade'+(remaining===1?'':'s')+'</strong> and your nafs patterns unlock — revenge sequences, prayer correlation, the calm-vs-emotional gap. The mirror needs data to reflect.</div><div style="margin-top:10px;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#9a7820,#dab462,#ecc878);border-radius:3px;transition:width 0.8s cubic-bezier(0.16,1,0.3,1);"></div></div></div>';
+    }
+    return;
+  }
   var insight=null,type='neutral';
   var last5=closed.slice(0,5);
   var revRecent=last5.filter(function(t){return t.emotion==='revenge';});
@@ -3270,7 +3515,25 @@ function runFridayMuhasabah(){
   var isFridayEvening=(day===5&&hour>=14);
   var isSaturdayMorning=(day===6&&hour<12);
   if(!isFridayEvening&&!isSaturdayMorning){
-    var fw=el('friday-wrap');if(fw)fw.innerHTML='';
+    var fw=el('friday-wrap');if(fw){
+      // Render a quiet teaser so the user anticipates Friday muhasabah.
+      // Only shown to users with at least one trade so it doesn't crowd day 1.
+      var closedTeaser=S.trades.filter(function(t){return t.status==='closed';}).length;
+      if(closedTeaser>=1){
+        // Days until next Friday at 14:00. day 5 before 14:00 → today.
+        var daysToFri = (5-day+7)%7;
+        if(day===5&&hour<14) daysToFri=0;
+        var nextLabel = daysToFri===0 ? 'Today' : daysToFri===1 ? 'Tomorrow' : 'In '+daysToFri+' days';
+        // Count this-week trades for the teaser
+        var now=new Date();
+        var monday=new Date(now);monday.setDate(now.getDate()-((now.getDay()+6)%7));monday.setHours(0,0,0,0);
+        var mondayTs=monday.getTime();
+        var weekT=S.trades.filter(function(t){return t.status==='closed'&&new Date(t.date+'T12:00:00').getTime()>=mondayTs;});
+        fw.innerHTML='<div style="background:linear-gradient(160deg,#1a1810 0%,#0e0c08 100%);border:1px solid rgba(218,180,98,0.15);border-radius:var(--r-lg);padding:16px 20px;margin-bottom:12px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;"><div style="width:38px;height:38px;border-radius:9px;background:rgba(218,180,98,0.08);border:1px solid rgba(218,180,98,0.22);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1rem;flex-shrink:0;">☽</div><div style="flex:1;min-width:160px;"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;">FRIDAY MUHASABAH · '+nextLabel.toUpperCase()+'</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:0.98rem;color:var(--ink);line-height:1.4;">'+weekT.length+' trade'+(weekT.length===1?'':'s')+' logged this week. The mirror needs data to reflect.</div></div></div>';
+      } else {
+        fw.innerHTML='';
+      }
+    }
     return;
   }
 
