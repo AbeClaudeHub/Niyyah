@@ -174,9 +174,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .today-trade-active{background:linear-gradient(135deg,rgba(218,180,98,0.12),rgba(218,180,98,0.03)),linear-gradient(160deg,#1e1b12,#0f0d09);border:1.5px solid rgba(218,180,98,0.35);border-radius:var(--r-lg);padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:0 0 30px rgba(218,180,98,0.06);}
 .today-section-title{font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--ink-4);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.04);}
 .today-prayer-row{display:flex;gap:8px;flex-wrap:wrap;}
-.today-prayer-pill{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:20px;font-size:0.72rem;font-weight:500;border:1px solid rgba(255,255,255,0.07);background:rgba(15,13,10,0.6);color:var(--ink-3);cursor:pointer;transition:all 0.15s;}
-.today-prayer-pill.done{background:rgba(112,184,142,0.12);border-color:rgba(112,184,142,0.3);color:var(--green);}
+.today-prayer-pill{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 14px;min-height:38px;border-radius:20px;font-size:0.74rem;font-weight:500;border:1px solid rgba(255,255,255,0.08);background:rgba(15,13,10,0.6);color:var(--ink-3);cursor:pointer;transition:all 0.15s;flex:1 1 auto;}
+.today-prayer-pill:active{transform:scale(0.96);}
+.today-prayer-pill.done{background:rgba(112,184,142,0.12);border-color:rgba(112,184,142,0.32);color:var(--green);}
 .today-prayer-pill .pip{width:6px;height:6px;border-radius:50%;background:currentColor;}
+@media(max-width:480px){.today-prayer-pill{padding:11px 10px;min-height:44px;font-size:0.78rem;}}
 .today-intention{background:rgba(218,180,98,0.04);border:1px solid rgba(218,180,98,0.1);border-radius:var(--r-lg);padding:16px 18px;}
 .today-intention textarea{background:transparent;border:none;resize:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--ink-2);width:100%;outline:none;line-height:1.7;padding:0;}
 .today-intention textarea::placeholder{color:var(--ink-4);}
@@ -1123,7 +1125,7 @@ body{font-size:15px;}
   <div class="sidebar-foot"><div class="sf-av" id="sf-av">A</div><div style="flex:1;min-width:0;"><div class="sf-name" id="sf-name">Welcome</div><div class="sf-plan" id="sf-plan-label">Account</div></div><button aria-label="Open settings" title="Settings" style="background:transparent;border:none;color:var(--ink-3);cursor:pointer;font-size:0.95rem;padding:6px;border-radius:6px;transition:color var(--t),background var(--t);" onmouseover="this.style.color='var(--gold)';this.style.background='var(--surface-2)';" onmouseout="this.style.color='var(--ink-3)';this.style.background='transparent';" onclick="go('settings',null)">⚙</button></div>
 </aside>
 <main class="main">
-<div class="topbar"><button class="mob-toggle" onclick="toggleSB()">☰</button><div class="topbar-title" id="topbar-title">Today</div><div class="topbar-date" id="topbar-date"></div><div class="topbar-spacer"></div><button class="btn btn-outline btn-sm" onclick="exportData()">↓ Export</button></div>
+<div class="topbar"><button class="mob-toggle" onclick="toggleSB()">☰</button><div class="topbar-title" id="topbar-title">Today</div><div class="topbar-date" id="topbar-date"></div><div class="topbar-spacer"></div><button class="btn btn-outline btn-sm" id="topbar-export-btn" onclick="exportData()" style="display:none;">↓ Export</button></div>
 
 <div class="page active" id="page-dashboard">
   <div class="today-view">
@@ -1136,12 +1138,18 @@ body{font-size:15px;}
       <div class="today-actions" id="today-actions"></div>
     </div>
 
-    <!-- DAILY REFLECTION (shown every morning) -->
+    <!-- STREAK — surfaced right after state so returning users see momentum -->
+    <div id="streak-wrap"></div>
+
+    <!-- DAILY REFLECTION (shown every morning, after first trade exists) -->
     <div id="daily-reflection-wrap"></div>
 
     <!-- SALAH — compact pill row -->
     <div class="today-card" id="today-salah-card">
-      <div class="today-section-title">Today's Salah · <span id="sal-count-today">0/5</span></div>
+      <div class="today-section-title" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+        <span>Today's Salah · <span id="sal-count-today">0/5</span></span>
+        <span id="sal-hint-today" style="font-family:'Inter',sans-serif;font-size:0.68rem;letter-spacing:0;text-transform:none;color:var(--ink-4);font-weight:400;">Tap each as you pray it</span>
+      </div>
       <div class="today-prayer-row">
         <div class="today-prayer-pill" id="tp-fajr" onclick="toggleSalah('fajr')"><span class="pip"></span>Fajr</div>
         <div class="today-prayer-pill" id="tp-dhuhr" onclick="toggleSalah('dhuhr')"><span class="pip"></span>Dhuhr</div>
@@ -1161,14 +1169,11 @@ body{font-size:15px;}
     <!-- SINGLE BEHAVIORAL INSIGHT -->
     <div id="today-insight-wrap"></div>
 
-    <!-- MORNING INTENTION -->
+    <!-- MORNING INTENTION (only renders in the AM window — see renderDash) -->
     <div class="today-intention" id="today-intention-card">
       <div class="today-section-title">Morning Intention</div>
       <textarea id="today-intention-input" rows="2" placeholder="Today I intend to trade with…" onblur="saveTodayIntention()"></textarea>
     </div>
-
-    <!-- STREAK -->
-    <div id="streak-wrap"></div>
 
     <!-- EXPAND BUTTON → reveals analytics -->
     <button class="today-expand-btn" onclick="toggleAdvanced()" id="today-expand-btn">
@@ -1191,14 +1196,6 @@ body{font-size:15px;}
       <div class="panel" style="margin-top:12px;"><div class="panel-head"><div class="panel-title">Recent Trades</div><button class="btn btn-ghost btn-sm" onclick="go('trades',document.querySelector('[data-page=trades]'))">View all →</button></div><div id="recent-wrap"></div></div>
     </div>
 
-  </div>
-
-  <!-- Keep legacy IDs alive for JS compatibility -->
-  <div style="display:none;">
-    <div id="sal-count"></div>
-    <div id="sal-sub"></div>
-    <div id="sp-fajr"></div><div id="sp-dhuhr"></div><div id="sp-asr"></div><div id="sp-maghrib"></div><div id="sp-isha"></div>
-    <div id="hero-eye"></div><div id="hero-title"></div><div id="hero-text"></div><div id="hero-cta"></div>
   </div>
 </div>
 
@@ -2246,14 +2243,11 @@ function toggleSalah(p){
   var prayers=['fajr','dhuhr','asr','maghrib','isha'];
   var prayedCount=prayers.filter(function(pr){return S.dailyPrayers[k][pr];}).length;
   var scToday=el('sal-count-today');if(scToday)scToday.textContent=prayedCount+'/5';
+  var sHint=el('sal-hint-today');if(sHint && prayedCount>0)sHint.style.display='none';
 }
 function renderSalah(){
-  var pr=getTodayPrayers();
-  var c=Object.values(pr).filter(Boolean).length;
-  setText('sal-count',c+'/5');
-  var msgs=['Tap each prayer when prayed','1 prayer \u2014 barakah in your day','2 prayers \u2014 keep going','3 prayers \u2014 halfway there','4 prayers \u2014 one more','All 5 prayers \u2746 Mashallah'];
-  setText('sal-sub',msgs[c]||msgs[0]);
-  ['fajr','dhuhr','asr','maghrib','isha'].forEach(function(p){var b=el('sp-'+p);if(b)b.classList.toggle('done',!!pr[p]);});
+  // The visible salah pills are updated inline by toggleSalah() / renderDash().
+  // Kept as a hook in case other callers exist; no DOM writes needed here.
 }
 
 // ── GATE ───────────────────────────────────────────────────────────────────
@@ -2542,6 +2536,8 @@ function updateNav(){
   if(oc)oc.textContent=hasOpen?'\u25cf':'';
   if(ni)ni.className='nav-item'+(hasOpen?' alert':'');
   var cb=el('close-trade-btn');if(cb)cb.style.display=hasOpen?'':'none';
+  // Export only makes sense once there's data to export.
+  var exp=el('topbar-export-btn');if(exp)exp.style.display=S.trades.length?'':'none';
 }
 
 // ── VERSES ─────────────────────────────────────────────────────────────────
@@ -2579,7 +2575,10 @@ function renderDailyReflection(){
   var e=el('daily-reflection-wrap');
   if(!e)return;
 
-  // Only show in the morning and afternoon (before 18:00)
+  // Day 1 (no trades yet): suppress so it does not compete with the activation CTA.
+  if(!S.trades.length){e.innerHTML='';return;}
+
+  // Only show in the morning and afternoon (before 20:00)
   var h=new Date().getHours();
   if(h>=20){e.innerHTML='';return;}
 
@@ -2683,7 +2682,7 @@ function renderDash(){
   } else if(!S.trades.length){
     if(eyeEl)eyeEl.textContent='BISMILLAH \u00b7 BEGIN';
     if(greetEl)greetEl.innerHTML='As-salamu alaykum, <em>'+name+'</em>.';
-    if(subEl)subEl.textContent='Three taps to start: log a trade, tap your prayers, come back tonight.';
+    if(subEl)subEl.innerHTML='Two steps to begin \u2014 <strong style="color:var(--ink-2);">log your first trade</strong> when a setup appears, and <strong style="color:var(--ink-2);">tap each prayer</strong> as you pray it. Patterns surface after 5 trades.';
     if(actEl)actEl.innerHTML='<button class="btn btn-gold" onclick="openEntryModal()">+ Log first trade</button><button class="btn btn-outline" onclick="go(\'guide\',null)">Read the Guide</button>';
   } else {
     if(eyeEl)eyeEl.textContent='TODAY \u00b7 '+new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}).toUpperCase();
@@ -2713,13 +2712,24 @@ function renderDash(){
   var prayedCount=prayers.filter(function(p){return todayP[p];}).length;
   var scToday=el('sal-count-today');if(scToday)scToday.textContent=prayedCount+'/5';
   prayers.forEach(function(p){var pill=el('tp-'+p);if(pill){if(todayP[p])pill.classList.add('done');else pill.classList.remove('done');}});
+  // Hint only appears while the user is learning the affordance; remove once they've engaged.
+  var sHint=el('sal-hint-today');
+  if(sHint){
+    var prayerDays=Object.keys(S.dailyPrayers||{}).length;
+    sHint.style.display = (prayedCount===0 && prayerDays<3) ? '' : 'none';
+  }
 
   // ── SINGLE BEHAVIORAL INSIGHT ──────────────────────────────────────────
   renderTodayInsight();
 
   // ── MORNING INTENTION ──────────────────────────────────────────────────
+  // Only meaningful in the morning, and only after the user has any trade history
+  // (zero-trade users don't need another empty input on day 1).
+  var intentCard=el('today-intention-card');
   var intentEl=el('today-intention-input');
-  if(intentEl&&!intentEl.value){
+  var showIntent = h < 12 && S.trades.length > 0;
+  if(intentCard) intentCard.style.display = showIntent ? '' : 'none';
+  if(showIntent && intentEl && !intentEl.value){
     var today=localDate();
     var savedInt=S.morning&&S.morning[today]&&S.morning[today].intention;
     if(savedInt)intentEl.value=savedInt;
@@ -2741,8 +2751,21 @@ function renderDash(){
   setText('kpi-last-q-m',lastClosed?lastClosed.instrument+' \u00b7 '+fmtDate(lastClosed.date):'Set after your first close');
 
   // ── ADVANCED SECTION ───────────────────────────────────────────────────
+  // Hide the expand entirely until the user has closed at least one trade —
+  // before that, the analytics panel is empty placeholders.
+  var expBtn=el('today-expand-btn');
+  if(expBtn) expBtn.style.display = closed.length ? '' : 'none';
   var adv=el('today-advanced');
-  if(adv&&adv.classList.contains('show'))renderAdvancedDash();
+  if(adv){
+    if(!closed.length){
+      adv.classList.remove('show');
+      var ico=el('today-expand-icon'),lbl=el('today-expand-label');
+      if(ico)ico.textContent='↓';
+      if(lbl)lbl.textContent='Show Analytics';
+    } else if(adv.classList.contains('show')){
+      renderAdvancedDash();
+    }
+  }
 }
 
 function renderAdvancedDash(){
@@ -2804,24 +2827,6 @@ function renderTodayInsight(){
   var label=type==='warn'?'Pattern Alert':type==='good'?'Your Edge':'Today\'s Insight';
   e.innerHTML='<div class="today-insight" onclick="go(\'analytics\',document.querySelector(\'[data-page=analytics]\'))" title="See full analytics"><div class="today-insight-label">'+label+'</div><div class="today-insight-text">'+insight+'</div></div>';
 }
-function renderHero(){
-  var eye=el('hero-eye'),title=el('hero-title'),text=el('hero-text'),cta=el('hero-cta');
-  if(!title)return;if(cta)cta.innerHTML='';
-  var v=chooseVerse();
-  var closed=S.trades.filter(function(t){return t.status==='closed';});
-  if(!S.trades.length){if(eye)eye.textContent='BISMILLAH · BEGIN';title.innerHTML='Your <em>journey</em> starts now.';if(text)text.innerHTML='<strong style="color:var(--ink);">Start in 3 steps:</strong><br><br>1. Open <strong style="color:var(--gold);">Playbook</strong> — add your main setup<br>2. Open <strong style="color:var(--gold);">Goals</strong> — set your target or challenge<br>3. Tap <strong style="color:var(--gold);">+</strong> when a trade sets up';if(cta)cta.innerHTML='<button class="btn btn-gold" onclick="openEntryModal()">+ Log your first trade</button><button class="btn btn-outline" onclick="go(\'guide\',null)" style="margin-left:8px;">Read the Guide</button>';return;}
-  if(!closed.length){var openT=S.openTradeId?S.trades.find(function(t){return t.id===S.openTradeId&&t.status==='open';}):null;if(openT){if(eye)eye.textContent='LIVE POSITION \u00b7 TAWAKKUL';title.innerHTML='Your <em>'+openT.instrument+'</em> trade is open.';if(text)text.innerHTML='Stop set. Target set. <strong>Your job is done.</strong> Release the outcome to Allah.';if(cta)cta.innerHTML='<button class="btn btn-gold" onclick="go(\'intrade\',document.querySelector(\'[data-page=intrade]\'))">Go to In Trade \u2192</button><button class="btn btn-outline" onclick="openExitModal()" style="margin-left:8px;">Close Trade</button>';}else{if(eye)eye.textContent='BISMILLAH \u00b7 BEGIN';title.innerHTML='Your <em>journey</em> starts now.';if(text)text.innerHTML='"'+v.en+'"<br><br>'+v.lesson;if(cta)cta.innerHTML='<button class="btn btn-gold" onclick="openEntryModal()">+ Enter your first trade</button>';}return;}
-  var last7=closed.filter(function(t){return(Date.now()-new Date(t.date+'T12:00:00').getTime())<604800000;});
-  if(!last7.length){if(eye)eye.textContent="TODAY'S REMINDER";title.innerHTML='"<em>'+v.en+'</em>"';if(text)text.innerHTML=v.lesson;return;}
-  var revenge=last7.filter(function(t){return t.emotion==='revenge';});
-  var broke=last7.filter(function(t){return t.outcome&&t.outcome.indexOf('broke')>-1;});
-  var calm=last7.filter(function(t){return['calm','patient','focused'].includes(t.emotion||'');});
-  if(revenge.length>=2){var rwr=Math.round(revenge.filter(function(t){return t.pnl>0;}).length/revenge.length*100);if(eye)eye.textContent='NAFS ALERT \u00b7 7-DAY PATTERN';title.innerHTML='The <em>nafs</em> is costing you.';if(text)text.innerHTML='<span class="num">'+revenge.length+'</span> revenge trades this week. Win rate: <span class="num">'+rwr+'%</span>. Tomorrow \u2014 pause before every entry. Make wudu.';return;}
-  if(broke.length>=3){if(eye)eye.textContent='DISCIPLINE \u00b7 THIS WEEK';title.innerHTML='Rules are not <em>suggestions</em>.';if(text)text.innerHTML='Rules broken on <span class="num">'+broke.length+'</span> of '+last7.length+' trades. <strong>Read the Blueprint before tomorrow\'s session.</strong>';if(cta)cta.innerHTML='<button class="btn btn-outline" onclick="go(\'blueprint\',document.querySelector(\'[data-page=blueprint]\'))">Open Blueprint \u2192</button>';return;}
-  if(calm.length>=4){var cwr=Math.round(calm.filter(function(t){return t.pnl>0;}).length/calm.length*100);if(cwr>=60){if(eye)eye.textContent='YOUR EDGE \u00b7 CONFIRMED';title.innerHTML='Stillness is your <em>edge</em>.';if(text)text.innerHTML='Calm/focused trades: <span class="num">'+cwr+'%</span> win rate. <strong>Sabr meeting profitability.</strong>';return;}}
-  if(eye)eye.textContent="TODAY'S REMINDER";title.innerHTML='"<em>'+v.en+'</em>"';if(text)text.innerHTML=v.lesson;
-}
-
 function renderSparklines(){
   var dayMap={};
   S.trades.filter(function(t){return t.status==='closed';}).slice().reverse().forEach(function(t){
