@@ -816,7 +816,7 @@ body{font-size:15px;}
     <div class="orb-3 landing-orb"></div>
     <div class="lhero-badge"><span class="lhero-badge-dot"></span>The Trading Journal for Muslim Traders</div>
     <h1 class="lhero-h1">Most traders fail because of<br><em>psychology</em>, not strategy.</h1>
-    <p class="lhero-sub">Niyyah is the journal that connects your <strong>salah, nafs, and P&amp;L</strong> — so the discipline that holds your prayers holds your rules.</p>
+    <p class="lhero-sub">You already know your strategy. You break your own rules anyway. <strong>Niyyah is the journal that shows you why</strong> — before the next entry.</p>
     <div class="lhero-btns">
       <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 32px;">Start with Bismillah — $27/mo</button>
       <button class="btn btn-outline btn-lg" onclick="scrollToFeatures()" style="backdrop-filter:blur(8px);">See how it works</button>
@@ -3589,6 +3589,12 @@ function initReveal(){
     entries.forEach(function(e){
       if(e.isIntersecting){
         e.target.classList.add('visible');
+        // Legacy elements rely on inline opacity (no .visible CSS rule binds to them).
+        // Clear the inline hide so the transition we set runs and they actually appear.
+        if(e.target.style.opacity==='0'){
+          e.target.style.opacity='1';
+          e.target.style.transform='translateY(0)';
+        }
         // Trigger counter animation when stat bar comes into view
         if(e.target.querySelector&&e.target.querySelector('.stat-num')){
           animateCounters();
