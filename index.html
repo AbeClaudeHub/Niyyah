@@ -1850,7 +1850,12 @@ function showAuth(mode){
 function showLegalPage(page){
   _showingLegalPage = true;
   document.body.classList.add('legal-visitor');
+  // Hide every full-screen overlay so the legal page actually shows.
+  // Without this the paywall (signed-in / no sub) or auth screen sits on top.
   var landing=el('landing');if(landing)landing.classList.add('hide');
+  var auth=el('auth-screen');if(auth)auth.classList.remove('show');
+  var pw=el('paywall-screen');if(pw)pw.classList.remove('show');
+  var ob=el('onboard');if(ob)ob.classList.remove('show');
   go(page,null);
 }
 function backToLanding(){
@@ -1858,7 +1863,14 @@ function backToLanding(){
   document.body.classList.remove('legal-visitor');
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   var dash=el('page-dashboard');if(dash)dash.classList.add('active');
-  var landing=el('landing');if(landing)landing.classList.remove('hide');
+  // Route back to wherever the user actually belongs:
+  //   - signed in (with or without sub) → re-evaluate via checkSubscription
+  //   - signed out → landing
+  if(UID){
+    if(typeof checkSubscription==='function') checkSubscription();
+  }else{
+    var landing=el('landing');if(landing)landing.classList.remove('hide');
+  }
   window.scrollTo(0,0);
 }
 
@@ -2139,6 +2151,9 @@ function checkSubscription(){
       init();
       if(!onboarded) setTimeout(showOB, 600);
     }else{
+      // Visitor explicitly opened a legal page — don't slam the paywall/onboarding
+      // on top of it. They'll route back via backToLanding().
+      if(_showingLegalPage) return;
       if(!onboarded){
         // New user — show onboarding FIRST, then paywall
         window._prePaywallMode = true;
@@ -2155,6 +2170,7 @@ function checkSubscription(){
     }
   }).catch(function(e){
     console.error('Subscription check failed:',e);
+    if(_showingLegalPage) return;
     var pw = el('paywall-screen');
     if(pw) pw.classList.add('show');
   });
