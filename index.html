@@ -1835,6 +1835,7 @@ try {
 var _showingLegalPage = false;
 function showAuth(mode){
   _showingLegalPage = false;
+  document.body.classList.remove('legal-visitor');
   var landing=el('landing');if(landing)landing.classList.add('hide');
   authMode=mode||'signin';
   var as=el('auth-screen');if(as)as.classList.add('show');
@@ -1845,6 +1846,7 @@ function showAuth(mode){
     if(sw)sw.innerHTML='Already have an account? <a onclick="authToggle()">Sign in \u2192</a>';
     if(nw)nw.style.display='';
   }
+  _push('/' + authMode);
 }
 
 function showLegalPage(page){
@@ -1872,6 +1874,7 @@ function backToLanding(){
     var landing=el('landing');if(landing)landing.classList.remove('hide');
   }
   window.scrollTo(0,0);
+  _push('/');
 }
 
 function scrollToFeatures(){
@@ -2362,6 +2365,36 @@ function loadAll(){
 
 // ── UTILS ──────────────────────────────────────────────────────────────────
 function el(id){return document.getElementById(id);}
+
+// ── HISTORY / ROUTING ──────────────────────────────────────────────────────
+// Keep the URL in sync with the current view so the browser Back/Forward
+// buttons navigate within the app instead of leaving the site.
+var _suppressHistory = false;
+function _push(path){
+  if(_suppressHistory) return;
+  if(!window.history || !window.history.pushState) return;
+  if(window.location.pathname === path) return;
+  try{ window.history.pushState({path:path}, '', path); }catch(e){}
+}
+window.addEventListener('popstate', function(){
+  _suppressHistory = true;
+  try{
+    var path = (window.location.pathname||'/').replace(/^\//,'');
+    var legal = ['privacy','terms','refund'];
+    if(legal.indexOf(path) > -1){
+      if(typeof showLegalPage === 'function') showLegalPage(path);
+    } else if(path === 'signin' || path === 'signup'){
+      if(typeof showAuth === 'function') showAuth(path);
+    } else if(path && typeof PAGE_FNS !== 'undefined' && PAGE_FNS[path] && UID){
+      if(typeof go === 'function') go(path, null);
+    } else {
+      // Root / unknown — route to wherever the user actually belongs.
+      if(typeof backToLanding === 'function') backToLanding();
+    }
+  } finally {
+    _suppressHistory = false;
+  }
+});
 function localDate(d){var n=d||new Date();return n.getFullYear()+'-'+pad(n.getMonth()+1)+'-'+pad(n.getDate());}
 function pad(n){return String(n).padStart(2,'0');}
 function fmtDate(s){if(!s)return'\u2014';var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString('en-US',{month:'short',day:'numeric'});}
@@ -2557,6 +2590,7 @@ function go(page,navEl){
   var sbo=el('sb-overlay');if(sbo)sbo.classList.remove('show');
   window.scrollTo(0,0);
   if(PAGE_FNS[page])try{PAGE_FNS[page]();}catch(err){console.error('Page error:',page,err);}
+  _push('/' + page);
 }
 function toggleSB(){
   var sb=el('sidebar');if(sb)sb.classList.toggle('open');
@@ -4019,6 +4053,17 @@ function initReveal(){
 
 document.addEventListener('DOMContentLoaded',function(){
   setTimeout(initReveal,80);
+  // Deep-link support: if URL points at a legal page, open it directly.
+  // Set _showingLegalPage before the auth observer fires so it doesn't bounce
+  // the user back to landing on its own.
+  var initialPath = (window.location.pathname||'').replace(/^\//,'');
+  if(['privacy','terms','refund'].indexOf(initialPath) > -1){
+    _showingLegalPage = true;
+    document.body.classList.add('legal-visitor');
+    var lg=el('landing'); if(lg) lg.classList.add('hide');
+    _suppressHistory = true;
+    try{ showLegalPage(initialPath); } finally { _suppressHistory = false; }
+  }
 });
 
 // ── MODAL KEYBOARD SUPPORT ────────────────────────────────────────────────
