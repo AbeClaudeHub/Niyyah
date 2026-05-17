@@ -2209,23 +2209,36 @@ var C={};
 
 // ── STORAGE (Firestore) ────────────────────────────────────────────────────
 var _saveErrorAt = 0; // debounce error toasts so we don't spam
+function _saveErrorToast(e,label){
+  console.error('Save error ['+label+']:',e);
+  var now=Date.now();
+  if(now-_saveErrorAt<=5000)return;
+  _saveErrorAt=now;
+  if(typeof toast==='function'){
+    var msg=(e&&e.code==='unavailable')
+      ? 'Offline — changes will sync when you reconnect'
+      : 'Could not sync — check your connection';
+    toast(msg,'e');
+  }
+}
 function sv(k,v){
   if(!UID||!DB)return Promise.resolve();
   var u={};
   u[k] = (v===null) ? firebase.firestore.FieldValue.delete() : v;
   return DB.collection('users').doc(UID).set(u,{merge:true}).catch(function(e){
-    console.error('Save error ['+k+']:',e);
-    var now = Date.now();
-    if(now - _saveErrorAt > 5000){
-      _saveErrorAt = now;
-      if(typeof toast === 'function'){
-        var msg = (e && e.code === 'unavailable')
-          ? 'Offline — changes will sync when you reconnect'
-          : 'Could not sync — check your connection';
-        toast(msg, 'e');
-      }
-    }
-    throw e;
+    _saveErrorToast(e,k);throw e;
+  });
+}
+// Atomic multi-field write. All fields in `obj` land in the same Firestore
+// set() call, so partial failure can't leave the doc inconsistent.
+function svMulti(obj){
+  if(!UID||!DB)return Promise.resolve();
+  var u={};
+  Object.keys(obj).forEach(function(k){
+    u[k]=(obj[k]===null)?firebase.firestore.FieldValue.delete():obj[k];
+  });
+  return DB.collection('users').doc(UID).set(u,{merge:true}).catch(function(e){
+    _saveErrorToast(e,Object.keys(obj).join('+'));throw e;
   });
 }
 
@@ -2586,12 +2599,15 @@ function selEm(btn){document.querySelectorAll('#entry-modal .emotion-btn').forEa
 function selExEm(btn){document.querySelectorAll('#exit-modal .emotion-btn').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');S.selExEmotion=btn.dataset.e;}
 
 // ── QUALITY SCORE ──────────────────────────────────────────────────────────
+// Out of 11 points. Returns 0–100.
 function calcQ(t){
   var s=0,m=0;
 
-  // Gate discipline (3pts)
+  // Gate discipline (3pts) — answering the gate AND all "yes" counts; bypass earns 0.
   m+=3;
-  var gOK=!t.gateAnswers||Object.values(t.gateAnswers).every(function(v){return v==='yes';});
+  var ga=t.gateAnswers||{};
+  var gaKeys=Object.keys(ga);
+  var gOK=gaKeys.length>0 && gaKeys.every(function(k){return ga[k]==='yes';});
   if(gOK)s+=2;
   if(t.setup)s+=1;
 
@@ -2599,33 +2615,35 @@ function calcQ(t){
   m+=2;
   var entryEm=t.emotion||'';
   var exitEm=t.exitEmotion||'';
-  if(['calm','patient','focused'].includes(entryEm))s+=2;
+  if(['calm','patient','focused'].indexOf(entryEm)>-1)s+=2;
   else if(entryEm==='anxious')s+=1;
 
-  // Contradiction detection: calm entry + revenge/frustrated exit = penalty
-  var contradiction=(['calm','patient','focused'].includes(entryEm)&&['revenge','frustrated','regret'].includes(exitEm));
-  if(contradiction)s=Math.max(0,s-1);
-
-  // Outcome integrity (2pts)
-  m+=2;
-  if(t.outcome&&t.outcome.indexOf('broke')===-1)s+=2;
-
-  // Rule break + emotional exit = double penalty
-  if(t.outcome&&t.outcome.indexOf('broke')>-1&&['revenge','frustrated','overconf'].includes(exitEm)){
+  // Contradiction: calm entry → revenge/frustrated/regret exit = penalty
+  if(['calm','patient','focused'].indexOf(entryEm)>-1 && ['revenge','frustrated','regret'].indexOf(exitEm)>-1){
     s=Math.max(0,s-1);
   }
 
-  // Islamic criteria (3pts)
-  m+=3;
+  // Outcome integrity (2pts)
+  m+=2;
+  if(t.outcome && t.outcome.indexOf('broke')===-1) s+=2;
+
+  // Rule break + emotional exit = additional penalty
+  if(t.outcome && t.outcome.indexOf('broke')>-1 && ['revenge','frustrated','overconf'].indexOf(exitEm)>-1){
+    s=Math.max(0,s-1);
+  }
+
+  // Islamic practice (4pts) — one point per toggle: bismillah, prayer, setup, stop.
+  m+=4;
   var ic=t.islamicCheck||{};
-  if(ic.bismillah)s+=1;
-  if(ic.prayer||ic.risk)s+=1;
-  if(ic.stop)s+=1;
+  if(ic.bismillah) s+=1;
+  if(ic.prayer)    s+=1;
+  if(ic.setup)     s+=1;
+  if(ic.stop)      s+=1;
 
   // Kibr flag: win + overconfident exit = arrogance penalty
-  if(t.pnl>0&&exitEm==='overconf')s=Math.max(0,s-1);
+  if(t.pnl>0 && exitEm==='overconf') s=Math.max(0,s-1);
 
-  return Math.round(Math.min(s,m)/m*100);
+  return Math.round(Math.max(0,Math.min(s,m))/m*100);
 }
 
 // ── ENTRY MODAL ────────────────────────────────────────────────────────────
@@ -2635,7 +2653,7 @@ function openEntryModal(){
   var ed=el('e-date');if(ed)ed.value=localDate();
   var et=el('e-time');if(et)et.value=new Date().toTimeString().slice(0,5);
   document.body.style.overflow='hidden';
-  S.gateAns={};S.selEmotion=null;S.icChecked={bismillah:false,risk:false,setup:false,stop:false};
+  S.gateAns={};S.selEmotion=null;S.icChecked={bismillah:false,prayer:false,setup:false,stop:false};
   document.querySelectorAll('.gqb').forEach(function(b){b.classList.remove('on');});
   var gw=el('gate-warn');if(gw)gw.classList.remove('show');
   document.querySelectorAll('#entry-modal .emotion-btn').forEach(function(b){b.classList.remove('on');});
@@ -2675,17 +2693,20 @@ function saveEntry(){
     prayers:Object.assign({},getTodayPrayers()),
     pnl:0,createdAt:new Date().toISOString()};
   t.quality=calcQ(t);
-  S.trades.unshift(t);S.openTradeId=t.id;
-  Promise.all([sv('trades',S.trades),sv('openTradeId',S.openTradeId)])
+  // Snapshot prior state so we can revert if the write fails.
+  var priorTrades=S.trades.slice(), priorOpenId=S.openTradeId;
+  S.trades.unshift(t); S.openTradeId=t.id;
+  // Single atomic write: both fields land together or neither does.
+  svMulti({trades:S.trades, openTradeId:S.openTradeId})
     .then(function(){
       closeEntry();
       ['e-inst','e-setup','e-entry','e-stop','e-target'].forEach(function(id){var e=el(id);if(e)e.value='';});
-      updateNav();toast('\u2713 Trade entered \u2014 come back to log the close','s');
+      updateNav(); toast('\u2713 Trade entered \u2014 come back to log the close','s');
       if(el('page-dashboard').classList.contains('active'))renderDash();
     })
     .catch(function(){
-      // sv() already showed a toast; roll back the optimistic update
-      S.trades.shift();S.openTradeId=null;
+      // sv() already showed a toast; restore the exact prior state.
+      S.trades=priorTrades; S.openTradeId=priorOpenId;
     })
     .then(function(){
       if(btn){btn.disabled=false;btn.classList.remove('is-loading');btn.innerHTML=orig;}
@@ -2720,7 +2741,8 @@ function saveExit(){
   t.closedAt=new Date().toISOString();
   t.quality=calcQ(t);
   S.openTradeId=null;
-  Promise.all([sv('trades',S.trades),sv('openTradeId',null)])
+  // Single atomic write so the trade-close and openTradeId-clear can't desync.
+  svMulti({trades:S.trades, openTradeId:null})
     .then(function(){
       closeExit();
       ['x-exit','x-pnl','x-lesson'].forEach(function(id){var e=el(id);if(e)e.value='';});
@@ -2736,8 +2758,8 @@ function saveExit(){
       if(el('page-intrade').classList.contains('active'))renderInTrade();
     })
     .catch(function(){
-      // Roll back so user can retry
-      t.status=priorStatus;t.pnl=priorPnl;S.openTradeId=priorOpenId;
+      // Restore so user can retry; in-memory trade object and openTradeId both reverted.
+      t.status=priorStatus; t.pnl=priorPnl; S.openTradeId=priorOpenId;
     })
     .then(function(){
       if(btn){btn.disabled=false;btn.classList.remove('is-loading');btn.innerHTML=orig;}
