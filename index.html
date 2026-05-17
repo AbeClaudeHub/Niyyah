@@ -525,7 +525,7 @@ body{font-size:15px;}
 .sub-status-bar.show{display:block;}
 
 /* ── LANDING PAGE ── */
-.landing{position:fixed;inset:0;z-index:700;background:#0a0906;overflow-y:auto;display:flex;flex-direction:column;}
+.landing{position:fixed;inset:0;z-index:700;background:#0a0906;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;-webkit-overflow-scrolling:touch;overscroll-behavior:none;}
 .landing.hide{display:none;}
 .lnav{padding:16px 44px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(218,180,98,0.07);position:sticky;top:0;background:rgba(9,8,6,0.97);backdrop-filter:blur(32px);z-index:10;box-shadow:0 1px 0 rgba(218,180,98,0.05);}
 .lnav-brand{display:flex;align-items:center;gap:12px;}
@@ -715,6 +715,57 @@ body{font-size:15px;}
 @keyframes ctaPulse{0%,100%{box-shadow:0 4px 20px rgba(218,180,98,0.35),0 1px 0 rgba(255,255,255,0.15) inset;}50%{box-shadow:0 8px 40px rgba(218,180,98,0.55),0 0 0 4px rgba(218,180,98,0.08),0 1px 0 rgba(255,255,255,0.15) inset;}}
 .btn-cta-pulse{animation:ctaPulse 2.5s ease-in-out infinite;}
 .btn-cta-pulse:hover{animation:none;}
+
+/* ── LOADING SPINNER + DISABLED BUTTON ─────────────────────────────────── */
+.spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(218,180,98,0.25);border-top-color:var(--gold);border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:-2px;margin-right:7px;flex-shrink:0;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.btn:disabled,.btn.is-loading{opacity:0.65;cursor:not-allowed;pointer-events:none;}
+.btn.is-loading{position:relative;}
+
+/* ── REDUCED MOTION (accessibility + low-end phones) ───────────────────── */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;}
+  #star-canvas{display:none;}
+  .landing-orb{animation:none!important;}
+}
+
+/* ── MOBILE LANDING — fix iPhone horizontal scroll / cramped paddings ──── */
+@media(max-width:640px){
+  .lmock{max-width:100%;margin:0 auto 40px;border-radius:12px;box-shadow:0 30px 70px rgba(0,0,0,0.6),0 0 0 1px rgba(218,180,98,0.08)!important;}
+  .lmock-body{grid-template-columns:1fr;min-height:auto;}
+  .lmock-sidebar{display:none;}
+  .lmock-main{padding:16px;}
+  .lmock-prayers{gap:4px;}
+  .lmock-prayer{font-size:0.5rem;padding:6px 2px;}
+  .lmock-kpi{padding:10px;}
+  .lmock-kpi-val{font-size:1.15rem;}
+  .lprice-card{padding:32px 22px;border-radius:18px;}
+  .lprice-num{font-size:3.6rem;}
+  .lprice-section{padding:50px 16px;}
+  .lprice-list li{font-size:0.78rem;}
+  .ldeen{padding:60px 20px;}
+  .ldeen-ar{font-size:1.8rem;}
+  .ldeen-en{font-size:0.95rem;}
+  .ldeen-text{font-size:0.88rem;}
+  .ldeen::before{font-size:14rem;}
+  .lfeat-card{padding:22px;}
+  .lfeatures-h2{font-size:2.1rem;}
+  /* Constrain orbs so they don't push viewport */
+  .orb-1{width:380px;height:380px;top:-100px;left:-120px;}
+  .orb-2{width:260px;height:260px;bottom:-60px;right:-80px;}
+  .orb-3{width:240px;height:240px;}
+  .lhero-btns{gap:10px;}
+  .trust-bar{padding:0 16px 36px;}
+  .founder-testimonial-grid{padding:0 18px!important;}
+  .lfooter{padding:24px 18px;font-size:0.72rem;}
+  /* Hide scroll-bounce indicator on small viewports */
+  .lhero > div[style*="scrollBounce"]{display:none;}
+}
+
+/* iOS: prevent overscroll bounce revealing content behind */
+@supports (-webkit-touch-callout: none){
+  .landing,.main{overscroll-behavior-y:none;}
+}
 
 </style>
 </head>
@@ -1512,7 +1563,7 @@ body{font-size:15px;}
     <button class="emotion-btn" data-e="anxious" onclick="selEm(this)"><span class="ei">😬</span>Anxious</button>
    </div>
   </div>
-  <div class="modal-foot"><button class="btn btn-outline" onclick="closeEntry()">Cancel</button><button class="btn btn-gold" onclick="saveEntry()">Enter Trade →</button></div>
+  <div class="modal-foot"><button class="btn btn-outline" onclick="closeEntry()">Cancel</button><button class="btn btn-gold" id="save-entry-btn" onclick="saveEntry()">Enter Trade →</button></div>
  </div>
 </div>
 
@@ -1537,7 +1588,7 @@ body{font-size:15px;}
    </div>
    <div class="field"><label>Lesson from this trade</label><textarea id="x-lesson" rows="2" placeholder="What did this trade teach you?"></textarea></div>
   </div>
-  <div class="modal-foot"><button class="btn btn-outline" onclick="closeExit()">Cancel</button><button class="btn btn-gold" onclick="saveExit()">Close Trade ✓</button></div>
+  <div class="modal-foot"><button class="btn btn-outline" onclick="closeExit()">Cancel</button><button class="btn btn-gold" id="save-exit-btn" onclick="saveExit()">Close Trade ✓</button></div>
  </div>
 </div>
 
@@ -1860,7 +1911,12 @@ function checkSubscription(){
 
 function subscribe(){
   var btn = el('subscribe-btn');
-  if(btn){btn.textContent = 'Loading…';btn.style.opacity='0.7';}
+  var originalHTML = btn ? btn.innerHTML : '';
+  if(btn){
+    btn.disabled = true;
+    btn.classList.add('is-loading');
+    btn.innerHTML = '<span class="spinner"></span>Opening secure checkout…';
+  }
   var createCheckout = FUNCTIONS.httpsCallable('createCheckoutSession');
   createCheckout({origin: window.location.origin}).then(function(result){
     if(result && result.data && result.data.url){
@@ -1869,7 +1925,7 @@ function subscribe(){
       throw new Error('Invalid response');
     }
   }).catch(function(e){
-    if(btn){btn.textContent = 'Subscribe — $27 / month';btn.style.opacity='';}
+    if(btn){btn.disabled = false;btn.classList.remove('is-loading');btn.innerHTML = originalHTML || 'Subscribe — $27 / month';}
     // Show friendly message when Stripe/Functions not yet configured
     var pwCard = btn ? btn.closest('.paywall-card') : null;
     var existing = pwCard ? pwCard.querySelector('.stripe-pending') : null;
@@ -1967,12 +2023,24 @@ var S={trades:[],journals:[],morning:{},challenge:null,goal:null,settings:{},
 var C={};
 
 // ── STORAGE (Firestore) ────────────────────────────────────────────────────
+var _saveErrorAt = 0; // debounce error toasts so we don't spam
 function sv(k,v){
-  if(!UID||!DB)return;
+  if(!UID||!DB)return Promise.resolve();
   var u={};
   u[k] = (v===null) ? firebase.firestore.FieldValue.delete() : v;
-  DB.collection('users').doc(UID).set(u,{merge:true}).catch(function(e){
+  return DB.collection('users').doc(UID).set(u,{merge:true}).catch(function(e){
     console.error('Save error ['+k+']:',e);
+    var now = Date.now();
+    if(now - _saveErrorAt > 5000){
+      _saveErrorAt = now;
+      if(typeof toast === 'function'){
+        var msg = (e && e.code === 'unavailable')
+          ? 'Offline — changes will sync when you reconnect'
+          : 'Could not sync — check your connection';
+        toast(msg, 'e');
+      }
+    }
+    throw e;
   });
 }
 
@@ -1989,6 +2057,13 @@ function loadAll(){
     S.dailyPrayers = d.dailyPrayers  || {};
     S.playbook     = d.playbook      || [];
     S.openTradeId  = d.openTradeId   || null;
+    // Restore in-progress state so a refresh doesn't wipe taps mid-session
+    if(d.gateAns)                       S.gateAns     = d.gateAns;
+    if(d.dhikr)                         S.dhikr       = Object.assign({sub:0,alh:0,akb:0}, d.dhikr);
+    if(d.nafs)                          S.nafs        = Object.assign({sabr:0,tawakkul:0,kibr:0,shukr:0}, d.nafs);
+    if(d.icChecked)                     S.icChecked   = Object.assign({bismillah:false,prayer:false,setup:false,stop:false}, d.icChecked);
+    if(d.tradeFilter)                   S.tradeFilter = d.tradeFilter;
+    if(typeof d.obStep === 'number')    S.obStep      = d.obStep;
     // Track last seen for re-engagement emails
     var user = AUTH.currentUser;
     DB.collection('users').doc(UID).set({
@@ -2055,6 +2130,7 @@ function renderOB(){
 }
 function obNext(){
   S.obStep++;
+  sv('obStep',S.obStep);
   if(S.obStep<OB.length){renderOB();}
   else{
     var ob=el('onboard');if(ob)ob.classList.remove('show');
@@ -2118,6 +2194,7 @@ function renderSalah(){
 // ── GATE ───────────────────────────────────────────────────────────────────
 function gAns(k,v,btn){
   S.gateAns[k]=v;
+  sv('gateAns',S.gateAns);
   var par=btn.parentElement;if(!par)return;
   par.querySelectorAll('.gqb').forEach(function(b){b.classList.remove('on');});
   btn.classList.add('on');checkGate();
@@ -2197,6 +2274,7 @@ function toggleIC(k){
   S.icChecked[k]=!S.icChecked[k];
   var item=el('ic-'+k)||el('ic-'+k+'2');if(item)item.classList.toggle('checked',S.icChecked[k]);
   var circ=el('icc-'+k);if(circ)circ.classList.toggle('checked',S.icChecked[k]);
+  sv('icChecked',S.icChecked);
 }
 function resetIC(){
   ['bismillah','prayer','setup','stop'].forEach(function(k){
@@ -2204,6 +2282,7 @@ function resetIC(){
     var item=el('ic-'+k)||el('ic-'+k+'2');if(item)item.classList.remove('checked');
     var circ=el('icc-'+k);if(circ)circ.classList.remove('checked');
   });
+  sv('icChecked',S.icChecked);
 }
 
 // ── EMOTION ────────────────────────────────────────────────────────────────
@@ -2272,6 +2351,8 @@ function closeEntry(){var m=el('entry-modal');if(!m)return;var inst=el('e-inst')
 function saveEntry(){
   var inst=(el('e-inst')?el('e-inst').value:'').toUpperCase().trim();
   if(!inst){toast('Please enter the instrument','e');return;}
+  var btn=el('save-entry-btn'),orig=btn?btn.innerHTML:'';
+  if(btn){btn.disabled=true;btn.classList.add('is-loading');btn.innerHTML='<span class="spinner"></span>Saving\u2026';}
   var setupSel=el('e-setup-sel')&&el('e-setup-sel').value;
   var setupTyped=el('e-setup')?el('e-setup').value:'';
   var t={id:Date.now(),status:'open',
@@ -2290,11 +2371,20 @@ function saveEntry(){
     pnl:0,createdAt:new Date().toISOString()};
   t.quality=calcQ(t);
   S.trades.unshift(t);S.openTradeId=t.id;
-  sv('trades',S.trades);sv('openTradeId',S.openTradeId);
-  closeEntry();
-  ['e-inst','e-setup','e-entry','e-stop','e-target'].forEach(function(id){var e=el(id);if(e)e.value='';});
-  updateNav();toast('\u2713 Trade entered \u2014 come back to log the close','s');
-  if(el('page-dashboard').classList.contains('active'))renderDash();
+  Promise.all([sv('trades',S.trades),sv('openTradeId',S.openTradeId)])
+    .then(function(){
+      closeEntry();
+      ['e-inst','e-setup','e-entry','e-stop','e-target'].forEach(function(id){var e=el(id);if(e)e.value='';});
+      updateNav();toast('\u2713 Trade entered \u2014 come back to log the close','s');
+      if(el('page-dashboard').classList.contains('active'))renderDash();
+    })
+    .catch(function(){
+      // sv() already showed a toast; roll back the optimistic update
+      S.trades.shift();S.openTradeId=null;
+    })
+    .then(function(){
+      if(btn){btn.disabled=false;btn.classList.remove('is-loading');btn.innerHTML=orig;}
+    });
 }
 
 // ── EXIT MODAL ─────────────────────────────────────────────────────────────
@@ -2313,6 +2403,10 @@ function saveExit(){
   var pnl=parseFloat(el('x-pnl')?el('x-pnl').value:0)||0;
   var t=S.trades.find(function(x){return x.id===S.openTradeId&&x.status==='open';});
   if(!t){toast('No open trade to close','e');return;}
+  var btn=el('save-exit-btn'),orig=btn?btn.innerHTML:'';
+  if(btn){btn.disabled=true;btn.classList.add('is-loading');btn.innerHTML='<span class="spinner"></span>Closing\u2026';}
+  // Snapshot the prior state so we can revert if save fails
+  var priorStatus=t.status,priorPnl=t.pnl,priorOpenId=S.openTradeId;
   t.status='closed';t.pnl=pnl;
   t.exitPrice=el('x-exit')?el('x-exit').value:'';
   t.outcome=el('x-outcome')?el('x-outcome').value:'loss';
@@ -2321,13 +2415,22 @@ function saveExit(){
   t.closedAt=new Date().toISOString();
   t.quality=calcQ(t);
   S.openTradeId=null;
-  sv('trades',S.trades);sv('openTradeId',null);
-  closeExit();
-  ['x-exit','x-pnl','x-lesson'].forEach(function(id){var e=el(id);if(e)e.value='';});
-  updateNav();toast('\u2713 Trade closed \u00b7 Quality '+t.quality+'/100','s');
-  if(el('page-dashboard').classList.contains('active'))renderDash();
-  if(el('page-trades').classList.contains('active'))renderTrades();
-  if(el('page-intrade').classList.contains('active'))renderInTrade();
+  Promise.all([sv('trades',S.trades),sv('openTradeId',null)])
+    .then(function(){
+      closeExit();
+      ['x-exit','x-pnl','x-lesson'].forEach(function(id){var e=el(id);if(e)e.value='';});
+      updateNav();toast('\u2713 Trade closed \u00b7 Quality '+t.quality+'/100','s');
+      if(el('page-dashboard').classList.contains('active'))renderDash();
+      if(el('page-trades').classList.contains('active'))renderTrades();
+      if(el('page-intrade').classList.contains('active'))renderInTrade();
+    })
+    .catch(function(){
+      // Roll back so user can retry
+      t.status=priorStatus;t.pnl=priorPnl;S.openTradeId=priorOpenId;
+    })
+    .then(function(){
+      if(btn){btn.disabled=false;btn.classList.remove('is-loading');btn.innerHTML=orig;}
+    });
 }
 
 // ── TRADE DETAIL MODAL ─────────────────────────────────────────────────────
@@ -2354,8 +2457,8 @@ function mkTDItem(label,val){return'<div class="td-item"><div class="td-item-lab
 function closeTD(){var m=el('td-modal');if(m)m.classList.remove('show');document.body.style.overflow='';currentTDId=null;}
 
 // ── DHIKR ──────────────────────────────────────────────────────────────────
-function cDhikr(k){S.dhikr[k]=(S.dhikr[k]||0)+1;var e=el('dhikr-'+k);if(e)e.textContent=S.dhikr[k];}
-function resetDhikr(){S.dhikr={sub:0,alh:0,akb:0};['sub','alh','akb'].forEach(function(k){setText('dhikr-'+k,'0');});}
+function cDhikr(k){S.dhikr[k]=(S.dhikr[k]||0)+1;var e=el('dhikr-'+k);if(e)e.textContent=S.dhikr[k];sv('dhikr',S.dhikr);}
+function resetDhikr(){S.dhikr={sub:0,alh:0,akb:0};['sub','alh','akb'].forEach(function(k){setText('dhikr-'+k,'0');});sv('dhikr',S.dhikr);}
 
 // ── NAV ────────────────────────────────────────────────────────────────────
 function updateNav(){
@@ -2777,7 +2880,7 @@ function renderInTrade(){
 }
 
 // ── TRADES ─────────────────────────────────────────────────────────────────
-function filterT(f,btn){S.tradeFilter=f;document.querySelectorAll('#page-trades .tg-btn').forEach(function(b){b.classList.remove('active');});if(btn)btn.classList.add('active');renderTrades();}
+function filterT(f,btn){S.tradeFilter=f;sv('tradeFilter',f);document.querySelectorAll('#page-trades .tg-btn').forEach(function(b){b.classList.remove('active');});if(btn)btn.classList.add('active');renderTrades();}
 function renderTrades(){
   var w=el('trade-table-wrap');if(!w)return;
   var t=[].concat(S.trades);
@@ -2877,7 +2980,7 @@ function renderJournal(){
     var lastN=S.journals.find(function(j){return j.nafs&&(j.nafs.sabr||j.nafs.tawakkul);});
     if(lastN&&lastN.nafs)S.nafs=Object.assign({sabr:0,tawakkul:0,kibr:0,shukr:0},lastN.nafs);
   }
-  NK.forEach(function(k){var e=el('nd-'+k);if(!e)return;e.innerHTML='';for(var i=1;i<=5;i++){(function(ii){var d=document.createElement('div');d.className='nafs-dot'+(S.nafs[k]>=ii?' on':'');d.onclick=function(){S.nafs[k]=ii;renderNafsDots(k);};e.appendChild(d);})(i);}});
+  NK.forEach(function(k){var e=el('nd-'+k);if(!e)return;e.innerHTML='';for(var i=1;i<=5;i++){(function(ii){var d=document.createElement('div');d.className='nafs-dot'+(S.nafs[k]>=ii?' on':'');d.onclick=function(){S.nafs[k]=ii;renderNafsDots(k);sv('nafs',S.nafs);};e.appendChild(d);})(i);}});
   var today=localDate(),m=S.morning[today]||{};
   ['j-int','j-ll','j-mt','j-kl'].forEach(function(id,i){var keys=['intention','lossLimit','maxTrades','key'];var e=el(id);if(e&&m[keys[i]])e.value=m[keys[i]];});
   var w=el('chk-wrap');if(!w)return;w.innerHTML='';
