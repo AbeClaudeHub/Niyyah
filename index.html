@@ -5,15 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Niyyah</title>
-<meta name="description" content="Niyyah is a trading journal for Muslim traders. Track trades, prayers, and emotional patterns. Discover how discipline and tawakkul improve your P&L.">
+<title>Niyyah — The trading journal for Muslim traders</title>
+<meta name="description" content="The accountability system for traders whose strategy already works — but whose nafs keeps getting in the way. Pre-trade gate, prayer-to-P&L radar, Friday muhasabah. $27/mo, 7-day refund.">
+<link rel="canonical" href="https://niyyahtrader.app/">
 <meta name="theme-color" content="#0a0906">
-<meta property="og:title" content="Niyyah — Trade with Intention">
-<meta property="og:description" content="The trading journal built on Islamic psychology. Prayer radar, nafs tracking, pre-trade gate.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:title" content="Niyyah — Trade with intention">
+<meta property="og:description" content="The trading journal built on Islamic psychology. Pre-trade gate, prayer radar, nafs tracking, Friday muhasabah. Built for Muslim traders.">
 <meta property="og:type" content="website">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Niyyah — Trade with Intention">
-<meta name="twitter:description" content="Islamic trading journal. Track your trades, prayers, and emotional discipline.">
+<meta property="og:url" content="https://niyyahtrader.app/">
+<meta property="og:site_name" content="Niyyah">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Niyyah — Trade with intention">
+<meta name="twitter:description" content="The accountability system for Muslim traders whose nafs keeps getting in the way.">
+<!-- Strict-ish CSP. Locks script execution to self + the specific CDNs we ship with.
+     'unsafe-inline' on scripts is required because the app is a single HTML file with
+     inline onclick handlers — a refactor target, not a same-day fix. Hardening still
+     blocks remote script injection (the actual XSS attack surface) by restricting hosts. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdn.jsdelivr.net https://*.firebaseio.com https://*.firebaseapp.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://*.firebaseapp.com https://*.cloudfunctions.net https://identitytoolkit.googleapis.com https://firestore.googleapis.com https://securetoken.googleapis.com wss://*.firebaseio.com; frame-src https://*.firebaseapp.com https://accounts.google.com; base-uri 'self'; form-action 'self' https://checkout.stripe.com; object-src 'none'; upgrade-insecure-requests">
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"SoftwareApplication",
+  "name":"Niyyah",
+  "description":"A trading journal for Muslim traders. Pre-trade gate, prayer-to-P&L radar, nafs tracking, Friday muhasabah.",
+  "applicationCategory":"FinanceApplication",
+  "operatingSystem":"Web, iOS, Android (PWA)",
+  "url":"https://niyyahtrader.app/",
+  "offers":{"@type":"Offer","price":"27","priceCurrency":"USD","priceSpecification":{"@type":"UnitPriceSpecification","price":"27","priceCurrency":"USD","unitText":"MONTH"}},
+  "creator":{"@type":"Person","name":"Abe"},
+  "audience":{"@type":"Audience","audienceType":"Muslim traders"}
+}</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☽</text></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='38' fill='%230a0906'/><circle cx='90' cy='90' r='58' fill='%23dab462' opacity='0.18'/><text x='90' y='116' font-size='82' text-anchor='middle' fill='%23f2ead6' font-family='serif'>☽</text></svg>">
 <link rel="manifest" href="/manifest.webmanifest">
@@ -584,7 +605,8 @@ body:not(.legal-visitor) .legal-back{display:none;}
 @media(max-width:580px){.lfeatures-grid{grid-template-columns:1fr;}.lhero-h1{font-size:2.4rem;line-height:1.1;}.lnav{padding:12px 16px;}.lhero{padding:44px 18px 40px;}.lfeatures{padding:0 18px 50px;}.lprice-section{padding:50px 18px;}.lhero-btns{flex-direction:column;}.lhero-btns .btn{width:100%;justify-content:center;}}
 .lfeat-card{background:linear-gradient(145deg,#1e1b12,#111009);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:26px;transition:all 0.25s cubic-bezier(0.4,0,0.2,1);position:relative;overflow:hidden;}.lfeat-card::before{content:"";position:absolute;top:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,rgba(218,180,98,0.12),transparent);}
 .lfeat-card:hover{border-color:rgba(218,180,98,0.25);transform:translateY(-5px);box-shadow:0 16px 48px rgba(0,0,0,0.5),0 0 0 1px rgba(218,180,98,0.08);}
-.lfeat-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,rgba(218,180,98,0.12),rgba(218,180,98,0.04));border:1px solid rgba(218,180,98,0.2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,0.3);}
+.lfeat-icon{width:44px;height:44px;border-radius:11px;background:linear-gradient(135deg,rgba(218,180,98,0.14),rgba(218,180,98,0.03));border:1px solid rgba(218,180,98,0.22);display:flex;align-items:center;justify-content:center;color:var(--gold);margin-bottom:18px;box-shadow:0 4px 16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.04);transition:transform 0.25s cubic-bezier(0.4,0,0.2,1),color 0.25s;}
+.lfeat-card:hover .lfeat-icon{transform:translateY(-2px) scale(1.04);color:var(--gold-2);}
 .lfeat-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:var(--ink);margin-bottom:8px;letter-spacing:-0.01em;}
 .lfeat-desc{font-size:0.8rem;color:var(--ink-3);font-weight:300;line-height:1.7;}
 .lfeat-desc strong{color:var(--ink-2);font-weight:400;}
@@ -1006,7 +1028,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
     </div>
     <div class="lnav-btns">
       <button class="lnav-signin" onclick="showAuth('signin')">Sign In</button>
-      <button class="lnav-cta" onclick="showAuth('signup')">Start 7-Day Trial →</button>
+      <button class="lnav-cta" onclick="showAuth('signup')">Begin — Bismillah →</button>
     </div>
   </nav>
 
@@ -1019,10 +1041,10 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <p class="lhero-sub"><strong>Niyyah ends the loop.</strong> The accountability system for traders whose strategy already works — but whose nafs keeps getting in the way.</p>
     <div class="lhero-clarifier"><strong>Nafs</strong> · the lower self that whispers <em>"just one more trade"</em> after a loss — and turns a $200 stop into a $1,800 disaster.</div>
     <div class="lhero-btns" style="margin-top:24px;">
-      <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 32px;">Start 7-Day Trial — Bismillah →</button>
+      <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 32px;">Begin — Bismillah →</button>
       <button class="btn btn-outline btn-lg" onclick="scrollToFeatures()" style="backdrop-filter:blur(8px);">See how it works</button>
     </div>
-    <div class="lhero-price">$27/mo · cancel anytime · 7-day full refund · Stripe-secured</div>
+    <div class="lhero-price">$27/mo · 7-day full refund · cancel anytime · Stripe-secured</div>
     <div style="margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.45;cursor:pointer;animation:scrollBounce 2s ease-in-out infinite;" onclick="scrollToFeatures()">
       <div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-3);">SCROLL</div>
       <div style="width:1px;height:32px;background:linear-gradient(to bottom,var(--gold),transparent);"></div>
@@ -1144,32 +1166,32 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <p class="lfeatures-sub reveal reveal-delay-2">Every feature exists because of one belief: your inner state determines your P&amp;L. Not the market. Not the setup. <strong style="color:var(--ink);">You.</strong></p>
     <div class="lfeatures-grid">
       <div class="lfeat-card reveal reveal-delay-1">
-        <div class="lfeat-icon">🤲</div>
+        <div class="lfeat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l5 3"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/></svg></div>
         <div class="lfeat-title">Prayer → Performance Radar</div>
         <div class="lfeat-desc">Tracks your win rate on days you prayed each salah versus the days you missed. The correlation is visible in your own data within a week.</div>
       </div>
       <div class="lfeat-card reveal reveal-delay-2">
-        <div class="lfeat-icon">🚪</div>
+        <div class="lfeat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V5a2 2 0 0 1 2-2h8l4 4v14"/><path d="M14 3v6h6"/><path d="M9 14h6M9 17h4"/></svg></div>
         <div class="lfeat-title">Pre-Trade Gate</div>
         <div class="lfeat-desc">Three honest questions before every trade. Answer No, and the app surfaces your last five trades in that same state — the pattern becomes obvious.</div>
       </div>
       <div class="lfeat-card reveal reveal-delay-3">
-        <div class="lfeat-icon">☽</div>
+        <div class="lfeat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg></div>
         <div class="lfeat-title">Nafs Tracking</div>
         <div class="lfeat-desc">Rate Sabr, Tawakkul, Kibr and Shukr each week. Over time, the connection between your inner state and your P&amp;L becomes measurable.</div>
       </div>
       <div class="lfeat-card reveal reveal-delay-4">
-        <div class="lfeat-icon">📅</div>
+        <div class="lfeat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><rect x="7" y="13" width="3" height="3" fill="currentColor" stroke="none"/><rect x="14" y="16" width="3" height="3" fill="currentColor" stroke="none" opacity="0.6"/></svg></div>
         <div class="lfeat-title">Trading Calendar</div>
         <div class="lfeat-desc">A monthly heatmap of every trading day — color intensity by P&amp;L size. Your entire month, at a glance.</div>
       </div>
       <div class="lfeat-card reveal reveal-delay-5">
-        <div class="lfeat-icon">⚡</div>
+        <div class="lfeat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg></div>
         <div class="lfeat-title">Two-Part Trade Log</div>
         <div class="lfeat-desc">Log the entry on open, then trade without friction. Return to close it when you're done — no journaling mid-trade.</div>
       </div>
       <div class="lfeat-card reveal reveal-delay-6">
-        <div class="lfeat-icon">✦</div>
+        <div class="lfeat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
         <div class="lfeat-title">Quality Score (0–100)</div>
         <div class="lfeat-desc">Every trade scored on gate answers, emotion, discipline and outcome. A high-quality loss outranks a lucky win — and the score makes it visible.</div>
       </div>
@@ -1344,7 +1366,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <div class="lprice-glow"></div>
       <div class="lprice-tag">ONE PLAN · EVERYTHING INCLUDED</div>
       <div class="lprice-num">$27<span>/mo</span></div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);margin-top:4px;margin-bottom:6px;">One avoided revenge trade pays for the year</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-top:6px;margin-bottom:4px;">Cancel anytime · 7-day full refund</div>
       <ul class="lprice-list">
         <li>Full trade journal — entry, close, lesson</li>
         <li>Prayer-to-performance analytics</li>
@@ -1357,11 +1379,14 @@ body:not(.legal-visitor) .legal-back{display:none;}
         <li>Quality Score for every trade</li>
       </ul>
       <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="width:100%;justify-content:center;font-size:0.95rem;">Begin — Bismillah →</button>
-      <div class="lprice-fine">Secure checkout via Stripe</div>
+      <div class="lprice-fine">Secure checkout via Stripe · cancel from Settings</div>
       <div style="margin-top:12px;padding:12px 14px;background:rgba(218,180,98,0.05);border:1px solid rgba(218,180,98,0.12);border-radius:10px;font-size:0.78rem;color:var(--ink-3);text-align:left;line-height:1.7;">
         <div style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;">REFUND POLICY</div>
-        If you're not satisfied in your first 7 days, email <a href="mailto:support@niyyahtrader.app" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.app</a> for a full refund. No questions asked. <a onclick="showLegalPage('refund')" style="color:var(--gold);text-decoration:underline;cursor:pointer;">Read the full policy →</a>
+        Your first 7 days come with a full refund — no questions. Email <a href="mailto:support@niyyahtrader.app" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.app</a> and we'll process within 2 business days. <a onclick="showLegalPage('refund')" style="color:var(--gold);text-decoration:underline;cursor:pointer;">Read the full policy →</a>
       </div>
+    </div>
+    <div style="text-align:center;margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-4);line-height:1.8;">
+      Annual plan available on request · <a href="mailto:support@niyyahtrader.app?subject=Annual%20plan%20interest" style="color:var(--ink-3);text-decoration:none;border-bottom:1px solid rgba(218,180,98,0.25);padding-bottom:1px;">email for early access</a>
     </div>
   </div>
 
@@ -1490,9 +1515,6 @@ body:not(.legal-visitor) .legal-back{display:none;}
          picked from your state (post-loss / Friday / streak / leak). -->
     <div id="daily-mission-wrap"></div>
 
-    <!-- NOTIFICATION OPT-IN — appears once, after engagement -->
-    <div id="notif-prompt-wrap"></div>
-
     <!-- STREAK — surfaced right after state so returning users see momentum -->
     <div id="streak-wrap"></div>
 
@@ -1533,6 +1555,10 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <div class="today-section-title">Morning Intention</div>
       <textarea id="today-intention-input" rows="2" placeholder="Today I intend to trade with…" onblur="saveTodayIntention()"></textarea>
     </div>
+
+    <!-- NOTIFICATION OPT-IN — moved below intention so the prompt never
+         crowds the primary state card on first paint. -->
+    <div id="notif-prompt-wrap"></div>
 
     <!-- PWA INSTALL NUDGE — appears on 3rd+ session if not installed.
          Standalone display ~3x improves notification-tap rates. -->
@@ -1974,7 +2000,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
 
 </main>
 
-<button class="fab" onclick="openEntryModal()" title="Log a trade">+</button>
+<button class="fab" onclick="openEntryModal()" title="Log a trade · press N" aria-label="Log a trade (shortcut: N)">+</button>
 
 <div class="modal-bg" id="entry-modal" onclick="if(event.target===this)closeEntry()">
  <div class="modal">
@@ -2097,7 +2123,23 @@ body:not(.legal-visitor) .legal-back{display:none;}
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<!-- Chart.js is loaded lazily — only after the user is authenticated and inside
+     the app. Landing-page visitors pay zero cost for ~200KB of charting code. -->
+<script>
+  window.__ensureChart = function(){
+    if(window.__chartPromise) return window.__chartPromise;
+    if(typeof Chart !== 'undefined') return Promise.resolve();
+    window.__chartPromise = new Promise(function(resolve, reject){
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
+      s.async = true;
+      s.onload = function(){ resolve(); };
+      s.onerror = function(){ window.__chartPromise = null; reject(new Error('Chart.js failed to load')); };
+      document.head.appendChild(s);
+    });
+    return window.__chartPromise;
+  };
+</script>
 <script>
 'use strict';
 
@@ -3931,7 +3973,14 @@ function renderStatsStrip(){
 }
 
 function renderEquity(){
-  if(!window.Chart)return;var c=el('eq-chart');if(!c)return;
+  if(!window.Chart){
+    // Chart.js is lazy-loaded — fetch it, then retry.
+    if(typeof window.__ensureChart === 'function'){
+      window.__ensureChart().then(renderEquity).catch(function(){});
+    }
+    return;
+  }
+  var c=el('eq-chart');if(!c)return;
   if(C.eq){try{C.eq.destroy();}catch(e){}}
   var trades=S.trades.filter(function(t){return t.status==='closed';}).slice().reverse();
   if(S.eqRange==='30'){var co30=Date.now()-2592000000;trades=trades.filter(function(t){return new Date(t.date+'T12:00:00').getTime()>=co30;});}
@@ -4036,6 +4085,11 @@ function renderMonthlyBars(){
 
 // ── ANALYTICS ───────────────────────────────────────────────────────────────
 function renderAnalytics(){
+  // Lazy-load Chart.js if not yet present, then continue.
+  if(!window.Chart && typeof window.__ensureChart === 'function'){
+    window.__ensureChart().then(renderAnalytics).catch(function(){});
+    return;
+  }
   var closed=S.trades.filter(function(t){return t.status==='closed';});
   var pm=el('perf-metrics');
   if(pm&&closed.length){
@@ -5135,6 +5189,11 @@ document.addEventListener('visibilitychange', function(){
 
 function init(){
   var td=el('topbar-date');if(td)td.textContent=new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+  // Pre-load Chart.js for the in-app analytics views. Visitors who never sign in
+  // skip this entirely — see __ensureChart definition above.
+  if(typeof window.__ensureChart === 'function'){
+    window.__ensureChart().catch(function(){});
+  }
   loadAll().then(function(ob){
     var user=AUTH.currentUser;
     if(S.settings.name){setText('sf-av',S.settings.name[0].toUpperCase());setText('sf-name',S.settings.name);}
@@ -5314,9 +5373,17 @@ document.addEventListener('DOMContentLoaded',function(){
   }
 });
 
-// ── MODAL KEYBOARD SUPPORT ────────────────────────────────────────────────
-// Escape closes the topmost open modal. Cmd/Ctrl+Enter submits the entry/exit modal.
-// Confirm modal handles its own keys; we skip while it's open.
+// ── MODAL KEYBOARD SUPPORT + GLOBAL SHORTCUTS ─────────────────────────────
+// Escape closes the topmost open modal. Cmd/Ctrl+Enter submits entry/exit.
+// Bare N opens a new trade (Linear-style). G then a letter jumps pages.
+// Shortcuts are suppressed while typing in inputs or when a modal is open.
+var _gPending = false;
+var _gTimer = null;
+function _isTyping(target){
+  if(!target) return false;
+  var tag = (target.tagName||'').toUpperCase();
+  return tag==='INPUT' || tag==='TEXTAREA' || tag==='SELECT' || target.isContentEditable;
+}
 document.addEventListener('keydown',function(e){
   var confirmOpen=el('confirm-modal')&&el('confirm-modal').classList.contains('show');
   if(confirmOpen)return;
@@ -5326,17 +5393,46 @@ document.addEventListener('keydown',function(e){
   var exitOpen=el('exit-modal')&&el('exit-modal').classList.contains('show');
   var editPnlOpen=el('edit-pnl-modal')&&el('edit-pnl-modal').classList.contains('show');
   var csvOpen=el('csv-modal')&&el('csv-modal').classList.contains('show');
-  if(!entryOpen&&!exitOpen&&!editPnlOpen&&!csvOpen)return;
-  if(e.key==='Escape'){
+  var anyModal = entryOpen||exitOpen||editPnlOpen||csvOpen;
+  if(anyModal){
+    if(e.key==='Escape'){
+      e.preventDefault();
+      if(editPnlOpen)closeEditPnl();
+      else if(csvOpen)closeCsvModal();
+      else if(entryOpen)closeEntry();
+      else if(exitOpen)closeExit();
+    } else if((e.metaKey||e.ctrlKey)&&e.key==='Enter'){
+      e.preventDefault();
+      if(entryOpen){var b=el('save-entry-btn');if(b&&!b.disabled)b.click();}
+      else if(exitOpen){var b2=el('save-exit-btn');if(b2&&!b2.disabled)b2.click();}
+    }
+    return;
+  }
+  // Global shortcuts — only when signed in, no modal, not typing, no modifier keys.
+  if(!UID) return;
+  if(_isTyping(e.target)) return;
+  if(e.metaKey||e.ctrlKey||e.altKey) return;
+  var k = (e.key||'').toLowerCase();
+  if(_gPending){
+    _gPending = false;
+    if(_gTimer){clearTimeout(_gTimer);_gTimer=null;}
+    var map = {d:'dashboard',t:'trades',c:'calendar',a:'analytics',j:'journal',p:'playbook',r:'risk',s:'settings'};
+    if(map[k]){
+      e.preventDefault();
+      go(map[k], document.querySelector('[data-page="'+map[k]+'"]'));
+    }
+    return;
+  }
+  if(k==='n'){
     e.preventDefault();
-    if(editPnlOpen)closeEditPnl();
-    else if(csvOpen)closeCsvModal();
-    else if(entryOpen)closeEntry();
-    else if(exitOpen)closeExit();
-  } else if((e.metaKey||e.ctrlKey)&&e.key==='Enter'){
+    openEntryModal();
+  } else if(k==='?'){
     e.preventDefault();
-    if(entryOpen){var b=el('save-entry-btn');if(b&&!b.disabled)b.click();}
-    else if(exitOpen){var b2=el('save-exit-btn');if(b2&&!b2.disabled)b2.click();}
+    go('guide', document.querySelector('[data-page="guide"]'));
+  } else if(k==='g'){
+    e.preventDefault();
+    _gPending = true;
+    _gTimer = setTimeout(function(){_gPending=false;_gTimer=null;}, 1200);
   }
 });
 
