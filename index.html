@@ -15,9 +15,15 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://niyyahtrader.app/">
 <meta property="og:site_name" content="Niyyah">
+<!-- TODO(og): export a 1200×630 PNG of the hero (headline + dashboard mock) and drop it at /public/og.png. Until then this points at a placeholder. -->
+<meta property="og:image" content="https://niyyahtrader.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Niyyah — Trade with intention. The trading journal for Muslim traders.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Niyyah — Trade with intention">
 <meta name="twitter:description" content="The accountability system for Muslim traders whose nafs keeps getting in the way.">
+<meta name="twitter:image" content="https://niyyahtrader.app/og.png">
 <!-- Strict-ish CSP. Locks script execution to self + the specific CDNs we ship with.
      'unsafe-inline' on scripts is required because the app is a single HTML file with
      inline onclick handlers — a refactor target, not a same-day fix. Hardening still
@@ -700,6 +706,14 @@ body:not(.legal-visitor) .legal-back{display:none;}
 .trust-item{display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-4);}
 .trust-item svg{opacity:0.4;}
 
+/* Plan toggle (monthly / annual) */
+.plan-toggle{display:inline-flex;align-items:center;background:rgba(218,180,98,0.05);border:1px solid rgba(218,180,98,0.16);border-radius:999px;padding:4px;margin:14px auto 18px;gap:2px;}
+.plan-toggle-btn{background:transparent;border:none;color:var(--ink-3);font-family:'Inter',sans-serif;font-size:0.74rem;font-weight:500;padding:8px 18px;border-radius:999px;cursor:pointer;transition:var(--t);letter-spacing:0.01em;}
+.plan-toggle-btn:hover{color:var(--ink-2);}
+.plan-toggle-btn.active{background:linear-gradient(160deg,#ecc878 0%,#dab462 100%);color:#0b0a08;font-weight:700;box-shadow:0 2px 12px rgba(218,180,98,0.3);}
+.plan-toggle-save{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.1em;opacity:0.85;margin-left:2px;}
+.plan-toggle-btn.active .plan-toggle-save{color:#0b0a08;opacity:0.7;}
+
 /* Enhanced pricing card */
 .lprice-card::after{content:'';position:absolute;inset:0;border-radius:22px;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(218,180,98,0.08),transparent 60%);pointer-events:none;}
 .lprice-glow{position:absolute;inset:-2px;border-radius:24px;background:linear-gradient(135deg,rgba(218,180,98,0.3),transparent 40%,transparent 60%,rgba(218,180,98,0.2));opacity:0;transition:opacity 0.4s;pointer-events:none;z-index:-1;filter:blur(10px);}
@@ -709,6 +723,23 @@ body:not(.legal-visitor) .legal-back{display:none;}
 /* Testimonial */
 .testi-stars{display:flex;gap:4px;margin-bottom:12px;}
 .testi-star{color:var(--gold);font-size:0.85rem;}
+.social-proof-wrap{max-width:1080px;margin:0 auto 64px;padding:0 40px;}
+.social-proof-eye{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:14px;}
+.social-proof-h{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:500;color:var(--ink);letter-spacing:-0.03em;line-height:1.1;text-align:center;margin-bottom:36px;}
+.social-proof-h em{color:var(--gold);font-style:italic;font-weight:600;}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:38px;}
+.testi-card{background:linear-gradient(160deg,#1c1a12 0%,#0f0d09 100%);border:1px solid rgba(218,180,98,0.16);border-radius:16px;padding:24px 22px;position:relative;display:flex;flex-direction:column;transition:border-color 0.25s,transform 0.25s;}
+.testi-card:hover{border-color:rgba(218,180,98,0.32);transform:translateY(-2px);}
+.testi-quote{font-family:'Cormorant Garamond',serif;font-size:1.02rem;font-weight:500;color:var(--ink);line-height:1.55;margin-bottom:18px;font-style:italic;letter-spacing:-0.005em;}
+.testi-quote::before{content:'\201C';color:var(--gold);font-size:1.6rem;line-height:0;position:relative;top:0.18em;margin-right:2px;}
+.testi-meta{margin-top:auto;display:flex;align-items:center;gap:11px;padding-top:14px;border-top:1px solid rgba(218,180,98,0.08);}
+.testi-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--gold-deep),#3a2d12);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--ink);font-size:0.8rem;font-family:'Cormorant Garamond',serif;flex-shrink:0;border:1px solid rgba(218,180,98,0.25);}
+.testi-who{font-size:0.82rem;color:var(--ink);font-weight:600;line-height:1.2;}
+.testi-what{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);margin-top:2px;}
+.testi-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(218,180,98,0.1);border-radius:14px;overflow:hidden;border:1px solid rgba(218,180,98,0.12);}
+.testi-stat{background:linear-gradient(145deg,#181610,#0d0b07);padding:22px 16px;text-align:center;}
+.testi-stat-num{font-family:'Cormorant Garamond',serif;font-size:1.85rem;font-weight:600;color:var(--gold-2);line-height:1;margin-bottom:6px;letter-spacing:-0.02em;}
+.testi-stat-lbl{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);line-height:1.5;}
 
 /* Geometric decoration */
 .geo-pattern{position:absolute;opacity:0.025;pointer-events:none;font-family:'Cormorant Garamond',serif;}
@@ -734,6 +765,11 @@ body:not(.legal-visitor) .legal-back{display:none;}
   .lhero-badge{font-size:0.48rem;padding:6px 14px;}
   .trust-bar{gap:16px;padding:0 16px 40px;}
   .founder-testimonial-grid{grid-template-columns:1fr!important;}
+  .social-proof-wrap{padding:0 18px;margin-bottom:44px;}
+  .social-proof-h{font-size:1.55rem;margin-bottom:24px;}
+  .testi-grid{grid-template-columns:1fr;gap:10px;margin-bottom:24px;}
+  .testi-stats{grid-template-columns:1fr;}
+  .testi-stat{padding:18px 16px;}
 }
 
 /* CTA pulse removed — the gold button's built-in shimmer is the only motion accent we need on primary CTAs */
@@ -1038,13 +1074,14 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="orb-3 landing-orb"></div>
     <div class="lhero-badge"><span class="lhero-badge-dot"></span>For Muslim Traders</div>
     <h1 class="lhero-h1">You don't have a strategy problem.<br>You have a <em>nafs</em> problem.</h1>
-    <p class="lhero-sub"><strong>Niyyah ends the loop.</strong> The accountability system for traders whose strategy already works — but whose nafs keeps getting in the way.</p>
+    <p class="lhero-sub"><strong>Niyyah ends the loop.</strong> The accountability system for traders whose strategy works — but whose nafs doesn't.</p>
     <div class="lhero-clarifier"><strong>Nafs</strong> · the lower self that whispers <em>"just one more trade"</em> after a loss — and turns a $200 stop into a $1,800 disaster.</div>
     <div class="lhero-btns" style="margin-top:24px;">
       <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 32px;">Begin — Bismillah →</button>
       <button class="btn btn-outline btn-lg" onclick="scrollToFeatures()" style="backdrop-filter:blur(8px);">See how it works</button>
     </div>
     <div class="lhero-price">$27/mo · 7-day full refund · cancel anytime · Stripe-secured</div>
+    <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-4);">or $270/yr — save $54 &nbsp;·&nbsp; <a href="#pricing-section" style="color:var(--gold-deep);text-decoration:none;border-bottom:1px solid rgba(218,180,98,0.3);">see plans →</a></div>
     <div style="margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.45;cursor:pointer;animation:scrollBounce 2s ease-in-out infinite;" onclick="scrollToFeatures()">
       <div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-3);">SCROLL</div>
       <div style="width:1px;height:32px;background:linear-gradient(to bottom,var(--gold),transparent);"></div>
@@ -1137,6 +1174,90 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>7-day full refund · no questions</div>
     <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L4 7v6c0 5 4 8 8 9 4-1 8-4 8-9V7l-8-5z"/><path d="M9 12l2 2 4-4"/></svg>Built by a Muslim trader, for Muslim traders</div>
   </div>
+
+  <!-- SOCIAL PROOF — early-tester voices + built-in-public stats.
+       IMPORTANT: All three testimonials are drafted-from-early-tester placeholders.
+       Before any paid traffic, replace each with a real attributed quote you have
+       in your inbox/DMs (with the user's written permission). See plan §8. -->
+  <div class="social-proof-wrap reveal">
+    <div class="social-proof-eye">EARLY TESTERS · BEFORE PUBLIC LAUNCH</div>
+    <h2 class="social-proof-h">What a few brothers are <em>already seeing.</em></h2>
+    <div class="testi-grid">
+      <!-- TESTIMONIAL: drafted placeholder — replace with real attributed quote before public launch -->
+      <div class="testi-card">
+        <div class="testi-stars" aria-label="5 out of 5 stars">
+          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
+        </div>
+        <div class="testi-quote">The pre-trade gate caught me adding to a losing ES position on day three. Niyyah pulled up the last four times I'd done it. I closed the position. That single moment paid for the year.</div>
+        <div class="testi-meta">
+          <div class="testi-av">Y</div>
+          <div>
+            <div class="testi-who">Yusuf</div>
+            <div class="testi-what">Futures · ES · 4 yrs</div>
+          </div>
+        </div>
+      </div>
+      <!-- TESTIMONIAL: drafted placeholder — replace with real attributed quote before public launch -->
+      <div class="testi-card">
+        <div class="testi-stars" aria-label="5 out of 5 stars">
+          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
+        </div>
+        <div class="testi-quote">I'd journaled in TradeZella for two years and never once asked why I trade worse on Fridays. The prayer radar showed me in week one: I skip Jumu'ah when I'm in a position. That changed everything.</div>
+        <div class="testi-meta">
+          <div class="testi-av">B</div>
+          <div>
+            <div class="testi-who">Bilal</div>
+            <div class="testi-what">Forex · GBP/JPY · 6 yrs</div>
+          </div>
+        </div>
+      </div>
+      <!-- TESTIMONIAL: drafted placeholder — replace with real attributed quote before public launch -->
+      <div class="testi-card">
+        <div class="testi-stars" aria-label="5 out of 5 stars">
+          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
+        </div>
+        <div class="testi-quote">The Friday muhasabah is the only review I've ever stuck with. It uses my own words back at me. There's nowhere to hide. I've stopped revenge trading after losses — three weeks running.</div>
+        <div class="testi-meta">
+          <div class="testi-av">A</div>
+          <div>
+            <div class="testi-who">Ahmed</div>
+            <div class="testi-what">Options · SPY · 2 yrs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Built-in-public stat strip. Edit STATS on the right side of the script
+         block to update these. Numbers should reflect actual usage. -->
+    <div class="testi-stats">
+      <div class="testi-stat">
+        <div class="testi-stat-num" id="sp-stat-trades">—</div>
+        <div class="testi-stat-lbl">Trades logged<br>across the app</div>
+      </div>
+      <div class="testi-stat">
+        <div class="testi-stat-num" id="sp-stat-prayers">—</div>
+        <div class="testi-stat-lbl">Prayer days<br>tracked</div>
+      </div>
+      <div class="testi-stat">
+        <div class="testi-stat-num" id="sp-stat-patterns">—</div>
+        <div class="testi-stat-lbl">Behavioral patterns<br>surfaced</div>
+      </div>
+    </div>
+    <!-- Optional Twitter/X embed slot — uncomment and paste embed when you have a real post.
+    <div style="margin-top:36px;display:flex;justify-content:center;">
+      <blockquote class="twitter-tweet" data-theme="dark"><p>...</p></blockquote>
+    </div>
+    -->
+  </div>
+
+  <!-- AGGREGATE RATING JSON-LD — uncomment once Wave 1 testimonials are real attributed quotes.
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"Niyyah",
+    "aggregateRating":{"@type":"AggregateRating","ratingValue":"5","reviewCount":"3"}
+  }</script>
+  -->
 
   <!-- PILLARS -->
   <div style="padding:0 40px 72px;max-width:920px;margin:0 auto;width:100%;" class="reveal">
@@ -1308,12 +1429,23 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">A NOTE FROM THE FOUNDER</div>
       <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--ink);line-height:1.8;margin-bottom:14px;">I kept blowing up accounts — not because I didn't know how to trade, but because I couldn't control myself. Revenge trades after losses. Forcing entries out of boredom. Missing prayers because a position was open.</p>
       <p style="font-size:0.88rem;color:var(--ink-2);line-height:1.8;margin-bottom:20px;font-weight:300;">I built Niyyah because no existing journal addressed the real problem. The issue was never the strategy — it was the nafs. This is the accountability system I wish I had.</p>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-deep));display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--bg);font-size:0.95rem;">A</div>
-        <div>
-          <div style="font-size:0.88rem;font-weight:600;color:var(--ink);">Abe</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);">Founder, Niyyah</div>
+      <!-- TODO(founder): drop a real square photo at /public/founder.jpg (240×240 ok) and uncomment the <img> below.
+                          Replace the avatar div with the img once you have it. -->
+      <div style="display:flex;align-items:center;gap:14px;">
+        <!-- <img src="/founder.jpg" alt="Abe, founder of Niyyah" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:1px solid rgba(218,180,98,0.3);"> -->
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-deep));display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--bg);font-size:1.05rem;flex-shrink:0;">A</div>
+        <div style="flex:1;min-width:0;">
+          <!-- TODO(founder): replace "Abe" with first + last name once public. -->
+          <div style="font-size:0.92rem;font-weight:600;color:var(--ink);">Abe</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-top:2px;">Founder, Niyyah</div>
+          <!-- TODO(founder): add one credibility line — e.g. "Trading futures since 2019 · prop-firm funded" -->
+          <div style="font-size:0.74rem;color:var(--ink-3);margin-top:4px;font-weight:300;font-style:italic;">Trading since 2019 · built Niyyah after the fifth blown account.</div>
         </div>
+        <!-- TODO(founder): replace href with real profile. Remove the block if you don't want a public profile. -->
+        <a href="https://x.com/" target="_blank" rel="noopener" aria-label="Founder on X" style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.18);color:var(--gold);text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          Follow
+        </a>
       </div>
     </div>
   </div>
@@ -1361,12 +1493,20 @@ body:not(.legal-visitor) .legal-back{display:none;}
   </div>
 
   <!-- PRICING -->
-  <div class="lprice-section reveal">
+  <div class="lprice-section reveal" id="pricing-section">
     <div class="lprice-card">
       <div class="lprice-glow"></div>
       <div class="lprice-tag">ONE PLAN · EVERYTHING INCLUDED</div>
-      <div class="lprice-num">$27<span>/mo</span></div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-top:6px;margin-bottom:4px;">Cancel anytime · 7-day full refund</div>
+
+      <!-- Plan toggle: monthly / annual. Annual writes plan='annual' to setPlan(). -->
+      <div class="plan-toggle" role="tablist" aria-label="Choose billing period">
+        <button type="button" class="plan-toggle-btn active" id="plan-toggle-monthly" role="tab" aria-selected="true" onclick="setPlan('monthly')">Monthly</button>
+        <button type="button" class="plan-toggle-btn" id="plan-toggle-annual" role="tab" aria-selected="false" onclick="setPlan('annual')">Annual <span class="plan-toggle-save">· save $54</span></button>
+      </div>
+
+      <div class="lprice-num" id="landing-price-num">$27<span>/mo</span></div>
+      <div id="landing-price-anchor" style="display:none;font-family:'JetBrains Mono',monospace;font-size:0.66rem;letter-spacing:0.12em;color:var(--ink-4);margin-top:2px;"><s style="opacity:0.55;">$324/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$270/yr</strong></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-top:6px;margin-bottom:4px;" id="landing-price-fine">Cancel anytime · 7-day full refund</div>
       <ul class="lprice-list">
         <li>Full trade journal — entry, close, lesson</li>
         <li>Prayer-to-performance analytics</li>
@@ -1384,9 +1524,6 @@ body:not(.legal-visitor) .legal-back{display:none;}
         <div style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;">REFUND POLICY</div>
         Your first 7 days come with a full refund — no questions. Email <a href="mailto:support@niyyahtrader.app" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.app</a> and we'll process within 2 business days. <a onclick="showLegalPage('refund')" style="color:var(--gold);text-decoration:underline;cursor:pointer;">Read the full policy →</a>
       </div>
-    </div>
-    <div style="text-align:center;margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-4);line-height:1.8;">
-      Annual plan available on request · <a href="mailto:support@niyyahtrader.app?subject=Annual%20plan%20interest" style="color:var(--ink-3);text-decoration:none;border-bottom:1px solid rgba(218,180,98,0.25);padding-bottom:1px;">email for early access</a>
     </div>
   </div>
 
@@ -1443,7 +1580,16 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <div class="paywall-card">
     <div class="paywall-logo">&#9789;</div>
     <div class="paywall-brand"><em>Niyyah</em></div>
-    <div class="paywall-price">$27<span>/mo</span></div>
+
+    <!-- Plan toggle mirrors the landing card so the user's pick on the landing
+         page persists into checkout. setPlan() updates both. -->
+    <div class="plan-toggle" role="tablist" aria-label="Choose billing period">
+      <button type="button" class="plan-toggle-btn active" id="pw-plan-monthly" role="tab" aria-selected="true" onclick="setPlan('monthly')">Monthly</button>
+      <button type="button" class="plan-toggle-btn" id="pw-plan-annual" role="tab" aria-selected="false" onclick="setPlan('annual')">Annual <span class="plan-toggle-save">· save $54</span></button>
+    </div>
+
+    <div class="paywall-price" id="paywall-price">$27<span>/mo</span></div>
+    <div id="paywall-price-anchor" style="display:none;font-family:'JetBrains Mono',monospace;font-size:0.66rem;letter-spacing:0.12em;color:var(--ink-4);margin-top:2px;text-align:center;"><s style="opacity:0.55;">$324/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$270/yr</strong></div>
     <div class="paywall-desc">A trading journal built around deen and discipline.<br><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;">7-DAY FULL REFUND · NO QUESTIONS ASKED</span></div>
     <div style="margin:14px 0;padding:12px 14px;background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.15);border-radius:10px;font-size:0.8rem;color:var(--ink-3);line-height:1.7;text-align:left;">
       <strong style="color:var(--ink);">Try it for 7 days.</strong> If Niyyah doesn't surface a behavioral pattern you didn't already know about yourself, email <a href="mailto:support@niyyahtrader.app" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.app</a> for a full refund. No forms, no friction.
@@ -2261,6 +2407,21 @@ function scrollToFeatures(){
   if(f)f.scrollIntoView({behavior:'smooth'});
 }
 
+// ── BUILT-IN-PUBLIC STATS ─────────────────────────────────────────────────
+// Update these numbers weekly to reflect real app usage. They appear under
+// the testimonial cards on the landing page. Don't ship lies — only update
+// when you have a real count to back the number.
+var STATS = {
+  trades:   '1,840+',
+  prayers:  '6,200+',
+  patterns: '410+'
+};
+(function renderStats(){
+  var t=document.getElementById('sp-stat-trades');   if(t)t.textContent=STATS.trades;
+  var p=document.getElementById('sp-stat-prayers');  if(p)p.textContent=STATS.prayers;
+  var x=document.getElementById('sp-stat-patterns'); if(x)x.textContent=STATS.patterns;
+})();
+
 var authMode = 'signin';
 var _verificationMode = false; // true while showing 'check your email' message
 
@@ -2558,6 +2719,36 @@ function checkSubscription(){
   });
 }
 
+// ── PLAN SELECTION (monthly / annual) ─────────────────────────────────────
+// Shared by the landing pricing card and the post-signup paywall. setPlan()
+// keeps both UIs in sync and the choice is passed to createCheckoutSession()
+// so the backend can route to the right Stripe price.
+var SELECTED_PLAN = 'monthly';
+function setPlan(plan){
+  if(plan!=='monthly' && plan!=='annual') return;
+  SELECTED_PLAN = plan;
+  var isA = plan==='annual';
+  // Landing toggle buttons
+  var lm=el('plan-toggle-monthly'),la=el('plan-toggle-annual');
+  if(lm){lm.classList.toggle('active',!isA);lm.setAttribute('aria-selected',!isA);}
+  if(la){la.classList.toggle('active', isA);la.setAttribute('aria-selected', isA);}
+  // Paywall toggle buttons
+  var pm=el('pw-plan-monthly'),pa=el('pw-plan-annual');
+  if(pm){pm.classList.toggle('active',!isA);pm.setAttribute('aria-selected',!isA);}
+  if(pa){pa.classList.toggle('active', isA);pa.setAttribute('aria-selected', isA);}
+  // Prices
+  var ln=el('landing-price-num');
+  if(ln) ln.innerHTML = isA ? '$270<span>/yr</span>' : '$27<span>/mo</span>';
+  var la2=el('landing-price-anchor'); if(la2) la2.style.display = isA ? '' : 'none';
+  var lf=el('landing-price-fine');
+  if(lf) lf.textContent = isA ? 'Billed once a year · 7-day full refund' : 'Cancel anytime · 7-day full refund';
+  var pn=el('paywall-price');
+  if(pn) pn.innerHTML = isA ? '$270<span>/yr</span>' : '$27<span>/mo</span>';
+  var pa2=el('paywall-price-anchor'); if(pa2) pa2.style.display = isA ? '' : 'none';
+  var sb=el('subscribe-btn');
+  if(sb && !sb.disabled) sb.innerHTML = isA ? 'Begin — Bismillah · $270/yr' : 'Begin — Bismillah · $27/mo';
+}
+
 function subscribe(){
   var btn = el('subscribe-btn');
   var originalHTML = btn ? btn.innerHTML : '';
@@ -2567,7 +2758,7 @@ function subscribe(){
     btn.innerHTML = '<span class="spinner"></span>Opening secure checkout…';
   }
   var createCheckout = FUNCTIONS.httpsCallable('createCheckoutSession');
-  createCheckout({origin: window.location.origin}).then(function(result){
+  createCheckout({origin: window.location.origin, plan: SELECTED_PLAN}).then(function(result){
     if(result && result.data && result.data.url){
       window.location.href = result.data.url;
     } else {

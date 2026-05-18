@@ -66,8 +66,22 @@ function stripe() {
   return _stripe;
 }
 
-function priceId() {
-  const p = (functions.config().stripe || {}).price_id;
+// Resolve the Stripe price ID for the requested plan. Monthly is the default
+// and the original config key (`stripe.price_id`) — annual lives under
+// `stripe.price_id_annual` so existing deployments keep working unchanged.
+//
+// TODO(deploy): once you have a recurring annual price in Stripe, run:
+//   firebase functions:config:set stripe.price_id_annual="price_..."
+//   firebase deploy --only functions
+// Until that config is set, requests with plan='annual' fall back to monthly
+// (so the toggle never breaks checkout) and log a warning.
+function priceId(plan) {
+  const cfg = functions.config().stripe || {};
+  if (plan === 'annual') {
+    if (cfg.price_id_annual) return cfg.price_id_annual;
+    console.warn("Annual plan requested but stripe.price_id_annual not configured — falling back to monthly.");
+  }
+  const p = cfg.price_id;
   if (!p) {
     throw new functions.https.HttpsError(
       'failed-precondition',
@@ -106,6 +120,7 @@ exports.createCheckoutSession = functions
     const origin = (data && typeof data.origin === 'string')
       ? data.origin.replace(/\/+$/, '')
       : null;
+    const plan   = (data && data.plan === 'annual') ? 'annual' : 'monthly';
 
     // Reject open redirects — only allow the origin tied to this Firebase
     // project (Vercel domain + localhost for dev). Add others if you ship
@@ -124,7 +139,7 @@ exports.createCheckoutSession = functions
       mode: 'subscription',
       customer: customerId,
       payment_method_types: ['card'],
-      line_items: [{ price: priceId(), quantity: 1 }],
+      line_items: [{ price: priceId(plan), quantity: 1 }],
       allow_promotion_codes: true,
       // Marketing copy promises a 7-day full refund (not a free trial).
       // Refunds are handled manually via the Stripe dashboard when a user
@@ -132,7 +147,7 @@ exports.createCheckoutSession = functions
       //   subscription_data: { trial_period_days: 7 }
       // and drop the refund-policy language from the landing page.
       subscription_data: {
-        metadata: { firebaseUID: uid }
+        metadata: { firebaseUID: uid, plan }
       },
       client_reference_id: uid,
       success_url: `${safeOrigin}/?success=true&session_id={CHECKOUT_SESSION_ID}`,
