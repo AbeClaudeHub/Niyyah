@@ -1616,7 +1616,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
   </div>
 </div>
 
-<div class="onboard" id="onboard"><div class="ob-card"><div class="ob-icon">☽</div><div class="ob-eye" id="ob-eye">WELCOME</div><div class="ob-title" id="ob-title">As-salamu <em>alaykum</em></div><div class="ob-text" id="ob-text"></div><div style="display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;"><button class="btn btn-gold btn-lg" id="ob-btn" onclick="obNext()">Continue →</button><button class="btn btn-ghost btn-sm" id="ob-skip" onclick="obSkip()" style="font-size:0.74rem;">Skip</button></div><div class="ob-dots"><div class="ob-dot on" id="od1"></div><div class="ob-dot" id="od2"></div><div class="ob-dot" id="od3"></div><div class="ob-dot" id="od4"></div></div></div></div>
+<div class="onboard" id="onboard"><div class="ob-card"><div class="ob-icon">☽</div><div class="ob-eye" id="ob-eye">WELCOME</div><div class="ob-title" id="ob-title">As-salamu <em>alaykum</em></div><div class="ob-text" id="ob-text"></div><div style="display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;"><button class="btn btn-gold btn-lg" id="ob-btn" onclick="obNext()">Continue →</button><button class="btn btn-ghost btn-sm" id="ob-skip" onclick="obSkip()" style="font-size:0.74rem;">Skip</button></div><div class="ob-dots"><div class="ob-dot on" id="od1"></div><div class="ob-dot" id="od2"></div><div class="ob-dot" id="od3"></div><div class="ob-dot" id="od4"></div><div class="ob-dot" id="od5"></div></div></div></div>
 <div class="sb-overlay" id="sb-overlay" onclick="toggleSB()"></div>
 <aside class="sidebar" id="sidebar">
   <div class="brand"><div class="brand-mark">☽</div><div><div class="brand-name">Niyyah</div><div class="brand-sub">Trade with intention</div></div></div>
@@ -1631,6 +1631,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="nav-sect">TOOLS</div>
     <div class="nav-item" data-page="playbook" onclick="go('playbook',this)"><span class="nav-icon">❑</span>Playbook</div>
     <div class="nav-item" data-page="risk" onclick="go('risk',this)"><span class="nav-icon">⚖</span>Risk Calc</div>
+    <div class="nav-item" data-page="zakat" onclick="go('zakat',this)"><span class="nav-icon">☪</span>Zakat</div>
     <div class="nav-sect">SETUP</div>
     <div class="nav-item" data-page="guide" onclick="go('guide',this)"><span class="nav-icon">?</span>Guide</div>
     <div class="nav-item" data-page="goals" onclick="go('goals',this)"><span class="nav-icon">◎</span>Goals</div>
@@ -1736,6 +1737,9 @@ body:not(.legal-visitor) .legal-back{display:none;}
 
 <div class="page" id="page-intrade">
   <div class="ph"><div class="ph-eye" id="intrade-eye">IN TRADE MODE</div><div class="ph-title" id="intrade-title">Stay <em>grounded</em>.</div><div class="ph-sub" id="intrade-sub">Islamic psychology to keep you calm while your position runs.</div></div>
+  <!-- Prayer-time pill: visible only when prayer-aware alerts are on AND a
+       prayer is within 30 min. Soft signal, never blocks. Enable in Settings. -->
+  <div id="prayer-pill-wrap" style="display:none;margin-bottom:14px;"></div>
   <div id="open-trade-detail"></div>
   <div id="intrade-active-panels" style="display:none;">
     <div class="panel"><div class="panel-head"><div class="panel-title">The Reminder</div></div><div class="intrade-verse"><div class="intrade-ar">وَعَلَى اللَّهِ فَتَوَكَّلُوا إِن كُنتُم مُّؤْمِنِينَ</div><div class="intrade-en">"And upon Allah rely, if you should be believers."</div><div class="intrade-ref">Surah Al-Ma'idah · 5:23</div><div class="intrade-lesson">You entered with analysis. You set your stop and your target. Your job is done. The outcome belongs to Allah. Moving your stop, adding to the position, checking P&amp;L every 30 seconds — none of this changes what was written. Breathe.</div></div></div>
@@ -1765,6 +1769,25 @@ body:not(.legal-visitor) .legal-back{display:none;}
 
 <div class="page" id="page-analytics">
   <div class="ph"><div class="ph-eye">DEEP ANALYTICS</div><div class="ph-title">Patterns You <em>Can't See</em></div><div class="ph-sub">Your inner state correlated with your P&amp;L. Needs 5+ closed trades for meaningful patterns.</div></div>
+  <!-- Filter strip: range + halal toggle. Changes trigger renderAnalytics()
+       which recomputes from S.trades. Filters live on window._anFilters so
+       they survive page navigation within a session (not persisted). -->
+  <div class="panel" style="padding:14px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.2em;color:var(--ink-3);text-transform:uppercase;">RANGE</div>
+    <div id="an-range" style="display:flex;gap:4px;">
+      <button class="btn btn-ghost btn-sm an-range-btn" data-range="7"   onclick="setAnRange(7,this)">7d</button>
+      <button class="btn btn-ghost btn-sm an-range-btn" data-range="30"  onclick="setAnRange(30,this)">30d</button>
+      <button class="btn btn-ghost btn-sm an-range-btn" data-range="90"  onclick="setAnRange(90,this)">90d</button>
+      <button class="btn btn-gold btn-sm an-range-btn active"  data-range="all" onclick="setAnRange('all',this)">All</button>
+    </div>
+    <div style="width:1px;height:22px;background:var(--line-2);"></div>
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.78rem;color:var(--ink-2);user-select:none;">
+      <input type="checkbox" id="an-halal-only" onchange="setAnHalalOnly(this.checked)" style="accent-color:var(--gold);width:14px;height:14px;">
+      Halal-tagged only
+    </label>
+    <div style="flex:1;"></div>
+    <div id="an-filter-summary" style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--ink-4);"></div>
+  </div>
   <div class="metric-grid" id="perf-metrics"></div>
   <div class="grid-2">
     <div class="panel"><div class="panel-head"><div class="panel-title">P&amp;L by Day of Week</div></div><div class="chart-wrap" style="height:230px;"><canvas id="dow-chart"></canvas></div></div>
@@ -1823,6 +1846,30 @@ body:not(.legal-visitor) .legal-back{display:none;}
         <p style="margin-bottom:11px;"><strong style="color:var(--gold);">→ Personal daily limit.</strong> Set your daily loss limit at 40% of the firm's limit. Stop when you hit it — no exceptions.</p>
         <p style="margin-bottom:11px;"><strong style="color:var(--gold);">→ Tawakkul after entry.</strong> Once the trade is on with a proper stop, release the outcome. You have done your work.</p>
         <p><strong style="color:var(--gold);">→ Kibr guard.</strong> After a winning streak, reduce your size slightly. The nafs inflates. The rules hold it down.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-zakat">
+  <div class="ph"><div class="ph-eye">DEEN · WEALTH</div><div class="ph-title"><em>Zakat</em> on Trading Gains</div><div class="ph-sub">Zakat is 2.5% of qualifying wealth held above nisab for a full lunar year (hawl). Niyyah estimates your due based on your realized P&amp;L and a hawl start date you set. This is a planning tool — confirm the final figure with a knowledgeable scholar before paying.</div></div>
+  <div class="grid-2">
+    <div class="panel">
+      <div class="panel-title" style="margin-bottom:16px;">Calculate Zakat Due</div>
+      <div class="field"><label>Hawl Start Date <span style="color:var(--ink-4);font-weight:300;">(when your wealth first crossed nisab)</span></label><input type="date" id="zk-hawl-start" oninput="calcZakat()"></div>
+      <div class="field"><label>Nisab Basis</label><select id="zk-basis" onchange="calcZakat()"><option value="silver">Silver — ~612.36 g (lower threshold, broader scope — most scholars recommend)</option><option value="gold">Gold — ~87.48 g (higher threshold)</option></select></div>
+      <div class="field"><label>Current Nisab Value ($) <span style="color:var(--ink-4);font-weight:300;">— look up today's spot price</span></label><input type="number" inputmode="decimal" id="zk-nisab" placeholder="e.g. 580 for silver" oninput="calcZakat()"></div>
+      <div class="field"><label>Other Qualifying Wealth ($) <span style="color:var(--ink-4);font-weight:300;">— cash, savings, investments outside this account</span></label><input type="number" inputmode="decimal" id="zk-other" placeholder="0" oninput="calcZakat()"></div>
+      <div class="field"><label>Account Balance Today ($) <span style="color:var(--ink-4);font-weight:300;">— your current trading account size</span></label><input type="number" inputmode="decimal" id="zk-balance" placeholder="0" oninput="calcZakat()"></div>
+      <div id="zakat-result"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title" style="margin-bottom:13px;">How Niyyah Calculates It</div>
+      <div style="font-size:0.85rem;color:var(--ink-2);line-height:1.95;">
+        <p style="margin-bottom:11px;"><strong style="color:var(--gold);">→ Hawl (lunar year).</strong> Zakat is due once your wealth has stayed above nisab for one full lunar year (~354 days). Niyyah counts from the date you set.</p>
+        <p style="margin-bottom:11px;"><strong style="color:var(--gold);">→ Realized gains only.</strong> The unrealized P&amp;L of an open position is not zakatable until closed. Niyyah pulls your closed-trade P&amp;L from your journal automatically.</p>
+        <p style="margin-bottom:11px;"><strong style="color:var(--gold);">→ Above nisab.</strong> Below the nisab threshold no zakat is due. The silver basis is broader (more zakat owed) — most contemporary scholars recommend it.</p>
+        <p><strong style="color:var(--gold);">→ Niyyah is not a fatwa.</strong> Madhhab rulings differ on day-trading capital, leverage, and futures. Verify your specific situation with a qualified scholar — the FAQ on the landing page links to resources.</p>
       </div>
     </div>
   </div>
@@ -2005,10 +2052,25 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;margin-bottom:14px;">Browser reminders fire while Niyyah is open in a tab. Install the app (iOS / Android home screen) for the most reliable delivery.</div>
     <div id="notif-permission-row" style="margin-bottom:14px;"></div>
     <div id="notif-prefs-rows"></div>
+    <div id="push-toggle-row" style="margin-top:14px;"></div>
     <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;">
       <button class="btn btn-outline btn-sm" onclick="testNotification()">Send test</button>
       <button class="btn btn-ghost btn-sm" onclick="installPwaPrompt()" id="pwa-install-btn" style="display:none;">↓ Install as app</button>
     </div>
+  </div>
+
+  <!-- ── PRAYER-TIME ALERTS ───────────────────────────────────────────── -->
+  <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2);">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">PRAYER-AWARE IN-TRADE PILL</div>
+    <div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;margin-bottom:14px;">When enabled, the <em>In Trade</em> page shows a soft pill if a prayer is within 30 min — "Maghrib in 12 min". Approximate (Muslim World League convention). Always verify in your dedicated adhan app.</div>
+    <div id="prayer-loc-row" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;"></div>
+  </div>
+
+  <!-- ── REFERRAL ─────────────────────────────────────────────────────── -->
+  <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2);">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">REFER A BROTHER</div>
+    <div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;margin-bottom:14px;">Share Niyyah with another Muslim trader. When they subscribe with your link, you both get 1 month free. <em>(Credit applies after their first successful payment — runs on a Cloud Function that you'll deploy from <code>functions/redeemReferral.js</code>.)</em></div>
+    <div id="referral-row"></div>
   </div>
   <div style="margin-top:22px;padding-top:18px;border-top:1px solid rgba(214,132,132,0.18);">
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--red);margin-bottom:8px;">DANGER ZONE</div>
@@ -2162,6 +2224,16 @@ body:not(.legal-visitor) .legal-back{display:none;}
    <div class="field-row c3"><div class="field"><label>Date</label><input type="date" id="e-date"></div><div class="field"><label>Time</label><input type="time" id="e-time"></div><div class="field"><label>Instrument</label><input type="text" id="e-inst" placeholder="ES, NQ, MGC…"></div></div>
    <div class="field-row c3"><div class="field"><label>Direction</label><select id="e-dir"><option value="LONG">Long</option><option value="SHORT">Short</option></select></div><div class="field"><label>Setup (Playbook)</label><select id="e-setup-sel"><option value="">— Select or type below —</option></select></div><div class="field"><label>Or type setup name</label><input type="text" id="e-setup" placeholder="ORB, VWAP, BPB…"></div></div>
    <div class="field-row c3"><div class="field"><label>Entry Price</label><input type="text" inputmode="decimal" autocomplete="off" id="e-entry" placeholder="21,050"></div><div class="field"><label>Stop Loss</label><input type="text" inputmode="decimal" autocomplete="off" id="e-stop" placeholder="21,000"></div><div class="field"><label>Target</label><input type="text" inputmode="decimal" autocomplete="off" id="e-target" placeholder="21,150"></div></div>
+   <div id="e-rr-warn" style="display:none;margin:-4px 0 12px;font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;color:var(--gold);background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.18);padding:8px 12px;border-radius:8px;"></div>
+   <div class="field">
+     <label>Halal classification <span style="color:var(--ink-4);font-weight:300;text-transform:none;font-family:'Inter';font-size:0.7rem;">— your own call. Not a fatwa.</span></label>
+     <select id="e-halal">
+       <option value="">— Not specified —</option>
+       <option value="halal">Halal — instrument & method I'm confident in</option>
+       <option value="doubtful">Doubtful — unsure, will ask a scholar</option>
+       <option value="avoid">Avoid — knowingly outside my standard (logged for honesty)</option>
+     </select>
+   </div>
    <div class="fs-label">Islamic Pre-Trade Check</div>
    <div class="ic-grid">
     <div class="ic-item" id="ic-bismillah" onclick="toggleIC('bismillah')"><div class="ic-circle" id="icc-bismillah">✓</div><div><span class="ic-arabic">بِسْمِ اللَّه</span><span class="ic-text">Said Bismillah?</span></div></div>
@@ -3088,11 +3160,55 @@ var OB=[
     text:'<div style="font-size:0.84rem;color:var(--ink-3);margin-bottom:14px;line-height:1.6;">Pick the one that costs you the most. Niyyah will calibrate your dashboard to it.</div><div id="ob-leak-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:left;"><button class="ob-leak-btn" data-leak="revenge" onclick="obPickLeak(this)" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">Revenge trading</div><div style="font-size:0.72rem;color:var(--ink-4);">Adding after a loss</div></button><button class="ob-leak-btn" data-leak="fomo" onclick="obPickLeak(this)" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">FOMO entries</div><div style="font-size:0.72rem;color:var(--ink-4);">Chasing the move</div></button><button class="ob-leak-btn" data-leak="rules" onclick="obPickLeak(this)" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">Breaking my rules</div><div style="font-size:0.72rem;color:var(--ink-4);">Moving stops, oversizing</div></button><button class="ob-leak-btn" data-leak="overconf" onclick="obPickLeak(this)" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">Kibr after wins</div><div style="font-size:0.72rem;color:var(--ink-4);">Sizing up, getting cocky</div></button><button class="ob-leak-btn" data-leak="missing" onclick="obPickLeak(this)" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">Missing salah</div><div style="font-size:0.72rem;color:var(--ink-4);">For a chart, regularly</div></button><button class="ob-leak-btn" data-leak="boredom" onclick="obPickLeak(this)" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">Boredom trades</div><div style="font-size:0.72rem;color:var(--ink-4);">Forcing setups</div></button></div>'
   },
   {
+    eye:'SEE IT WORK · SAMPLE TRADE',
+    title:'Let\'s log a <em>practice trade</em>.',
+    text:'<div style="text-align:left;font-size:0.85rem;color:var(--ink-2);line-height:1.75;">We\'ll drop a sample trade into your journal so you can see Quality Score, the gate, and the dashboard come alive immediately. <strong style="color:var(--ink);">It\'s flagged as a sample</strong> and excluded from your real analytics — delete it any time from the Trades page.<br><br>This is the fastest way to understand what your real first trade will look like.</div><div style="margin-top:18px;display:flex;flex-direction:column;gap:8px;text-align:left;background:rgba(218,180,98,0.04);border:1px solid rgba(218,180,98,0.14);border-radius:10px;padding:12px 14px;font-family:\'JetBrains Mono\',monospace;font-size:0.65rem;color:var(--ink-3);line-height:1.6;"><div><span style="color:var(--gold);">SAMPLE</span> · ES LONG · entry 5320 · stop 5310 · target 5340</div><div><span style="color:var(--gold);">SETUP</span> · ORB · emotion: calm · gate: all yes</div><div><span style="color:var(--gold);">RESULT</span> · +$150 · quality ~88/100</div></div>'
+  },
+  {
     eye:'YOUR FIRST 60 SECONDS',
     title:'Three taps to <em>begin</em>.',
-    text:'<div style="text-align:left;font-size:0.88rem;color:var(--ink-2);line-height:1.85;">→ Tap the <strong style="color:var(--gold);">+</strong> button to log a trade — entry now, close when done.<br>→ Tap a prayer pill on the dashboard when you pray it.<br>→ That is it. Patterns appear after 5 trades.</div><div style="margin-top:14px;font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.16em;color:var(--ink-4);">YOU CAN OPEN THE GUIDE ANYTIME FROM THE SIDEBAR.</div>'
+    text:'<div style="text-align:left;font-size:0.88rem;color:var(--ink-2);line-height:1.85;">→ Tap the <strong style="color:var(--gold);">+</strong> button to log a real trade — entry now, close when done.<br>→ Tap a prayer pill on the dashboard when you pray it.<br>→ That is it. Patterns appear after 5 trades.</div><div style="margin-top:14px;font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.16em;color:var(--ink-4);">YOU CAN OPEN THE GUIDE ANYTIME FROM THE SIDEBAR.</div>'
   }
 ];
+
+// Drop a sample trade into the user's journal when they advance past the
+// sample-trade step. The trade is flagged sample:true and excluded from
+// analytics filtering. They can delete it any time.
+function obAddSampleTrade(){
+  // Skip if we've already inserted a sample (re-running onboarding shouldn't
+  // double-create) or if the user already has trades (don't pollute real data).
+  if((S.trades||[]).some(function(t){return t.sample;})) return;
+  if((S.trades||[]).length > 0) return;
+  var t = {
+    id: Date.now(),
+    sample: true,
+    status: 'closed',
+    date: localDate(),
+    time: '09:45',
+    instrument: 'ES',
+    direction: 'LONG',
+    setup: 'ORB',
+    entryPrice: '5320',
+    stopPrice: '5310',
+    targetPrice: '5340',
+    halal: '',
+    emotion: 'calm',
+    exitEmotion: 'grateful',
+    exitPrice: '5335',
+    outcome: 'win',
+    lesson: 'Sample trade — added during onboarding so you could see how a logged trade looks.',
+    pnl: 150,
+    quality: 88,
+    islamicCheck: {bismillah:true, prayer:true, setup:true, stop:true},
+    gateAnswers: {waited:'yes', conf:'yes', calm:'yes'},
+    prayers: {},
+    screenshot: null,
+    createdAt: new Date().toISOString(),
+    closedAt: new Date().toISOString()
+  };
+  S.trades.unshift(t);
+  sv('trades', S.trades);
+}
 
 // User picks their biggest leak during onboarding. Persisted to settings so
 // the dashboard insight panel can speak to it specifically until enough
@@ -3137,6 +3253,12 @@ function renderOB(){
   }
 }
 function obNext(){
+  // If we're leaving the SAMPLE-TRADE step, insert the sample trade so the
+  // dashboard shows real-looking state when the user lands on it.
+  var current = OB[S.obStep];
+  if(current && (current.eye||'').indexOf('SAMPLE') > -1){
+    obAddSampleTrade();
+  }
   S.obStep++;
   sv('obStep',S.obStep);
   if(S.obStep<OB.length){renderOB();}
@@ -3160,7 +3282,7 @@ function replayOnboarding(){
 }
 
 // ── NAVIGATION ─────────────────────────────────────────────────────────────
-var PAGE_TITLES={dashboard:'Today',intrade:'In Trade',trades:'Trade Log',calendar:'Calendar',analytics:'Analytics',journal:'Journal',playbook:'Playbook',risk:'Risk Calc',goals:'Goals',blueprint:'Blueprint',guide:'Guide',settings:'Settings',privacy:'Privacy',terms:'Terms',refund:'Refund Policy'}
+var PAGE_TITLES={dashboard:'Today',intrade:'In Trade',trades:'Trade Log',calendar:'Calendar',analytics:'Analytics',journal:'Journal',playbook:'Playbook',risk:'Risk Calc',zakat:'Zakat',goals:'Goals',blueprint:'Blueprint',guide:'Guide',settings:'Settings',privacy:'Privacy',terms:'Terms',refund:'Refund Policy'}
 // Page renderers are looked up at navigation time. dashboard & settings are
 // wrapped at runtime by the retention module, so resolve through the live
 // binding instead of capturing the original reference here.
@@ -3168,7 +3290,7 @@ var PAGE_FNS={privacy:function(){},terms:function(){},refund:function(){},guide:
   dashboard:function(){return renderDash.apply(this,arguments);},
   intrade:renderInTrade,trades:renderTrades,
   calendar:renderCal,analytics:renderAnalytics,journal:renderJournal,
-  playbook:renderPlaybook,risk:renderRisk,goals:renderGoals,
+  playbook:renderPlaybook,risk:renderRisk,zakat:renderZakat,goals:renderGoals,
   settings:function(){return renderSettings.apply(this,arguments);}};
 
 function go(page,navEl){
@@ -3267,6 +3389,13 @@ function checkGate(){
     }
   }
 
+  // Cross-check: user said calm in the gate but picked a charged emotion.
+  // This is the central contradiction the audit flagged — surface it instead
+  // of silently letting both stand.
+  if(S.gateAns.calm==='yes' && EMOTION_CHARGED[S.selEmotion]){
+    insights.push('You answered <strong>calm</strong> in the gate but tagged your state as <strong>'+S.selEmotion+'</strong>. One of these is the truth — the mirror only works when they agree.');
+  }
+
   if(!anyNo&&insights.length===0){w.classList.remove('show');return;}
 
   var a=S.gateAns,recent=S.trades.slice(0,20),lb=[],wt='';
@@ -3307,7 +3436,19 @@ function resetIC(){
 }
 
 // ── EMOTION ────────────────────────────────────────────────────────────────
-function selEm(btn){document.querySelectorAll('#entry-modal .emotion-btn').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');S.selEmotion=btn.dataset.e;}
+// Cross-check: if the user picks a charged emotion (fomo / revenge / urgency /
+// anxious) but already self-reported "calm" in the gate, surface the
+// contradiction so they reconsider one or the other. We do not silently
+// overwrite — the mirror only works if the user faces it.
+var EMOTION_CHARGED = {fomo:1, revenge:1, urgency:1, anxious:1, overconf:1};
+function selEm(btn){
+  document.querySelectorAll('#entry-modal .emotion-btn').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  S.selEmotion = btn.dataset.e;
+  // Refresh the warning state of the gate so the contradiction (if any) shows
+  // up immediately without waiting for another gate tap.
+  if(typeof checkGate === 'function') checkGate();
+}
 function selExEm(btn){document.querySelectorAll('#exit-modal .emotion-btn').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');S.selExEmotion=btn.dataset.e;}
 
 // ── QUALITY SCORE ──────────────────────────────────────────────────────────
@@ -3370,6 +3511,9 @@ function openEntryModal(){
   resetScreenshotZone('e-screenshot-zone','entry');
   document.querySelectorAll('.gqb').forEach(function(b){b.classList.remove('on');});
   var gw=el('gate-warn');if(gw)gw.classList.remove('show');
+  var rw=el('e-rr-warn');if(rw)rw.style.display='none';
+  window._rrConfirmed = false;
+  var hs=el('e-halal');if(hs)hs.value='';
   document.querySelectorAll('#entry-modal .emotion-btn').forEach(function(b){b.classList.remove('on');});
   resetIC();
   var sel=el('e-setup-sel');
@@ -3388,6 +3532,41 @@ function closeEntry(force){
 function saveEntry(){
   var inst=(el('e-inst')?el('e-inst').value:'').toUpperCase().trim();
   if(!inst){toast('Please enter the instrument','e');return;}
+  var dir = el('e-dir') ? el('e-dir').value : 'LONG';
+  var rawEntry = el('e-entry')?el('e-entry').value:'';
+  var rawStop  = el('e-stop')?el('e-stop').value:'';
+  var rawTarget= el('e-target')?el('e-target').value:'';
+  // Strip thousands separators for numeric validation. Keep raw string on the
+  // trade so the user's original formatting survives the round-trip.
+  var nEntry = parseFloat((rawEntry||'').replace(/,/g,''));
+  var nStop  = parseFloat((rawStop ||'').replace(/,/g,''));
+  var nTarget= parseFloat((rawTarget||'').replace(/,/g,''));
+  // Hard validation: stop on the wrong side of entry is almost always a typo
+  // or a misunderstanding of the gate. Block save and explain.
+  if(!isNaN(nEntry) && !isNaN(nStop) && nEntry !== nStop){
+    if(dir==='LONG' && nStop >= nEntry){toast('LONG trade: stop ('+nStop+') must be BELOW entry ('+nEntry+')','e');return;}
+    if(dir==='SHORT' && nStop <= nEntry){toast('SHORT trade: stop ('+nStop+') must be ABOVE entry ('+nEntry+')','e');return;}
+  }
+  // Soft warning (not a block): RR below 1:1.
+  var rrWarn = el('e-rr-warn');
+  if(rrWarn) rrWarn.style.display = 'none';
+  if(!isNaN(nEntry) && !isNaN(nStop) && !isNaN(nTarget) && nEntry !== nStop){
+    var risk = Math.abs(nEntry - nStop);
+    var reward = Math.abs(nTarget - nEntry);
+    var rr = risk > 0 ? reward / risk : 0;
+    if(rr > 0 && rr < 1 && rrWarn){
+      // First click on Save shows the warning. Second click (within 6s)
+      // proceeds anyway so high-conviction setups aren't blocked.
+      if(!window._rrConfirmed){
+        rrWarn.innerHTML = '\u26a0 Reward-to-risk is <strong>'+rr.toFixed(2)+':1</strong> (below 1:1). Click Enter Trade again within 6s if you want to proceed anyway.';
+        rrWarn.style.display = '';
+        window._rrConfirmed = true;
+        setTimeout(function(){ window._rrConfirmed = false; }, 6000);
+        return;
+      }
+    }
+  }
+  window._rrConfirmed = false;
   var btn=el('save-entry-btn'),orig=btn?btn.innerHTML:'';
   if(btn){btn.disabled=true;btn.classList.add('is-loading');btn.innerHTML='<span class="spinner"></span>Saving\u2026';}
   var setupSel=el('e-setup-sel')&&el('e-setup-sel').value;
@@ -3396,11 +3575,12 @@ function saveEntry(){
     date:el('e-date')?el('e-date').value:localDate(),
     time:el('e-time')?el('e-time').value:'',
     instrument:inst,
-    direction:el('e-dir')?el('e-dir').value:'LONG',
+    direction:dir,
     setup:setupSel||setupTyped,
-    entryPrice:el('e-entry')?el('e-entry').value:'',
-    stopPrice:el('e-stop')?el('e-stop').value:'',
-    targetPrice:el('e-target')?el('e-target').value:'',
+    entryPrice:rawEntry,
+    stopPrice:rawStop,
+    targetPrice:rawTarget,
+    halal:el('e-halal')?el('e-halal').value:'',
     emotion:S.selEmotion||'calm',
     islamicCheck:Object.assign({},S.icChecked),
     gateAnswers:Object.assign({},S.gateAns),
@@ -3444,6 +3624,15 @@ function saveExit(){
   var pnl=parseFloat(el('x-pnl')?el('x-pnl').value:0)||0;
   var t=S.trades.find(function(x){return x.id===S.openTradeId&&x.status==='open';});
   if(!t){toast('No open trade to close','e');return;}
+  // Lesson is required on close. The whole product premise is reflection —
+  // accepting empty lessons quietly betrays it.
+  var lessonText = (el('x-lesson') ? el('x-lesson').value : '').trim();
+  if(lessonText.length < 4){
+    toast('Add a one-line lesson before closing — this is the mirror','e');
+    var lx = el('x-lesson');
+    if(lx){lx.focus(); lx.style.borderColor='var(--red)'; setTimeout(function(){lx.style.borderColor='';}, 1800);}
+    return;
+  }
   var btn=el('save-exit-btn'),orig=btn?btn.innerHTML:'';
   if(btn){btn.disabled=true;btn.classList.add('is-loading');btn.innerHTML='<span class="spinner"></span>Closing\u2026';}
   // Snapshot the prior state so we can revert if save fails
@@ -3493,7 +3682,7 @@ function openTD(id){
     '</div></div><div class="td-section"><div class="td-label">Prices</div><div class="td-row">'+mkTDItem('Entry',esc(t.entryPrice)||'\u2014')+mkTDItem('Stop',esc(t.stopPrice)||'\u2014')+mkTDItem('Target',esc(t.targetPrice)||'\u2014')+mkTDItem('Exit',esc(t.exitPrice)||'\u2014')+'</div></div>'+
     '<div class="td-section"><div class="td-label">Result</div><div class="td-row">'+
     mkTDItem('P&L','<span class="t-pnl '+(t.pnl>=0?'pos':'neg')+'">'+fmt(t.pnl,true)+'</span>')+
-    mkTDItem('Quality',(t.quality||0)+'/100')+mkTDItem('Outcome',esc(t.outcome)||'\u2014')+mkTDItem('Islamic',icScore+'/4 \u2713')+
+    mkTDItem('Quality',(t.quality||0)+'/100')+mkTDItem('Outcome',esc(t.outcome)||'\u2014')+mkTDItem('Islamic',icScore+'/4 \u2713')+(t.halal?mkTDItem('Halal tag','<span style="color:'+(t.halal==='halal'?'var(--green)':t.halal==='doubtful'?'var(--gold)':'var(--red)')+';text-transform:capitalize;">'+esc(t.halal)+'</span>'):'')+
     '</div></div><div class="td-section"><div class="td-label">Psychology</div><div class="td-row">'+mkTDItem('Entry State',esc(t.emotion)||'\u2014')+mkTDItem('Exit State',esc(t.exitEmotion)||'\u2014')+'</div>'+
     (t.lesson?'<div style="margin-top:10px;padding:11px 13px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);font-size:0.84rem;color:var(--ink-2);line-height:1.6;"><strong style="color:var(--gold);">Lesson:</strong> '+esc(t.lesson)+'</div>':'')+'</div>'+
     (t.gateAnswers&&Object.keys(t.gateAnswers).length?'<div class="td-section"><div class="td-label">Pre-Trade Gate</div><div style="font-size:0.82rem;color:var(--ink-2);line-height:1.9;">'+Object.entries(t.gateAnswers).map(function(kv){return'<span style="color:'+(kv[1]==='yes'?'var(--green)':'var(--red)')+'">'+esc(String(kv[1]).toUpperCase())+'</span> \u2014 '+esc(kv[0]);}).join('<br>')+'</div></div>':'')+
@@ -3907,7 +4096,24 @@ function renderDash(){
     var todayTrades=S.trades.filter(function(t){return t.date===localDate();});
     var todayClosed=todayTrades.filter(function(t){return t.status==='closed';});
     var todayPnl=todayClosed.reduce(function(s,t){return s+t.pnl;},0);
-    if(h<9){
+    // \u2500\u2500 Jumu'ah branch \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+    // Friday before 1:30pm local time. Speaks to the specific tension Muslim
+    // traders feel on a Jumu'ah day: do I close before khutbah?
+    var dayOfWeek=new Date().getDay();
+    var minutesNow=h*60 + new Date().getMinutes();
+    var isJumuahWindow = (dayOfWeek===5 && minutesNow < 13*60+30);
+    if(isJumuahWindow){
+      if(eyeEl) eyeEl.textContent = 'JUMU\u2019AH \u00b7 ' + new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'}).toUpperCase();
+      if(subEl) subEl.innerHTML = 'Today is Friday. Khutbah is soon \u2014 close positions before salah, or hold with intention.';
+      var openIds = S.trades.filter(function(t){return t.status==='open';}).length;
+      if(actEl){
+        if(openIds>0){
+          actEl.innerHTML = '<button class="btn btn-gold" onclick="openExitModal()">Close open trade for Jumu\u2019ah</button><button class="btn btn-outline" onclick="go(\'journal\',document.querySelector(\'[data-page=journal]\'))">Morning Journal</button>';
+        } else {
+          actEl.innerHTML = '<button class="btn btn-outline" onclick="openEntryModal()">+ Enter Trade (after Jumu\u2019ah)</button><button class="btn btn-gold" onclick="go(\'journal\',document.querySelector(\'[data-page=journal]\'))">Morning Journal</button>';
+        }
+      }
+    } else if(h<9){
       if(subEl)subEl.textContent='Pre-market. Set your intention before opening any chart.';
       if(actEl)actEl.innerHTML='<button class="btn btn-gold" onclick="openEntryModal()">+ Enter Trade</button><button class="btn btn-outline" onclick="go(\'journal\',document.querySelector(\'[data-page=journal]\'))">Morning Journal</button>';
     } else if(todayClosed.length>0){
@@ -4194,6 +4400,7 @@ function renderRecentTrades(){
 
 // ── IN-TRADE ────────────────────────────────────────────────────────────────
 function renderInTrade(){
+  renderPrayerPill();
   var t=S.openTradeId?S.trades.find(function(x){return x.id===S.openTradeId&&x.status==='open';}):null;
   var de=el('open-trade-detail'),pe=el('intrade-eye'),pt=el('intrade-title'),ps=el('intrade-sub'),cb=el('close-trade-btn');
   var panels=el('intrade-active-panels');
@@ -4275,13 +4482,42 @@ function renderMonthlyBars(){
 }
 
 // ── ANALYTICS ───────────────────────────────────────────────────────────────
+// Filter state lives on window so the user can navigate away and back without
+// losing their pick. Not persisted to Firestore — these are view options.
+window._anFilters = window._anFilters || { range:'all', halalOnly:false };
+function setAnRange(r, btn){
+  window._anFilters.range = r;
+  document.querySelectorAll('.an-range-btn').forEach(function(b){b.classList.remove('active');b.classList.remove('btn-gold');b.classList.add('btn-ghost');});
+  if(btn){btn.classList.add('active');btn.classList.add('btn-gold');btn.classList.remove('btn-ghost');}
+  renderAnalytics();
+}
+function setAnHalalOnly(on){ window._anFilters.halalOnly = !!on; renderAnalytics(); }
+function applyAnFilter(trades){
+  var f = window._anFilters || {range:'all',halalOnly:false};
+  // Always exclude sample trades from analytics — they're tutorial fixtures.
+  var out = trades.filter(function(t){ return !t.sample; });
+  if(f.range !== 'all'){
+    var cutoff = new Date(); cutoff.setDate(cutoff.getDate() - Number(f.range));
+    var cutoffStr = cutoff.toISOString().slice(0,10);
+    out = out.filter(function(t){ return t.date >= cutoffStr; });
+  }
+  if(f.halalOnly) out = out.filter(function(t){ return t.halal === 'halal'; });
+  return out;
+}
+
 function renderAnalytics(){
   // Lazy-load Chart.js if not yet present, then continue.
   if(!window.Chart && typeof window.__ensureChart === 'function'){
     window.__ensureChart().then(renderAnalytics).catch(function(){});
     return;
   }
-  var closed=S.trades.filter(function(t){return t.status==='closed';});
+  var closed=applyAnFilter(S.trades.filter(function(t){return t.status==='closed';}));
+  var sum=el('an-filter-summary');
+  if(sum){
+    var lbl = (window._anFilters.range==='all'?'All time':'Last '+window._anFilters.range+' days');
+    if(window._anFilters.halalOnly) lbl += ' · halal only';
+    sum.textContent = lbl + ' · ' + closed.length + ' trade'+(closed.length===1?'':'s');
+  }
   var pm=el('perf-metrics');
   if(pm&&closed.length){
     var wins=closed.filter(function(t){return t.pnl>0;}),losses=closed.filter(function(t){return t.pnl<0;});
@@ -4366,6 +4602,183 @@ function renderPlaybook(){
 }
 
 // ── RISK ──────────────────────────────────────────────────────────────────
+// ── PRAYER TIMES (approximate, opt-in) ────────────────────────────────────
+// Self-contained inline calculation using the Muslim World League convention
+// (Fajr -18°, Isha -17°). Accurate enough to surface a "Maghrib in ~12 min"
+// nudge in the In Trade page. Users who need precise times should still rely
+// on their dedicated adhan app — the UI surface labels this as approximate.
+//
+// Math reference: Pray Times algorithm by Hamid Zarrabi-Zadeh (open source).
+function _ptDeg2Rad(d){return d*Math.PI/180;}
+function _ptRad2Deg(r){return r*180/Math.PI;}
+function _ptJulian(y,m,d){
+  if(m<=2){y--;m+=12;}
+  var A=Math.floor(y/100);
+  var B=2-A+Math.floor(A/4);
+  return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5;
+}
+// Returns {decl, eqt} — sun declination (deg) and equation of time (min).
+function _ptSunPos(jd){
+  var D=jd-2451545.0;
+  var g=357.529 + 0.98560028*D;
+  var q=280.459 + 0.98564736*D;
+  var L=q + 1.915*Math.sin(_ptDeg2Rad(g)) + 0.020*Math.sin(_ptDeg2Rad(2*g));
+  var e=23.439 - 0.00000036*D;
+  var RA=_ptRad2Deg(Math.atan2(Math.cos(_ptDeg2Rad(e))*Math.sin(_ptDeg2Rad(L)), Math.cos(_ptDeg2Rad(L))))/15;
+  var decl=_ptRad2Deg(Math.asin(Math.sin(_ptDeg2Rad(e))*Math.sin(_ptDeg2Rad(L))));
+  var eqt=(q/15 - ((RA%24)+24)%24);
+  if(eqt>12)eqt-=24; if(eqt<-12)eqt+=24;
+  return {decl:decl, eqt:eqt*60};
+}
+// Compute time-of-day (hours) for a sun-altitude angle relative to noon.
+function _ptT(angle, lat, decl, noonHours){
+  var l=_ptDeg2Rad(lat), d=_ptDeg2Rad(decl);
+  var cosH=(-Math.sin(_ptDeg2Rad(angle)) - Math.sin(l)*Math.sin(d)) / (Math.cos(l)*Math.cos(d));
+  if(cosH>1||cosH<-1) return null;
+  return _ptRad2Deg(Math.acos(cosH))/15;
+}
+// Returns {fajr, dhuhr, asr, maghrib, isha} as fractional hours in local time,
+// or null if location is unset. Uses today's date.
+function computePrayerTimes(){
+  var loc = (S.settings && S.settings.prayerLoc) || null;
+  if(!loc || typeof loc.lat !== 'number' || typeof loc.lng !== 'number') return null;
+  var now = new Date();
+  var jd = _ptJulian(now.getFullYear(), now.getMonth()+1, now.getDate());
+  var pos = _ptSunPos(jd);
+  var tzOffset = -now.getTimezoneOffset()/60; // hours east of UTC
+  var noon = 12 - pos.eqt/60 - loc.lng/15 + tzOffset; // solar noon, local time
+  var fajrA=_ptT(18, loc.lat, pos.decl, noon);
+  var ishaA=_ptT(17, loc.lat, pos.decl, noon);
+  var sunset=_ptT(0.833, loc.lat, pos.decl, noon);
+  // Asr (Shafi convention): shadow-factor 1 plus noon shadow.
+  var asrAngle = -_ptRad2Deg(Math.atan(1/(1 + Math.tan(_ptDeg2Rad(Math.abs(loc.lat-pos.decl))))));
+  var asrA = _ptT(-asrAngle, loc.lat, pos.decl, noon);
+  if(fajrA===null||sunset===null||asrA===null||ishaA===null) return null;
+  return {
+    fajr: noon - fajrA,
+    dhuhr: noon,
+    asr: noon + asrA,
+    maghrib: noon + sunset,
+    isha: noon + sunset + (ishaA - sunset)
+  };
+}
+// Given today's prayer times, find the next prayer relative to now. Returns
+// {name, minutes} or null if all today's prayers have passed.
+function nextPrayer(){
+  var pt = computePrayerTimes(); if(!pt) return null;
+  var now = new Date();
+  var nowH = now.getHours() + now.getMinutes()/60;
+  var order = ['fajr','dhuhr','asr','maghrib','isha'];
+  for(var i=0;i<order.length;i++){
+    if(pt[order[i]] > nowH){
+      return { name: order[i], minutes: Math.round((pt[order[i]] - nowH) * 60) };
+    }
+  }
+  return null;
+}
+// Soft pill shown on the In Trade page when a prayer is within 30 min.
+function renderPrayerPill(){
+  var wrap = el('prayer-pill-wrap'); if(!wrap) return;
+  if(!(S.settings && S.settings.prayerLoc)){ wrap.style.display='none'; wrap.innerHTML=''; return; }
+  var np = nextPrayer();
+  if(!np || np.minutes > 30){ wrap.style.display='none'; wrap.innerHTML=''; return; }
+  var cap = np.name.charAt(0).toUpperCase() + np.name.slice(1);
+  wrap.style.display = '';
+  wrap.innerHTML =
+    '<div style="background:linear-gradient(135deg,rgba(218,180,98,0.07),transparent);border:1px solid rgba(218,180,98,0.25);border-radius:14px;padding:14px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">' +
+      '<div style="width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#c49a28,#0e0a02);border:1px solid rgba(218,180,98,0.4);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">☽</div>' +
+      '<div style="flex:1;min-width:200px;">' +
+        '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.54rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:4px;">'+cap+' IN ~'+np.minutes+' MIN</div>' +
+        '<div style="font-size:0.86rem;color:var(--ink-2);line-height:1.55;">Close before the call, or hold with intention. Approximate — verify in your adhan app.</div>' +
+      '</div>' +
+      '<button class="btn btn-outline btn-sm" onclick="openExitModal()">Close trade</button>' +
+    '</div>';
+}
+
+// ── ZAKAT ──────────────────────────────────────────────────────────────────
+// Estimate zakat due on trading wealth. Pulls realized P&L from the user's
+// own journal so the only numbers they have to provide are: hawl start date,
+// current nisab value (today's spot), other qualifying wealth, and the
+// current account balance.
+//
+// IMPORTANT: This is a planning aid, not a fatwa. Madhhab differences on
+// day-trading capital, leverage, and futures are real. The UI calls this out.
+function realizedPnLSince(isoDate){
+  if(!isoDate) return 0;
+  return (S.trades||[]).filter(function(t){
+    return t.status==='closed' && t.date && t.date >= isoDate;
+  }).reduce(function(sum,t){return sum + (t.pnl||0);}, 0);
+}
+// Approximate Hijri year length is 354 days. Returns YYYY-MM-DD of the date
+// one hawl after the given ISO date, or '' if invalid.
+function addHawl(isoDate){
+  if(!isoDate) return '';
+  var d = new Date(isoDate + 'T12:00:00');
+  if(isNaN(d.getTime())) return '';
+  d.setDate(d.getDate() + 354);
+  return d.toISOString().slice(0,10);
+}
+function daysUntil(isoDate){
+  if(!isoDate) return null;
+  var t = new Date(isoDate + 'T12:00:00').getTime();
+  if(isNaN(t)) return null;
+  return Math.ceil((t - Date.now()) / (1000*60*60*24));
+}
+function calcZakat(){
+  var rr = el('zakat-result'); if(!rr) return;
+  var hawlStart = el('zk-hawl-start') ? el('zk-hawl-start').value : '';
+  var basis     = el('zk-basis') ? el('zk-basis').value : 'silver';
+  var nisab     = parseFloat(el('zk-nisab') ? el('zk-nisab').value : 0) || 0;
+  var other     = parseFloat(el('zk-other') ? el('zk-other').value : 0) || 0;
+  var balance   = parseFloat(el('zk-balance') ? el('zk-balance').value : 0) || 0;
+  if(!hawlStart || !nisab){
+    rr.innerHTML = '<div style="padding:14px 16px;background:rgba(218,180,98,0.04);border:1px dashed rgba(218,180,98,0.18);border-radius:10px;font-size:0.82rem;color:var(--ink-3);text-align:center;line-height:1.7;">Set your hawl start date and today\'s nisab value to begin.</div>';
+    return;
+  }
+  var realized = realizedPnLSince(hawlStart);
+  var total = other + balance; // your full zakatable wealth picture
+  var aboveNisab = total >= nisab;
+  var dueDate = addHawl(hawlStart);
+  var daysToHawl = daysUntil(dueDate);
+  var hawlComplete = daysToHawl !== null && daysToHawl <= 0;
+  var zakatAmt = aboveNisab && hawlComplete ? total * 0.025 : 0;
+  var status, statusColor, statusBody;
+  if(!aboveNisab){
+    status = 'BELOW NISAB';
+    statusColor = 'var(--ink-3)';
+    statusBody = 'Total zakatable wealth ($'+fmt(total)+') is below the '+basis+' nisab ($'+fmt(nisab)+'). No zakat is due. Update the nisab value as gold/silver prices move.';
+  } else if(!hawlComplete){
+    status = 'HAWL IN PROGRESS';
+    statusColor = 'var(--gold)';
+    statusBody = 'Your wealth is above nisab. Hawl completes on '+dueDate+' (~'+daysToHawl+' days). If you remain above nisab on that date, zakat will be due then.';
+  } else {
+    status = 'ZAKAT DUE';
+    statusColor = 'var(--green)';
+    statusBody = 'Your hawl completed on '+dueDate+'. At 2.5% of $'+fmt(total)+', your zakat due is the figure above. Verify with a scholar.';
+  }
+  rr.innerHTML =
+    '<div style="margin-top:8px;background:linear-gradient(135deg,rgba(218,180,98,0.05),transparent);border:1px solid rgba(218,180,98,0.18);border-radius:14px;padding:22px 20px;">' +
+      '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.54rem;letter-spacing:0.18em;color:'+statusColor+';margin-bottom:8px;">'+status+'</div>' +
+      '<div style="font-family:\'Cormorant Garamond\',serif;font-size:2.2rem;font-weight:600;color:var(--ink);letter-spacing:-0.02em;">$'+fmt(zakatAmt)+'</div>' +
+      '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.62rem;letter-spacing:0.12em;color:var(--ink-3);margin-top:4px;text-transform:uppercase;">Estimated zakat due</div>' +
+      '<div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(218,180,98,0.1);font-size:0.78rem;color:var(--ink-2);line-height:1.7;">'+statusBody+'</div>' +
+      '<div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px;font-family:\'JetBrains Mono\',monospace;font-size:0.66rem;color:var(--ink-3);">' +
+        '<div>Realized P&amp;L since hawl<br><strong style="color:'+(realized>=0?'var(--green)':'var(--red)')+';font-size:0.82rem;">'+fmt(realized,true)+'</strong></div>' +
+        '<div>Total zakatable wealth<br><strong style="color:var(--ink);font-size:0.82rem;">$'+fmt(total)+'</strong></div>' +
+      '</div>' +
+    '</div>';
+}
+function renderZakat(){
+  // Pre-fill the account balance with realized P&L if user hasn't entered one.
+  var bal = el('zk-balance');
+  if(bal && !bal.value){
+    var lastClosedSum = (S.trades||[]).filter(function(t){return t.status==='closed';})
+      .reduce(function(s,t){return s + (t.pnl||0);}, 0);
+    if(lastClosedSum > 0) bal.placeholder = 'e.g. ' + Math.round(lastClosedSum);
+  }
+  calcZakat();
+}
+
 function calcRisk(){
   var acc=parseFloat(el('rc-account')?el('rc-account').value:0)||0;var riskPct=parseFloat(el('rc-risk-pct')?el('rc-risk-pct').value:1)||1;var entry=parseFloat(el('rc-entry')?el('rc-entry').value:0)||0;var stop=parseFloat(el('rc-stop')?el('rc-stop').value:0)||0;var type=el('rc-type')?el('rc-type').value:'futures-micro';
   var rr=el('risk-result');if(!rr)return;if(!acc||!entry||!stop){rr.innerHTML='';return;}
@@ -4396,6 +4809,46 @@ function renderSettings(){
     var dispEl=el('s-display-name');if(dispEl)dispEl.textContent=S.settings.name||user.displayName||user.email.split('@')[0];
     var avEl=el('s-avatar');if(avEl)avEl.textContent=(S.settings.name||user.displayName||user.email)[0].toUpperCase();
   }
+  renderPrayerLocRow();
+  renderPushToggleRow();
+  renderReferralRow();
+}
+
+// ── PRAYER-LOCATION OPT-IN ────────────────────────────────────────────────
+function renderPrayerLocRow(){
+  var row = el('prayer-loc-row'); if(!row) return;
+  var loc = S.settings && S.settings.prayerLoc;
+  if(loc){
+    row.innerHTML =
+      '<div style="flex:1;font-size:0.82rem;color:var(--ink-2);"><strong style="color:var(--gold);">Enabled</strong> at <span style="font-family:\'JetBrains Mono\',monospace;font-size:0.78rem;">'+loc.lat.toFixed(2)+', '+loc.lng.toFixed(2)+'</span> · '+(loc.city||'(no city set)')+'</div>' +
+      '<button class="btn btn-outline btn-sm" onclick="setPrayerLoc()">Re-detect</button>' +
+      '<button class="btn btn-ghost btn-sm" onclick="clearPrayerLoc()">Disable</button>';
+  } else {
+    row.innerHTML =
+      '<div style="flex:1;font-size:0.82rem;color:var(--ink-3);">Off. Enable to see prayer-time pills while you trade.</div>' +
+      '<button class="btn btn-gold btn-sm" onclick="setPrayerLoc()">Enable & use my location</button>';
+  }
+}
+function setPrayerLoc(){
+  if(!navigator.geolocation){ toast('Geolocation not supported in this browser','e'); return; }
+  toast('Requesting location…','i');
+  navigator.geolocation.getCurrentPosition(function(pos){
+    var coords = { lat: pos.coords.latitude, lng: pos.coords.longitude, city: '' };
+    if(!S.settings) S.settings = {};
+    S.settings.prayerLoc = coords;
+    sv('settings', S.settings);
+    renderPrayerLocRow();
+    toast('✓ Prayer location saved','s');
+  }, function(err){
+    toast('Could not get location: '+(err.message||'permission denied'),'e');
+  }, { timeout: 8000, maximumAge: 0, enableHighAccuracy: false });
+}
+function clearPrayerLoc(){
+  if(!S.settings) S.settings = {};
+  delete S.settings.prayerLoc;
+  sv('settings', S.settings);
+  renderPrayerLocRow();
+  toast('Prayer alerts disabled','i');
 }
 function saveSettings(){var sn=el('s-name');S.settings.name=sn?sn.value:'';sv('settings',S.settings);if(S.settings.name){setText('sf-av',S.settings.name[0].toUpperCase());setText('sf-name',S.settings.name);}toast('\u2713 Saved','s');}
 function confirmResetAll(){
@@ -5378,8 +5831,31 @@ document.addEventListener('visibilitychange', function(){
   }
 });
 
+// Format today's Hijri date as e.g. "12 Dhul-Qa'dah 1446". Returns empty
+// string if the runtime doesn't support the Umm al-Qura calendar (very old
+// browsers); the topbar then quietly falls back to Gregorian only.
+function hijriToday(){
+  try{
+    var parts = new Intl.DateTimeFormat('en-US-u-ca-islamic-umalqura',
+      {day:'numeric',month:'long',year:'numeric'}).formatToParts(new Date());
+    var day='',mon='',yr='';
+    parts.forEach(function(p){
+      if(p.type==='day') day=p.value;
+      else if(p.type==='month') mon=p.value;
+      else if(p.type==='year') yr=p.value.replace(/\s*AH$/,'');
+    });
+    if(!day||!mon||!yr) return '';
+    return day+' '+mon+' '+yr+' AH';
+  }catch(_){ return ''; }
+}
+
 function init(){
-  var td=el('topbar-date');if(td)td.textContent=new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+  var td=el('topbar-date');
+  if(td){
+    var greg=new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+    var hij=hijriToday();
+    td.innerHTML = greg + (hij ? ' <span style="color:var(--gold-deep);margin:0 4px;opacity:0.7;">·</span> <span style="color:var(--gold-deep);">'+hij+'</span>' : '');
+  }
   // Pre-load Chart.js for the in-app analytics views. Visitors who never sign in
   // skip this entirely — see __ensureChart definition above.
   if(typeof window.__ensureChart === 'function'){
