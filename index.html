@@ -15,6 +15,8 @@
 <meta name="twitter:title" content="Niyyah — Trade with Intention">
 <meta name="twitter:description" content="Islamic trading journal. Track your trades, prayers, and emotional discipline.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☽</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='38' fill='%230a0906'/><circle cx='90' cy='90' r='58' fill='%23dab462' opacity='0.18'/><text x='90' y='116' font-size='82' text-anchor='middle' fill='%23f2ead6' font-family='serif'>☽</text></svg>">
+<link rel="manifest" href="/manifest.webmanifest">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -813,6 +815,66 @@ body:not(.legal-visitor) .legal-back{display:none;}
   .week1-grid{grid-template-columns:1fr!important;}
 }
 
+/* ── COMPARISON TABLE ─────────────────────────────────────────────────── */
+.comp-wrap{max-width:920px;margin:0 auto 80px;padding:0 40px;}
+.comp-grid{display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;background:rgba(218,180,98,0.08);border:1px solid rgba(218,180,98,0.14);border-radius:14px;overflow:hidden;}
+.comp-grid > div{padding:14px 18px;background:linear-gradient(145deg,#161310,#0d0b08);font-size:0.83rem;color:var(--ink-2);display:flex;align-items:center;}
+.comp-grid .comp-head{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);background:linear-gradient(145deg,#1a1812,#100e0a);font-weight:600;justify-content:center;text-align:center;border-bottom:1px solid rgba(218,180,98,0.18);}
+.comp-grid .comp-head.us{color:var(--gold);background:linear-gradient(145deg,#221d10,#13100a);position:relative;}
+.comp-grid .comp-head.us::after{content:'';position:absolute;bottom:-1px;left:15%;right:15%;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.comp-grid .comp-row{border-top:1px solid rgba(255,255,255,0.045);font-size:0.85rem;}
+.comp-grid .comp-row.us{background:linear-gradient(145deg,#1a1810,#0e0c08);color:var(--ink);}
+.comp-grid .comp-cell-us{color:var(--gold-2);font-weight:600;}
+.comp-grid .comp-yes{color:var(--green);font-family:'JetBrains Mono',monospace;font-size:0.9rem;justify-content:center;}
+.comp-grid .comp-no{color:var(--ink-4);font-family:'JetBrains Mono',monospace;font-size:0.9rem;justify-content:center;}
+.comp-grid .comp-partial{color:var(--gold-deep);font-family:'JetBrains Mono',monospace;font-size:0.74rem;justify-content:center;text-align:center;}
+.comp-foot{margin-top:14px;text-align:center;font-size:0.76rem;color:var(--ink-4);font-style:italic;font-family:'Cormorant Garamond',serif;}
+@media(max-width:720px){
+  .comp-wrap{padding:0 16px 56px;}
+  .comp-grid{grid-template-columns:1.7fr 0.9fr 0.7fr 0.7fr;}
+  .comp-grid > div{padding:10px 8px;font-size:0.72rem;}
+  .comp-grid .comp-head{font-size:0.46rem;letter-spacing:0.1em;padding:10px 4px;}
+  .comp-grid .comp-row{font-size:0.74rem;}
+}
+
+/* ── NAV STICKY CTA (always-visible signup button) ────────────────────── */
+.lnav-cta{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:8px;background:linear-gradient(160deg,#f8e5a8 0%,#ecc878 35%,#dab462 70%,#c9a254 100%);color:#0b0a08;font-weight:700;font-size:0.78rem;font-family:'Inter',sans-serif;border:none;cursor:pointer;letter-spacing:0.01em;box-shadow:0 4px 16px rgba(218,180,98,0.3),0 1px 0 rgba(255,255,255,0.15) inset;transition:transform var(--t),box-shadow var(--t);}
+.lnav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(218,180,98,0.4),0 1px 0 rgba(255,255,255,0.18) inset;filter:brightness(1.04);}
+
+/* ── HERO MICRO-CLARIFIER ─────────────────────────────────────────────── */
+.lhero-clarifier{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);font-size:0.74rem;color:var(--ink-3);margin:18px auto 0;max-width:560px;line-height:1.55;font-weight:300;text-align:center;flex-wrap:wrap;justify-content:center;}
+.lhero-clarifier strong{color:var(--gold);font-weight:600;}
+@media(max-width:580px){.lhero-clarifier{font-size:0.7rem;padding:6px 10px;line-height:1.5;}}
+
+/* ── TRADE SCREENSHOT ─────────────────────────────────────────────────── */
+.screenshot-zone{margin-top:8px;border:1.5px dashed rgba(218,180,98,0.22);border-radius:var(--r);padding:18px;text-align:center;cursor:pointer;transition:all 0.18s;background:rgba(218,180,98,0.025);}
+.screenshot-zone:hover{border-color:rgba(218,180,98,0.45);background:rgba(218,180,98,0.05);}
+.screenshot-zone.has-image{padding:8px;border-style:solid;background:transparent;cursor:default;}
+.screenshot-zone-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold-deep);}
+.screenshot-zone-hint{font-size:0.72rem;color:var(--ink-4);margin-top:6px;font-weight:300;}
+.screenshot-preview{position:relative;border-radius:var(--r);overflow:hidden;background:#0a0906;}
+.screenshot-preview img{display:block;width:100%;max-height:280px;object-fit:contain;background:#000;}
+.screenshot-remove{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(10,9,6,0.85);border:1px solid rgba(218,180,98,0.2);color:var(--ink-2);cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);transition:all 0.15s;}
+.screenshot-remove:hover{background:rgba(214,132,132,0.2);border-color:var(--red);color:var(--red);}
+
+/* ── CSV IMPORT MODAL ─────────────────────────────────────────────────── */
+.csv-drop{border:1.5px dashed rgba(218,180,98,0.28);border-radius:var(--r-lg);padding:32px 22px;text-align:center;cursor:pointer;transition:all 0.18s;background:rgba(218,180,98,0.025);margin-bottom:16px;}
+.csv-drop:hover,.csv-drop.dragover{border-color:var(--gold);background:rgba(218,180,98,0.06);}
+.csv-drop-eye{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.csv-drop-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--ink);margin-bottom:6px;}
+.csv-drop-hint{font-size:0.78rem;color:var(--ink-3);font-weight:300;line-height:1.6;}
+.csv-template{background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);padding:12px 14px;margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--ink-3);line-height:1.7;overflow-x:auto;white-space:nowrap;}
+.csv-summary{background:linear-gradient(135deg,rgba(108,176,142,0.07),transparent);border:1px solid rgba(108,176,142,0.2);border-left:3px solid var(--green);border-radius:0 var(--r) var(--r) 0;padding:14px 16px;margin-bottom:14px;font-size:0.84rem;color:var(--ink-2);line-height:1.6;}
+.csv-summary strong{color:var(--ink);}
+.csv-error{background:rgba(214,132,132,0.07);border:1px solid rgba(214,132,132,0.22);border-left:3px solid var(--red);border-radius:0 var(--r) var(--r) 0;padding:12px 14px;margin-bottom:12px;font-size:0.8rem;color:var(--ink-2);line-height:1.55;}
+
+/* ── TRADE DETAIL SCREENSHOT VIEWER ───────────────────────────────────── */
+.td-screenshot{margin-top:10px;border-radius:var(--r);overflow:hidden;border:1px solid var(--line-2);cursor:zoom-in;background:#000;}
+.td-screenshot img{display:block;width:100%;max-height:320px;object-fit:contain;}
+.image-zoom{position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,0.93);display:none;align-items:center;justify-content:center;padding:20px;cursor:zoom-out;backdrop-filter:blur(10px);}
+.image-zoom.show{display:flex;animation:fadeIn 0.2s ease;}
+.image-zoom img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 30px 80px rgba(0,0,0,0.6);}
+
 /* STICKY MOBILE CTA — captures conversion without requiring scroll-to-pricing */
 
 </style>
@@ -858,7 +920,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
     </div>
     <div class="lnav-btns">
       <button class="lnav-signin" onclick="showAuth('signin')">Sign In</button>
-      <button class="btn btn-gold btn-sm" onclick="showAuth('signup')" style="padding:8px 18px;font-size:0.78rem;">Get Started →</button>
+      <button class="lnav-cta" onclick="showAuth('signup')">Start 7-Day Trial →</button>
     </div>
   </nav>
 
@@ -869,11 +931,12 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="lhero-badge"><span class="lhero-badge-dot"></span>For Muslim Traders</div>
     <h1 class="lhero-h1">You don't have a strategy problem.<br>You have a <em>nafs</em> problem.</h1>
     <p class="lhero-sub"><strong>Niyyah ends the loop.</strong> The accountability system for traders whose strategy already works — but whose nafs keeps getting in the way.</p>
-    <div class="lhero-btns">
-      <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 32px;">Begin — Bismillah →</button>
+    <div class="lhero-clarifier"><strong>Nafs</strong> · the lower self that whispers <em>"just one more trade"</em> after a loss — and turns a $200 stop into a $1,800 disaster.</div>
+    <div class="lhero-btns" style="margin-top:24px;">
+      <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 32px;">Start 7-Day Trial — Bismillah →</button>
       <button class="btn btn-outline btn-lg" onclick="scrollToFeatures()" style="backdrop-filter:blur(8px);">See how it works</button>
     </div>
-    <div class="lhero-price">$27/mo · 7-day full refund · Secure via Stripe</div>
+    <div class="lhero-price">$27/mo · cancel anytime · 7-day full refund · Stripe-secured</div>
     <div style="margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.45;cursor:pointer;animation:scrollBounce 2s ease-in-out infinite;" onclick="scrollToFeatures()">
       <div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-3);">SCROLL</div>
       <div style="width:1px;height:32px;background:linear-gradient(to bottom,var(--gold),transparent);"></div>
@@ -1050,6 +1113,82 @@ body:not(.legal-visitor) .legal-back{display:none;}
       </div>
     </div>
     <div style="text-align:center;margin-top:26px;font-size:0.82rem;color:var(--ink-4);font-style:italic;font-family:'Cormorant Garamond',serif;">If week one doesn't surface a pattern you didn't know about, we'll refund every penny.</div>
+  </div>
+
+  <!-- HONEST COMPARISON — Niyyah vs. the generic alternatives -->
+  <div class="reveal comp-wrap">
+    <div style="text-align:center;margin-bottom:30px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;">HONEST COMPARISON</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:500;color:var(--ink);letter-spacing:-0.035em;line-height:1.1;">What you <em style="color:var(--gold);font-weight:600;">actually</em> get.</h2>
+      <p style="font-size:0.88rem;color:var(--ink-3);margin-top:14px;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.7;font-weight:300;">No marketing fluff. Here's where Niyyah leads, where it ties, and where it doesn't.</p>
+    </div>
+    <div class="comp-grid">
+      <div class="comp-head"></div>
+      <div class="comp-head us">Niyyah</div>
+      <div class="comp-head">Tradezella</div>
+      <div class="comp-head">Spreadsheet</div>
+
+      <div class="comp-row us">Islamic pre-trade gate</div>
+      <div class="comp-row us comp-yes comp-cell-us">✓</div>
+      <div class="comp-row comp-no">—</div>
+      <div class="comp-row comp-no">—</div>
+
+      <div class="comp-row us">Prayer → P&L correlation</div>
+      <div class="comp-row us comp-yes comp-cell-us">✓</div>
+      <div class="comp-row comp-no">—</div>
+      <div class="comp-row comp-no">—</div>
+
+      <div class="comp-row us">Nafs check (Sabr, Tawakkul, Kibr, Shukr)</div>
+      <div class="comp-row us comp-yes comp-cell-us">✓</div>
+      <div class="comp-row comp-no">—</div>
+      <div class="comp-row comp-no">—</div>
+
+      <div class="comp-row us">Tawakkul mode + dhikr counter</div>
+      <div class="comp-row us comp-yes comp-cell-us">✓</div>
+      <div class="comp-row comp-no">—</div>
+      <div class="comp-row comp-no">—</div>
+
+      <div class="comp-row us">Friday muhasabah review</div>
+      <div class="comp-row us comp-yes comp-cell-us">✓</div>
+      <div class="comp-row comp-no">—</div>
+      <div class="comp-row comp-no">—</div>
+
+      <div class="comp-row us">Quality Score (behavioral, 0–100)</div>
+      <div class="comp-row us comp-yes comp-cell-us">✓</div>
+      <div class="comp-row comp-partial">Basic</div>
+      <div class="comp-row comp-no">—</div>
+
+      <div class="comp-row us">Calendar P&L heatmap</div>
+      <div class="comp-row us comp-yes comp-cell-us">✓</div>
+      <div class="comp-row comp-yes">✓</div>
+      <div class="comp-row comp-no">—</div>
+
+      <div class="comp-row us">Playbook with auto-tracked win rates</div>
+      <div class="comp-row us comp-yes comp-cell-us">✓</div>
+      <div class="comp-row comp-yes">✓</div>
+      <div class="comp-row comp-no">—</div>
+
+      <div class="comp-row us">CSV import / chart screenshots</div>
+      <div class="comp-row us comp-yes comp-cell-us">✓</div>
+      <div class="comp-row comp-yes">✓</div>
+      <div class="comp-row comp-partial">Manual</div>
+
+      <div class="comp-row us">Broker auto-import (100+ brokers)</div>
+      <div class="comp-row us comp-partial">Roadmap</div>
+      <div class="comp-row comp-yes">✓</div>
+      <div class="comp-row comp-no">—</div>
+
+      <div class="comp-row us">Built for Muslim traders</div>
+      <div class="comp-row us comp-yes comp-cell-us">✓</div>
+      <div class="comp-row comp-no">—</div>
+      <div class="comp-row comp-no">—</div>
+
+      <div class="comp-row us" style="font-weight:600;color:var(--ink);">Price</div>
+      <div class="comp-row us comp-cell-us" style="justify-content:center;text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.84rem;">$27/mo</div>
+      <div class="comp-row" style="justify-content:center;font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--ink-3);">$29.95/mo</div>
+      <div class="comp-row" style="justify-content:center;font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--ink-3);">Free</div>
+    </div>
+    <div class="comp-foot">Tradezella is excellent at broker integrations and feature breadth. Niyyah is the only one that holds you to your deen while you trade.</div>
   </div>
 
   <!-- FOUNDER NOTE -->
@@ -1328,7 +1467,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
 
 <div class="page" id="page-trades">
   <div class="ph"><div class="ph-eye">TRADE LOG</div><div class="ph-title">All Your <em>Trades</em></div><div class="ph-sub">Complete history. Click any row to see full detail.</div></div>
-  <div style="margin-bottom:12px;"><input type="text" id="trade-search" placeholder="Search instrument, setup, date..." oninput="renderTrades()" style="max-width:360px;"></div>
+  <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center;"><input type="text" id="trade-search" placeholder="Search instrument, setup, date..." oninput="renderTrades()" style="max-width:360px;flex:1;min-width:200px;"><button class="btn btn-outline btn-sm" onclick="openCsvModal()" style="white-space:nowrap;">↓ Import CSV</button></div>
   <div class="panel"><div class="panel-head"><div class="panel-title">History</div><div class="toggle-group"><button class="tg-btn active" onclick="filterT('all',this)">All</button><button class="tg-btn" onclick="filterT('open',this)">Open</button><button class="tg-btn" onclick="filterT('wins',this)">Wins</button><button class="tg-btn" onclick="filterT('losses',this)">Losses</button></div></div><div id="trade-table-wrap"></div></div>
 </div>
 
@@ -1747,6 +1886,12 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <button class="emotion-btn" data-e="overconf" onclick="selEm(this)"><span class="ei">😎</span>Cocky</button>
     <button class="emotion-btn" data-e="anxious" onclick="selEm(this)"><span class="ei">😬</span>Anxious</button>
    </div>
+   <div class="fs-label">Chart Screenshot <span style="font-family:'Inter',sans-serif;font-size:0.7rem;letter-spacing:0;text-transform:none;color:var(--ink-4);font-weight:400;">(optional · helps you review the setup later)</span></div>
+   <input type="file" id="e-screenshot-input" accept="image/png,image/jpeg,image/webp" style="display:none;" onchange="onScreenshotPick(event,'entry')">
+   <div id="e-screenshot-zone" class="screenshot-zone" onclick="el('e-screenshot-input').click()">
+     <div class="screenshot-zone-label">+ Attach chart</div>
+     <div class="screenshot-zone-hint">PNG / JPEG · auto-compressed · stored privately on your account</div>
+   </div>
   </div>
   <div class="modal-foot"><button class="btn btn-outline" onclick="closeEntry()">Cancel</button><button class="btn btn-gold" id="save-entry-btn" onclick="saveEntry()">Enter Trade →</button></div>
  </div>
@@ -1793,6 +1938,36 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <div class="modal-foot"><button class="btn btn-outline" onclick="closeEditPnl()">Cancel</button><button class="btn btn-gold" id="edit-pnl-save" onclick="saveEditPnl()">Save</button></div>
  </div>
 </div>
+
+<!-- CSV IMPORT MODAL -->
+<div class="modal-bg" id="csv-modal" onclick="if(event.target===this)closeCsvModal()">
+ <div class="modal" style="max-width:560px;">
+  <div class="modal-head"><div class="modal-title">Import <em>Trades</em> · CSV</div><button class="modal-close" onclick="closeCsvModal()">×</button></div>
+  <div class="modal-body">
+   <div id="csv-error-wrap"></div>
+   <div id="csv-summary-wrap"></div>
+   <input type="file" id="csv-file-input" accept=".csv,text/csv" style="display:none;" onchange="onCsvPick(event)">
+   <div id="csv-drop" class="csv-drop" onclick="el('csv-file-input').click()">
+     <div class="csv-drop-eye">DROP A CSV OR CLICK TO BROWSE</div>
+     <div class="csv-drop-title">Bring your existing trades in</div>
+     <div class="csv-drop-hint">From Tradezella, Tradervue, your spreadsheet, or any broker export.</div>
+   </div>
+   <div style="font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-4);margin-bottom:6px;">REQUIRED FORMAT</div>
+   <div class="csv-template">date,instrument,direction,entry,stop,target,exit,pnl,setup,emotion,outcome,lesson</div>
+   <div style="font-size:0.76rem;color:var(--ink-3);margin-top:10px;line-height:1.65;font-weight:300;">
+     <strong style="color:var(--ink);">date</strong> in YYYY-MM-DD · <strong style="color:var(--ink);">direction</strong> = LONG or SHORT · <strong style="color:var(--ink);">pnl</strong> in dollars (negative for losses). All other columns are optional and can be left blank. Closed trades become closed; trades without an exit price or pnl are imported as open.
+   </div>
+   <div style="margin-top:14px;"><button class="btn btn-outline btn-sm" onclick="downloadCsvTemplate()">↓ Download template CSV</button></div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-outline" onclick="closeCsvModal()">Cancel</button>
+    <button class="btn btn-gold" id="csv-confirm-btn" onclick="confirmCsvImport()" style="display:none;">Import <span id="csv-confirm-count">0</span> trades →</button>
+  </div>
+ </div>
+</div>
+
+<!-- IMAGE ZOOM OVERLAY -->
+<div class="image-zoom" id="image-zoom" onclick="closeImageZoom()"><img id="image-zoom-img" alt="Trade chart"></div>
 
 <div class="toast" id="toast"></div>
 
@@ -2809,6 +2984,8 @@ function openEntryModal(){
   var et=el('e-time');if(et)et.value=new Date().toTimeString().slice(0,5);
   document.body.style.overflow='hidden';
   S.gateAns={};S.selEmotion=null;S.icChecked={bismillah:false,prayer:false,setup:false,stop:false};
+  S.entryScreenshot=null;
+  resetScreenshotZone('e-screenshot-zone','entry');
   document.querySelectorAll('.gqb').forEach(function(b){b.classList.remove('on');});
   var gw=el('gate-warn');if(gw)gw.classList.remove('show');
   document.querySelectorAll('#entry-modal .emotion-btn').forEach(function(b){b.classList.remove('on');});
@@ -2846,6 +3023,7 @@ function saveEntry(){
     islamicCheck:Object.assign({},S.icChecked),
     gateAnswers:Object.assign({},S.gateAns),
     prayers:Object.assign({},getTodayPrayers()),
+    screenshot:S.entryScreenshot||null,
     pnl:0,createdAt:new Date().toISOString()};
   t.quality=calcQ(t);
   // Snapshot prior state so we can revert if the write fails.
@@ -2936,13 +3114,246 @@ function openTD(id){
     mkTDItem('Quality',(t.quality||0)+'/100')+mkTDItem('Outcome',t.outcome||'\u2014')+mkTDItem('Islamic',icScore+'/4 \u2713')+
     '</div></div><div class="td-section"><div class="td-label">Psychology</div><div class="td-row">'+mkTDItem('Entry State',t.emotion||'\u2014')+mkTDItem('Exit State',t.exitEmotion||'\u2014')+'</div>'+
     (t.lesson?'<div style="margin-top:10px;padding:11px 13px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);font-size:0.84rem;color:var(--ink-2);line-height:1.6;"><strong style="color:var(--gold);">Lesson:</strong> '+t.lesson+'</div>':'')+'</div>'+
-    (t.gateAnswers&&Object.keys(t.gateAnswers).length?'<div class="td-section"><div class="td-label">Pre-Trade Gate</div><div style="font-size:0.82rem;color:var(--ink-2);line-height:1.9;">'+Object.entries(t.gateAnswers).map(function(kv){return'<span style="color:'+(kv[1]==='yes'?'var(--green)':'var(--red)')+'">'+kv[1].toUpperCase()+'</span> \u2014 '+kv[0];}).join('<br>')+'</div></div>':'');
+    (t.gateAnswers&&Object.keys(t.gateAnswers).length?'<div class="td-section"><div class="td-label">Pre-Trade Gate</div><div style="font-size:0.82rem;color:var(--ink-2);line-height:1.9;">'+Object.entries(t.gateAnswers).map(function(kv){return'<span style="color:'+(kv[1]==='yes'?'var(--green)':'var(--red)')+'">'+kv[1].toUpperCase()+'</span> \u2014 '+kv[0];}).join('<br>')+'</div></div>':'')+
+    (t.screenshot?'<div class="td-section"><div class="td-label">Chart Screenshot</div><div class="td-screenshot" onclick="openImageZoom('+t.id+')"><img id="td-shot-'+t.id+'" src="'+t.screenshot+'" alt="Trade chart"></div></div>':'');
   var title=el('td-title');if(title)title.innerHTML=t.instrument+' <em>Detail</em>';
   var eb=el('td-edit-btn');if(eb)eb.style.display=t.status==='closed'?'':'none';
   m.classList.add('show');document.body.style.overflow='hidden';
 }
 function mkTDItem(label,val){return'<div class="td-item"><div class="td-item-label">'+label+'</div><div class="td-item-val">'+val+'</div></div>';}
 function closeTD(){var m=el('td-modal');if(m)m.classList.remove('show');document.body.style.overflow='';currentTDId=null;}
+
+// ── IMAGE ZOOM ─────────────────────────────────────────────────────────────
+function openImageZoom(tradeId){
+  var t=S.trades.find(function(x){return x.id==tradeId;}); // loose == — id may arrive as number or string
+  if(!t||!t.screenshot)return;
+  var z=el('image-zoom'),img=el('image-zoom-img');
+  if(!z||!img)return;
+  img.src=t.screenshot;
+  z.classList.add('show');
+}
+function closeImageZoom(){var z=el('image-zoom');if(z)z.classList.remove('show');}
+
+// ── SCREENSHOT UPLOAD ──────────────────────────────────────────────────────
+// Compresses to max 1280px wide, JPEG q0.65. Stored inline on the trade as base64.
+// Hard cap 600KB encoded — refuses oversized images so we don't blow Firestore limits.
+function onScreenshotPick(evt,which){
+  var file=evt.target.files&&evt.target.files[0];
+  if(!file)return;
+  if(!/^image\/(png|jpe?g|webp)$/i.test(file.type)){toast('Only PNG, JPEG, or WebP','e');return;}
+  if(file.size>10*1024*1024){toast('Image too large (max 10MB before compression)','e');return;}
+  compressImage(file,1280,0.65).then(function(dataUrl){
+    if(dataUrl.length>600*1024){toast('Compressed image still too large. Try a smaller capture.','e');return;}
+    if(which==='entry'){
+      S.entryScreenshot=dataUrl;
+      paintScreenshotPreview('e-screenshot-zone',dataUrl,'entry');
+    }
+  }).catch(function(){toast('Could not read that image','e');});
+  evt.target.value=''; // allow re-picking the same file later
+}
+function compressImage(file,maxW,quality){
+  return new Promise(function(resolve,reject){
+    var reader=new FileReader();
+    reader.onerror=reject;
+    reader.onload=function(e){
+      var img=new Image();
+      img.onerror=reject;
+      img.onload=function(){
+        var w=img.width,h=img.height;
+        if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
+        var c=document.createElement('canvas');c.width=w;c.height=h;
+        var ctx=c.getContext('2d');
+        ctx.fillStyle='#000';ctx.fillRect(0,0,w,h); // black bg if transparent
+        ctx.drawImage(img,0,0,w,h);
+        resolve(c.toDataURL('image/jpeg',quality));
+      };
+      img.src=e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+function paintScreenshotPreview(zoneId,dataUrl,which){
+  var z=el(zoneId);if(!z)return;
+  z.classList.add('has-image');
+  z.onclick=null;
+  z.innerHTML='<div class="screenshot-preview"><img src="'+dataUrl+'" alt="Chart screenshot"><button type="button" class="screenshot-remove" aria-label="Remove screenshot" onclick="removeScreenshot(\''+which+'\')">×</button></div>';
+}
+function resetScreenshotZone(zoneId,which){
+  var z=el(zoneId);if(!z)return;
+  z.classList.remove('has-image');
+  z.innerHTML='<div class="screenshot-zone-label">+ Attach chart</div><div class="screenshot-zone-hint">PNG / JPEG · auto-compressed · stored privately on your account</div>';
+  z.onclick=function(){var inp=el(which==='entry'?'e-screenshot-input':null);if(inp)inp.click();};
+}
+function removeScreenshot(which){
+  if(which==='entry'){
+    S.entryScreenshot=null;
+    resetScreenshotZone('e-screenshot-zone','entry');
+  }
+}
+
+// ── CSV IMPORT ─────────────────────────────────────────────────────────────
+var _csvPending=null;
+function openCsvModal(){
+  var m=el('csv-modal');if(!m)return;
+  _csvPending=null;
+  el('csv-error-wrap').innerHTML='';
+  el('csv-summary-wrap').innerHTML='';
+  el('csv-confirm-btn').style.display='none';
+  m.classList.add('show');document.body.style.overflow='hidden';
+}
+function closeCsvModal(){var m=el('csv-modal');if(m)m.classList.remove('show');document.body.style.overflow='';_csvPending=null;}
+function downloadCsvTemplate(){
+  var sample='date,instrument,direction,entry,stop,target,exit,pnl,setup,emotion,outcome,lesson\n'+
+             '2026-05-15,NQ,LONG,21050,21000,21150,21125,150,ORB,calm,win,Held to target — patience worked\n'+
+             '2026-05-16,ES,SHORT,5320,5330,5290,5305,75,VWAP Reject,focused,win,Clean rejection at VWAP\n';
+  var b=new Blob([sample],{type:'text/csv'});var u=URL.createObjectURL(b);
+  var a=document.createElement('a');a.href=u;a.download='niyyah-template.csv';a.click();URL.revokeObjectURL(u);
+}
+function onCsvPick(evt){
+  var file=evt.target.files&&evt.target.files[0];
+  if(!file)return;
+  if(file.size>5*1024*1024){csvError('File too large (max 5MB)');return;}
+  var reader=new FileReader();
+  reader.onerror=function(){csvError('Could not read the file');};
+  reader.onload=function(e){parseCsv(e.target.result);};
+  reader.readAsText(file);
+  evt.target.value='';
+}
+function csvError(msg){
+  el('csv-error-wrap').innerHTML='<div class="csv-error">'+msg+'</div>';
+  el('csv-summary-wrap').innerHTML='';
+  el('csv-confirm-btn').style.display='none';
+  _csvPending=null;
+}
+function parseCsv(text){
+  el('csv-error-wrap').innerHTML='';
+  el('csv-summary-wrap').innerHTML='';
+  var rows=csvSplitRows(text);
+  if(rows.length<2){csvError('CSV is empty or has no data rows.');return;}
+  var header=rows[0].map(function(h){return String(h||'').trim().toLowerCase().replace(/\s+/g,'').replace(/[^a-z0-9]/g,'');});
+  function col(name){return header.indexOf(name);}
+  // Accept common variant names so users don't have to massage the file
+  function findIdx(){for(var i=0;i<arguments.length;i++){var x=col(arguments[i]);if(x>-1)return x;}return -1;}
+  var idx={
+    date:findIdx('date','tradedate','opendate','entrydate'),
+    inst:findIdx('instrument','symbol','ticker'),
+    dir:findIdx('direction','side'),
+    entry:findIdx('entry','entryprice','openprice'),
+    stop:findIdx('stop','stoploss'),
+    target:findIdx('target','targetprice','tp'),
+    exit:findIdx('exit','exitprice','closeprice'),
+    pnl:findIdx('pnl','netpnl','profit','pl'),
+    setup:findIdx('setup','strategy','tag'),
+    emotion:findIdx('emotion','state','psychology'),
+    outcome:findIdx('outcome','result'),
+    lesson:findIdx('lesson','notes','note','comment')
+  };
+  if(idx.date===-1||idx.inst===-1){csvError('Missing required columns. CSV must include at minimum: date, instrument.');return;}
+  var parsed=[],skipped=0;
+  for(var r=1;r<rows.length;r++){
+    var row=rows[r];if(!row||!row.length||row.every(function(c){return!String(c||'').trim();})){continue;}
+    var date=String(row[idx.date]||'').trim();
+    var inst=String(row[idx.inst]||'').trim().toUpperCase();
+    if(!date||!inst){skipped++;continue;}
+    // Normalize date — accept YYYY-MM-DD or MM/DD/YYYY
+    date=normalizeDate(date);
+    if(!date){skipped++;continue;}
+    var dir=(idx.dir>-1?String(row[idx.dir]||''):'LONG').trim().toUpperCase();
+    if(dir!=='LONG'&&dir!=='SHORT')dir=(dir==='S'||dir==='SELL'?'SHORT':'LONG');
+    var pnlRaw=idx.pnl>-1?String(row[idx.pnl]||'').replace(/[$,\s]/g,''):'';
+    var pnl=parseFloat(pnlRaw);if(isNaN(pnl))pnl=0;
+    var exitPrice=idx.exit>-1?String(row[idx.exit]||'').trim():'';
+    var isClosed=!!(exitPrice||pnlRaw);
+    var t={
+      id:Date.now()+r,
+      status:isClosed?'closed':'open',
+      date:date,
+      time:'',
+      instrument:inst,
+      direction:dir,
+      entryPrice:idx.entry>-1?String(row[idx.entry]||'').trim():'',
+      stopPrice:idx.stop>-1?String(row[idx.stop]||'').trim():'',
+      targetPrice:idx.target>-1?String(row[idx.target]||'').trim():'',
+      exitPrice:exitPrice,
+      setup:idx.setup>-1?String(row[idx.setup]||'').trim():'',
+      emotion:(idx.emotion>-1?String(row[idx.emotion]||'').trim().toLowerCase():'')||'calm',
+      outcome:idx.outcome>-1?String(row[idx.outcome]||'').trim().toLowerCase():(isClosed?(pnl>0?'win':pnl<0?'loss':'be'):''),
+      lesson:idx.lesson>-1?String(row[idx.lesson]||'').trim():'',
+      pnl:pnl,
+      islamicCheck:{bismillah:false,prayer:false,setup:false,stop:false},
+      gateAnswers:{},
+      prayers:{},
+      screenshot:null,
+      createdAt:new Date().toISOString(),
+      imported:true
+    };
+    if(isClosed)t.closedAt=new Date().toISOString();
+    t.quality=calcQ(t);
+    parsed.push(t);
+  }
+  if(!parsed.length){csvError('No valid trade rows found.'+(skipped?' '+skipped+' row(s) skipped — check date format and required columns.':''));return;}
+  _csvPending=parsed;
+  var closed=parsed.filter(function(t){return t.status==='closed';}).length;
+  var open=parsed.length-closed;
+  var totalPnl=parsed.reduce(function(s,t){return s+(t.pnl||0);},0);
+  el('csv-summary-wrap').innerHTML='<div class="csv-summary"><strong>Ready to import '+parsed.length+' trade'+(parsed.length===1?'':'s')+'.</strong> '+closed+' closed · '+open+' open · total P&amp;L '+fmt(totalPnl,true)+'.'+(skipped?' ('+skipped+' row(s) skipped — missing date or instrument.)':'')+'</div>';
+  el('csv-confirm-count').textContent=parsed.length;
+  el('csv-confirm-btn').style.display='';
+}
+function csvSplitRows(text){
+  // RFC-ish CSV split that handles quoted fields with embedded commas / quotes / newlines.
+  var rows=[],row=[],field='',inQuotes=false;
+  for(var i=0;i<text.length;i++){
+    var c=text[i],n=text[i+1];
+    if(inQuotes){
+      if(c==='"'&&n==='"'){field+='"';i++;}
+      else if(c==='"'){inQuotes=false;}
+      else{field+=c;}
+    } else {
+      if(c==='"'){inQuotes=true;}
+      else if(c===','){row.push(field);field='';}
+      else if(c==='\r'){/* skip */}
+      else if(c==='\n'){row.push(field);rows.push(row);row=[];field='';}
+      else{field+=c;}
+    }
+  }
+  if(field.length||row.length){row.push(field);rows.push(row);}
+  return rows;
+}
+function normalizeDate(s){
+  s=s.trim();
+  // YYYY-MM-DD
+  var m=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  if(m)return m[1]+'-'+pad(+m[2])+'-'+pad(+m[3]);
+  // MM/DD/YYYY or M/D/YYYY
+  m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(m)return m[3]+'-'+pad(+m[1])+'-'+pad(+m[2]);
+  // YYYY/MM/DD
+  m=s.match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})$/);
+  if(m)return m[1]+'-'+pad(+m[2])+'-'+pad(+m[3]);
+  return '';
+}
+function confirmCsvImport(){
+  if(!_csvPending||!_csvPending.length){closeCsvModal();return;}
+  var btn=el('csv-confirm-btn'),orig=btn?btn.innerHTML:'';
+  if(btn){btn.disabled=true;btn.classList.add('is-loading');btn.innerHTML='<span class="spinner"></span>Importing…';}
+  var prior=S.trades.slice();
+  // New trades prepended so they appear at the top of the log
+  S.trades=_csvPending.concat(S.trades);
+  sv('trades',S.trades).then(function(){
+    var n=_csvPending.length;
+    _csvPending=null;
+    closeCsvModal();
+    updateNav();
+    if(el('page-trades')&&el('page-trades').classList.contains('active'))renderTrades();
+    if(el('page-dashboard')&&el('page-dashboard').classList.contains('active'))renderDash();
+    toast('✓ Imported '+n+' trade'+(n===1?'':'s'),'s');
+  }).catch(function(){
+    S.trades=prior; // sv() already toasted the error
+  }).then(function(){
+    if(btn){btn.disabled=false;btn.classList.remove('is-loading');btn.innerHTML=orig;}
+  });
+}
 
 // ── DHIKR ──────────────────────────────────────────────────────────────────
 function cDhikr(k){S.dhikr[k]=(S.dhikr[k]||0)+1;var e=el('dhikr-'+k);if(e)e.textContent=S.dhikr[k];sv('dhikr',S.dhikr);}
@@ -4109,13 +4520,17 @@ document.addEventListener('DOMContentLoaded',function(){
 document.addEventListener('keydown',function(e){
   var confirmOpen=el('confirm-modal')&&el('confirm-modal').classList.contains('show');
   if(confirmOpen)return;
+  var zoomOpen=el('image-zoom')&&el('image-zoom').classList.contains('show');
+  if(zoomOpen){if(e.key==='Escape'){e.preventDefault();closeImageZoom();}return;}
   var entryOpen=el('entry-modal')&&el('entry-modal').classList.contains('show');
   var exitOpen=el('exit-modal')&&el('exit-modal').classList.contains('show');
   var editPnlOpen=el('edit-pnl-modal')&&el('edit-pnl-modal').classList.contains('show');
-  if(!entryOpen&&!exitOpen&&!editPnlOpen)return;
+  var csvOpen=el('csv-modal')&&el('csv-modal').classList.contains('show');
+  if(!entryOpen&&!exitOpen&&!editPnlOpen&&!csvOpen)return;
   if(e.key==='Escape'){
     e.preventDefault();
     if(editPnlOpen)closeEditPnl();
+    else if(csvOpen)closeCsvModal();
     else if(entryOpen)closeEntry();
     else if(exitOpen)closeExit();
   } else if((e.metaKey||e.ctrlKey)&&e.key==='Enter'){
@@ -4124,6 +4539,18 @@ document.addEventListener('keydown',function(e){
     else if(exitOpen){var b2=el('save-exit-btn');if(b2&&!b2.disabled)b2.click();}
   }
 });
+
+// ── PWA SERVICE WORKER ─────────────────────────────────────────────────────
+// Registered lazily after first paint so it never blocks the landing page.
+if('serviceWorker' in navigator && location.protocol==='https:'){
+  window.addEventListener('load',function(){
+    setTimeout(function(){
+      navigator.serviceWorker.register('/sw.js').catch(function(e){
+        console.warn('SW registration failed (ok in dev):',e);
+      });
+    },1500);
+  });
+}
 </script>
 </body>
 </html>
