@@ -1,7 +1,9 @@
 // Niyyah service worker — minimal, conservative.
 // Goal: enable PWA install + survive flaky networks. Never serve a stale HTML.
+// Also: route notification taps back into the app (Friday muhasabah,
+// streak guard, post-loss cooldown).
 
-const CACHE = 'niyyah-v1';
+const CACHE = 'niyyah-v2';
 const STATIC_HOSTS = [
   'fonts.googleapis.com',
   'fonts.gstatic.com',
@@ -71,4 +73,41 @@ self.addEventListener('fetch', (event) => {
       }
     })());
   }
+});
+
+// Notification tap → focus an open Niyyah tab if one exists, otherwise
+// open a new one at the URL the notification suggests.
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const targetUrl = (event.notification.data && event.notification.data.url) || '/';
+  event.waitUntil((async () => {
+    const all = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    for (const client of all) {
+      if ('focus' in client) {
+        try { await client.focus(); } catch (e) {}
+        if (client.url && new URL(client.url).pathname !== targetUrl && 'navigate' in client) {
+          try { await client.navigate(targetUrl); } catch (e) {}
+        }
+        return;
+      }
+    }
+    if (self.clients.openWindow) {
+      await self.clients.openWindow(targetUrl);
+    }
+  })());
+});
+
+// Backend-sent web push (future): the body is JSON with {title, body, url}.
+// This handler is inert until VAPID + Cloud Functions push are wired up,
+// but lives here so deploying the backend doesn't require an SW update.
+self.addEventListener('push', (event) => {
+  let data = {};
+  try { data = event.data ? event.data.json() : {}; } catch (e) {}
+  const title = data.title || 'Niyyah';
+  const body = data.body || '';
+  const url = data.url || '/';
+  event.waitUntil(self.registration.showNotification(title, {
+    body, icon: '/icon-192.png', badge: '/icon-192.png',
+    data: { url }
+  }));
 });

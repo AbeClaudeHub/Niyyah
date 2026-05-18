@@ -877,6 +877,92 @@ body:not(.legal-visitor) .legal-back{display:none;}
 
 /* STICKY MOBILE CTA — captures conversion without requiring scroll-to-pricing */
 
+/* ── RETENTION SYSTEM ─────────────────────────────────────────────────────
+   Loss-aversion + visual habit chain + local notifications. Everything in
+   this block exists to fight week-2 drop-off.                           */
+
+/* Daily mission: one specific action the app tells you to take today. */
+.daily-mission{background:linear-gradient(160deg,#1d1a12 0%,#0e0c08 100%);border:1px solid rgba(218,180,98,0.22);border-radius:var(--r-lg);padding:18px 22px;margin-bottom:12px;display:flex;align-items:center;gap:18px;cursor:pointer;transition:border-color var(--t),transform var(--t);position:relative;overflow:hidden;}
+.daily-mission::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:linear-gradient(180deg,transparent,var(--gold) 30%,var(--gold) 70%,transparent);}
+.daily-mission:hover{border-color:rgba(218,180,98,0.35);transform:translateY(-1px);}
+.daily-mission.urgent{border-color:rgba(218,180,98,0.4);background:linear-gradient(160deg,#231f14 0%,#100d09 100%);box-shadow:0 0 32px rgba(218,180,98,0.08);}
+.daily-mission.calm{border-color:rgba(112,184,142,0.22);}
+.daily-mission.calm::before{background:linear-gradient(180deg,transparent,var(--green) 30%,var(--green) 70%,transparent);}
+.dm-icon{width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--gold-deep),#0e0a02);border:1px solid rgba(218,180,98,0.32);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;box-shadow:0 0 18px rgba(218,180,98,0.18);}
+.daily-mission.calm .dm-icon{background:radial-gradient(circle at 35% 30%,#3a6650,#0a0f0c);border-color:rgba(112,184,142,0.35);box-shadow:0 0 18px rgba(112,184,142,0.15);}
+.dm-body{flex:1;min-width:0;}
+.dm-eye{font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.daily-mission.calm .dm-eye{color:var(--green);}
+.dm-text{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);line-height:1.35;letter-spacing:-0.01em;}
+.dm-text em{color:var(--gold);font-style:italic;}
+.dm-arrow{font-family:'JetBrains Mono',monospace;color:var(--ink-3);font-size:1.1rem;flex-shrink:0;transition:transform var(--t),color var(--t);}
+.daily-mission:hover .dm-arrow{transform:translateX(3px);color:var(--gold);}
+
+/* Streak-at-risk: appears top of dashboard when a streak is alive and
+   tonight is the day it'll break. Loss aversion is the highest-leverage
+   retention force in product design — don't bury it. */
+.streak-risk{background:linear-gradient(135deg,rgba(218,180,98,0.12),rgba(218,180,98,0.04));border:1px solid rgba(218,180,98,0.35);border-radius:var(--r-lg);padding:16px 20px;margin-bottom:12px;display:flex;align-items:center;gap:14px;animation:slideUp 0.4s cubic-bezier(0.16,1,0.3,1);position:relative;overflow:hidden;}
+.streak-risk::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.sr-icon{font-size:1.4rem;flex-shrink:0;animation:pulse 2.4s ease-in-out infinite;}
+.sr-body{flex:1;min-width:0;}
+.sr-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:3px;}
+.sr-title strong{color:var(--gold);font-weight:700;}
+.sr-sub{font-size:0.78rem;color:var(--ink-3);line-height:1.5;}
+.sr-actions{display:flex;gap:7px;flex-shrink:0;flex-wrap:wrap;}
+@media(max-width:640px){.streak-risk{flex-direction:column;align-items:flex-start;gap:10px;}.sr-actions{width:100%;}.sr-actions .btn{flex:1;}}
+
+/* 30-day habit chain: a horizontal strip of small cells, one per day.
+   Color intensity shows whether you logged a trade + tapped prayers.
+   Today's cell pulses to draw the eye to "do something to fill it." */
+.habit-chain{background:linear-gradient(160deg,#1a1810 0%,#0e0c08 100%);border:1px solid rgba(255,255,255,0.06);border-radius:var(--r-lg);padding:16px 20px 18px;margin-bottom:12px;}
+.hc-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+.hc-title{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-3);}
+.hc-summary{font-size:0.74rem;color:var(--ink-2);}
+.hc-summary strong{color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:500;letter-spacing:0.04em;}
+.hc-grid{display:grid;grid-template-columns:repeat(30,1fr);gap:3px;}
+.hc-cell{aspect-ratio:1;border-radius:3px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.03);transition:transform var(--t);position:relative;}
+.hc-cell.l1{background:rgba(218,180,98,0.10);border-color:rgba(218,180,98,0.14);}
+.hc-cell.l2{background:rgba(218,180,98,0.22);border-color:rgba(218,180,98,0.28);}
+.hc-cell.l3{background:rgba(218,180,98,0.40);border-color:rgba(218,180,98,0.5);}
+.hc-cell.l4{background:linear-gradient(135deg,var(--gold-2),var(--gold));border-color:rgba(218,180,98,0.8);box-shadow:0 0 8px rgba(218,180,98,0.3);}
+.hc-cell.today{outline:1.5px solid var(--gold);outline-offset:1px;animation:pulse 2.5s ease-in-out infinite;}
+.hc-cell:hover{transform:scale(1.4);z-index:2;}
+.hc-legend{display:flex;align-items:center;gap:8px;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-4);}
+.hc-legend-dots{display:flex;gap:3px;}
+.hc-legend-dot{width:10px;height:10px;border-radius:2px;background:rgba(255,255,255,0.04);}
+.hc-legend-dot.l1{background:rgba(218,180,98,0.10);}
+.hc-legend-dot.l2{background:rgba(218,180,98,0.22);}
+.hc-legend-dot.l3{background:rgba(218,180,98,0.40);}
+.hc-legend-dot.l4{background:linear-gradient(135deg,var(--gold-2),var(--gold));}
+@media(max-width:640px){.hc-grid{gap:2px;}.hc-cell{border-radius:2px;}}
+
+/* Notification opt-in: appears once after engagement, never again if
+   dismissed. Browser pop-up on page load = guaranteed denial. */
+.notif-prompt{background:linear-gradient(160deg,#1a1810 0%,#0f0d09 100%);border:1px solid rgba(218,180,98,0.2);border-radius:var(--r-lg);padding:14px 18px;margin-bottom:12px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.np-icon{width:36px;height:36px;border-radius:9px;background:rgba(218,180,98,0.08);border:1px solid rgba(218,180,98,0.22);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1rem;flex-shrink:0;}
+.np-body{flex:1;min-width:180px;}
+.np-title{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:3px;}
+.np-sub{font-size:0.76rem;color:var(--ink-3);line-height:1.55;}
+.np-actions{display:flex;gap:7px;flex-shrink:0;flex-wrap:wrap;}
+
+/* PWA install nudge: dismissible, appears at the bottom of the dashboard
+   on session 3+. Standalone display dramatically improves notif delivery. */
+.pwa-nudge{background:rgba(218,180,98,0.04);border:1px solid rgba(218,180,98,0.14);border-radius:var(--r-lg);padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:12px;font-size:0.78rem;color:var(--ink-3);}
+.pwa-nudge strong{color:var(--ink);}
+.pwa-nudge .pwa-dismiss{margin-left:auto;background:transparent;border:none;color:var(--ink-4);cursor:pointer;font-size:1rem;padding:4px 8px;border-radius:5px;}
+.pwa-nudge .pwa-dismiss:hover{color:var(--ink-2);background:var(--surface-2);}
+
+/* Notification settings rows inside Settings. */
+.notif-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line-2);}
+.notif-row:last-child{border-bottom:none;}
+.notif-row-body{flex:1;min-width:0;}
+.notif-row-title{font-size:0.86rem;color:var(--ink);font-weight:500;margin-bottom:2px;}
+.notif-row-sub{font-size:0.72rem;color:var(--ink-3);line-height:1.5;}
+.toggle{position:relative;width:38px;height:22px;border-radius:11px;background:var(--surface-3);cursor:pointer;flex-shrink:0;transition:background var(--t);border:1px solid var(--line-2);}
+.toggle.on{background:linear-gradient(135deg,var(--gold),var(--gold-deep));border-color:var(--gold-deep);}
+.toggle-dot{position:absolute;top:1px;left:1px;width:18px;height:18px;border-radius:50%;background:var(--ink);transition:transform var(--t),background var(--t);}
+.toggle.on .toggle-dot{transform:translateX(16px);background:var(--bg);}
+
 </style>
 </head>
 <body>
@@ -1387,6 +1473,11 @@ body:not(.legal-visitor) .legal-back{display:none;}
 <div class="page active" id="page-dashboard">
   <div class="today-view">
 
+    <!-- STREAK-AT-RISK — shows above everything else when a streak is alive
+         and tonight is the night it'll break. Loss aversion is the highest-
+         leverage retention trigger; do not bury it. -->
+    <div id="streak-risk-wrap"></div>
+
     <!-- PRIMARY STATE CARD -->
     <div class="today-state" id="today-state-card">
       <div class="today-eye"><span class="today-eye-dot"></span><span id="today-eye-label">TODAY</span></div>
@@ -1395,8 +1486,19 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <div class="today-actions" id="today-actions"></div>
     </div>
 
+    <!-- DAILY MISSION — one specific action the app tells you to take today,
+         picked from your state (post-loss / Friday / streak / leak). -->
+    <div id="daily-mission-wrap"></div>
+
+    <!-- NOTIFICATION OPT-IN — appears once, after engagement -->
+    <div id="notif-prompt-wrap"></div>
+
     <!-- STREAK — surfaced right after state so returning users see momentum -->
     <div id="streak-wrap"></div>
+
+    <!-- 30-DAY HABIT CHAIN — visual habit chain. Empty cells today create
+         the same pull as an unticked checkbox. -->
+    <div id="habit-chain-wrap"></div>
 
     <!-- DAILY REFLECTION (shown every morning, after first trade exists) -->
     <div id="daily-reflection-wrap"></div>
@@ -1431,6 +1533,10 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <div class="today-section-title">Morning Intention</div>
       <textarea id="today-intention-input" rows="2" placeholder="Today I intend to trade with…" onblur="saveTodayIntention()"></textarea>
     </div>
+
+    <!-- PWA INSTALL NUDGE — appears on 3rd+ session if not installed.
+         Standalone display ~3x improves notification-tap rates. -->
+    <div id="pwa-nudge-wrap"></div>
 
     <!-- EXPAND BUTTON → reveals analytics -->
     <button class="today-expand-btn" onclick="toggleAdvanced()" id="today-expand-btn">
@@ -1720,6 +1826,18 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <button class="btn btn-outline" onclick="doSignOut()" style="margin-left:auto;">Sign Out</button>
   </div>
   <div style="font-size:0.72rem;color:var(--ink-4);margin-top:10px;line-height:1.55;">Reset All Data permanently deletes all trades, journals, and prayer history. Your account remains active.</div>
+
+  <!-- ── NOTIFICATIONS ────────────────────────────────────────────────── -->
+  <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2);">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">REMINDERS</div>
+    <div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;margin-bottom:14px;">Browser reminders fire while Niyyah is open in a tab. Install the app (iOS / Android home screen) for the most reliable delivery.</div>
+    <div id="notif-permission-row" style="margin-bottom:14px;"></div>
+    <div id="notif-prefs-rows"></div>
+    <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;">
+      <button class="btn btn-outline btn-sm" onclick="testNotification()">Send test</button>
+      <button class="btn btn-ghost btn-sm" onclick="installPwaPrompt()" id="pwa-install-btn" style="display:none;">↓ Install as app</button>
+    </div>
+  </div>
   <div style="margin-top:22px;padding-top:18px;border-top:1px solid rgba(214,132,132,0.18);">
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--red);margin-bottom:8px;">DANGER ZONE</div>
     <button class="btn btn-danger" onclick="deleteAccount()">Delete Account Permanently</button>
@@ -2810,9 +2928,15 @@ function replayOnboarding(){
 
 // ── NAVIGATION ─────────────────────────────────────────────────────────────
 var PAGE_TITLES={dashboard:'Today',intrade:'In Trade',trades:'Trade Log',calendar:'Calendar',analytics:'Analytics',journal:'Journal',playbook:'Playbook',risk:'Risk Calc',goals:'Goals',blueprint:'Blueprint',guide:'Guide',settings:'Settings',privacy:'Privacy',terms:'Terms',refund:'Refund Policy'}
-var PAGE_FNS={privacy:function(){},terms:function(){},refund:function(){},guide:function(){},blueprint:function(){},dashboard:renderDash,intrade:renderInTrade,trades:renderTrades,
+// Page renderers are looked up at navigation time. dashboard & settings are
+// wrapped at runtime by the retention module, so resolve through the live
+// binding instead of capturing the original reference here.
+var PAGE_FNS={privacy:function(){},terms:function(){},refund:function(){},guide:function(){},blueprint:function(){},
+  dashboard:function(){return renderDash.apply(this,arguments);},
+  intrade:renderInTrade,trades:renderTrades,
   calendar:renderCal,analytics:renderAnalytics,journal:renderJournal,
-  playbook:renderPlaybook,risk:renderRisk,goals:renderGoals,settings:renderSettings};
+  playbook:renderPlaybook,risk:renderRisk,goals:renderGoals,
+  settings:function(){return renderSettings.apply(this,arguments);}};
 
 function go(page,navEl){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
@@ -4389,6 +4513,626 @@ function runMuhasabah(){
   var dot=el('nav-muh-dot');if(dot)dot.style.display='';
 }
 
+// ════════════════════════════════════════════════════════════════════════
+// RETENTION SYSTEM
+// ════════════════════════════════════════════════════════════════════════
+// Everything below exists to close week-2 drop-off. Three pillars:
+//   1. In-app emotional triggers (daily mission, streak risk, habit chain)
+//   2. Local browser notifications (Friday muhasabah, streak guard,
+//      post-loss cooldown) — fire while the app is open in a tab.
+//   3. Data scaffolding (notifPrefs, notifState, lastSessionAt) so a
+//      Cloud Function can later send actual email/push without a single
+//      client-side change. The user doc fields below are the contract.
+// ────────────────────────────────────────────────────────────────────────
+
+// Default notification preferences. Stored under S.notifPrefs and
+// persisted to Firestore so they sync across devices.
+var DEFAULT_NOTIF_PREFS = {
+  fridayMuhasabah: true,   // Friday at 16:00 local
+  streakGuard:     true,   // 21:00 local if streak ≥3 and today is empty
+  lossCooldown:    true,   // Next day 08:00 after a big-loss day
+  marketOpen:      false,  // 09:25 ET — opt-in, off by default
+  weekKickoff:     false,  // Sunday 19:00 local
+  emailDigest:     false   // Future: backend-sent weekly email
+};
+
+function notifPrefs(){
+  return Object.assign({}, DEFAULT_NOTIF_PREFS, S.notifPrefs||{});
+}
+function setNotifPref(k,v){
+  S.notifPrefs = Object.assign({}, notifPrefs(), pairs(k,v));
+  sv('notifPrefs', S.notifPrefs);
+}
+function pairs(k,v){var o={};o[k]=v;return o;}
+
+// Permission state — 'default' | 'granted' | 'denied' | 'unsupported'
+function notifPermission(){
+  if(typeof Notification === 'undefined') return 'unsupported';
+  return Notification.permission;
+}
+
+// Request permission. Always called from a user gesture to satisfy
+// browser autoplay-style restrictions on Notification.requestPermission.
+function requestNotifPermission(){
+  if(typeof Notification === 'undefined'){
+    toast('Notifications not supported in this browser','e');
+    return Promise.resolve('unsupported');
+  }
+  return Notification.requestPermission().then(function(p){
+    S.notifAskedAt = new Date().toISOString();
+    sv('notifAskedAt', S.notifAskedAt);
+    if(p === 'granted'){
+      toast('✓ Reminders on. We’ll ping you for Friday muhasabah and streak guard.', 's');
+      fireNotif('Reminders enabled', 'Niyyah will quietly hold you to your loop. Bismillah.', '/');
+      tickNotifScheduler();
+      renderNotifPrompt();
+    } else if(p === 'denied'){
+      toast('Reminders blocked. You can enable in your browser settings.', 'e');
+      renderNotifPrompt();
+    }
+    return p;
+  });
+}
+
+// Fire a notification right now (uses SW registration if available so
+// notifications survive a quick tab close on Android/desktop). Returns
+// true if delivered.
+function fireNotif(title, body, url){
+  if(notifPermission() !== 'granted') return false;
+  try{
+    if(navigator.serviceWorker && navigator.serviceWorker.ready){
+      navigator.serviceWorker.ready.then(function(reg){
+        reg.showNotification(title, {
+          body: body,
+          icon: '/icon-192.png',
+          badge: '/icon-192.png',
+          tag: 'niyyah-' + (title || '').toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,24),
+          renotify: false,
+          data: { url: url || '/' }
+        }).catch(function(){});
+      });
+    } else {
+      // Fallback: plain Notification (no click routing)
+      new Notification(title, { body: body });
+    }
+    return true;
+  } catch(e){ return false; }
+}
+
+// Compute the next firing time (Date) for each enabled reminder type.
+// Returns null if the reminder shouldn't fire (already happened today,
+// disabled, etc). All times are user-local.
+function nextFireTime(type){
+  var now = new Date();
+  var prefs = notifPrefs();
+  var state = S.notifState || {};
+  var todayKey = localDate();
+  switch(type){
+    case 'fridayMuhasabah': {
+      if(!prefs.fridayMuhasabah) return null;
+      // Next Friday at 16:00 local. If today is Friday and it's after 16:00,
+      // skip to next Friday so we don't fire twice.
+      var d = new Date();
+      var daysUntilFri = (5 - d.getDay() + 7) % 7;
+      if(daysUntilFri === 0 && d.getHours() >= 16) daysUntilFri = 7;
+      d.setDate(d.getDate() + daysUntilFri);
+      d.setHours(16,0,0,0);
+      // Suppress if already fired today
+      if(state.fridayMuhasabahDate === localDate(d)) return null;
+      return d;
+    }
+    case 'streakGuard': {
+      if(!prefs.streakGuard) return null;
+      var streak = (typeof calcStreak === 'function') ? calcStreak() : 0;
+      if(streak < 3) return null;
+      // Already did something today? skip.
+      var trades = S.trades.filter(function(t){return t.date===todayKey;});
+      var prayers = (S.dailyPrayers||{})[todayKey] || {};
+      var prayed = Object.values(prayers).filter(Boolean).length;
+      if(trades.length > 0 || prayed > 0) return null;
+      // Tonight at 21:00
+      var t = new Date();
+      t.setHours(21,0,0,0);
+      if(t <= now) return null; // already past
+      if(state.streakGuardDate === todayKey) return null;
+      return t;
+    }
+    case 'lossCooldown': {
+      if(!prefs.lossCooldown) return null;
+      // Was yesterday a big-loss day? Schedule tomorrow morning.
+      var yest = new Date(); yest.setDate(yest.getDate() - 1);
+      var yKey = localDate(yest);
+      var yClosed = S.trades.filter(function(t){return t.date===yKey && t.status==='closed';});
+      if(!yClosed.length) return null;
+      var yPnl = yClosed.reduce(function(s,t){return s+(t.pnl||0);},0);
+      // Threshold: any day in the bottom 25% of loss days, or a -2× average loss day.
+      var allClosed = S.trades.filter(function(t){return t.status==='closed' && t.pnl<0;});
+      if(!allClosed.length) return null;
+      var avgLoss = allClosed.reduce(function(s,t){return s+t.pnl;},0)/allClosed.length;
+      if(yPnl >= avgLoss*2) return null; // not bad enough
+      // Today 08:00 (or right now if already past 08:00)
+      var t2 = new Date();
+      t2.setHours(8,0,0,0);
+      if(t2 <= now) {
+        // Already past 8am today — fire silently within next 60 seconds
+        t2 = new Date(now.getTime() + 60000);
+      }
+      if(state.lossCooldownDate === todayKey) return null;
+      return t2;
+    }
+    case 'weekKickoff': {
+      if(!prefs.weekKickoff) return null;
+      var d2 = new Date();
+      var daysUntilSun = (0 - d2.getDay() + 7) % 7;
+      if(daysUntilSun === 0 && d2.getHours() >= 19) daysUntilSun = 7;
+      d2.setDate(d2.getDate() + daysUntilSun);
+      d2.setHours(19,0,0,0);
+      if(state.weekKickoffDate === localDate(d2)) return null;
+      return d2;
+    }
+    default: return null;
+  }
+}
+
+// Cancelable handles for in-tab scheduled notifications. Re-scheduled
+// from scratch on every tick so we never accumulate stale timers.
+var _notifTimers = {};
+function tickNotifScheduler(){
+  if(notifPermission() !== 'granted') return;
+  // Cancel previous timers
+  Object.keys(_notifTimers).forEach(function(k){
+    clearTimeout(_notifTimers[k]); delete _notifTimers[k];
+  });
+  ['fridayMuhasabah','streakGuard','lossCooldown','weekKickoff'].forEach(function(type){
+    var when = nextFireTime(type);
+    if(!when) return;
+    var delay = when.getTime() - Date.now();
+    // Only schedule things within the next 12 hours — beyond that, the user
+    // will almost certainly close the tab anyway. We re-schedule on every
+    // visibilitychange and on app open.
+    if(delay < 0 || delay > 12*3600*1000) return;
+    _notifTimers[type] = setTimeout(function(){
+      fireScheduledNotif(type);
+    }, delay);
+  });
+}
+
+function fireScheduledNotif(type){
+  var state = S.notifState || (S.notifState = {});
+  var today = localDate();
+  var copy = NOTIF_COPY[type] || { title: 'Niyyah', body: 'A reminder.', url: '/' };
+  // Re-evaluate body at fire-time so streak/loss numbers are fresh
+  if(typeof copy.body === 'function') copy = { title: copy.title, body: copy.body(), url: copy.url };
+  fireNotif(copy.title, copy.body, copy.url);
+  state[type + 'Date'] = today;
+  sv('notifState', state);
+}
+
+var NOTIF_COPY = {
+  fridayMuhasabah: {
+    title: '☽ Friday muhasabah',
+    body: function(){
+      var monday = new Date();
+      monday.setDate(monday.getDate() - ((monday.getDay()+6)%7));
+      monday.setHours(0,0,0,0);
+      var ts = monday.getTime();
+      var week = S.trades.filter(function(t){return t.status==='closed' && new Date(t.date+'T12:00:00').getTime()>=ts;});
+      var pnl = week.reduce(function(s,t){return s+(t.pnl||0);},0);
+      return week.length + ' trade' + (week.length===1?'':'s') + ' this week · ' +
+             ((pnl>=0?'+':'-')+'$'+Math.abs(Math.round(pnl))) +
+             '. Look at it with honesty before Maghrib.';
+    },
+    url: '/'
+  },
+  streakGuard: {
+    title: 'Your streak breaks at midnight',
+    body: function(){
+      var s = calcStreak();
+      return s + '-day streak · no trade or prayer logged today. 30 seconds keeps it alive.';
+    },
+    url: '/'
+  },
+  lossCooldown: {
+    title: 'Yesterday was hard — protect today',
+    body: 'Pray Fajr. Read the Blueprint. Set today’s intention before opening any chart.',
+    url: '/'
+  },
+  weekKickoff: {
+    title: '☽ One week ahead',
+    body: 'Set your niyyah for the week before the first session opens.',
+    url: '/'
+  }
+};
+
+// Send a quick test notification (Settings → Send test).
+function testNotification(){
+  if(notifPermission() === 'default'){
+    requestNotifPermission().then(function(p){
+      if(p === 'granted') fireNotif('Niyyah test', 'Reminders are working. Bismillah.', '/');
+    });
+    return;
+  }
+  if(notifPermission() !== 'granted'){
+    toast('Reminders are blocked. Enable in your browser settings.', 'e'); return;
+  }
+  fireNotif('Niyyah test', 'Reminders are working. Bismillah.', '/');
+}
+
+// ── DAILY MISSION ──────────────────────────────────────────────────────────
+// Single most-important action for today, derived from the user's state.
+// One mission per day, ordered by priority. Empty = no mission card shown.
+function pickDailyMission(){
+  var todayKey = localDate();
+  var now = new Date();
+  var day = now.getDay();
+  var hour = now.getHours();
+  var closed = S.trades.filter(function(t){return t.status==='closed';});
+  var todayClosed = closed.filter(function(t){return t.date===todayKey;});
+  var prayers = (S.dailyPrayers||{})[todayKey] || {};
+  var prayedCount = Object.values(prayers).filter(Boolean).length;
+
+  // 1. Yesterday was a real loss → cooldown mission, regardless of anything
+  var yest = new Date(); yest.setDate(yest.getDate()-1);
+  var yKey = localDate(yest);
+  var yClosed = closed.filter(function(t){return t.date===yKey;});
+  if(yClosed.length){
+    var yPnl = yClosed.reduce(function(s,t){return s+(t.pnl||0);},0);
+    var allLosses = closed.filter(function(t){return t.pnl<0;});
+    if(allLosses.length){
+      var avgLoss = allLosses.reduce(function(s,t){return s+t.pnl;},0)/allLosses.length;
+      if(yPnl <= avgLoss * 1.5){
+        return {
+          urgent: true, icon: '⚠',
+          eye: 'COOLDOWN MISSION',
+          text: 'Yesterday was <em>hard</em>. Re-read the Blueprint before any chart.',
+          page: 'blueprint'
+        };
+      }
+    }
+  }
+
+  // 2. Friday afternoon and muhasabah not yet done this week
+  if((day===5 && hour>=14) || (day===6 && hour<12)){
+    var weekJournals = (S.journals||[]).filter(function(j){
+      var jd = new Date(j.date+'T12:00:00');
+      var diff = (now - jd)/86400000;
+      return diff >= 0 && diff <= 2;
+    });
+    if(!weekJournals.length){
+      return {
+        urgent: true, icon: '☽',
+        eye: 'FRIDAY · MUHASABAH',
+        text: 'It\'s Friday. Look at this week with <em>honesty</em>.',
+        page: 'journal'
+      };
+    }
+  }
+
+  // 3. Streak alive but nothing logged yet today → protect it
+  var streak = calcStreak();
+  if(streak >= 3 && todayClosed.length===0 && prayedCount===0){
+    return {
+      urgent: hour >= 18,
+      icon: '✦',
+      eye: 'STREAK · DAY ' + streak,
+      text: 'Your ' + streak + '-day streak <em>holds</em> if you log one trade or tap one prayer today.',
+      page: 'dashboard'
+    };
+  }
+
+  // 4. Leak-specific mission for new users with no closed trades
+  if(closed.length < 5 && S.settings && S.settings.leak){
+    var leak = S.settings.leak;
+    var leakMissions = {
+      revenge:  { icon:'⏳', eye:'LEAK · REVENGE',    text:'Today\'s rule: <em>one trade per session</em>. If it loses, you stop.' },
+      fomo:     { icon:'⏱', eye:'LEAK · FOMO',       text:'Today\'s rule: wait <em>10 minutes</em> after spotting a setup before entering.' },
+      rules:    { icon:'❑', eye:'LEAK · BROKEN RULES', text:'Today\'s rule: write each rule down <em>before</em> the first chart.' },
+      overconf: { icon:'☽', eye:'LEAK · KIBR',       text:'After any win today: <em>reduce</em> next size by one contract. Same rules, always.' },
+      missing:  { icon:'🤲', eye:'LEAK · SALAH',      text:'Today\'s rule: no chart until <em>this prayer</em> is done.' },
+      boredom:  { icon:'✦', eye:'LEAK · BOREDOM',    text:'Today\'s rule: zero trades is a <em>winning session</em> if nothing qualifies.' }
+    };
+    var lm = leakMissions[leak];
+    if(lm){ lm.page = 'guide'; lm.urgent = false; return lm; }
+  }
+
+  // 5. Morning and no intention set → write the niyyah
+  if(hour < 12 && closed.length > 0){
+    var m = (S.morning||{})[todayKey];
+    if(!m || !m.intention){
+      return {
+        urgent: false, icon: '✎',
+        eye: 'MORNING · INTENTION',
+        text: 'Write today\'s <em>niyyah</em> before the open.',
+        page: 'journal'
+      };
+    }
+  }
+
+  // 6. Evening and trades happened → muhasabah
+  if(hour >= 17 && todayClosed.length > 0){
+    var j = (S.journals||[]).find(function(x){return x.date===todayKey;});
+    if(!j){
+      return {
+        urgent: false, icon: '☽',
+        eye: 'EVENING · MUHASABAH',
+        text: 'Reflect on today before sleep. <em>One fix</em> for tomorrow.',
+        page: 'journal'
+      };
+    }
+  }
+
+  // 7. Default — calm continuation prompt
+  if(closed.length >= 5){
+    return {
+      urgent: false, calm: true, icon: '☽',
+      eye: 'TODAY · ONE THING',
+      text: 'Quality <em>over</em> P&L. Take only setups your gate approves.',
+      page: 'guide'
+    };
+  }
+
+  return null;
+}
+
+function renderDailyMission(){
+  var e = el('daily-mission-wrap'); if(!e) return;
+  var m = pickDailyMission();
+  if(!m){ e.innerHTML=''; return; }
+  var cls = 'daily-mission' + (m.urgent?' urgent':'') + (m.calm?' calm':'');
+  e.innerHTML =
+    '<div class="' + cls + '" onclick="go(\'' + (m.page||'dashboard') + '\',document.querySelector(\'[data-page=' + (m.page||'dashboard') + ']\'))">' +
+      '<div class="dm-icon">' + esc(m.icon||'☽') + '</div>' +
+      '<div class="dm-body">' +
+        '<div class="dm-eye">' + esc(m.eye||'TODAY') + '</div>' +
+        '<div class="dm-text">' + m.text + '</div>' +  // text contains intentional <em>
+      '</div>' +
+      '<div class="dm-arrow">→</div>' +
+    '</div>';
+}
+
+// ── 30-DAY HABIT CHAIN ──────────────────────────────────────────────────
+function renderHabitChain(){
+  var e = el('habit-chain-wrap'); if(!e) return;
+  // Only show once the user has any data to chain
+  if(!S.trades.length && !Object.keys(S.dailyPrayers||{}).length){
+    e.innerHTML=''; return;
+  }
+  var todayKey = localDate();
+  var cells = [];
+  var loggedDays = 0;
+  for(var i=29;i>=0;i--){
+    var d = new Date(); d.setDate(d.getDate() - i);
+    var k = localDate(d);
+    var trades = S.trades.filter(function(t){return t.date===k;});
+    var prayed = ((S.dailyPrayers||{})[k]) ? Object.values(S.dailyPrayers[k]).filter(Boolean).length : 0;
+    var level = 0;
+    if(trades.length && prayed >= 4) level = 4;
+    else if(trades.length && prayed >= 1) level = 3;
+    else if(trades.length) level = 2;
+    else if(prayed >= 3) level = 2;
+    else if(prayed >= 1) level = 1;
+    if(level > 0) loggedDays++;
+    var dateStr = d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+    var titleParts = [dateStr];
+    if(trades.length) titleParts.push(trades.length + ' trade' + (trades.length===1?'':'s'));
+    if(prayed) titleParts.push(prayed + '/5 prayers');
+    if(!trades.length && !prayed) titleParts.push('quiet day');
+    cells.push('<div class="hc-cell' + (level?' l'+level:'') + (k===todayKey?' today':'') + '" title="' + esc(titleParts.join(' · ')) + '"></div>');
+  }
+  e.innerHTML =
+    '<div class="habit-chain">' +
+      '<div class="hc-head">' +
+        '<div class="hc-title">30-Day Chain</div>' +
+        '<div class="hc-summary"><strong>' + loggedDays + '</strong> of 30 days active</div>' +
+      '</div>' +
+      '<div class="hc-grid">' + cells.join('') + '</div>' +
+      '<div class="hc-legend">Quiet ' +
+        '<div class="hc-legend-dots">' +
+          '<div class="hc-legend-dot"></div>' +
+          '<div class="hc-legend-dot l1"></div>' +
+          '<div class="hc-legend-dot l2"></div>' +
+          '<div class="hc-legend-dot l3"></div>' +
+          '<div class="hc-legend-dot l4"></div>' +
+        '</div> Logged + prayed</div>' +
+    '</div>';
+}
+
+// ── STREAK-AT-RISK BANNER ──────────────────────────────────────────────
+// Fires when streak >= 3, after 18:00 local, and nothing logged today.
+// Loss aversion is the single most powerful retention force; surface it.
+function renderStreakRisk(){
+  var e = el('streak-risk-wrap'); if(!e){ return; }
+  var streak = calcStreak();
+  if(streak < 3){ e.innerHTML=''; return; }
+  var now = new Date();
+  if(now.getHours() < 18){ e.innerHTML=''; return; }
+  var todayKey = localDate();
+  var todayTrades = S.trades.filter(function(t){return t.date===todayKey;});
+  var prayed = ((S.dailyPrayers||{})[todayKey]) ? Object.values(S.dailyPrayers[todayKey]).filter(Boolean).length : 0;
+  if(todayTrades.length || prayed){ e.innerHTML=''; return; }
+  e.innerHTML =
+    '<div class="streak-risk">' +
+      '<div class="sr-icon">⏳</div>' +
+      '<div class="sr-body">' +
+        '<div class="sr-title">Your <strong>' + streak + '-day streak</strong> breaks at midnight.</div>' +
+        '<div class="sr-sub">30 seconds keeps it alive — tap one prayer or open the journal.</div>' +
+      '</div>' +
+      '<div class="sr-actions">' +
+        '<button class="btn btn-gold btn-sm" onclick="toggleSalah(_nextDuePrayer())">Tap a prayer</button>' +
+        '<button class="btn btn-outline btn-sm" onclick="go(\'journal\',document.querySelector(\'[data-page=journal]\'))">Open journal</button>' +
+      '</div>' +
+    '</div>';
+}
+
+// Picks the next unprayed prayer for the streak-guard quick-tap.
+function _nextDuePrayer(){
+  var order = ['fajr','dhuhr','asr','maghrib','isha'];
+  var p = (S.dailyPrayers||{})[localDate()] || {};
+  for(var i=0;i<order.length;i++) if(!p[order[i]]) return order[i];
+  return 'isha';
+}
+
+// ── NOTIFICATION OPT-IN PROMPT ──────────────────────────────────────────
+// Appears ONCE, after the user has shown engagement (tapped a prayer or
+// logged a trade). Dismiss = silence for 14 days. Granted = silence forever.
+function renderNotifPrompt(){
+  var e = el('notif-prompt-wrap'); if(!e){ return; }
+  if(notifPermission() !== 'default'){ e.innerHTML=''; return; }
+  // Honor "Not now" cooldown
+  if(S.notifSnoozeUntil && new Date(S.notifSnoozeUntil) > new Date()){
+    e.innerHTML=''; return;
+  }
+  // Only prompt if engaged: ≥1 trade or ≥1 prayer tapped at any point
+  var anyTrade = S.trades.length > 0;
+  var anyPrayer = Object.keys(S.dailyPrayers||{}).some(function(d){
+    return Object.values(S.dailyPrayers[d]).some(Boolean);
+  });
+  if(!anyTrade && !anyPrayer){ e.innerHTML=''; return; }
+  e.innerHTML =
+    '<div class="notif-prompt">' +
+      '<div class="np-icon">🔔</div>' +
+      '<div class="np-body">' +
+        '<div class="np-title">Reminders for Friday muhasabah &amp; streak guard?</div>' +
+        '<div class="np-sub">One ping at the moments that matter. No marketing, ever.</div>' +
+      '</div>' +
+      '<div class="np-actions">' +
+        '<button class="btn btn-gold btn-sm" onclick="requestNotifPermission()">Enable</button>' +
+        '<button class="btn btn-ghost btn-sm" onclick="snoozeNotifPrompt()">Not now</button>' +
+      '</div>' +
+    '</div>';
+}
+function snoozeNotifPrompt(){
+  var until = new Date(); until.setDate(until.getDate() + 14);
+  S.notifSnoozeUntil = until.toISOString();
+  sv('notifSnoozeUntil', S.notifSnoozeUntil);
+  renderNotifPrompt();
+}
+
+// ── PWA INSTALL ────────────────────────────────────────────────────────
+// Capture the beforeinstallprompt event so we can fire it later from a
+// real user click (browsers reject programmatic prompts).
+var _deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault();
+  _deferredInstallPrompt = e;
+  renderPwaNudge();
+  var btn = el('pwa-install-btn'); if(btn) btn.style.display='';
+});
+window.addEventListener('appinstalled', function(){
+  _deferredInstallPrompt = null;
+  S.pwaInstalled = true; sv('pwaInstalled', true);
+  toast('✓ Niyyah installed. Open from your home screen.','s');
+  renderPwaNudge();
+});
+
+function isStandalone(){
+  return window.matchMedia('(display-mode: standalone)').matches ||
+         window.navigator.standalone === true;
+}
+function installPwaPrompt(){
+  if(!_deferredInstallPrompt){
+    toast('Install via your browser menu (Add to Home Screen).','s');
+    return;
+  }
+  _deferredInstallPrompt.prompt();
+  _deferredInstallPrompt.userChoice.then(function(){
+    _deferredInstallPrompt = null;
+  });
+}
+function dismissPwaNudge(){
+  var until = new Date(); until.setDate(until.getDate() + 30);
+  S.pwaNudgeSnoozedUntil = until.toISOString();
+  sv('pwaNudgeSnoozedUntil', S.pwaNudgeSnoozedUntil);
+  renderPwaNudge();
+}
+function renderPwaNudge(){
+  var e = el('pwa-nudge-wrap'); if(!e){ return; }
+  if(isStandalone()){ e.innerHTML=''; return; }
+  if(!_deferredInstallPrompt){ e.innerHTML=''; return; }
+  if(S.pwaNudgeSnoozedUntil && new Date(S.pwaNudgeSnoozedUntil) > new Date()){ e.innerHTML=''; return; }
+  // Only show after a few sessions of real engagement
+  if((S.sessionCount||0) < 3){ e.innerHTML=''; return; }
+  e.innerHTML =
+    '<div class="pwa-nudge">' +
+      '<span>📲</span>' +
+      '<div><strong>Install Niyyah</strong> — open it as fast as your trading app, and reminders fire even when the browser is closed.</div>' +
+      '<button class="btn btn-gold btn-sm" onclick="installPwaPrompt()">Install</button>' +
+      '<button class="pwa-dismiss" onclick="dismissPwaNudge()" aria-label="Dismiss">×</button>' +
+    '</div>';
+}
+
+// ── SETTINGS PANEL FOR NOTIFICATIONS ──────────────────────────────────
+function renderNotifSettings(){
+  var prefs = notifPrefs();
+  var perm = notifPermission();
+  var prow = el('notif-permission-row');
+  if(prow){
+    if(perm === 'unsupported'){
+      prow.innerHTML = '<div style="padding:11px 14px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);font-size:0.78rem;color:var(--ink-3);">Notifications are not supported in this browser.</div>';
+    } else if(perm === 'denied'){
+      prow.innerHTML = '<div style="padding:11px 14px;background:rgba(214,132,132,0.05);border:1px solid rgba(214,132,132,0.18);border-radius:var(--r);font-size:0.78rem;color:var(--ink-2);line-height:1.55;"><strong style="color:var(--red);">Reminders blocked.</strong> Re-enable in your browser settings (the lock icon next to the URL).</div>';
+    } else if(perm === 'granted'){
+      prow.innerHTML = '<div style="padding:11px 14px;background:rgba(112,184,142,0.05);border:1px solid rgba(112,184,142,0.18);border-radius:var(--r);font-size:0.78rem;color:var(--ink-2);"><strong style="color:var(--green);">✓ Reminders enabled.</strong> Pick which ones below.</div>';
+    } else {
+      prow.innerHTML = '<button class="btn btn-gold" onclick="requestNotifPermission().then(renderNotifSettings)">Enable browser reminders</button>';
+    }
+  }
+  var rows = el('notif-prefs-rows');
+  if(!rows) return;
+  var items = [
+    { key:'fridayMuhasabah', title:'Friday muhasabah',  sub:'Friday 16:00 · weekly review reminder' },
+    { key:'streakGuard',     title:'Streak guard',      sub:'21:00 · only when a streak is alive and today is empty' },
+    { key:'lossCooldown',    title:'Loss-day cooldown', sub:'Next morning 08:00 · after a hard day' },
+    { key:'weekKickoff',     title:'Sunday week kickoff', sub:'Sunday 19:00 · plan the week ahead' }
+  ];
+  rows.innerHTML = items.map(function(it){
+    var on = prefs[it.key];
+    return '<div class="notif-row">' +
+      '<div class="notif-row-body">' +
+        '<div class="notif-row-title">' + esc(it.title) + '</div>' +
+        '<div class="notif-row-sub">' + esc(it.sub) + '</div>' +
+      '</div>' +
+      '<div class="toggle' + (on?' on':'') + '" onclick="toggleNotifPref(\'' + it.key + '\')"><div class="toggle-dot"></div></div>' +
+    '</div>';
+  }).join('');
+}
+function toggleNotifPref(k){
+  var cur = notifPrefs();
+  setNotifPref(k, !cur[k]);
+  renderNotifSettings();
+  tickNotifScheduler();
+}
+
+// Patch renderSettings to also render the notification panel after the
+// existing settings UI builds.
+var _origRenderSettings = renderSettings;
+renderSettings = function(){
+  _origRenderSettings.apply(this, arguments);
+  try{ renderNotifSettings(); }catch(e){ console.error('notif settings:',e); }
+};
+
+// Patch renderDash so all retention surfaces refresh on every dashboard
+// repaint (after trade close, after prayer tap, etc).
+var _origRenderDash = renderDash;
+renderDash = function(){
+  _origRenderDash.apply(this, arguments);
+  try{ renderStreakRisk(); }catch(e){ console.error('streak risk:',e); }
+  try{ renderDailyMission(); }catch(e){ console.error('daily mission:',e); }
+  try{ renderHabitChain(); }catch(e){ console.error('habit chain:',e); }
+  try{ renderNotifPrompt(); }catch(e){ console.error('notif prompt:',e); }
+  try{ renderPwaNudge(); }catch(e){ console.error('pwa nudge:',e); }
+};
+
+// Re-schedule notifications whenever the tab regains focus, since long
+// timeouts get throttled / dropped when a tab is backgrounded.
+document.addEventListener('visibilitychange', function(){
+  if(!document.hidden){
+    try{ tickNotifScheduler(); }catch(e){}
+    try{ renderStreakRisk(); }catch(e){}
+    try{ renderDailyMission(); }catch(e){}
+  }
+});
+
 function init(){
   var td=el('topbar-date');if(td)td.textContent=new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
   loadAll().then(function(ob){
@@ -4397,8 +5141,16 @@ function init(){
     else if(user&&user.displayName){setText('sf-av',user.displayName[0].toUpperCase());setText('sf-name',user.displayName);}
     if(user&&user.email){setText('sf-plan-label',user.email);}
     if(S.openTradeId){var found=S.trades.find(function(t){return t.id===S.openTradeId&&t.status==='open';});if(!found){S.openTradeId=null;sv('openTradeId',null);}}
+    // Increment session counter — drives PWA-install nudge timing
+    S.sessionCount = (S.sessionCount||0) + 1;
+    S.lastSessionAt = new Date().toISOString();
+    sv('sessionCount', S.sessionCount);
+    sv('lastSessionAt', S.lastSessionAt);
     updateNav();
     try{renderDash();}catch(e){console.error('Init renderDash:',e);}
+    // Hook the local scheduler on every app open — bridges from "user is
+    // active" → "reminder fires later today while tab is still open."
+    try{ tickNotifScheduler(); }catch(e){ console.error('scheduler:',e); }
     if(!ob)setTimeout(showOB,500);
   });
 }
