@@ -1,0 +1,85 @@
+rules_version = '2';
+
+// ════════════════════════════════════════════════════════════════════════
+// Niyyah — Firestore Security Rules
+// ────────────────────────────────────────────────────────────────────────
+// The privacy promise on the landing page ("only you can access your
+// journal entries, trades, and prayer data") is enforced HERE, not in
+// client code. Without these rules deployed, anyone with the public
+// Firebase API key could read any user's data.
+//
+// Deploy:   firebase deploy --only firestore:rules
+// ════════════════════════════════════════════════════════════════════════
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── USER DOC ────────────────────────────────────────────────────────
+    // users/{uid} holds everything for a single user: trades, journals,
+    // prayers, settings, notification preferences, Stripe customer id,
+    // and subscription status. Only the signed-in user themself may
+    // read or write to it, with two carve-outs noted below.
+    match /users/{uid} {
+
+      // Read: only the signed-in owner.
+      allow read: if isOwner(uid);
+
+      // Create: signed-in user creating their own doc on first save.
+      // Server-only fields cannot be set on create — the client cannot
+      // mint themselves an active subscription or assign a Stripe id.
+      allow create: if isOwner(uid)
+                   && !('subscription' in request.resource.data)
+                   && !('stripeCustomerId' in request.resource.data);
+
+      // Update: signed-in owner, BUT the server-controlled fields
+      // (subscription state, stripe ids) can only be written by the
+      // Cloud Functions backend, never by the client. We detect that
+      // by checking the fields the client tried to change — if any of
+      // them is in the protected set, reject.
+      allow update: if isOwner(uid)
+                   && !affectsServerFields(request.resource.data, resource.data);
+
+      // Delete: signed-in owner only (used by "Delete account forever").
+      allow delete: if isOwner(uid);
+
+      // Future: per-trade subcollection. Same owner-only contract.
+      // Switch to this once the user doc starts approaching the 1MB cap.
+      match /trades/{tradeId} {
+        allow read, write: if isOwner(uid);
+      }
+      match /journals/{journalId} {
+        allow read, write: if isOwner(uid);
+      }
+      match /screenshots/{screenshotId} {
+        allow read, write: if isOwner(uid);
+      }
+    }
+
+    // Everything else: locked.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+
+  // ── HELPERS ──────────────────────────────────────────────────────────
+  function isOwner(uid) {
+    return request.auth != null && request.auth.uid == uid;
+  }
+
+  // True if the request is trying to change any of the fields the
+  // client must never touch. The Cloud Functions backend uses the
+  // Admin SDK, which bypasses rules entirely, so it can still write
+  // these fields on the user's behalf.
+  function affectsServerFields(newDoc, oldDoc) {
+    return changed(newDoc, oldDoc, 'subscription')
+        || changed(newDoc, oldDoc, 'stripeCustomerId')
+        || changed(newDoc, oldDoc, 'stripeSubscriptionId');
+  }
+
+  function changed(newDoc, oldDoc, field) {
+    let newHas = field in newDoc;
+    let oldHas = field in oldDoc;
+    return (newHas != oldHas) ||
+           (newHas && oldHas && newDoc[field] != oldDoc[field]);
+  }
+}
