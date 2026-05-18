@@ -25,12 +25,23 @@ service cloud.firestore {
         && request.auth.uid == userId
         && !('subscription' in request.resource.data)
         && !('stripeCustomerId' in request.resource.data)
-        && !('stripeSubscriptionId' in request.resource.data);
+        && !('stripeSubscriptionId' in request.resource.data)
+        // Server-only: prevents a fresh signup from pre-stamping themselves
+        // as already-credited and locking the referral handshake.
+        && !('referralCreditedAt' in request.resource.data)
+        && !('lastNudgeAt' in request.resource.data);
 
       allow update: if request.auth != null
         && request.auth.uid == userId
         && !request.resource.data.diff(resource.data)
-            .affectedKeys().hasAny(['subscription', 'stripeCustomerId', 'stripeSubscriptionId']);
+            .affectedKeys().hasAny([
+              'subscription', 'stripeCustomerId', 'stripeSubscriptionId',
+              // Referral credit + nudge dedupe must not be writable by the
+              // client — only the Cloud Functions (Admin SDK) may set/clear
+              // these. Without this, a user could un-stamp themselves and
+              // collect the free month twice, or re-trigger nudges all day.
+              'referralCreditedAt', 'lastNudgeAt'
+            ]);
 
       // Delete: used by "Delete account permanently" and "Reset all data"
       // in Settings. Owner only.

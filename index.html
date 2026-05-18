@@ -2532,10 +2532,18 @@ function authSubmit(){
     var name = el('auth-name') ? el('auth-name').value.trim() : '';
     AUTH.createUserWithEmailAndPassword(email, password)
       .then(function(cred){
-        if(name){
+        var initSettings = {};
+        if(name) initSettings.name = name;
+        var ref = window._pendingReferral || null;
+        var docPatch = Object.keys(initSettings).length ? { settings: initSettings } : {};
+        if(ref){
+          docPatch.referredBy = ref;
+          try{ sessionStorage.removeItem('niyyah_ref'); }catch(_){}
+        }
+        if(Object.keys(docPatch).length){
           DB.collection('users').doc(cred.user.uid)
-            .set({settings:{name:name}},{merge:true})
-            .catch(function(e){ console.error('name save failed', e); });
+            .set(docPatch, {merge:true})
+            .catch(function(e){ console.error('signup doc save failed', e); });
         }
         _verificationMode = true;
         var as=document.getElementById('auth-screen');
@@ -2599,6 +2607,16 @@ function authGoogle(){
   var provider = new firebase.auth.GoogleAuthProvider();
   provider.setCustomParameters({'prompt': 'select_account'});
   AUTH.signInWithPopup(provider).then(function(result){
+    // If this is a brand-new signup with a pending referral code, stamp it
+    // on the user doc so the backend can credit on first payment.
+    var ref = window._pendingReferral;
+    var isNew = result && result.additionalUserInfo && result.additionalUserInfo.isNewUser;
+    if(isNew && ref && result.user){
+      DB.collection('users').doc(result.user.uid)
+        .set({ referredBy: ref }, { merge: true })
+        .catch(function(){});
+      try{ sessionStorage.removeItem('niyyah_ref'); }catch(_){}
+    }
     // Success handled by onAuthStateChanged
   }).catch(function(e){
     var err = el('auth-error');
@@ -4850,6 +4868,130 @@ function clearPrayerLoc(){
   renderPrayerLocRow();
   toast('Prayer alerts disabled','i');
 }
+
+// ── WEB PUSH OPT-IN ───────────────────────────────────────────────────────
+// Client side of the daily-nudge system. The server side
+// (functions/dailyNudge.js) reads users with a push subscription stored
+// here and sends scheduled notifications. We never push from the client.
+//
+// TODO(deploy): generate a VAPID key pair, set the public half in
+// firebase functions:config:set push.vapid_public="..."
+//                                  push.vapid_private="..."
+// then update PUSH_VAPID_PUBLIC below with the same public key.
+var PUSH_VAPID_PUBLIC = ''; // TODO(deploy): paste public VAPID key here
+
+function _urlBase64ToUint8Array(b64){
+  var padding = '='.repeat((4 - b64.length % 4) % 4);
+  var base64 = (b64 + padding).replace(/-/g,'+').replace(/_/g,'/');
+  var raw = atob(base64);
+  var out = new Uint8Array(raw.length);
+  for(var i=0;i<raw.length;i++) out[i] = raw.charCodeAt(i);
+  return out;
+}
+function renderPushToggleRow(){
+  var row = el('push-toggle-row'); if(!row) return;
+  if(!('serviceWorker' in navigator) || !('PushManager' in window)){
+    row.innerHTML = '<div style="font-size:0.74rem;color:var(--ink-4);">Push notifications are not supported in this browser.</div>';
+    return;
+  }
+  var enabled = !!(S.settings && S.settings.pushSubscription);
+  row.innerHTML =
+    '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">' +
+      '<div style="flex:1;font-size:0.82rem;color:'+(enabled?'var(--ink-2)':'var(--ink-3)')+';"><strong style="color:'+(enabled?'var(--gold)':'var(--ink-3)')+';">Daily nudge</strong> — one push a day if your state needs it (streak-at-risk, post-loss reflection, weekly muhasabah). Off by default.</div>' +
+      '<button class="btn btn-'+(enabled?'outline':'gold')+' btn-sm" onclick="'+(enabled?'disablePush()':'enablePush()')+'">'+(enabled?'Disable':'Enable')+'</button>' +
+    '</div>';
+}
+function enablePush(){
+  if(!PUSH_VAPID_PUBLIC){
+    toast('Server VAPID key not configured yet — your sub will save once it is','i');
+  }
+  if(Notification.permission === 'denied'){
+    toast('Browser notifications are blocked — unblock in site settings first','e');
+    return;
+  }
+  navigator.serviceWorker.ready.then(function(reg){
+    return reg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: PUSH_VAPID_PUBLIC ? _urlBase64ToUint8Array(PUSH_VAPID_PUBLIC) : undefined
+    });
+  }).then(function(sub){
+    if(!S.settings) S.settings = {};
+    S.settings.pushSubscription = sub.toJSON();
+    sv('settings', S.settings);
+    renderPushToggleRow();
+    toast('✓ Daily nudge enabled','s');
+  }).catch(function(err){
+    toast('Could not enable push: '+(err.message||'unknown'),'e');
+  });
+}
+function disablePush(){
+  navigator.serviceWorker.ready.then(function(reg){
+    return reg.pushManager.getSubscription();
+  }).then(function(sub){
+    if(sub) return sub.unsubscribe();
+  }).then(function(){
+    if(!S.settings) S.settings = {};
+    delete S.settings.pushSubscription;
+    sv('settings', S.settings);
+    renderPushToggleRow();
+    toast('Push disabled','i');
+  }).catch(function(){ /* best-effort */ });
+}
+
+// ── REFERRAL ──────────────────────────────────────────────────────────────
+// Generates a short code on demand, stores it on the user doc, and gives
+// the user a copyable share URL. The server-side credit logic lives in
+// functions/redeemReferral.js and is deployed separately.
+function genReferralCode(){
+  // 6-char A-Z0-9, easy to type and read.
+  var alpha = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  var s = ''; for(var i=0;i<6;i++) s += alpha[Math.floor(Math.random()*alpha.length)];
+  return s;
+}
+function renderReferralRow(){
+  var row = el('referral-row'); if(!row) return;
+  if(!S.settings) S.settings = {};
+  if(!S.settings.referralCode){
+    S.settings.referralCode = genReferralCode();
+    sv('settings', S.settings);
+  }
+  var code = S.settings.referralCode;
+  var url = window.location.origin + '/?ref=' + code;
+  row.innerHTML =
+    '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--surface-2);border:1px solid var(--line-2);border-radius:10px;padding:12px 14px;">' +
+      '<div style="flex:1;min-width:200px;"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.56rem;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;margin-bottom:5px;">YOUR REFERRAL LINK</div><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.74rem;color:var(--ink);word-break:break-all;line-height:1.5;">'+esc(url)+'</div></div>' +
+      '<button class="btn btn-gold btn-sm" onclick="copyReferralLink()">Copy link</button>' +
+    '</div>';
+}
+function copyReferralLink(){
+  var code = (S.settings && S.settings.referralCode) || '';
+  if(!code) return;
+  var url = window.location.origin + '/?ref=' + code;
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(function(){ toast('✓ Link copied','s'); });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = url; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); toast('✓ Link copied','s'); }catch(e){}
+    document.body.removeChild(ta);
+  }
+}
+// Capture ?ref= on page load and stash for the signup flow to read.
+(function captureReferral(){
+  try{
+    var m = (window.location.search || '').match(/[?&]ref=([A-Z0-9]{4,12})/i);
+    if(m){
+      window._pendingReferral = m[1].toUpperCase();
+      // Persist across reloads in case user signs up later.
+      try{ sessionStorage.setItem('niyyah_ref', window._pendingReferral); }catch(_){}
+    } else {
+      try{
+        var saved = sessionStorage.getItem('niyyah_ref');
+        if(saved) window._pendingReferral = saved;
+      }catch(_){}
+    }
+  }catch(_){}
+})();
 function saveSettings(){var sn=el('s-name');S.settings.name=sn?sn.value:'';sv('settings',S.settings);if(S.settings.name){setText('sf-av',S.settings.name[0].toUpperCase());setText('sf-name',S.settings.name);}toast('\u2713 Saved','s');}
 function confirmResetAll(){
   confirmModal({
@@ -5043,9 +5185,49 @@ function runFridayMuhasabah(){
   html+='<div class="friday-section strength"><div class="friday-section-label">What is working</div><div class="friday-section-text">'+strength+'</div></div>';
   html+='<div class="friday-section focus"><div class="friday-section-label">Focus for next week</div><div class="friday-section-text">'+focus+'</div></div>';
   html+='<div class="friday-niyyah"><strong>Your niyyah:</strong> '+niyyahText+'</div>';
+  html+='<div style="margin-top:18px;display:flex;justify-content:flex-end;"><button class="btn btn-outline btn-sm" onclick="shareMuhasabah()">↗ Share this week</button></div>';
   html+='</div>';
 
   fw.innerHTML=html;
+}
+
+// ── SHARE MUHASABAH AS IMAGE ──────────────────────────────────────────────
+// Builds a 1080×1350 IG-portrait card from the live muhasabah data and
+// triggers a download. Uses html-to-image loaded on demand (only when the
+// user clicks the share button) so landing-page visitors pay zero cost.
+function shareMuhasabah(){
+  var src = document.querySelector('.friday-wrap');
+  if(!src){ toast('No muhasabah card on screen','e'); return; }
+  toast('Rendering image…','i');
+  var ensureLib = window.htmlToImage
+    ? Promise.resolve(window.htmlToImage)
+    : new Promise(function(resolve, reject){
+        var s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js';
+        s.onload = function(){ resolve(window.htmlToImage); };
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+  ensureLib.then(function(lib){
+    // Build a poster-sized clone so the screenshot looks good on IG / X.
+    var poster = document.createElement('div');
+    poster.style.cssText = 'position:fixed;left:-9999px;top:0;width:1080px;padding:80px 70px;background:linear-gradient(160deg,#1e1b12 0%,#0a0906 100%);color:#f2ead6;font-family:Inter,sans-serif;';
+    poster.innerHTML =
+      '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.9rem;letter-spacing:0.3em;color:#dab462;text-transform:uppercase;margin-bottom:18px;">☽ Niyyah · Friday Muhasabah</div>' +
+      src.innerHTML.replace(/onclick="[^"]*"/g, '') +
+      '<div style="margin-top:42px;padding-top:22px;border-top:1px solid rgba(218,180,98,0.18);font-family:\'JetBrains Mono\',monospace;font-size:0.78rem;color:#8a7e67;letter-spacing:0.18em;text-transform:uppercase;text-align:center;">niyyahtrader.app · trade with intention</div>';
+    document.body.appendChild(poster);
+    return lib.toPng(poster, { pixelRatio: 1, width: 1080, height: 1350 }).then(function(dataUrl){
+      document.body.removeChild(poster);
+      var a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = 'niyyah-muhasabah-' + localDate() + '.png';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      toast('✓ Saved muhasabah-' + localDate() + '.png','s');
+    });
+  }).catch(function(err){
+    toast('Could not render image: '+(err && err.message || 'load failed'),'e');
+  });
 }
 
 // ── MUHASABAH ENGINE ────────────────────────────────────────────────────────

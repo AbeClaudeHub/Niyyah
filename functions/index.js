@@ -239,6 +239,13 @@ exports.stripeWebhook = functions
               updatedAt: admin.firestore.FieldValue.serverTimestamp()
             }
           }, { merge: true });
+          // TODO(deploy): once the referral function is wired (see
+          // functions/redeemReferral.js), uncomment to credit on first paid
+          // checkout:
+          //   try {
+          //     const { creditReferralLogic } = require('./redeemReferral');
+          //     await creditReferralLogic(uid, db, stripe());
+          //   } catch (e) { console.error('Referral credit failed:', e); }
           break;
         }
 
