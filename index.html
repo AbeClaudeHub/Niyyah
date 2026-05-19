@@ -1119,7 +1119,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <button class="btn btn-outline btn-lg" onclick="scrollToFeatures()" style="backdrop-filter:blur(8px);">See how it works</button>
     </div>
     <div class="lhero-price">$27/mo · 7-day full refund · cancel anytime · Stripe-secured</div>
-    <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-4);">annual saves up to $156 &nbsp;·&nbsp; <a href="#pricing-section" style="color:var(--gold-deep);text-decoration:none;border-bottom:1px solid rgba(218,180,98,0.3);">see plans →</a></div>
+    <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-4);">annual · Base saves $94/yr · Sirat saves $156/yr &nbsp;·&nbsp; <a href="#pricing-section" style="color:var(--gold-deep);text-decoration:none;border-bottom:1px solid rgba(218,180,98,0.3);">see plans →</a></div>
     <div style="margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.45;cursor:pointer;animation:scrollBounce 2s ease-in-out infinite;" onclick="scrollToFeatures()">
       <div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-3);">SCROLL</div>
       <div style="width:1px;height:32px;background:linear-gradient(to bottom,var(--gold),transparent);"></div>
@@ -1429,7 +1429,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div style="display:flex;justify-content:center;margin-bottom:28px;">
       <div class="plan-toggle" role="tablist" aria-label="Choose billing period">
         <button type="button" class="plan-toggle-btn active" id="plan-toggle-monthly" role="tab" aria-selected="true" onclick="setPlan('monthly')">Monthly</button>
-        <button type="button" class="plan-toggle-btn" id="plan-toggle-annual" role="tab" aria-selected="false" onclick="setPlan('annual')">Annual <span class="plan-toggle-save">· save up to $156</span></button>
+        <button type="button" class="plan-toggle-btn" id="plan-toggle-annual" role="tab" aria-selected="false" onclick="setPlan('annual')">Annual <span class="plan-toggle-save">· save up to $156/yr</span></button>
       </div>
     </div>
 
@@ -1519,7 +1519,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
     </div>
     <div class="field" style="margin-bottom:18px;">
       <label>Password</label>
-      <input type="password" id="auth-password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')authSubmit()"><div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--ink-4);margin-top:4px;letter-spacing:0.06em;">Minimum 6 characters</div>
+      <input type="password" id="auth-password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')authSubmit()"><div id="auth-pw-hint" style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--ink-4);margin-top:4px;letter-spacing:0.06em;display:none;">Minimum 6 characters</div>
     </div>
     <button class="btn btn-gold btn-lg" id="auth-submit-btn" onclick="authSubmit()" style="width:100%;justify-content:center;">Sign In</button>
     <div class="auth-divider">or</div>
@@ -1546,7 +1546,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div style="display:flex;justify-content:center;margin:14px 0 6px;">
       <div class="plan-toggle" role="tablist" aria-label="Choose billing period">
         <button type="button" class="plan-toggle-btn active" id="pw-plan-monthly" role="tab" aria-selected="true" onclick="setPlan('monthly')">Monthly</button>
-        <button type="button" class="plan-toggle-btn" id="pw-plan-annual" role="tab" aria-selected="false" onclick="setPlan('annual')">Annual <span class="plan-toggle-save">· save up to $156</span></button>
+        <button type="button" class="plan-toggle-btn" id="pw-plan-annual" role="tab" aria-selected="false" onclick="setPlan('annual')">Annual <span class="plan-toggle-save">· save up to $156/yr</span></button>
       </div>
     </div>
 
@@ -2055,7 +2055,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <!-- ── REFERRAL ─────────────────────────────────────────────────────── -->
   <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2);">
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">REFER A BROTHER</div>
-    <div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;margin-bottom:14px;">Share Niyyah with another Muslim trader. When they subscribe with your link, you both get 1 month free. <em>(Credit applies after their first successful payment — runs on a Cloud Function that you'll deploy from <code>functions/redeemReferral.js</code>.)</em></div>
+    <div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;margin-bottom:14px;">Share Niyyah with another Muslim trader. When they subscribe with your link, you both get 1 month free.</div>
     <div id="referral-row"></div>
   </div>
 
@@ -2188,7 +2188,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <p style="margin-bottom:16px;">When you cancel, access continues until the end of the period you've already paid for. Your journal data is preserved on your account whether you stay subscribed or not.</p>
 
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">4. Annual Plans</div>
-      <p style="margin-bottom:16px;">If we offer annual plans in the future, the same 7-day refund window applies from the first payment date.</p>
+      <p style="margin-bottom:16px;">Annual plans: the same 7-day refund window applies from your first payment date.</p>
 
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">5. Disputes</div>
       <p style="margin-bottom:16px;">Please reach out to us before filing a chargeback with your bank. We respond quickly and would much rather resolve any issue directly.</p>
@@ -2405,12 +2405,16 @@ function showAuth(mode){
   var landing=el('landing');if(landing)landing.classList.add('hide');
   authMode=mode||'signin';
   if(as) as.classList.add('show');
+  var ph=el('auth-pw-hint');
   if(mode==='signup'){
     var lbl=el('auth-mode-label'),btn=el('auth-submit-btn'),sw=el('auth-switch'),nw=el('auth-name-wrap');
     if(lbl)lbl.textContent='Create your account';
     if(btn)btn.textContent='Create Account';
     if(sw)sw.innerHTML='Already have an account? <a onclick="authToggle()">Sign in \u2192</a>';
     if(nw)nw.style.display='';
+    if(ph)ph.style.display='';
+  }else{
+    if(ph)ph.style.display='none';
   }
   if(wasOnAuth) _replace('/' + authMode);
   else _push('/' + authMode);
@@ -2484,17 +2488,20 @@ function authToggle(){
   var nw   = el('auth-name-wrap');
   var err  = el('auth-error');
   if(err)err.textContent='';
+  var ph = el('auth-pw-hint');
   if(authMode==='signup'){
     if(lbl) lbl.textContent='Create your account';
     if(btn) btn.textContent='Create Account';
     if(sw)  sw.innerHTML='Already have an account? <a onclick="authToggle()">Sign in →</a>';
     if(nw)  nw.style.display='';
+    if(ph)  ph.style.display='';
     var fg=el('auth-forgot');if(fg)fg.style.display='none';
   }else{
     if(lbl) lbl.textContent='Sign in to your account';
     if(btn) btn.textContent='Sign In';
     if(sw)  sw.innerHTML="Don't have an account? <a onclick=\"authToggle()\">Create one \u2192</a>";
     if(nw)  nw.style.display='none';
+    if(ph)  ph.style.display='none';
     var fg=el('auth-forgot');if(fg)fg.style.display='';
   }
 }
@@ -2552,10 +2559,12 @@ function authSubmit(){
           if(btn)btn.textContent='Sign In';
           var nw=document.getElementById('auth-name-wrap');
           if(nw)nw.style.display='none';
+          var ph=document.getElementById('auth-pw-hint');
+          if(ph)ph.style.display='none';
           var lbl=document.getElementById('auth-mode-label');
           if(lbl)lbl.textContent='Sign in to your account';
           var sw=document.getElementById('auth-switch');
-          if(sw)sw.innerHTML='Already have an account? <a onclick="authToggle()">Sign in →</a>';
+          if(sw)sw.innerHTML="Don't have an account? <a onclick=\"authToggle()\">Create one →</a>";
           var fg=document.getElementById('auth-forgot');
           if(fg)fg.style.display='';
           authMode='signin';
@@ -2572,10 +2581,12 @@ function authSubmit(){
           if(btn)btn.textContent='Sign In';
           var nw=document.getElementById('auth-name-wrap');
           if(nw)nw.style.display='none';
+          var ph=document.getElementById('auth-pw-hint');
+          if(ph)ph.style.display='none';
           var lbl=document.getElementById('auth-mode-label');
           if(lbl)lbl.textContent='Sign in to your account';
           var sw=document.getElementById('auth-switch');
-          if(sw)sw.innerHTML='Already have an account? <a onclick="authToggle()">Sign in →</a>';
+          if(sw)sw.innerHTML="Don't have an account? <a onclick=\"authToggle()\">Create one →</a>";
           var fg=document.getElementById('auth-forgot');
           if(fg)fg.style.display='';
           authMode='signin';
@@ -3025,6 +3036,8 @@ AUTH.onAuthStateChanged(function(user){
       var err = document.getElementById('auth-error');
       if(err){ err.style.color='var(--red)'; err.textContent='Please verify your email before signing in. Check your inbox.'; }
       if(authScreen) authScreen.classList.add('show');
+      var authCard = authScreen ? authScreen.querySelector('.auth-card') : null;
+      if(authCard) authCard.classList.remove('auth-loading');
       AUTH.signOut();
       return;
     }
@@ -5707,7 +5720,7 @@ function saveWitness(){
   S.settings.witness = { email: email, label: label, since: new Date().toISOString() };
   sv('settings', S.settings);
   renderWitnessRow();
-  toast('✓ Witness mode on. First report goes out Sunday.','s');
+  toast('✓ Saved. Weekly summary email coming soon.','s');
 }
 function clearWitness(){
   if(!S.settings) S.settings = {};
@@ -5897,6 +5910,10 @@ function renderPushToggleRow(){
   var row = el('push-toggle-row'); if(!row) return;
   if(!('serviceWorker' in navigator) || !('PushManager' in window)){
     row.innerHTML = '<div style="font-size:0.74rem;color:var(--ink-4);">Push notifications are not supported in this browser.</div>';
+    return;
+  }
+  if(!PUSH_VAPID_PUBLIC){
+    row.innerHTML = '<div style="font-size:0.74rem;color:var(--ink-4);">Daily push nudges — coming soon.</div>';
     return;
   }
   var enabled = !!(S.settings && S.settings.pushSubscription);
