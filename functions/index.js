@@ -66,29 +66,44 @@ function stripe() {
   return _stripe;
 }
 
-// Resolve the Stripe price ID for the requested plan. Monthly is the default
-// and the original config key (`stripe.price_id`) — annual lives under
-// `stripe.price_id_annual` so existing deployments keep working unchanged.
+// Resolve the Stripe price ID for the requested (plan, tier). Two orthogonal
+// axes: monthly|annual × base|sirat → 4 prices. Base is the original product
+// at $27/$230, Sirat is the $38/$300 premium tier.
 //
-// TODO(deploy): once you have a recurring annual price in Stripe, run:
-//   firebase functions:config:set stripe.price_id_annual="price_..."
+// Config keys (set in Firebase, never in git):
+//   stripe.price_id                 — base monthly  ($27)
+//   stripe.price_id_annual          — base annual   ($230)
+//   stripe.price_id_sirat_monthly   — sirat monthly ($38)
+//   stripe.price_id_sirat_annual    — sirat annual  ($300)
+//
+// TODO(deploy): set whichever prices you haven't set yet:
+//   firebase functions:config:set \
+//     stripe.price_id_annual="price_..." \
+//     stripe.price_id_sirat_monthly="price_..." \
+//     stripe.price_id_sirat_annual="price_..."
 //   firebase deploy --only functions
-// Until that config is set, requests with plan='annual' fall back to monthly
-// (so the toggle never breaks checkout) and log a warning.
-function priceId(plan) {
+//
+// Missing config falls back to monthly base (so checkout never hard-fails for
+// a user) and logs a warning we can spot in Functions logs.
+function priceId(plan, tier) {
   const cfg = functions.config().stripe || {};
-  if (plan === 'annual') {
-    if (cfg.price_id_annual) return cfg.price_id_annual;
-    console.warn("Annual plan requested but stripe.price_id_annual not configured — falling back to monthly.");
+  tier = (tier === 'sirat') ? 'sirat' : 'base';
+  plan = (plan === 'annual') ? 'annual' : 'monthly';
+  let key;
+  if (tier === 'sirat') {
+    key = (plan === 'annual') ? cfg.price_id_sirat_annual : cfg.price_id_sirat_monthly;
+  } else {
+    key = (plan === 'annual') ? cfg.price_id_annual : cfg.price_id;
   }
-  const p = cfg.price_id;
-  if (!p) {
+  if (key) return key;
+  console.warn('Stripe price not configured for tier='+tier+' plan='+plan+' — falling back to base monthly.');
+  if (!cfg.price_id) {
     throw new functions.https.HttpsError(
       'failed-precondition',
       'Stripe price_id not configured. Run: firebase functions:config:set stripe.price_id="price_..."'
     );
   }
-  return p;
+  return cfg.price_id;
 }
 
 // Returns the existing Stripe customer id for this uid, or creates one
@@ -121,6 +136,7 @@ exports.createCheckoutSession = functions
       ? data.origin.replace(/\/+$/, '')
       : null;
     const plan   = (data && data.plan === 'annual') ? 'annual' : 'monthly';
+    const tier   = (data && data.tier === 'sirat')  ? 'sirat'  : 'base';
 
     // Reject open redirects — only allow the origin tied to this Firebase
     // project (Vercel domain + localhost for dev). Add others if you ship
@@ -139,7 +155,7 @@ exports.createCheckoutSession = functions
       mode: 'subscription',
       customer: customerId,
       payment_method_types: ['card'],
-      line_items: [{ price: priceId(plan), quantity: 1 }],
+      line_items: [{ price: priceId(plan, tier), quantity: 1 }],
       allow_promotion_codes: true,
       // Marketing copy promises a 7-day full refund (not a free trial).
       // Refunds are handled manually via the Stripe dashboard when a user
@@ -147,7 +163,7 @@ exports.createCheckoutSession = functions
       //   subscription_data: { trial_period_days: 7 }
       // and drop the refund-policy language from the landing page.
       subscription_data: {
-        metadata: { firebaseUID: uid, plan }
+        metadata: { firebaseUID: uid, plan, tier }
       },
       client_reference_id: uid,
       success_url: `${safeOrigin}/?success=true&session_id={CHECKOUT_SESSION_ID}`,
@@ -223,17 +239,23 @@ exports.stripeWebhook = functions
           if (!uid) { console.warn('checkout.session.completed without uid'); break; }
 
           // Pull the subscription so we can store the period-end timestamp.
+          // tier comes from either the subscription metadata (set during
+          // checkout) or, as a fallback, the session metadata. Defaults to
+          // 'base' so existing customers are never accidentally upgraded.
           let periodEnd = null, status = 'active', subId = session.subscription;
+          let tier = (session.metadata && session.metadata.tier) || 'base';
           if (subId) {
             const sub = await stripe().subscriptions.retrieve(subId);
             status    = sub.status;
             periodEnd = sub.current_period_end;
+            if (sub.metadata && sub.metadata.tier) tier = sub.metadata.tier;
           }
 
           await db.collection('users').doc(uid).set({
             stripeCustomerId: session.customer,
             subscription: {
               status,
+              tier,
               stripeSubscriptionId: subId || null,
               currentPeriodEnd: periodEnd,
               updatedAt: admin.firestore.FieldValue.serverTimestamp()
@@ -256,9 +278,14 @@ exports.stripeWebhook = functions
                       await uidFromCustomer(sub.customer);
           if (!uid) { console.warn(event.type + ' without uid'); break; }
 
+          // Keep tier in sync on every subscription mutation. Upgrades /
+          // downgrades flip this and the client reads it via isSirat().
+          const tier = (sub.metadata && sub.metadata.tier) || 'base';
+
           await db.collection('users').doc(uid).set({
             subscription: {
               status: sub.status, // active | past_due | canceled | unpaid | incomplete | incomplete_expired | trialing
+              tier,
               stripeSubscriptionId: sub.id,
               currentPeriodEnd: sub.current_period_end,
               cancelAtPeriodEnd: sub.cancel_at_period_end || false,

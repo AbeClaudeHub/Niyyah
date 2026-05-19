@@ -37,7 +37,10 @@
   "applicationCategory":"FinanceApplication",
   "operatingSystem":"Web, iOS, Android (PWA)",
   "url":"https://niyyahtrader.app/",
-  "offers":{"@type":"Offer","price":"27","priceCurrency":"USD","priceSpecification":{"@type":"UnitPriceSpecification","price":"27","priceCurrency":"USD","unitText":"MONTH"}},
+  "offers":[
+    {"@type":"Offer","name":"Base","price":"27","priceCurrency":"USD","priceSpecification":{"@type":"UnitPriceSpecification","price":"27","priceCurrency":"USD","unitText":"MONTH"}},
+    {"@type":"Offer","name":"Sirat","price":"38","priceCurrency":"USD","priceSpecification":{"@type":"UnitPriceSpecification","price":"38","priceCurrency":"USD","unitText":"MONTH"}}
+  ],
   "creator":{"@type":"Person","name":"Abe"},
   "audience":{"@type":"Audience","audienceType":"Muslim traders"}
 }</script>
@@ -535,6 +538,29 @@ body{font-size:15px;}
 .paywall-screen{position:fixed;inset:0;z-index:550;background:radial-gradient(ellipse 70% 55% at -5% -10%,rgba(218,180,98,0.15) 0%,transparent 55%),radial-gradient(ellipse 40% 35% at 105% 105%,rgba(218,180,98,0.06) 0%,transparent 50%),#0a0906;display:none;align-items:center;justify-content:center;padding:24px;overflow-y:auto;}
 .paywall-screen.show{display:flex;animation:fadeIn 0.4s ease;}
 .paywall-card{max-width:460px;width:100%;background:linear-gradient(160deg,#1d1a11 0%,#0f0d09 100%);border:1px solid rgba(218,180,98,0.25);border-radius:24px;padding:46px 40px;box-shadow:0 40px 100px rgba(0,0,0,0.7),0 0 0 1px rgba(218,180,98,0.05);position:relative;margin:auto;}
+.paywall-card-wide{max-width:780px;padding:38px 36px;}
+
+/* Two-tier picker inside paywall */
+.pw-tier-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 4px;}
+.pw-tier{position:relative;background:linear-gradient(160deg,#171510 0%,#0d0b08 100%);border:1.5px solid rgba(255,255,255,0.07);border-radius:14px;padding:18px 16px;cursor:pointer;transition:border-color 0.18s,background 0.18s;text-align:left;}
+.pw-tier:hover{border-color:rgba(218,180,98,0.32);}
+.pw-tier.selected{border-color:var(--gold);background:linear-gradient(160deg,#221d12 0%,#100d09 100%);box-shadow:0 0 0 1px var(--gold),0 0 32px rgba(218,180,98,0.18);}
+.pw-tier-label{font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.pw-tier-price{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;color:var(--ink);line-height:1;letter-spacing:-0.03em;margin-bottom:2px;}
+.pw-tier-price span{font-size:0.86rem;color:var(--ink-3);font-weight:400;}
+.pw-tier-anchor{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;color:var(--ink-4);margin-bottom:8px;}
+.pw-tier-list{list-style:none;font-size:0.74rem;color:var(--ink-2);line-height:1.55;margin:8px 0 12px;padding:0;}
+.pw-tier-list li{padding:3px 0;position:relative;padding-left:14px;}
+.pw-tier-list li::before{content:'✦';color:var(--gold);font-size:0.5rem;position:absolute;left:0;top:6px;}
+.pw-tier-list li strong{color:var(--ink);}
+.pw-tier-select{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-4);text-align:center;margin-top:8px;padding:6px 0;border-top:1px solid rgba(255,255,255,0.05);}
+.pw-tier.selected .pw-tier-select{color:var(--gold);}
+.pw-tier-ribbon{position:absolute;top:-8px;right:12px;background:linear-gradient(160deg,#ecc878,#dab462);color:#0b0a08;font-family:'JetBrains Mono',monospace;font-size:0.48rem;letter-spacing:0.16em;padding:3px 9px;border-radius:999px;font-weight:700;white-space:nowrap;}
+@media(max-width:520px){
+  .paywall-card-wide{padding:30px 24px;}
+  .pw-tier-grid{grid-template-columns:1fr;}
+  .pw-tier-price{font-size:2.1rem;}
+}
 .paywall-card::before{content:'';position:absolute;top:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
 .paywall-logo{font-size:2.4rem;text-align:center;margin-bottom:12px;line-height:1;}
 .paywall-brand{font-family:'Cormorant Garamond',serif;font-size:1.85rem;font-weight:500;color:var(--ink);text-align:center;margin-bottom:6px;letter-spacing:-0.02em;}
@@ -623,12 +649,16 @@ body:not(.legal-visitor) .legal-back{display:none;}
 .ldeen-ref{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;}
 .ldeen-text{font-size:0.95rem;color:var(--ink-2);max-width:580px;margin:0 auto;line-height:1.8;font-weight:300;}
 /* Pricing */
-.lprice-section{padding:80px 40px;max-width:560px;margin:0 auto;text-align:center;}
-.lprice-card{background:linear-gradient(160deg,#201d12,#0f0d09);border:1px solid rgba(218,180,98,0.28);border-radius:22px;padding:46px 40px;position:relative;box-shadow:0 0 0 1px rgba(218,180,98,0.05),0 40px 80px rgba(0,0,0,0.5);}
+.lprice-section{padding:80px 40px;max-width:1040px;margin:0 auto;text-align:center;}
+.lprice-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch;}
+.lprice-card{background:linear-gradient(160deg,#201d12,#0f0d09);border:1px solid rgba(218,180,98,0.28);border-radius:22px;padding:40px 32px;position:relative;box-shadow:0 0 0 1px rgba(218,180,98,0.05),0 40px 80px rgba(0,0,0,0.5);display:flex;flex-direction:column;}
+.lprice-card.lprice-base{border-color:rgba(218,180,98,0.18);}
+.lprice-card.lprice-sirat{border-color:rgba(218,180,98,0.45);box-shadow:0 0 0 1px rgba(218,180,98,0.12),0 40px 90px rgba(0,0,0,0.6),0 0 60px rgba(218,180,98,0.08);}
+.lprice-ribbon{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(160deg,#ecc878,#dab462);color:#0b0a08;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;padding:5px 14px;border-radius:999px;font-weight:700;white-space:nowrap;box-shadow:0 4px 14px rgba(218,180,98,0.4);}
 .lprice-card::before{content:'';position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
 .lprice-tag{font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
-.lprice-num{font-family:'Cormorant Garamond',serif;font-size:5.5rem;font-weight:600;color:var(--gold);line-height:1;letter-spacing:-0.05em;text-shadow:0 0 60px rgba(218,180,98,0.25);}
-.lprice-num span{font-size:1.5rem;color:var(--ink-3);font-weight:400;}
+.lprice-num{font-family:'Cormorant Garamond',serif;font-size:4.2rem;font-weight:600;color:var(--gold);line-height:1;letter-spacing:-0.04em;text-shadow:0 0 60px rgba(218,180,98,0.25);}
+.lprice-num span{font-size:1.15rem;color:var(--ink-3);font-weight:400;}
 .lprice-list{list-style:none;text-align:left;margin:24px 0 28px;}
 .lprice-list li{font-size:0.84rem;color:var(--ink-2);padding:7px 0;border-bottom:1px solid var(--line-2);display:flex;align-items:center;gap:10px;}
 .lprice-list li:last-child{border-bottom:none;}
@@ -830,6 +860,9 @@ body:not(.legal-visitor) .legal-back{display:none;}
   .lprice-card{padding:32px 22px;border-radius:18px;}
   .lprice-num{font-size:3.6rem;}
   .lprice-section{padding:50px 16px;}
+  .lprice-grid{grid-template-columns:1fr;gap:18px;}
+  .lprice-card{padding:32px 24px;}
+  .lprice-num{font-size:3.4rem;}
   .lprice-list li{font-size:0.78rem;}
   /* Quran section — tightened so the whole verse + commentary fits the viewport. */
   .ldeen{padding:44px 20px;}
@@ -1081,7 +1114,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <button class="btn btn-outline btn-lg" onclick="scrollToFeatures()" style="backdrop-filter:blur(8px);">See how it works</button>
     </div>
     <div class="lhero-price">$27/mo · 7-day full refund · cancel anytime · Stripe-secured</div>
-    <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-4);">or $270/yr — save $54 &nbsp;·&nbsp; <a href="#pricing-section" style="color:var(--gold-deep);text-decoration:none;border-bottom:1px solid rgba(218,180,98,0.3);">see plans →</a></div>
+    <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-4);">annual saves up to $156 &nbsp;·&nbsp; <a href="#pricing-section" style="color:var(--gold-deep);text-decoration:none;border-bottom:1px solid rgba(218,180,98,0.3);">see plans →</a></div>
     <div style="margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.45;cursor:pointer;animation:scrollBounce 2s ease-in-out infinite;" onclick="scrollToFeatures()">
       <div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-3);">SCROLL</div>
       <div style="width:1px;height:32px;background:linear-gradient(to bottom,var(--gold),transparent);"></div>
@@ -1386,36 +1419,67 @@ body:not(.legal-visitor) .legal-back{display:none;}
 
   <!-- PRICING -->
   <div class="lprice-section reveal" id="pricing-section">
-    <div class="lprice-card">
-      <div class="lprice-glow"></div>
-      <div class="lprice-tag">ONE PLAN · EVERYTHING INCLUDED</div>
 
-      <!-- Plan toggle: monthly / annual. Annual writes plan='annual' to setPlan(). -->
+    <!-- Shared monthly / annual toggle. setPlan() updates BOTH cards. -->
+    <div style="display:flex;justify-content:center;margin-bottom:28px;">
       <div class="plan-toggle" role="tablist" aria-label="Choose billing period">
         <button type="button" class="plan-toggle-btn active" id="plan-toggle-monthly" role="tab" aria-selected="true" onclick="setPlan('monthly')">Monthly</button>
-        <button type="button" class="plan-toggle-btn" id="plan-toggle-annual" role="tab" aria-selected="false" onclick="setPlan('annual')">Annual <span class="plan-toggle-save">· save $54</span></button>
+        <button type="button" class="plan-toggle-btn" id="plan-toggle-annual" role="tab" aria-selected="false" onclick="setPlan('annual')">Annual <span class="plan-toggle-save">· save up to $156</span></button>
+      </div>
+    </div>
+
+    <div class="lprice-grid">
+      <!-- BASE TIER -->
+      <div class="lprice-card lprice-base">
+        <div class="lprice-tag">BASE · THE JOURNAL</div>
+        <div class="lprice-num" id="landing-base-num">$27<span>/mo</span></div>
+        <div id="landing-base-anchor" style="display:none;font-family:'JetBrains Mono',monospace;font-size:0.66rem;letter-spacing:0.12em;color:var(--ink-4);margin-top:2px;"><s style="opacity:0.55;">$324/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$230/yr</strong></div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-top:6px;margin-bottom:4px;" id="landing-base-fine">Cancel anytime · 7-day full refund</div>
+        <ul class="lprice-list">
+          <li>Full trade journal — entry, close, lesson</li>
+          <li>Prayer-to-performance analytics</li>
+          <li>Monthly calendar heatmap</li>
+          <li>Equity curve and drawdown chart</li>
+          <li>Playbook with auto-tracked win rates</li>
+          <li>Risk calculator for futures, forex and stocks</li>
+          <li>Nafs check — Sabr, Tawakkul, Kibr, Shukr</li>
+          <li>Friday muhasabah review</li>
+          <li>Quality Score for every trade</li>
+          <li>Zakat-on-gains calculator · Hijri date</li>
+        </ul>
+        <div style="margin-top:auto;">
+          <button class="btn btn-outline btn-lg" onclick="pickTierAndSignup('base')" style="width:100%;justify-content:center;font-size:0.92rem;">Begin Base →</button>
+          <div class="lprice-fine" style="margin-top:10px;">Secure checkout via Stripe · cancel from Settings</div>
+        </div>
       </div>
 
-      <div class="lprice-num" id="landing-price-num">$27<span>/mo</span></div>
-      <div id="landing-price-anchor" style="display:none;font-family:'JetBrains Mono',monospace;font-size:0.66rem;letter-spacing:0.12em;color:var(--ink-4);margin-top:2px;"><s style="opacity:0.55;">$324/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$270/yr</strong></div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-top:6px;margin-bottom:4px;" id="landing-price-fine">Cancel anytime · 7-day full refund</div>
-      <ul class="lprice-list">
-        <li>Full trade journal — entry, close, lesson</li>
-        <li>Prayer-to-performance analytics</li>
-        <li>Monthly calendar heatmap</li>
-        <li>Equity curve and drawdown chart</li>
-        <li>Playbook with auto-tracked win rates</li>
-        <li>Risk calculator for futures, forex and stocks</li>
-        <li>Nafs check — Sabr, Tawakkul, Kibr, Shukr</li>
-        <li>Friday muhasabah review</li>
-        <li>Quality Score for every trade</li>
-      </ul>
-      <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="width:100%;justify-content:center;font-size:0.95rem;">Begin — Bismillah →</button>
-      <div class="lprice-fine">Secure checkout via Stripe · cancel from Settings</div>
-      <div style="margin-top:12px;padding:12px 14px;background:rgba(218,180,98,0.05);border:1px solid rgba(218,180,98,0.12);border-radius:10px;font-size:0.78rem;color:var(--ink-3);text-align:left;line-height:1.7;">
-        <div style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;">REFUND POLICY</div>
-        Your first 7 days come with a full refund — no questions. Email <a href="mailto:support@niyyahtrader.app" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.app</a> and we'll process within 2 business days. <a onclick="showLegalPage('refund')" style="color:var(--gold);text-decoration:underline;cursor:pointer;">Read the full policy →</a>
+      <!-- SIRAT TIER -->
+      <div class="lprice-card lprice-sirat">
+        <div class="lprice-ribbon">Most popular · for traders ready to scale</div>
+        <div class="lprice-glow"></div>
+        <div class="lprice-tag" style="color:var(--gold-2);">SIRAT · THE PATH</div>
+        <div class="lprice-num" id="landing-sirat-num">$38<span>/mo</span></div>
+        <div id="landing-sirat-anchor" style="display:none;font-family:'JetBrains Mono',monospace;font-size:0.66rem;letter-spacing:0.12em;color:var(--ink-4);margin-top:2px;"><s style="opacity:0.55;">$456/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$300/yr</strong></div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-top:6px;margin-bottom:4px;" id="landing-sirat-fine">Everything in Base, plus the profitability engine</div>
+        <ul class="lprice-list">
+          <li><strong style="color:var(--ink);">Sirat</strong> — staged path to profitability, calibrated to your data</li>
+          <li><strong style="color:var(--ink);">Mizan</strong> — live verdict on every trade you propose</li>
+          <li>Monthly <strong style="color:var(--ink);">Edge Audit</strong> — auto-generated shareable report</li>
+          <li><strong style="color:var(--ink);">Risk-of-Ruin</strong> — Monte Carlo on your actual data</li>
+          <li><strong style="color:var(--ink);">Disaster Brake</strong> — one-tap lock-out when you're tilting</li>
+          <li><strong style="color:var(--ink);">Witness Mode</strong> — weekly summary to a trusted person</li>
+          <li>Everything in Base, included</li>
+        </ul>
+        <div style="margin-top:auto;">
+          <button class="btn btn-gold btn-lg" onclick="pickTierAndSignup('sirat')" style="width:100%;justify-content:center;font-size:0.95rem;">Begin Sirat — Bismillah →</button>
+          <div class="lprice-fine" style="margin-top:10px;">Secure checkout via Stripe · cancel from Settings</div>
+        </div>
       </div>
+    </div>
+
+    <div style="max-width:680px;margin:22px auto 0;padding:12px 14px;background:rgba(218,180,98,0.05);border:1px solid rgba(218,180,98,0.12);border-radius:10px;font-size:0.78rem;color:var(--ink-3);text-align:left;line-height:1.7;">
+      <div style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;">REFUND POLICY</div>
+      Your first 7 days come with a full refund — no questions. Email <a href="mailto:support@niyyahtrader.app" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.app</a> and we'll process within 2 business days. <a onclick="showLegalPage('refund')" style="color:var(--gold);text-decoration:underline;cursor:pointer;">Read the full policy →</a>
     </div>
   </div>
 
@@ -1469,38 +1533,56 @@ body:not(.legal-visitor) .legal-back{display:none;}
 
 
 <div class="paywall-screen" id="paywall-screen">
-  <div class="paywall-card">
+  <div class="paywall-card paywall-card-wide">
     <div class="paywall-logo">&#9789;</div>
     <div class="paywall-brand"><em>Niyyah</em></div>
 
-    <!-- Plan toggle mirrors the landing card so the user's pick on the landing
-         page persists into checkout. setPlan() updates both. -->
-    <div class="plan-toggle" role="tablist" aria-label="Choose billing period">
-      <button type="button" class="plan-toggle-btn active" id="pw-plan-monthly" role="tab" aria-selected="true" onclick="setPlan('monthly')">Monthly</button>
-      <button type="button" class="plan-toggle-btn" id="pw-plan-annual" role="tab" aria-selected="false" onclick="setPlan('annual')">Annual <span class="plan-toggle-save">· save $54</span></button>
+    <!-- Shared monthly / annual toggle. setPlan() updates both tier cards. -->
+    <div style="display:flex;justify-content:center;margin:14px 0 6px;">
+      <div class="plan-toggle" role="tablist" aria-label="Choose billing period">
+        <button type="button" class="plan-toggle-btn active" id="pw-plan-monthly" role="tab" aria-selected="true" onclick="setPlan('monthly')">Monthly</button>
+        <button type="button" class="plan-toggle-btn" id="pw-plan-annual" role="tab" aria-selected="false" onclick="setPlan('annual')">Annual <span class="plan-toggle-save">· save up to $156</span></button>
+      </div>
     </div>
 
-    <div class="paywall-price" id="paywall-price">$27<span>/mo</span></div>
-    <div id="paywall-price-anchor" style="display:none;font-family:'JetBrains Mono',monospace;font-size:0.66rem;letter-spacing:0.12em;color:var(--ink-4);margin-top:2px;text-align:center;"><s style="opacity:0.55;">$324/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$270/yr</strong></div>
-    <div class="paywall-desc">A trading journal built around deen and discipline.<br><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;">7-DAY FULL REFUND · NO QUESTIONS ASKED</span></div>
+    <div class="sub-status-bar" id="sub-status-bar"></div>
+
+    <div class="pw-tier-grid">
+      <!-- BASE TIER -->
+      <div class="pw-tier pw-tier-base" id="pw-tier-base" onclick="setTier('base')">
+        <div class="pw-tier-label">BASE · THE JOURNAL</div>
+        <div class="pw-tier-price" id="pw-base-num">$27<span>/mo</span></div>
+        <div class="pw-tier-anchor" id="pw-base-anchor" style="display:none;"><s style="opacity:0.55;">$324/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$230/yr</strong></div>
+        <ul class="pw-tier-list">
+          <li>Full journal · pre-trade gate · Quality Score</li>
+          <li>Prayer-to-P&amp;L radar · nafs check</li>
+          <li>Calendar · equity curve · playbook · risk calc</li>
+          <li>Friday muhasabah · Zakat calculator · Hijri date</li>
+        </ul>
+        <div class="pw-tier-select" id="pw-base-select">Selected</div>
+      </div>
+
+      <!-- SIRAT TIER -->
+      <div class="pw-tier pw-tier-sirat" id="pw-tier-sirat" onclick="setTier('sirat')">
+        <div class="pw-tier-ribbon">MOST POPULAR</div>
+        <div class="pw-tier-label" style="color:var(--gold-2);">SIRAT · THE PATH</div>
+        <div class="pw-tier-price" id="pw-sirat-num">$38<span>/mo</span></div>
+        <div class="pw-tier-anchor" id="pw-sirat-anchor" style="display:none;"><s style="opacity:0.55;">$456/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$300/yr</strong></div>
+        <ul class="pw-tier-list">
+          <li><strong>Sirat</strong> — staged path to profitability</li>
+          <li><strong>Mizan</strong> — live verdict on every trade</li>
+          <li>Monthly Edge Audit · Risk-of-Ruin Monte Carlo</li>
+          <li>Disaster Brake · Witness Mode</li>
+          <li>Everything in Base, included</li>
+        </ul>
+        <div class="pw-tier-select" id="pw-sirat-select">Select</div>
+      </div>
+    </div>
+
     <div style="margin:14px 0;padding:12px 14px;background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.15);border-radius:10px;font-size:0.8rem;color:var(--ink-3);line-height:1.7;text-align:left;">
       <strong style="color:var(--ink);">Try it for 7 days.</strong> If Niyyah doesn't surface a behavioral pattern you didn't already know about yourself, email <a href="mailto:support@niyyahtrader.app" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.app</a> for a full refund. No forms, no friction.
     </div>
-    <div style="margin:10px 0 14px;padding:11px 14px;background:rgba(108,176,142,0.05);border:1px solid rgba(108,176,142,0.15);border-radius:10px;font-size:0.78rem;color:var(--ink-3);line-height:1.65;text-align:left;">
-      <strong style="color:var(--green);">Your data stays yours.</strong> Export to JSON from Settings at any time. Your journal is preserved on your account whether you stay subscribed or not.
-    </div>
-    <div class="sub-status-bar" id="sub-status-bar"></div>
-    <ul class="paywall-features">
-      <li>Full trade journal with Islamic pre-trade gate</li>
-      <li>Prayer-to-performance correlation analytics</li>
-      <li>Monthly P&amp;L calendar heatmap</li>
-      <li>Playbook with auto-tracked win rates per setup</li>
-      <li>Equity curve, drawdown, expectancy and profit factor</li>
-      <li>Nafs check &#8212; Sabr, Tawakkul, Kibr, Shukr</li>
-      <li>Risk calculator for futures, forex and stocks</li>
-      <li>Friday muhasabah weekly review</li>
-      <li>Quality Score for every trade</li>
-    </ul>
+
     <button class="btn btn-gold btn-lg" id="subscribe-btn" onclick="subscribe()" style="width:100%;justify-content:center;font-size:0.95rem;">Begin — Bismillah · $27/mo</button>
     <div class="paywall-secure">&#128274; Secure payment via Stripe</div>
     <div class="paywall-manage"><a onclick="manageSubscription()">Already subscribed? Manage your plan &#8594;</a></div>
@@ -1661,9 +1743,9 @@ body:not(.legal-visitor) .legal-back{display:none;}
 
 <div class="page" id="page-analytics">
   <div class="ph"><div class="ph-eye">DEEP ANALYTICS</div><div class="ph-title">Patterns You <em>Can't See</em></div><div class="ph-sub">Your inner state correlated with your P&amp;L. Needs 5+ closed trades for meaningful patterns.</div></div>
-  <!-- Filter strip: range + halal toggle. Changes trigger renderAnalytics()
-       which recomputes from S.trades. Filters live on window._anFilters so
-       they survive page navigation within a session (not persisted). -->
+  <!-- Filter strip: date range. Changes trigger renderAnalytics() which
+       recomputes from S.trades. Filters live on window._anFilters so they
+       survive page navigation within a session (not persisted). -->
   <div class="panel" style="padding:14px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.2em;color:var(--ink-3);text-transform:uppercase;">RANGE</div>
     <div id="an-range" style="display:flex;gap:4px;">
@@ -1672,11 +1754,6 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <button class="btn btn-ghost btn-sm an-range-btn" data-range="90"  onclick="setAnRange(90,this)">90d</button>
       <button class="btn btn-gold btn-sm an-range-btn active"  data-range="all" onclick="setAnRange('all',this)">All</button>
     </div>
-    <div style="width:1px;height:22px;background:var(--line-2);"></div>
-    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.78rem;color:var(--ink-2);user-select:none;">
-      <input type="checkbox" id="an-halal-only" onchange="setAnHalalOnly(this.checked)" style="accent-color:var(--gold);width:14px;height:14px;">
-      Halal-tagged only
-    </label>
     <div style="flex:1;"></div>
     <div id="an-filter-summary" style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--ink-4);"></div>
   </div>
@@ -2117,15 +2194,6 @@ body:not(.legal-visitor) .legal-back{display:none;}
    <div class="field-row c3"><div class="field"><label>Direction</label><select id="e-dir"><option value="LONG">Long</option><option value="SHORT">Short</option></select></div><div class="field"><label>Setup (Playbook)</label><select id="e-setup-sel"><option value="">— Select or type below —</option></select></div><div class="field"><label>Or type setup name</label><input type="text" id="e-setup" placeholder="ORB, VWAP, BPB…"></div></div>
    <div class="field-row c3"><div class="field"><label>Entry Price</label><input type="text" inputmode="decimal" autocomplete="off" id="e-entry" placeholder="21,050"></div><div class="field"><label>Stop Loss</label><input type="text" inputmode="decimal" autocomplete="off" id="e-stop" placeholder="21,000"></div><div class="field"><label>Target</label><input type="text" inputmode="decimal" autocomplete="off" id="e-target" placeholder="21,150"></div></div>
    <div id="e-rr-warn" style="display:none;margin:-4px 0 12px;font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;color:var(--gold);background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.18);padding:8px 12px;border-radius:8px;"></div>
-   <div class="field">
-     <label>Halal classification <span style="color:var(--ink-4);font-weight:300;text-transform:none;font-family:'Inter';font-size:0.7rem;">— your own call. Not a fatwa.</span></label>
-     <select id="e-halal">
-       <option value="">— Not specified —</option>
-       <option value="halal">Halal — instrument & method I'm confident in</option>
-       <option value="doubtful">Doubtful — unsure, will ask a scholar</option>
-       <option value="avoid">Avoid — knowingly outside my standard (logged for honesty)</option>
-     </select>
-   </div>
    <div class="fs-label">Islamic Pre-Trade Check</div>
    <div class="ic-grid">
     <div class="ic-item" id="ic-bismillah" onclick="toggleIC('bismillah')"><div class="ic-circle" id="icc-bismillah">✓</div><div><span class="ic-arabic">بِسْمِ اللَّه</span><span class="ic-text">Said Bismillah?</span></div></div>
@@ -2656,6 +2724,12 @@ function _doSignOut(){
 }
 
 // ── SUBSCRIPTION ──────────────────────────────────────────────────────────
+// Live mirror of the user's subscription, used by isSirat() and other gates.
+// Populated by checkSubscription() on auth state change. Treat as read-only
+// outside of checkSubscription. (S itself is declared further down — guard
+// access at call time, not script-parse time.)
+function isSirat(){ return !!(S && S._sub && S._sub.status === 'active' && S._sub.tier === 'sirat'); }
+
 function checkSubscription(){
   var pw = el('paywall-screen');
   var sb = el('sub-status-bar');
@@ -2664,6 +2738,8 @@ function checkSubscription(){
     var sub  = data.subscription || {};
     var status = sub.status;
     var onboarded = data.onboarded === true;
+    // Cache subscription state for client-side gates (Sirat features).
+    S._sub = { status: status || null, tier: sub.tier || 'base' };
     if(status === 'active'){
       if(pw) pw.classList.remove('show');
       init();
@@ -2694,34 +2770,83 @@ function checkSubscription(){
   });
 }
 
-// ── PLAN SELECTION (monthly / annual) ─────────────────────────────────────
-// Shared by the landing pricing card and the post-signup paywall. setPlan()
-// keeps both UIs in sync and the choice is passed to createCheckoutSession()
-// so the backend can route to the right Stripe price.
+// ── PLAN + TIER SELECTION ─────────────────────────────────────────────────
+// Two orthogonal axes:
+//   SELECTED_PLAN ∈ {monthly, annual}  — billing period (shared toggle)
+//   SELECTED_TIER ∈ {base, sirat}      — feature tier (per-card pick)
+// Both are forwarded to createCheckoutSession() so the backend can resolve
+// to the right Stripe price ID via priceId(plan, tier).
+//
+// Prices below are the SINGLE SOURCE OF TRUTH for what we display on the
+// landing + paywall. If you change a price in Stripe, change it here too.
+var PRICES = {
+  base:  { monthly: 27, annual: 230, monthlyAnchor: 324 },
+  sirat: { monthly: 38, annual: 300, monthlyAnchor: 456 }
+};
 var SELECTED_PLAN = 'monthly';
+var SELECTED_TIER = 'base';
+
+function _fmtPrice(tier, plan){
+  var p = PRICES[tier] || PRICES.base;
+  return plan==='annual' ? ('$'+p.annual+'<span>/yr</span>') : ('$'+p.monthly+'<span>/mo</span>');
+}
+
 function setPlan(plan){
   if(plan!=='monthly' && plan!=='annual') return;
   SELECTED_PLAN = plan;
   var isA = plan==='annual';
-  // Landing toggle buttons
-  var lm=el('plan-toggle-monthly'),la=el('plan-toggle-annual');
-  if(lm){lm.classList.toggle('active',!isA);lm.setAttribute('aria-selected',!isA);}
-  if(la){la.classList.toggle('active', isA);la.setAttribute('aria-selected', isA);}
-  // Paywall toggle buttons
-  var pm=el('pw-plan-monthly'),pa=el('pw-plan-annual');
-  if(pm){pm.classList.toggle('active',!isA);pm.setAttribute('aria-selected',!isA);}
-  if(pa){pa.classList.toggle('active', isA);pa.setAttribute('aria-selected', isA);}
-  // Prices
-  var ln=el('landing-price-num');
-  if(ln) ln.innerHTML = isA ? '$270<span>/yr</span>' : '$27<span>/mo</span>';
-  var la2=el('landing-price-anchor'); if(la2) la2.style.display = isA ? '' : 'none';
-  var lf=el('landing-price-fine');
-  if(lf) lf.textContent = isA ? 'Billed once a year · 7-day full refund' : 'Cancel anytime · 7-day full refund';
-  var pn=el('paywall-price');
-  if(pn) pn.innerHTML = isA ? '$270<span>/yr</span>' : '$27<span>/mo</span>';
-  var pa2=el('paywall-price-anchor'); if(pa2) pa2.style.display = isA ? '' : 'none';
-  var sb=el('subscribe-btn');
-  if(sb && !sb.disabled) sb.innerHTML = isA ? 'Begin — Bismillah · $270/yr' : 'Begin — Bismillah · $27/mo';
+
+  // Toggle button states (landing + paywall)
+  ['plan-toggle-monthly','pw-plan-monthly'].forEach(function(id){
+    var b=el(id);if(b){b.classList.toggle('active',!isA);b.setAttribute('aria-selected',!isA);}
+  });
+  ['plan-toggle-annual','pw-plan-annual'].forEach(function(id){
+    var b=el(id);if(b){b.classList.toggle('active', isA);b.setAttribute('aria-selected', isA);}
+  });
+
+  // Landing tier prices
+  var lbn=el('landing-base-num');   if(lbn) lbn.innerHTML = _fmtPrice('base', plan);
+  var lba=el('landing-base-anchor'); if(lba) lba.style.display = isA ? '' : 'none';
+  var lsn=el('landing-sirat-num');  if(lsn) lsn.innerHTML = _fmtPrice('sirat', plan);
+  var lsa=el('landing-sirat-anchor');if(lsa) lsa.style.display = isA ? '' : 'none';
+
+  // Paywall tier prices
+  var pbn=el('pw-base-num');  if(pbn) pbn.innerHTML = _fmtPrice('base', plan);
+  var pba=el('pw-base-anchor'); if(pba) pba.style.display = isA ? '' : 'none';
+  var psn=el('pw-sirat-num'); if(psn) psn.innerHTML = _fmtPrice('sirat', plan);
+  var psa=el('pw-sirat-anchor');if(psa) psa.style.display = isA ? '' : 'none';
+
+  refreshSubscribeBtn();
+}
+
+function setTier(tier){
+  if(tier!=='base' && tier!=='sirat') return;
+  SELECTED_TIER = tier;
+  // Paywall card selection state
+  var cardB = el('pw-tier-base'),   cardS = el('pw-tier-sirat');
+  if(cardB) cardB.classList.toggle('selected', tier==='base');
+  if(cardS) cardS.classList.toggle('selected', tier==='sirat');
+  var lblB = el('pw-base-select'),  lblS = el('pw-sirat-select');
+  if(lblB) lblB.textContent = tier==='base'  ? 'Selected' : 'Select';
+  if(lblS) lblS.textContent = tier==='sirat' ? 'Selected' : 'Select';
+  refreshSubscribeBtn();
+}
+
+// Initialize paywall to whatever tier is selected (defaults to base).
+(function _initTier(){ try{ setTier(SELECTED_TIER); }catch(_){ /* DOM not ready, will run again */ } })();
+
+function refreshSubscribeBtn(){
+  var sb=el('subscribe-btn'); if(!sb || sb.disabled) return;
+  var tierLabel = SELECTED_TIER==='sirat' ? 'Sirat' : 'Base';
+  var p = PRICES[SELECTED_TIER];
+  var priceLabel = SELECTED_PLAN==='annual' ? ('$'+p.annual+'/yr') : ('$'+p.monthly+'/mo');
+  sb.innerHTML = 'Begin '+tierLabel+' — Bismillah · '+priceLabel;
+}
+
+// Called from a landing tier card's CTA. Captures their pick, then opens signup.
+function pickTierAndSignup(tier){
+  setTier(tier);
+  showAuth('signup');
 }
 
 function subscribe(){
@@ -2733,14 +2858,14 @@ function subscribe(){
     btn.innerHTML = '<span class="spinner"></span>Opening secure checkout…';
   }
   var createCheckout = FUNCTIONS.httpsCallable('createCheckoutSession');
-  createCheckout({origin: window.location.origin, plan: SELECTED_PLAN}).then(function(result){
+  createCheckout({origin: window.location.origin, plan: SELECTED_PLAN, tier: SELECTED_TIER}).then(function(result){
     if(result && result.data && result.data.url){
       window.location.href = result.data.url;
     } else {
       throw new Error('Invalid response');
     }
   }).catch(function(e){
-    if(btn){btn.disabled = false;btn.classList.remove('is-loading');btn.innerHTML = originalHTML || 'Subscribe — $27 / month';}
+    if(btn){btn.disabled = false;btn.classList.remove('is-loading');btn.innerHTML = originalHTML || 'Begin — Bismillah';refreshSubscribeBtn();}
     // Show friendly message when Stripe/Functions not yet configured
     var pwCard = btn ? btn.closest('.paywall-card') : null;
     var existing = pwCard ? pwCard.querySelector('.stripe-pending') : null;
@@ -3115,7 +3240,6 @@ function obAddSampleTrade(){
     entryPrice: '5320',
     stopPrice: '5310',
     targetPrice: '5340',
-    halal: '',
     emotion: 'calm',
     exitEmotion: 'grateful',
     exitPrice: '5335',
@@ -3437,7 +3561,6 @@ function openEntryModal(){
   var gw=el('gate-warn');if(gw)gw.classList.remove('show');
   var rw=el('e-rr-warn');if(rw)rw.style.display='none';
   window._rrConfirmed = false;
-  var hs=el('e-halal');if(hs)hs.value='';
   document.querySelectorAll('#entry-modal .emotion-btn').forEach(function(b){b.classList.remove('on');});
   resetIC();
   var sel=el('e-setup-sel');
@@ -3504,7 +3627,6 @@ function saveEntry(){
     entryPrice:rawEntry,
     stopPrice:rawStop,
     targetPrice:rawTarget,
-    halal:el('e-halal')?el('e-halal').value:'',
     emotion:S.selEmotion||'calm',
     islamicCheck:Object.assign({},S.icChecked),
     gateAnswers:Object.assign({},S.gateAns),
@@ -3606,7 +3728,7 @@ function openTD(id){
     '</div></div><div class="td-section"><div class="td-label">Prices</div><div class="td-row">'+mkTDItem('Entry',esc(t.entryPrice)||'\u2014')+mkTDItem('Stop',esc(t.stopPrice)||'\u2014')+mkTDItem('Target',esc(t.targetPrice)||'\u2014')+mkTDItem('Exit',esc(t.exitPrice)||'\u2014')+'</div></div>'+
     '<div class="td-section"><div class="td-label">Result</div><div class="td-row">'+
     mkTDItem('P&L','<span class="t-pnl '+(t.pnl>=0?'pos':'neg')+'">'+fmt(t.pnl,true)+'</span>')+
-    mkTDItem('Quality',(t.quality||0)+'/100')+mkTDItem('Outcome',esc(t.outcome)||'\u2014')+mkTDItem('Islamic',icScore+'/4 \u2713')+(t.halal?mkTDItem('Halal tag','<span style="color:'+(t.halal==='halal'?'var(--green)':t.halal==='doubtful'?'var(--gold)':'var(--red)')+';text-transform:capitalize;">'+esc(t.halal)+'</span>'):'')+
+    mkTDItem('Quality',(t.quality||0)+'/100')+mkTDItem('Outcome',esc(t.outcome)||'\u2014')+mkTDItem('Islamic',icScore+'/4 \u2713')+
     '</div></div><div class="td-section"><div class="td-label">Psychology</div><div class="td-row">'+mkTDItem('Entry State',esc(t.emotion)||'\u2014')+mkTDItem('Exit State',esc(t.exitEmotion)||'\u2014')+'</div>'+
     (t.lesson?'<div style="margin-top:10px;padding:11px 13px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);font-size:0.84rem;color:var(--ink-2);line-height:1.6;"><strong style="color:var(--gold);">Lesson:</strong> '+esc(t.lesson)+'</div>':'')+'</div>'+
     (t.gateAnswers&&Object.keys(t.gateAnswers).length?'<div class="td-section"><div class="td-label">Pre-Trade Gate</div><div style="font-size:0.82rem;color:var(--ink-2);line-height:1.9;">'+Object.entries(t.gateAnswers).map(function(kv){return'<span style="color:'+(kv[1]==='yes'?'var(--green)':'var(--red)')+'">'+esc(String(kv[1]).toUpperCase())+'</span> \u2014 '+esc(kv[0]);}).join('<br>')+'</div></div>':'')+
@@ -4408,16 +4530,15 @@ function renderMonthlyBars(){
 // ── ANALYTICS ───────────────────────────────────────────────────────────────
 // Filter state lives on window so the user can navigate away and back without
 // losing their pick. Not persisted to Firestore — these are view options.
-window._anFilters = window._anFilters || { range:'all', halalOnly:false };
+window._anFilters = window._anFilters || { range:'all' };
 function setAnRange(r, btn){
   window._anFilters.range = r;
   document.querySelectorAll('.an-range-btn').forEach(function(b){b.classList.remove('active');b.classList.remove('btn-gold');b.classList.add('btn-ghost');});
   if(btn){btn.classList.add('active');btn.classList.add('btn-gold');btn.classList.remove('btn-ghost');}
   renderAnalytics();
 }
-function setAnHalalOnly(on){ window._anFilters.halalOnly = !!on; renderAnalytics(); }
 function applyAnFilter(trades){
-  var f = window._anFilters || {range:'all',halalOnly:false};
+  var f = window._anFilters || {range:'all'};
   // Always exclude sample trades from analytics — they're tutorial fixtures.
   var out = trades.filter(function(t){ return !t.sample; });
   if(f.range !== 'all'){
@@ -4425,7 +4546,6 @@ function applyAnFilter(trades){
     var cutoffStr = cutoff.toISOString().slice(0,10);
     out = out.filter(function(t){ return t.date >= cutoffStr; });
   }
-  if(f.halalOnly) out = out.filter(function(t){ return t.halal === 'halal'; });
   return out;
 }
 
@@ -4439,7 +4559,6 @@ function renderAnalytics(){
   var sum=el('an-filter-summary');
   if(sum){
     var lbl = (window._anFilters.range==='all'?'All time':'Last '+window._anFilters.range+' days');
-    if(window._anFilters.halalOnly) lbl += ' · halal only';
     sum.textContent = lbl + ' · ' + closed.length + ' trade'+(closed.length===1?'':'s');
   }
   var pm=el('perf-metrics');
