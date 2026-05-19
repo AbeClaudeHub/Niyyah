@@ -3962,6 +3962,23 @@ function selExEm(btn){document.querySelectorAll('#exit-modal .emotion-btn').forE
 
 // ── QUALITY SCORE ──────────────────────────────────────────────────────────
 // Out of 11 points. Returns 0–100.
+// R-multiple: trade result expressed in units of initial risk. Risk per unit
+// is |entry − stop|; reward per unit is the directional move from entry to
+// exit. +2R means the trade made twice what it risked; −1R is a full stop-out.
+// Uses only entryPrice/stopPrice/exitPrice — no position size required.
+function calcR(t){
+  if(!t || t.status!=='closed') return null;
+  var e=parseFloat(String(t.entryPrice||'').replace(/,/g,''));
+  var s=parseFloat(String(t.stopPrice||'').replace(/,/g,''));
+  var x=parseFloat(String(t.exitPrice||'').replace(/,/g,''));
+  if(isNaN(e)||isNaN(s)||isNaN(x)) return null;
+  var risk=Math.abs(e-s);
+  if(risk < 1e-9) return null;
+  var dir=(t.direction==='SHORT') ? -1 : 1;
+  return ((x-e)*dir)/risk;
+}
+function fmtR(r){ return (r>=0?'+':'')+r.toFixed(2)+'R'; }
+
 function calcQ(t){
   var s=0,m=0;
 
@@ -4256,6 +4273,7 @@ function openTD(id){
     '</div></div><div class="td-section"><div class="td-label">Prices</div><div class="td-row">'+mkTDItem('Entry',esc(t.entryPrice)||'\u2014')+mkTDItem('Stop',esc(t.stopPrice)||'\u2014')+mkTDItem('Target',esc(t.targetPrice)||'\u2014')+mkTDItem('Exit',esc(t.exitPrice)||'\u2014')+'</div></div>'+
     '<div class="td-section"><div class="td-label">Result</div><div class="td-row">'+
     mkTDItem('P&L','<span class="t-pnl '+(t.pnl>=0?'pos':'neg')+'">'+fmt(t.pnl,true)+'</span>')+
+    (function(){var r=calcR(t);return r!==null?mkTDItem('R-Multiple','<span class="t-pnl '+(r>=0?'pos':'neg')+'">'+fmtR(r)+'</span>'):'';})()+
     mkTDItem('Quality',(t.quality||0)+'/100')+mkTDItem('Outcome',esc(t.outcome)||'\u2014')+mkTDItem('Islamic',icScore+'/4 \u2713')+
     '</div></div><div class="td-section"><div class="td-label">Psychology</div><div class="td-row">'+mkTDItem('Entry State',esc(t.emotion)||'\u2014')+mkTDItem('Exit State',esc(t.exitEmotion)||'\u2014')+'</div>'+
     (t.lesson?'<div style="margin-top:10px;padding:11px 13px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);font-size:0.84rem;color:var(--ink-2);line-height:1.6;"><strong style="color:var(--gold);">Lesson:</strong> '+esc(t.lesson)+'</div>':'')+'</div>'+
@@ -5215,8 +5233,15 @@ function renderAnalytics(){
     var pf=grossL>0?(grossW/grossL).toFixed(2):'\u221e';var avgW=wins.length?grossW/wins.length:0,avgL=losses.length?grossL/losses.length:0;
     var pr=avgL>0?(avgW/avgL).toFixed(2):'\u221e';var cw=0,cl=0,mxW=0,mxL=0;
     closed.forEach(function(t){if(t.pnl>0){cw++;cl=0;if(cw>mxW)mxW=cw;}else{cl++;cw=0;if(cl>mxL)mxL=cl;}});
+    // R-multiple aggregates: average R per trade and expectancy (mean R across
+    // every trade). Expectancy in R is the cleanest read of whether the system
+    // makes money independent of position size.
+    var rVals=closed.map(calcR).filter(function(r){return r!==null;});
+    var avgR=rVals.length?(rVals.reduce(function(s,r){return s+r;},0)/rVals.length):null;
     function mc(lbl,val,col){return'<div class="metric-card"><div class="metric-label">'+lbl+'</div><div class="metric-val" style="color:'+(col||'var(--gold)')+'">'+val+'</div></div>';}
-    pm.innerHTML=mc('PROFIT FACTOR',pf,parseFloat(pf)>=1?'var(--green)':'var(--red)')+mc('PAYOFF RATIO',pr,'var(--ink)')+mc('MAX CONSEC WINS',mxW,'var(--green)')+mc('MAX CONSEC LOSSES',mxL,'var(--red)');
+    pm.innerHTML=mc('PROFIT FACTOR',pf,parseFloat(pf)>=1?'var(--green)':'var(--red)')+mc('PAYOFF RATIO',pr,'var(--ink)')+
+      (avgR!==null?mc('EXPECTANCY',fmtR(avgR),avgR>=0?'var(--green)':'var(--red)'):'')+
+      mc('MAX CONSEC WINS',mxW,'var(--green)')+mc('MAX CONSEC LOSSES',mxL,'var(--red)');
   }else if(pm)pm.innerHTML='';
   if(!window.Chart)return;
   var dc=el('dow-chart');if(dc){try{if(C.dow)C.dow.destroy();}catch(e){}try{var dows=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];var dd=dows.map(function(_,i){return closed.filter(function(t){return new Date(t.date+'T12:00:00').getDay()===i;}).reduce(function(s,t){return s+t.pnl;},0);});C.dow=new Chart(dc,mkBarCfg(dd,dows,false));}catch(e){}}
