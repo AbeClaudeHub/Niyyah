@@ -3158,16 +3158,17 @@ function _saveErrorToast(e,label){
     toast(msg,'e');
   }
 }
-// Throttle the "sign up to save" toast in demo so a flurry of writes (e.g.
-// during a trade-entry save which calls sv() several times) shows it once.
+// Throttle the "demo — not saved" toast aggressively (8s) so a flurry of
+// writes during one trade-save flow shows at most one. Banner already
+// carries the standing reminder, so this toast only confirms the moment.
 var _demoToastAt = 0;
 function _demoSavePing(){
   if(!isDemo()) return false;
   var now = Date.now();
-  if(now - _demoToastAt > 2500){
+  if(now - _demoToastAt > 8000){
     _demoToastAt = now;
     if(typeof toast === 'function'){
-      toast('Demo mode — sign up to save your work →','i');
+      toast('Demo · not saved','i');
     }
   }
   return true; // signal: caller should skip the real write
@@ -3233,52 +3234,124 @@ function loadAll(){
 // Populates S with a realistic month of sample data so a visitor can tour
 // every page without signing up. Deterministic — every demo session looks
 // identical so the demo is a stable sales surface, not a moving target.
+//
+// CRITICAL: every field name must match what saveEntry / saveExit / saveJournal
+// / saveGoal write. Mismatched keys silently break renders. The schema below
+// is paired against those save functions — keep them in sync.
 function seedDemoData(){
   var today = new Date();
   function daysAgo(n){
     var d = new Date(today.getFullYear(), today.getMonth(), today.getDate() - n);
     return d.toISOString().slice(0,10);
   }
+  function isoAt(n, hh, mm){
+    var d = new Date(today.getFullYear(), today.getMonth(), today.getDate() - n, hh||9, mm||35);
+    return d.toISOString();
+  }
   var nextId = 1000;
-  function tradeId(){ return 'demo-t-' + (nextId++); }
+  function tradeId(){ return 1700000000000 + (nextId++); }
 
-  // 16 trades over ~28 days. Net ~+$1,420 across 10 wins / 6 losses to give
-  // every chart something to draw without faking a hero stat.
+  // Map our shorthand rules + pnl into the real outcome enum used by the
+  // close form (win / win-broke / loss / loss-broke / be). Reader functions
+  // look for outcome.indexOf('broke') > -1 to detect rule-breaks.
+  function outcomeFor(pnl, rules){
+    if(Math.abs(pnl) < 5) return 'be';
+    if(pnl > 0) return rules === 'no' ? 'win-broke' : 'win';
+    return rules === 'no' ? 'loss-broke' : 'loss';
+  }
+  // Plausible lessons that match the trade pattern. Read in the trade-detail
+  // modal — empty lessons look like missing data.
+  var LESSONS = {
+    'win':        'Trusted the setup, took the target, walked away. Sabr made measurable.',
+    'win-broke':  'Won this one but I cut early before target — luck, not edge. Same rules next time.',
+    'loss':       'Loss but I followed every rule. The setup was valid; the day wasn\'t. Discipline intact.',
+    'loss-broke': 'Chased after the first stop hit. The nafs spoke louder than my plan. Read Surah Al-Asr after.',
+    'be':         'Stop-out for tiny loss when momentum didn\'t confirm. Right to size out — kibr would have held.'
+  };
+
+  // 16 trades + 1 currently-open trade over ~28 days. Net ~+$1,420 across
+  // 10W / 6L to give every chart something to draw without faking a hero stat.
   var T = [
-    // [daysAgo, time, inst, dir, setup, entry, stop, target, exit, pnl, emotion, exEmotion, rules]
+    // [daysAgo, time, inst, direction, setup, entry, stop, target, exit, pnl, emotion, exitEmotion, rules]
     [27,'09:35','NQ','LONG','Opening Range Breakout',21050,21020,21130,21118, 1360,'calm','calm','yes'],
     [27,'10:42','MNQ','SHORT','VWAP Reclaim',21155,21175,21105,21175, -200,'urgency','frustrated','no'],
     [25,'09:38','NQ','LONG','Bias Pullback',21080,21055,21160,21142, 1240,'patient','focused','yes'],
-    [24,'09:33','MNQ','LONG','Opening Range Breakout',21210,21188,21275,21258,  96,'focused','calm','yes'],
+    [24,'09:33','MNQ','LONG','Opening Range Breakout',21210,21188,21275,21258,   96,'focused','calm','yes'],
     [22,'10:15','NQ','SHORT','VWAP Reclaim',21305,21330,21240,21330, -500,'fomo','anxious','no'],
     [21,'09:40','NQ','LONG','Bias Pullback',21185,21162,21255,21240, 1100,'calm','calm','yes'],
-    [19,'14:08','MNQ','SHORT','Opening Range Breakout',21340,21358,21290,21302,  76,'patient','focused','yes'],
+    [19,'14:08','MNQ','SHORT','Opening Range Breakout',21340,21358,21290,21302,   76,'patient','focused','yes'],
     [18,'09:45','NQ','LONG','VWAP Reclaim',21220,21195,21295,21288, 1360,'calm','calm','yes'],
     [16,'11:22','NQ','LONG','Opening Range Breakout',21165,21142,21240,21142, -460,'revenge','anxious','no'],
-    [15,'09:36','MNQ','LONG','Bias Pullback',21240,21218,21315,21308,  68,'patient','calm','yes'],
+    [15,'09:36','MNQ','LONG','Bias Pullback',21240,21218,21315,21308,   68,'patient','calm','yes'],
     [12,'09:34','NQ','LONG','Opening Range Breakout',21305,21282,21380,21368, 1260,'calm','focused','yes'],
-    [11,'14:30','NQ','SHORT','VWAP Reclaim',21390,21412,21330,21342, 960,'focused','calm','yes'],
-    [ 8,'09:38','MNQ','LONG','Bias Pullback',21420,21398,21495,21498,  76,'patient','calm','yes'],
+    [11,'14:30','NQ','SHORT','VWAP Reclaim',21390,21412,21330,21342,  960,'focused','calm','yes'],
+    [ 8,'09:38','MNQ','LONG','Bias Pullback',21420,21398,21495,21498,   76,'patient','calm','yes'],
     [ 7,'10:18','NQ','SHORT','Opening Range Breakout',21465,21490,21405,21490, -500,'fomo','anxious','no'],
     [ 4,'09:35','NQ','LONG','VWAP Reclaim',21510,21485,21585,21572, 1240,'calm','focused','yes'],
-    [ 2,'09:33','MNQ','LONG','Opening Range Breakout',21520,21498,21598,21586,  64,'patient','focused','yes']
+    [ 2,'09:33','MNQ','LONG','Opening Range Breakout',21520,21498,21598,21586,   64,'patient','focused','yes']
   ];
   S.trades = T.map(function(r){
     var pnl = r[9];
-    var qScore = (r[12]==='yes'?70:30) + (['calm','patient','focused'].indexOf(r[10])>=0?15:-10) + (pnl>0?15:0);
+    var rules = r[12];
+    var outcome = outcomeFor(pnl, rules);
+    var qScore = (rules==='yes'?70:30) + (['calm','patient','focused'].indexOf(r[10])>=0?15:-10) + (pnl>0?15:0);
     qScore = Math.max(10, Math.min(100, qScore));
+    var fullPrayers = { fajr:true, dhuhr:true, asr:true, maghrib:true, isha:true };
     return {
       id: tradeId(),
-      date: daysAgo(r[0]), time: r[1], instrument: r[2], dir: r[3], setup: r[4],
-      entry: String(r[5]), stop: String(r[6]), target: String(r[7]), exit: String(r[8]),
-      pnl: pnl, status: 'closed',
-      emotion: r[10], exEmotion: r[11], rules: r[12],
-      gateAns: { waited:'yes', conf:'yes', calm: r[10]==='calm'||r[10]==='patient'||r[10]==='focused' ? 'yes' : 'no' },
-      icChecked: { bismillah:true, prayer:true, setup:true, stop:true },
+      status: 'closed',
+      date: daysAgo(r[0]),
+      time: r[1],
+      instrument: r[2],
+      direction: r[3],
+      setup: r[4],
+      entryPrice: String(r[5]),
+      stopPrice:  String(r[6]),
+      targetPrice:String(r[7]),
+      exitPrice:  String(r[8]),
+      pnl: pnl,
+      emotion: r[10],
+      exitEmotion: r[11],
+      outcome: outcome,
+      lesson: LESSONS[outcome] || '',
+      islamicCheck: { bismillah:true, prayer:true, setup:true, stop:true },
+      gateAnswers: { waited:'yes', conf:'yes', calm: ['calm','patient','focused'].indexOf(r[10])>=0 ? 'yes' : 'no' },
+      prayers: fullPrayers,
+      screenshot: null,
       quality: qScore,
-      sample: true
+      createdAt: isoAt(r[0], parseInt(r[1].split(':')[0],10), parseInt(r[1].split(':')[1],10)),
+      closedAt:  isoAt(r[0], parseInt(r[1].split(':')[0],10)+1, parseInt(r[1].split(':')[1],10))
     };
   });
+
+  // Live position: one open trade entered ~22 minutes ago. Makes the In Trade
+  // page useful instead of an empty placeholder, and exercises the
+  // pre-trade-gate icons that linger after entry.
+  var openTime = new Date(today.getTime() - 22*60000);
+  var openHH = String(openTime.getHours()).padStart(2,'0');
+  var openMM = String(openTime.getMinutes()).padStart(2,'0');
+  var openTrade = {
+    id: tradeId(),
+    status: 'open',
+    date: daysAgo(0),
+    time: openHH + ':' + openMM,
+    instrument: 'NQ',
+    direction: 'LONG',
+    setup: 'Opening Range Breakout',
+    entryPrice: '21,610',
+    stopPrice:  '21,582',
+    targetPrice:'21,695',
+    pnl: 0,
+    emotion: 'calm',
+    islamicCheck: { bismillah:true, prayer:true, setup:true, stop:true },
+    gateAnswers:  { waited:'yes', conf:'yes', calm:'yes' },
+    prayers: { fajr:true, dhuhr:true, asr:false, maghrib:false, isha:false },
+    screenshot: null,
+    quality: 92,
+    createdAt: openTime.toISOString()
+  };
+  S.trades.unshift(openTrade);
+  S.openTradeId = openTrade.id;
 
   // 30 days of prayer history — mostly full, one Friday missed at -16 and a
   // 4/5 day at -7. Shows the prayer-radar pattern without faking perfection.
@@ -3289,68 +3362,72 @@ function seedDemoData(){
     var full = !(d===16 && dow===5) && !(d===7);
     S.dailyPrayers[key] = {
       fajr:    full,
-      dhuhr:   full,
-      asr:     full,
-      maghrib: full || (d===7),
-      isha:    full || (d===7)
+      dhuhr:   d===0 ? true : full,   // today: Fajr + Dhuhr done so the row
+      asr:     d===0 ? false : full,  //          shows partial progress
+      maghrib: d===0 ? false : (full || (d===7)),
+      isha:    d===0 ? false : (full || (d===7))
     };
   }
 
-  // Playbook — three setups whose names match the trades above so the
+  // Playbook — three setups whose names match the trade setups above so the
   // Performance-by-Setup table populates.
   S.playbook = [
     { id:'demo-pb-1', name:'Opening Range Breakout', condition:'Trending open, momentum',
       desc:'Break of pre-market high with volume confirm.', rr:2, inst:'NQ, MNQ', hold:'5–15 min',
       entry:'Price breaks above pre-market high\nVolume confirms the move\nVWAP below entry',
       exit:'Target next major level\nStop below the breakout candle',
-      avoid:'News within 30 min\nSpread wider than 2 points', sample:true },
+      avoid:'News within 30 min\nSpread wider than 2 points' },
     { id:'demo-pb-2', name:'VWAP Reclaim', condition:'Reversion-from-extreme',
       desc:'Reclaim of VWAP after a clean test from below.', rr:2.5, inst:'NQ, MNQ', hold:'10–25 min',
       entry:'Price tests then reclaims VWAP\nHigher-low confirms\nVolume increase on reclaim',
       exit:'Target premarket high or session high\nStop below reclaim low',
-      avoid:'No clean test\nChoppy conditions', sample:true },
+      avoid:'No clean test\nChoppy conditions' },
     { id:'demo-pb-3', name:'Bias Pullback', condition:'Trend day, clean structure',
       desc:'Pullback into a level inside an established bias.', rr:2, inst:'NQ, MNQ, ES', hold:'8–20 min',
       entry:'Trend bias is clear\nPullback into named level\nReversal candle in direction of bias',
       exit:'Target prior swing\nStop beyond pullback extreme',
-      avoid:'Choppy / no bias\nLevel too far from entry', sample:true }
+      avoid:'Choppy / no bias\nLevel too far from entry' }
   ];
 
-  // Journal entries — one per week. Shows the morning-intention + evening-
-  // reflection + nafs-check loop.
+  // Morning intentions (per-date) — what saveJournal writes into S.morning.
+  // Today's intention populates the dashboard "Morning Intention" textarea.
+  S.morning = {};
+  S.morning[daysAgo(25)] = { intention:'Today I will wait for ORB or VWAP Reclaim only. Max risk $300. Max 2 trades.', lossLimit:'300', maxTrades:'2', key:'21,150 PDH' };
+  S.morning[daysAgo(16)] = { intention:'Bias Pullback only today. Max risk $300. Stop after 1 loss.',                     lossLimit:'300', maxTrades:'1', key:'21,200' };
+  S.morning[daysAgo( 7)] = { intention:'Patient morning. Wait for A+ setup. Max 1 trade.',                                lossLimit:'300', maxTrades:'1', key:'21,440' };
+  S.morning[daysAgo( 0)] = { intention:'Bismillah. ORB only. Max risk $300. Stop after 1 loss.',                          lossLimit:'300', maxTrades:'1', key:'21,600' };
+
+  // Evening reflections — exact shape saveJournal writes.
   S.journals = [
-    { date: daysAgo(25), intent:'Today I will wait for ORB or VWAP Reclaim only. Max risk $300. Max 2 trades.',
-      ll:'300', mt:'2', kl:'21,150 PDH', rules:'yes',
+    { id: 1700000900001, date: daysAgo(25), rules:'yes',
       what:'Took ORB long, hit target. Stayed disciplined on second setup that didn\'t materialize.',
       fix:'Continue waiting for full setup criteria. Don\'t force the second trade.',
       shukr:'Alhamdulillah — clean entry, clean exit, full presence at Dhuhr.',
-      nafs:{sabr:4, tawakkul:4, kibr:2, shukr:5}, sample:true },
-    { date: daysAgo(16), intent:'Bias Pullback only today. Max risk $300. Stop after 1 loss.',
-      ll:'300', mt:'1', kl:'21,200', rules:'no',
+      nafs:{sabr:4, tawakkul:4, kibr:2, shukr:5}, createdAt: isoAt(25, 21, 30) },
+    { id: 1700000900002, date: daysAgo(16), rules:'no',
       what:'Took the loss, then chased a second setup out of frustration. Lost on that too. Skipped Dhuhr.',
       fix:'When the first trade loses, close the platform. Pray. Come back tomorrow.',
       shukr:'Even the losing day reminds me my rules exist for a reason.',
-      nafs:{sabr:1, tawakkul:2, kibr:3, shukr:3}, sample:true },
-    { date: daysAgo(7), intent:'Patient morning. Wait for A+ setup. Max 1 trade.',
-      ll:'300', mt:'1', kl:'21,440', rules:'nt',
+      nafs:{sabr:1, tawakkul:2, kibr:3, shukr:3}, createdAt: isoAt(16, 21, 0) },
+    { id: 1700000900003, date: daysAgo(7), rules:'nt',
       what:'No A+ setup formed. Closed the day flat. Read Surah Al-Kahf (Friday).',
       fix:'Zero trades today = winning session. This is the work.',
       shukr:'Shukr for the discipline to walk away.',
-      nafs:{sabr:5, tawakkul:5, kibr:2, shukr:5}, sample:true }
+      nafs:{sabr:5, tawakkul:5, kibr:2, shukr:5}, createdAt: isoAt(7, 19, 45) }
   ];
 
-  // Settings + goal + streak. Goal is realistic mid-month progress so the
-  // dashboard goal bar isn't empty or 100%.
+  // Settings + goal + streak. Goal uses `deadline` (not `dl`) to match
+  // saveGoal's shape so the deadline field actually renders.
   S.settings = { name: 'Friend', referralCode: 'DEMOXY' };
-  S.goal     = { desc:'$3,000 monthly target', target:3000, dl: daysAgo(-12) };
+  S.goal     = { desc:'$3,000 monthly target', target:3000, deadline: daysAgo(-12), createdAt: new Date(today.getTime() - 18*86400000).toISOString() };
   S.challenge = null;
   S.nafs   = { sabr:3, tawakkul:4, kibr:2, shukr:4 };
-  S.dhikr  = { sub:0, alh:0, akb:0 };
-  S.morning = {};
-  S.openTradeId = null;
+  S.dhikr  = { sub:33, alh:21, akb:7 }; // realistic running counts while a trade is open
   S.gateAns = {};
   S.icChecked = { bismillah:false, prayer:false, setup:false, stop:false };
   S.obStep = 99; // bypass the onboarding wizard in demo
+  // Sample stats the app stamps on real accounts — keeps welcome/onboarding logic happy.
+  S.sessionCount = 4;
 }
 
 function enterDemoMode(){
@@ -3362,6 +3439,11 @@ function enterDemoMode(){
   var pw = el('paywall-screen');  if(pw) pw.classList.remove('show');
   // Show the banner.
   var db = el('demo-banner');     if(db) db.classList.add('show');
+  // Unlock Sirat tier so every hero-promised feature is reachable: Mizan
+  // verdict in the entry modal, witness mode in settings, disaster brake,
+  // path-to-profitability stages. Without this the demo only shows base
+  // tier and the hero feels like a lie.
+  S._sub = { status:'active', tier:'sirat' };
   // Seed state and route to dashboard.
   seedDemoData();
   // Trade count badge, profile chips, etc. read from S — render once.
