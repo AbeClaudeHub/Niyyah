@@ -2246,6 +2246,11 @@ body:not(.legal-visitor) .legal-back{display:none;}
  <div class="modal">
   <div class="modal-head"><div class="modal-title">Enter a <em>Trade</em></div><button class="modal-close" onclick="closeEntry()">×</button></div>
   <div class="modal-body">
+   <!-- NIYYAH STRIP — wires the morning intention into the trading loop.
+        Populated by renderNiyyahStrip() on modal open: confirms today's
+        niyyah if set, or prompts to set one inline. "Trade with intention"
+        made literal. -->
+   <div id="niyyah-strip" style="margin-bottom:14px;"></div>
    <div class="gate"><div class="gate-title">Before entering — answer honestly.</div>
     <div class="gate-q"><div class="gate-q-text">Did you wait for your full setup criteria?</div><div class="gate-q-btns"><button class="gqb yes" onclick="gAns('waited','yes',this)">Yes</button><button class="gqb no" onclick="gAns('waited','no',this)">No</button></div></div>
     <div class="gate-q"><div class="gate-q-text">Are there 2 or more confluences?</div><div class="gate-q-btns"><button class="gqb yes" onclick="gAns('conf','yes',this)">Yes</button><button class="gqb no" onclick="gAns('conf','no',this)">No</button></div></div>
@@ -4004,6 +4009,42 @@ function calcQ(t){
 }
 
 // ── ENTRY MODAL ────────────────────────────────────────────────────────────
+// Niyyah strip — shown at the top of the entry modal. If the user set a
+// morning intention today (from the dashboard or here), confirm it; else
+// prompt to set one inline. Both write to S.morning[today].intention, so
+// the dashboard card and this strip stay in sync.
+function renderNiyyahStrip(){
+  var strip=el('niyyah-strip'); if(!strip) return;
+  var today=localDate();
+  var saved=S.morning&&S.morning[today]&&S.morning[today].intention;
+  if(saved){
+    strip.innerHTML='<div style="display:flex;align-items:flex-start;gap:9px;padding:11px 13px;background:rgba(112,184,142,0.07);border:1px solid rgba(112,184,142,0.22);border-radius:10px;">'+
+      '<span style="color:var(--green);font-size:0.9rem;flex-shrink:0;line-height:1.4;">✓</span>'+
+      '<div style="flex:1;min-width:0;"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.16em;color:var(--ink-3);text-transform:uppercase;margin-bottom:3px;">Today\'s Niyyah</div>'+
+      '<div style="font-size:0.84rem;color:var(--ink-2);line-height:1.5;">'+esc(saved)+'</div></div></div>';
+  } else {
+    strip.innerHTML='<div style="padding:12px 13px;background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.2);border-radius:10px;">'+
+      '<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.05rem;color:var(--ink);margin-bottom:7px;">You haven\'t set your <em style="color:var(--gold);font-style:italic;">niyyah</em> today.</div>'+
+      '<div style="font-size:0.78rem;color:var(--ink-3);margin-bottom:9px;line-height:1.55;">Name your intention before the first trade. Trading with intention is the whole point — not an afterthought.</div>'+
+      '<textarea id="niyyah-quick" rows="2" placeholder="Today I intend to trade with patience. Max risk $___. Max ___ trades." style="width:100%;background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:9px 11px;color:var(--ink);font-size:0.84rem;font-family:inherit;resize:vertical;margin-bottom:8px;box-sizing:border-box;"></textarea>'+
+      '<div style="display:flex;justify-content:flex-end;"><button class="btn btn-gold btn-sm" onclick="saveNiyyahQuick()">Set niyyah · Bismillah</button></div></div>';
+  }
+}
+function saveNiyyahQuick(){
+  var ta=el('niyyah-quick'); if(!ta) return;
+  var val=(ta.value||'').trim();
+  if(val.length<3){ toast('Name your intention first','e'); ta.focus(); return; }
+  var today=localDate();
+  if(!S.morning) S.morning={};
+  if(!S.morning[today]) S.morning[today]={};
+  S.morning[today].intention=val;
+  sv('morning',S.morning);
+  renderNiyyahStrip();
+  // Keep the dashboard intention textarea in sync if it's mounted.
+  var dashInt=el('today-intention-input'); if(dashInt) dashInt.value=val;
+  toast('✓ Niyyah set. Bismillah.','s');
+}
+
 function openEntryModal(){
   // Sirat: Disaster Brake hard-blocks new trades while the user is locked.
   if(isSirat() && isSiratLocked()){
@@ -4017,6 +4058,7 @@ function openEntryModal(){
   document.body.style.overflow='hidden';
   S.gateAns={};S.selEmotion=null;S.icChecked={bismillah:false,prayer:false,setup:false,stop:false};
   S.entryScreenshot=null;
+  renderNiyyahStrip();
   resetScreenshotZone('e-screenshot-zone','entry');
   document.querySelectorAll('.gqb').forEach(function(b){b.classList.remove('on');});
   var gw=el('gate-warn');if(gw)gw.classList.remove('show');
@@ -4949,7 +4991,7 @@ function drawSpark(id,vals){
 function renderInsights(){
   var e=el('insights-wrap');if(!e)return;
   var closed=S.trades.filter(function(t){return t.status==='closed';});
-  if(closed.length<4){e.innerHTML='<div class="empty" style="padding:26px 8px;"><div class="empty-icon">\ud83c\udf19</div><div class="empty-title">Insights after 5 closed trades</div><div class="empty-text">Keep logging. The patterns will emerge.</div></div>';return;}
+  if(closed.length<3){e.innerHTML='<div class="empty" style="padding:26px 8px;"><div class="empty-icon">\ud83c\udf19</div><div class="empty-title">Insights after 3 closed trades</div><div class="empty-text">Keep logging. The patterns will emerge.</div></div>';return;}
   var ins=[];
 
   // Contradiction detection — calm entry, bad exit
