@@ -1636,21 +1636,13 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <div class="today-actions" id="today-actions"></div>
     </div>
 
-    <!-- DAILY MISSION — one specific action the app tells you to take today,
-         picked from your state (post-loss / Friday / streak / leak). -->
-    <div id="daily-mission-wrap"></div>
+    <!-- OPEN TRADE BANNER (only shows when active). Promoted to right after
+         state — when a position is live, that fact is the most important
+         thing on the page. -->
+    <div id="open-banner"></div>
 
-    <!-- STREAK — surfaced right after state so returning users see momentum -->
-    <div id="streak-wrap"></div>
-
-    <!-- 30-DAY HABIT CHAIN — visual habit chain. Empty cells today create
-         the same pull as an unticked checkbox. -->
-    <div id="habit-chain-wrap"></div>
-
-    <!-- DAILY REFLECTION (shown every morning, after first trade exists) -->
-    <div id="daily-reflection-wrap"></div>
-
-    <!-- SALAH — compact pill row -->
+    <!-- SALAH — compact pill row. Promoted: for a Muslim trader, the daily
+         salah row is THE deen surface. Lives directly under state. -->
     <div class="today-card" id="today-salah-card">
       <div class="today-section-title" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
         <span>Today's Salah · <span id="sal-count-today">0/5</span></span>
@@ -1665,24 +1657,38 @@ body:not(.legal-visitor) .legal-back{display:none;}
       </div>
     </div>
 
-    <!-- OPEN TRADE BANNER (only shows when active) -->
-    <div id="open-banner"></div>
-
-    <!-- MUHASABAH (only shows in evening with trades) -->
-    <div id="muhasabah-wrap"></div>
-    <div id="friday-wrap"></div>
-
-    <!-- SINGLE BEHAVIORAL INSIGHT -->
-    <div id="today-insight-wrap"></div>
-
-    <!-- MORNING INTENTION (only renders in the AM window — see renderDash) -->
+    <!-- MORNING INTENTION (only renders in the AM window — see renderDash).
+         Paired with salah so the morning ritual is one contiguous block. -->
     <div class="today-intention" id="today-intention-card">
       <div class="today-section-title">Morning Intention</div>
       <textarea id="today-intention-input" rows="2" placeholder="Today I intend to trade with…" onblur="saveTodayIntention()"></textarea>
     </div>
 
-    <!-- NOTIFICATION OPT-IN — moved below intention so the prompt never
-         crowds the primary state card on first paint. -->
+    <!-- DAILY MISSION — one specific action the app tells you to take today,
+         picked from your state (post-loss / Friday / streak / leak). -->
+    <div id="daily-mission-wrap"></div>
+
+    <!-- SINGLE BEHAVIORAL INSIGHT. Sits with daily mission as the "what to
+         pay attention to today" pair. -->
+    <div id="today-insight-wrap"></div>
+
+    <!-- MUHASABAH (only shows in evening with trades) -->
+    <div id="muhasabah-wrap"></div>
+    <div id="friday-wrap"></div>
+
+    <!-- DAILY REFLECTION (shown every morning, after first trade exists) -->
+    <div id="daily-reflection-wrap"></div>
+
+    <!-- STREAK — motivation; sits below the daily-action block so it
+         doesn't crowd the things the user actually does today. -->
+    <div id="streak-wrap"></div>
+
+    <!-- 30-DAY HABIT CHAIN — visual habit chain. Pairs with streak as the
+         "look at your run" motivation block. -->
+    <div id="habit-chain-wrap"></div>
+
+    <!-- NOTIFICATION OPT-IN — growth nudge. Stays below the intention/
+         motivation block so it never crowds the primary state on first paint. -->
     <div id="notif-prompt-wrap"></div>
 
     <!-- PWA INSTALL NUDGE — appears on 3rd+ session if not installed.
