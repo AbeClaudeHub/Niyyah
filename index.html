@@ -100,6 +100,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .nav-item.active{background:linear-gradient(90deg,rgba(218,180,98,0.14),rgba(218,180,98,0.04) 55%,transparent);color:var(--gold-2);border-left-color:var(--gold);font-weight:500;}
 .nav-icon{width:16px;font-size:0.88rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .nav-badge{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:0.56rem;background:var(--surface-3);color:var(--gold);padding:1px 6px;border-radius:9px;}
+.nav-badge-sirat{background:linear-gradient(135deg,#ecc878,#dab462);color:#0b0a08;letter-spacing:0.1em;font-weight:700;}
+.nav-item.is-sirat .nav-badge-sirat{display:none;}
 .nav-item.active .nav-badge,.nav-item.alert .nav-badge{background:var(--gold);color:var(--bg);}
 .nav-item.alert{color:var(--gold-2);}
 .sidebar-foot{padding:11px 15px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;}
@@ -111,6 +113,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .topbar{position:sticky;top:0;z-index:40;background:rgba(9,8,6,0.97);backdrop-filter:blur(40px);border-bottom:1px solid rgba(218,180,98,0.07);padding:14px 32px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 32px rgba(0,0,0,0.4);}
 .topbar-title{font-family:'Cormorant Garamond',serif;font-size:1.22rem;font-weight:500;color:var(--ink);letter-spacing:-0.01em;}
 .topbar-title em{color:var(--gold);font-style:italic;font-weight:600;}
+.topbar-brake{background:rgba(214,132,132,0.06);border:1px solid rgba(214,132,132,0.22);color:var(--red);cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:1rem;transition:var(--t);}
+.topbar-brake:hover{background:rgba(214,132,132,0.12);color:#ff8a8a;}
+.topbar-brake.locked{background:var(--red);color:#0b0a08;animation:pulse 2s ease-in-out infinite;}
 .topbar-date{color:var(--ink-4);font-size:0.68rem;font-family:'JetBrains Mono',monospace;margin-left:8px;padding-left:11px;border-left:1px solid var(--line-2);}
 .topbar-spacer{flex:1;}
 .mob-toggle{display:none;background:transparent;border:none;width:33px;height:33px;align-items:center;justify-content:center;color:var(--ink);cursor:pointer;border-radius:6px;font-size:1.05rem;}
@@ -1602,6 +1607,8 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="nav-item" data-page="analytics" onclick="go('analytics',this)"><span class="nav-icon">⌖</span>Analytics</div>
     <div class="nav-sect">DAILY</div>
     <div class="nav-item" data-page="journal" onclick="go('journal',this)"><span class="nav-icon">✎</span>Journal</div>
+    <div class="nav-sect">PROFITABILITY</div>
+    <div class="nav-item" data-page="sirat" onclick="go('sirat',this)"><span class="nav-icon">✦</span>Sirat<span class="nav-badge nav-badge-sirat" id="nav-sirat-badge">PRO</span></div>
     <div class="nav-sect">TOOLS</div>
     <div class="nav-item" data-page="playbook" onclick="go('playbook',this)"><span class="nav-icon">❑</span>Playbook</div>
     <div class="nav-item" data-page="risk" onclick="go('risk',this)"><span class="nav-icon">⚖</span>Risk Calc</div>
@@ -1614,7 +1621,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <div class="sidebar-foot"><div class="sf-av" id="sf-av">A</div><div style="flex:1;min-width:0;"><div class="sf-name" id="sf-name">Welcome</div><div class="sf-plan" id="sf-plan-label">Account</div></div><button aria-label="Open settings" title="Settings" style="background:transparent;border:none;color:var(--ink-3);cursor:pointer;font-size:0.95rem;padding:6px;border-radius:6px;transition:color var(--t),background var(--t);" onmouseover="this.style.color='var(--gold)';this.style.background='var(--surface-2)';" onmouseout="this.style.color='var(--ink-3)';this.style.background='transparent';" onclick="go('settings',null)">⚙</button></div>
 </aside>
 <main class="main">
-<div class="topbar"><button class="mob-toggle" onclick="toggleSB()">☰</button><div class="topbar-title" id="topbar-title">Today</div><div class="topbar-date" id="topbar-date"></div><div class="topbar-spacer"></div></div>
+<div class="topbar"><button class="mob-toggle" onclick="toggleSB()">☰</button><div class="topbar-title" id="topbar-title">Today</div><div class="topbar-date" id="topbar-date"></div><div class="topbar-spacer"></div><button id="topbar-brake" class="topbar-brake" onclick="openDisasterBrake()" title="Disaster brake — lock yourself out" style="display:none;" aria-label="Open Disaster Brake">⏻</button></div>
 
 <div class="page active" id="page-dashboard">
   <div class="today-view">
@@ -1844,6 +1851,16 @@ body:not(.legal-visitor) .legal-back{display:none;}
   </div>
 </div>
 
+<!-- SIRAT — the Profitability Path (premium-only feature surface) -->
+<div class="page" id="page-sirat">
+  <div class="ph">
+    <div class="ph-eye">SIRAT · THE PATH</div>
+    <div class="ph-title">Where you <em>actually</em> stand.</div>
+    <div class="ph-sub">Five stages from cleaning the foundation to mastery. Your stage is computed from your real data — never self-declared. Each stage names the single bottleneck blocking the next, and the one focus that gets you through it.</div>
+  </div>
+  <div id="sirat-content"></div>
+</div>
+
 <div class="page" id="page-goals">
   <div class="ph"><div class="ph-eye">TARGETS</div><div class="ph-title">Goal + <em>Challenge</em></div><div class="ph-sub">Set your profit target and challenge parameters. The progress bar updates automatically as you log trades.</div></div>
   <div id="goal-display"></div>
@@ -2041,6 +2058,13 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;margin-bottom:14px;">Share Niyyah with another Muslim trader. When they subscribe with your link, you both get 1 month free. <em>(Credit applies after their first successful payment — runs on a Cloud Function that you'll deploy from <code>functions/redeemReferral.js</code>.)</em></div>
     <div id="referral-row"></div>
   </div>
+
+  <!-- ── WITNESS MODE ─────────────────────────────────────────────────── -->
+  <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2);">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">WITNESS MODE <span style="color:var(--gold-2);">· SIRAT</span></div>
+    <div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;margin-bottom:14px;">Send a weekly summary to a trusted person — spouse, mentor, accountability brother. Discipline metrics only: number of trades, % followed playbook, prayer consistency, your current Sirat stage. <strong>No P&amp;L. No trade detail.</strong></div>
+    <div id="witness-row"></div>
+  </div>
   <div style="margin-top:22px;padding-top:18px;border-top:1px solid rgba(214,132,132,0.18);">
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--red);margin-bottom:8px;">DANGER ZONE</div>
     <button class="btn btn-danger" onclick="deleteAccount()">Delete Account Permanently</button>
@@ -2194,6 +2218,8 @@ body:not(.legal-visitor) .legal-back{display:none;}
    <div class="field-row c3"><div class="field"><label>Direction</label><select id="e-dir"><option value="LONG">Long</option><option value="SHORT">Short</option></select></div><div class="field"><label>Setup (Playbook)</label><select id="e-setup-sel"><option value="">— Select or type below —</option></select></div><div class="field"><label>Or type setup name</label><input type="text" id="e-setup" placeholder="ORB, VWAP, BPB…"></div></div>
    <div class="field-row c3"><div class="field"><label>Entry Price</label><input type="text" inputmode="decimal" autocomplete="off" id="e-entry" placeholder="21,050"></div><div class="field"><label>Stop Loss</label><input type="text" inputmode="decimal" autocomplete="off" id="e-stop" placeholder="21,000"></div><div class="field"><label>Target</label><input type="text" inputmode="decimal" autocomplete="off" id="e-target" placeholder="21,150"></div></div>
    <div id="e-rr-warn" style="display:none;margin:-4px 0 12px;font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;color:var(--gold);background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.18);padding:8px 12px;border-radius:8px;"></div>
+   <!-- MIZAN — Sirat-only live verdict, populated by refreshMizan() -->
+   <div id="mizan-panel" style="display:none;margin:0 0 14px;"></div>
    <div class="fs-label">Islamic Pre-Trade Check</div>
    <div class="ic-grid">
     <div class="ic-item" id="ic-bismillah" onclick="toggleIC('bismillah')"><div class="ic-circle" id="icc-bismillah">✓</div><div><span class="ic-arabic">بِسْمِ اللَّه</span><span class="ic-text">Said Bismillah?</span></div></div>
@@ -3330,7 +3356,7 @@ function replayOnboarding(){
 }
 
 // ── NAVIGATION ─────────────────────────────────────────────────────────────
-var PAGE_TITLES={dashboard:'Today',intrade:'In Trade',trades:'Trade Log',calendar:'Calendar',analytics:'Analytics',journal:'Journal',playbook:'Playbook',risk:'Risk Calc',zakat:'Zakat',goals:'Goals',blueprint:'Blueprint',guide:'Guide',settings:'Settings',privacy:'Privacy',terms:'Terms',refund:'Refund Policy'}
+var PAGE_TITLES={dashboard:'Today',intrade:'In Trade',trades:'Trade Log',calendar:'Calendar',analytics:'Analytics',journal:'Journal',playbook:'Playbook',risk:'Risk Calc',zakat:'Zakat',sirat:'Sirat',goals:'Goals',blueprint:'Blueprint',guide:'Guide',settings:'Settings',privacy:'Privacy',terms:'Terms',refund:'Refund Policy'}
 // Page renderers are looked up at navigation time. dashboard & settings are
 // wrapped at runtime by the retention module, so resolve through the live
 // binding instead of capturing the original reference here.
@@ -3338,7 +3364,7 @@ var PAGE_FNS={privacy:function(){},terms:function(){},refund:function(){},guide:
   dashboard:function(){return renderDash.apply(this,arguments);},
   intrade:renderInTrade,trades:renderTrades,
   calendar:renderCal,analytics:renderAnalytics,journal:renderJournal,
-  playbook:renderPlaybook,risk:renderRisk,zakat:renderZakat,goals:renderGoals,
+  playbook:renderPlaybook,risk:renderRisk,zakat:renderZakat,sirat:renderSirat,goals:renderGoals,
   settings:function(){return renderSettings.apply(this,arguments);}};
 
 function go(page,navEl){
@@ -3496,6 +3522,7 @@ function selEm(btn){
   // Refresh the warning state of the gate so the contradiction (if any) shows
   // up immediately without waiting for another gate tap.
   if(typeof checkGate === 'function') checkGate();
+  if(typeof refreshMizan === 'function') refreshMizan();
 }
 function selExEm(btn){document.querySelectorAll('#exit-modal .emotion-btn').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');S.selExEmotion=btn.dataset.e;}
 
@@ -3549,6 +3576,11 @@ function calcQ(t){
 
 // ── ENTRY MODAL ────────────────────────────────────────────────────────────
 function openEntryModal(){
+  // Sirat: Disaster Brake hard-blocks new trades while the user is locked.
+  if(isSirat() && isSiratLocked()){
+    toast('Trade entry locked until ' + new Date(siratLockUntil()).toLocaleString(), 'e');
+    return;
+  }
   var m=el('entry-modal');if(!m)return;
   m.classList.add('show');
   var ed=el('e-date');if(ed)ed.value=localDate();
@@ -3565,6 +3597,16 @@ function openEntryModal(){
   resetIC();
   var sel=el('e-setup-sel');
   if(sel){sel.innerHTML='<option value="">— Select from Playbook —</option>';S.playbook.forEach(function(p){sel.innerHTML+='<option value="'+esc(p.name)+'">'+esc(p.name)+'</option>';});}
+  // Mizan live-verdict wiring (Sirat-only — refreshMizan no-ops otherwise).
+  // Attach listeners once per modal open. We use a flag to avoid stacking.
+  if(!m._mizanWired){
+    ['e-inst','e-dir','e-setup-sel','e-setup','e-entry','e-stop','e-target','e-time'].forEach(function(id){
+      var n = el(id); if(n) n.addEventListener('input', refreshMizan);
+      if(n && n.tagName === 'SELECT') n.addEventListener('change', refreshMizan);
+    });
+    m._mizanWired = true;
+  }
+  refreshMizan();
 }
 function closeEntry(force){
   var m=el('entry-modal');if(!m)return;
@@ -4738,6 +4780,871 @@ function renderPrayerPill(){
     '</div>';
 }
 
+// ══════════════════════════════════════════════════════════════════════════
+// SIRAT — staged profitability path (premium-only)
+// ══════════════════════════════════════════════════════════════════════════
+//
+// Five stages. Stage is computed from S.trades + S.dailyPrayers — never
+// self-declared. Stage transitions are stamped to S.settings.sirat.history
+// so the user sees their journey over time.
+//
+//   Tahaarah  — < 30 closed trades. Build the habit. Log everything.
+//   Sabr      — has data, no setup yet has ≥ 30 trades at WR ≥ 55%.
+//   Yaqeen    — one setup hits the threshold OR positive expectancy +
+//                profit factor ≥ 1.4 over the last 30 days.
+//   Tawakkul  — positive P&L across 3 consecutive months,
+//                max drawdown stays under 15% of starting capital.
+//   Ihsan     — positive P&L 6+ months, two or more proven setups.
+//
+// All thresholds are tunable here in one place.
+
+var SIRAT_STAGES = {
+  tahaarah: { name:'Tahaarah', sub:'Cleaning the foundation', order:1 },
+  sabr:     { name:'Sabr',     sub:'Finding your edge',       order:2 },
+  yaqeen:   { name:'Yaqeen',   sub:'Proving your edge',       order:3 },
+  tawakkul: { name:'Tawakkul', sub:'Defending your edge',     order:4 },
+  ihsan:    { name:'Ihsan',    sub:'Mastery',                 order:5 }
+};
+var SIRAT_THRESHOLDS = {
+  minTradesForStage2: 30,
+  setupMinTrades: 30,
+  setupMinWR: 55,
+  yaqeenMinPF: 1.4,
+  tawakkulMinMonths: 3,
+  tawakkulMaxDDPct: 15,
+  ihsanMinMonths: 6
+};
+
+// Pure function: given the user's data, return the stage diagnosis.
+// Returns { stage, reasoning, focusThisWeek, graduation, kpis }.
+function computeUserStage(s){
+  var trades = (s && s.trades) || [];
+  var closed = trades.filter(function(t){ return t.status==='closed' && !t.sample; });
+  var leak = (s && s.settings && s.settings.leak) || null;
+
+  // === Tahaarah — fewer than the minimum trade count ===
+  if(closed.length < SIRAT_THRESHOLDS.minTradesForStage2){
+    return {
+      stage: 'tahaarah',
+      reasoning: closed.length + ' closed trades logged. The path starts with data — the next ' + (SIRAT_THRESHOLDS.minTradesForStage2 - closed.length) + ' trades build it.',
+      focusThisWeek: _siratFocusFor('tahaarah', closed, leak),
+      graduation: {
+        label: 'To reach Sabr',
+        progress: closed.length,
+        target: SIRAT_THRESHOLDS.minTradesForStage2,
+        copy: 'Log ' + SIRAT_THRESHOLDS.minTradesForStage2 + ' closed trades with full discipline data.'
+      },
+      kpis: _siratKpisFor('tahaarah', closed, s)
+    };
+  }
+
+  // Group trades by setup to find any with proven edge.
+  var bySetup = {};
+  closed.forEach(function(t){
+    var k = (t.setup||'').trim() || '(unnamed)';
+    (bySetup[k] = bySetup[k] || []).push(t);
+  });
+  var topSetup = null;
+  Object.keys(bySetup).forEach(function(k){
+    var ts = bySetup[k];
+    var wr = ts.filter(function(t){return t.pnl>0;}).length / ts.length * 100;
+    var hit = ts.length >= SIRAT_THRESHOLDS.setupMinTrades && wr >= SIRAT_THRESHOLDS.setupMinWR;
+    if(hit && (!topSetup || ts.length > topSetup.count)){
+      topSetup = { name:k, count:ts.length, wr:Math.round(wr) };
+    }
+  });
+
+  // Last 30 days profit factor + expectancy.
+  var thirtyAgo = Date.now() - 30*86400000;
+  var recent = closed.filter(function(t){
+    return new Date(t.date+'T12:00:00').getTime() >= thirtyAgo;
+  });
+  var rWins = recent.filter(function(t){return t.pnl>0;});
+  var rLoss = recent.filter(function(t){return t.pnl<0;});
+  var grossW = rWins.reduce(function(s,t){return s+t.pnl;},0);
+  var grossL = Math.abs(rLoss.reduce(function(s,t){return s+t.pnl;},0));
+  var pf = grossL>0 ? grossW/grossL : (grossW>0 ? Infinity : 0);
+  var expectancy = recent.length ? (grossW - grossL) / recent.length : 0;
+
+  // === Yaqeen check — proven setup OR positive expectancy + PF ≥ 1.4 ===
+  var yaqeenByPF = recent.length >= 20 && expectancy > 0 && pf >= SIRAT_THRESHOLDS.yaqeenMinPF;
+  var yaqeenBySetup = !!topSetup;
+
+  // === Tawakkul / Ihsan checks — monthly P&L sweep ===
+  var months = {};
+  closed.forEach(function(t){
+    var m = (t.date||'').slice(0,7); // YYYY-MM
+    if(!m) return;
+    months[m] = (months[m]||0) + (t.pnl||0);
+  });
+  var monthKeys = Object.keys(months).sort();
+  // Count the longest run of consecutive positive months ending at the most
+  // recent month with data (we don't penalize gaps).
+  var positiveRun = 0;
+  for(var i=monthKeys.length-1; i>=0; i--){
+    if(months[monthKeys[i]] > 0) positiveRun++;
+    else break;
+  }
+  // Crude max-drawdown estimate: equity-curve peak-to-trough using the closed
+  // trades in chronological order.
+  var equity = 0, peak = 0, maxDD = 0;
+  closed.slice().reverse().forEach(function(t){
+    equity += (t.pnl||0);
+    if(equity > peak) peak = equity;
+    var dd = peak - equity;
+    if(dd > maxDD) maxDD = dd;
+  });
+  // Without a stored starting capital we approximate the "max DD %" as
+  // maxDD / max(peak, 1). Conservative — only Ihsan/Tawakkul stages care.
+  var ddPct = peak > 0 ? (maxDD / peak * 100) : 0;
+
+  var siratStage = null, reasoning;
+  if(positiveRun >= SIRAT_THRESHOLDS.ihsanMinMonths && Object.keys(bySetup).filter(function(k){
+       var ts = bySetup[k]; return ts.length >= SIRAT_THRESHOLDS.setupMinTrades && (ts.filter(function(t){return t.pnl>0;}).length/ts.length*100) >= SIRAT_THRESHOLDS.setupMinWR;
+     }).length >= 2){
+    siratStage = 'ihsan';
+    reasoning = positiveRun + ' consecutive positive months across multiple proven setups. The work now is teaching, giving, and scaling without drift.';
+  } else if(positiveRun >= SIRAT_THRESHOLDS.tawakkulMinMonths && ddPct < SIRAT_THRESHOLDS.tawakkulMaxDDPct){
+    siratStage = 'tawakkul';
+    reasoning = positiveRun + ' positive months in a row, max drawdown ' + Math.round(ddPct) + '%. You have an edge that survives variance — defend it.';
+  } else if(yaqeenByPF || yaqeenBySetup){
+    siratStage = 'yaqeen';
+    if(yaqeenBySetup){
+      reasoning = 'Your "' + topSetup.name + '" setup: ' + topSetup.count + ' trades at ' + topSetup.wr + '% win rate. That is statistically real edge.';
+    } else {
+      reasoning = 'Last 30d: profit factor ' + pf.toFixed(2) + ', expectancy ' + (expectancy>=0?'+':'') + '$' + Math.round(expectancy) + '/trade. The edge is forming — protect it.';
+    }
+  } else {
+    siratStage = 'sabr';
+    reasoning = closed.length + ' closed trades, no setup yet at ' + SIRAT_THRESHOLDS.setupMinTrades + '+ trades with ' + SIRAT_THRESHOLDS.setupMinWR + '% WR. Stop trading marginal setups. Concentrate.';
+  }
+
+  return {
+    stage: siratStage,
+    reasoning: reasoning,
+    focusThisWeek: _siratFocusFor(siratStage, closed, leak, { topSetup: topSetup, pf: pf, expectancy: expectancy, positiveRun: positiveRun }),
+    graduation: _siratGraduationFor(siratStage, { closed: closed, bySetup: bySetup, topSetup: topSetup, pf: pf, expectancy: expectancy, positiveRun: positiveRun, ddPct: ddPct }),
+    kpis: _siratKpisFor(siratStage, closed, s, { pf: pf, expectancy: expectancy, ddPct: ddPct, positiveRun: positiveRun })
+  };
+}
+
+// One concrete focus action per stage. Pulls from the user's biggest leak
+// (selected during onboarding) when the stage allows for it.
+function _siratFocusFor(stage, closed, leak, ctx){
+  ctx = ctx || {};
+  if(stage === 'tahaarah'){
+    return { title: 'Log every trade — including the ones you regret.', body: 'Discipline data only becomes useful at ' + SIRAT_THRESHOLDS.minTradesForStage2 + ' trades. Skip the "this one doesn\'t count" tax.' };
+  }
+  if(stage === 'sabr'){
+    return { title: 'Pick one setup. Trade only that for 7 sessions.', body: 'Concentration is how an edge becomes visible in the data. Every other setup is a distraction this week.' };
+  }
+  if(stage === 'yaqeen'){
+    var name = (ctx.topSetup && ctx.topSetup.name) || 'your best setup';
+    return { title: 'Defend ' + name + '. Refuse everything else.', body: 'Your evidence says this works. The fastest way to break it is by drifting into adjacent setups when ' + name + ' isn\'t available.' };
+  }
+  if(stage === 'tawakkul'){
+    return { title: 'Add a second proven setup — slowly.', body: 'Run it at half size until you have ' + SIRAT_THRESHOLDS.setupMinTrades + ' trades at ' + SIRAT_THRESHOLDS.setupMinWR + '%+ WR. Diversification compounds; chasing variety destroys.' };
+  }
+  return { title: 'Teach what you know. Give zakat. Scale honestly.', body: 'Ihsan is not about more trades — it\'s about more discipline at the same edge, and helping the next brother find theirs.' };
+}
+
+function _siratGraduationFor(stage, ctx){
+  if(stage === 'tahaarah'){
+    return { label:'To reach Sabr', target: SIRAT_THRESHOLDS.minTradesForStage2, progress: ctx.closed.length, copy: 'Log ' + SIRAT_THRESHOLDS.minTradesForStage2 + ' closed trades.' };
+  }
+  if(stage === 'sabr'){
+    var best = null;
+    Object.keys(ctx.bySetup).forEach(function(k){
+      var ts = ctx.bySetup[k];
+      var wr = ts.filter(function(t){return t.pnl>0;}).length / ts.length * 100;
+      if(!best || ts.length > best.count) best = { name:k, count:ts.length, wr:Math.round(wr) };
+    });
+    return {
+      label: 'To reach Yaqeen',
+      target: SIRAT_THRESHOLDS.setupMinTrades,
+      progress: best ? best.count : 0,
+      copy: best ? ('Top setup "' + best.name + '": ' + best.count + ' trades / ' + best.wr + '% WR. Needs ' + SIRAT_THRESHOLDS.setupMinTrades + ' trades at ≥ ' + SIRAT_THRESHOLDS.setupMinWR + '%.') : ('Tag a setup on every trade. Top setup needs ' + SIRAT_THRESHOLDS.setupMinTrades + ' trades at ≥ ' + SIRAT_THRESHOLDS.setupMinWR + '% WR.')
+    };
+  }
+  if(stage === 'yaqeen'){
+    return {
+      label: 'To reach Tawakkul',
+      target: SIRAT_THRESHOLDS.tawakkulMinMonths,
+      progress: ctx.positiveRun,
+      copy: ctx.positiveRun + ' positive months in a row · need ' + SIRAT_THRESHOLDS.tawakkulMinMonths + '. Keep drawdown under ' + SIRAT_THRESHOLDS.tawakkulMaxDDPct + '%.'
+    };
+  }
+  if(stage === 'tawakkul'){
+    return {
+      label: 'To reach Ihsan',
+      target: SIRAT_THRESHOLDS.ihsanMinMonths,
+      progress: ctx.positiveRun,
+      copy: ctx.positiveRun + ' positive months in a row · need ' + SIRAT_THRESHOLDS.ihsanMinMonths + ' and a second proven setup.'
+    };
+  }
+  return { label:'Ihsan', target: 1, progress: 1, copy: 'You\'re on the highest stage. Keep your edge, keep your prayers, keep paying it forward.' };
+}
+
+function _siratKpisFor(stage, closed, s, ctx){
+  ctx = ctx || {};
+  function kpi(label, value, helper){ return { label: label, value: value, helper: helper||'' }; }
+  if(stage === 'tahaarah'){
+    var loggedDays = {};
+    closed.forEach(function(t){ if(t.date) loggedDays[t.date]=true; });
+    var prayerDays = (s && s.dailyPrayers) ? Object.keys(s.dailyPrayers).length : 0;
+    return [
+      kpi('Trades logged', closed.length, 'Sample size for an edge to emerge'),
+      kpi('Logging days', Object.keys(loggedDays).length, 'Distinct days with a trade'),
+      kpi('Prayer days tracked', prayerDays, 'Days you marked at least one salah')
+    ];
+  }
+  if(stage === 'sabr'){
+    var top = ctx.topSetup;
+    return [
+      kpi('Top setup', top ? top.name : '—', top ? (top.count + ' trades · ' + top.wr + '% WR') : 'Tag setups on every trade'),
+      kpi('Profit factor (30d)', ctx.pf === Infinity ? '∞' : (ctx.pf||0).toFixed(2), 'Gross wins ÷ gross losses'),
+      kpi('Expectancy (30d)', (ctx.expectancy>=0?'+':'') + '$' + Math.round(ctx.expectancy||0), 'Per-trade average over the last 30 days')
+    ];
+  }
+  if(stage === 'yaqeen'){
+    return [
+      kpi('Profit factor (30d)', ctx.pf === Infinity ? '∞' : (ctx.pf||0).toFixed(2), 'Goal: stay above 1.4'),
+      kpi('Expectancy (30d)', (ctx.expectancy>=0?'+':'') + '$' + Math.round(ctx.expectancy||0), 'Per-trade average'),
+      kpi('Top setup', ctx.topSetup ? (ctx.topSetup.name + ' · ' + ctx.topSetup.wr + '%') : '—', ctx.topSetup ? (ctx.topSetup.count + ' trades') : 'Find your one best setup')
+    ];
+  }
+  if(stage === 'tawakkul'){
+    return [
+      kpi('Positive months in a row', ctx.positiveRun, 'Goal: ' + SIRAT_THRESHOLDS.ihsanMinMonths + '+ for Ihsan'),
+      kpi('Max drawdown', Math.round(ctx.ddPct||0) + '%', 'Stay under ' + SIRAT_THRESHOLDS.tawakkulMaxDDPct + '%'),
+      kpi('Profit factor (30d)', ctx.pf === Infinity ? '∞' : (ctx.pf||0).toFixed(2), 'Edge defense')
+    ];
+  }
+  return [
+    kpi('Positive months in a row', ctx.positiveRun, 'Maintain'),
+    kpi('Max drawdown', Math.round(ctx.ddPct||0) + '%', 'Discipline check'),
+    kpi('Top setup', ctx.topSetup ? ctx.topSetup.name : '—', 'Your proven edge')
+  ];
+}
+
+// Persist stage transitions to S.settings.sirat so the user sees their
+// journey over time. Called from renderSirat() and from the dashboard.
+function recordSiratStage(diag){
+  if(!S.settings) S.settings = {};
+  var cur = S.settings.sirat || {};
+  if(cur.currentStage === diag.stage) return; // no transition
+  cur.history = cur.history || [];
+  if(cur.currentStage){
+    // Close the previous stage entry
+    var last = cur.history[cur.history.length-1];
+    if(last && last.stage === cur.currentStage && !last.exitedAt){
+      last.exitedAt = new Date().toISOString();
+    }
+  }
+  cur.currentStage = diag.stage;
+  cur.enteredAt = new Date().toISOString();
+  cur.history.push({ stage: diag.stage, enteredAt: cur.enteredAt });
+  S.settings.sirat = cur;
+  sv('settings', S.settings);
+}
+
+function renderSirat(){
+  var host = el('sirat-content'); if(!host) return;
+  // Premium gate
+  if(!isSirat()){
+    host.innerHTML = _siratUpsell();
+    return;
+  }
+  var diag = computeUserStage(S);
+  recordSiratStage(diag);
+
+  var stageInfo = SIRAT_STAGES[diag.stage] || SIRAT_STAGES.tahaarah;
+  var stageNum = stageInfo.order;
+  var grad = diag.graduation || {};
+  var pct = grad.target ? Math.min(100, Math.round(grad.progress / grad.target * 100)) : 100;
+
+  var html = '';
+
+  // ── Stage banner ────────────────────────────────────────────────────────
+  html += '<div style="background:linear-gradient(160deg,#1e1b12 0%,#0f0d09 100%);border:1px solid rgba(218,180,98,0.28);border-radius:20px;padding:32px 32px;margin-bottom:18px;position:relative;overflow:hidden;">';
+  html += '<div style="position:absolute;top:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);"></div>';
+  html += '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.56rem;letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;">STAGE ' + stageNum + ' OF 5</div>';
+  html += '<div style="font-family:\'Cormorant Garamond\',serif;font-size:2.7rem;font-weight:600;color:var(--ink);line-height:1.05;letter-spacing:-0.03em;">You\'re in <em style="color:var(--gold);font-style:italic;">' + esc(stageInfo.name) + '</em>.</div>';
+  html += '<div style="font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:1.05rem;color:var(--ink-3);margin-top:4px;margin-bottom:18px;">' + esc(stageInfo.sub) + '</div>';
+  html += '<div style="font-size:0.92rem;color:var(--ink-2);line-height:1.7;max-width:680px;">' + esc(diag.reasoning) + '</div>';
+  html += '</div>';
+
+  // ── This week's focus ───────────────────────────────────────────────────
+  if(diag.focusThisWeek){
+    html += '<div style="background:linear-gradient(135deg,rgba(218,180,98,0.08),transparent);border:1px solid rgba(218,180,98,0.22);border-radius:16px;padding:22px 24px;margin-bottom:18px;">';
+    html += '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.54rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;">THIS WEEK\'S FOCUS</div>';
+    html += '<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.35rem;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:6px;">' + esc(diag.focusThisWeek.title) + '</div>';
+    html += '<div style="font-size:0.86rem;color:var(--ink-2);line-height:1.7;">' + esc(diag.focusThisWeek.body) + '</div>';
+    html += '</div>';
+  }
+
+  // ── KPI dashboard (stage-specific) ──────────────────────────────────────
+  if(diag.kpis && diag.kpis.length){
+    html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;">';
+    diag.kpis.forEach(function(k){
+      html += '<div style="background:var(--surface);border:1px solid var(--line-2);border-radius:12px;padding:18px 18px;">';
+      html += '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.18em;color:var(--ink-3);text-transform:uppercase;margin-bottom:6px;">' + esc(k.label) + '</div>';
+      html += '<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.7rem;font-weight:600;color:var(--ink);line-height:1.1;">' + esc(String(k.value)) + '</div>';
+      if(k.helper){ html += '<div style="font-size:0.72rem;color:var(--ink-4);margin-top:4px;line-height:1.45;">' + esc(k.helper) + '</div>'; }
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+
+  // ── Graduation progress ─────────────────────────────────────────────────
+  html += '<div style="background:var(--surface);border:1px solid var(--line-2);border-radius:14px;padding:22px 24px;margin-bottom:18px;">';
+  html += '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:10px;">';
+  html += '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.54rem;letter-spacing:0.18em;color:var(--ink-3);text-transform:uppercase;">' + esc(grad.label || 'Progress') + '</div>';
+  html += '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.74rem;color:var(--gold);">' + (grad.progress||0) + ' / ' + (grad.target||0) + '</div>';
+  html += '</div>';
+  html += '<div style="height:6px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;"><div style="height:100%;width:' + pct + '%;background:linear-gradient(90deg,var(--gold-deep),var(--gold-2));transition:width 0.4s;"></div></div>';
+  if(grad.copy){ html += '<div style="font-size:0.82rem;color:var(--ink-2);margin-top:12px;line-height:1.65;">' + esc(grad.copy) + '</div>'; }
+  html += '</div>';
+
+  // ── Stage history timeline ──────────────────────────────────────────────
+  var hist = (S.settings && S.settings.sirat && S.settings.sirat.history) || [];
+  if(hist.length){
+    html += '<div style="background:var(--surface);border:1px solid var(--line-2);border-radius:14px;padding:22px 24px;margin-bottom:18px;">';
+    html += '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.54rem;letter-spacing:0.18em;color:var(--ink-3);text-transform:uppercase;margin-bottom:14px;">YOUR PATH</div>';
+    html += '<div style="display:flex;flex-direction:column;gap:8px;">';
+    hist.slice().reverse().forEach(function(h, i){
+      var s = SIRAT_STAGES[h.stage] || {};
+      var d = h.enteredAt ? new Date(h.enteredAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '';
+      html += '<div style="display:flex;align-items:baseline;gap:14px;font-size:0.86rem;">';
+      html += '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.62rem;color:var(--ink-4);min-width:110px;">' + esc(d) + '</div>';
+      html += '<div style="color:' + (i===0 ? 'var(--gold)' : 'var(--ink-2)') + ';font-family:\'Cormorant Garamond\',serif;font-size:1.05rem;font-weight:' + (i===0 ? '600' : '500') + ';">' + esc(s.name || h.stage) + (i===0 ? ' <span style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;margin-left:8px;">CURRENT</span>' : '') + '</div>';
+      html += '</div>';
+    });
+    html += '</div></div>';
+  }
+
+  // ── Tools: Edge Audit + Risk-of-Ruin ───────────────────────────────────
+  html += '<div class="grid-2" style="gap:12px;margin-bottom:18px;">';
+  html += '<div class="panel"><div class="panel-head"><div class="panel-title">Edge Audit</div></div><div style="font-size:0.84rem;color:var(--ink-3);margin-bottom:14px;line-height:1.65;">A shareable monthly snapshot of where your edge actually lives: setup, time-of-day, instrument, and behavior. Auto-generated from your data.</div><button class="btn btn-gold" onclick="generateEdgeAudit()">Generate this month\'s audit</button></div>';
+  html += '<div class="panel"><div class="panel-head"><div class="panel-title">Risk-of-Ruin</div></div><div style="font-size:0.84rem;color:var(--ink-3);margin-bottom:14px;line-height:1.65;">10,000 Monte Carlo simulations using your actual win-rate and win/loss distribution. Tells you the probability of N% drawdown over the next 100 trades.</div><button class="btn btn-outline" onclick="renderRiskOfRuin()">Run simulation</button><div id="ror-result" style="margin-top:14px;"></div></div>';
+  html += '</div>';
+
+  host.innerHTML = html;
+}
+
+function _siratUpsell(){
+  return '<div style="background:linear-gradient(160deg,#1e1b12 0%,#0f0d09 100%);border:1px solid rgba(218,180,98,0.28);border-radius:20px;padding:38px 36px;text-align:left;max-width:720px;margin:0 auto;">' +
+    '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.56rem;letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;">SIRAT — NIYYAH PREMIUM</div>' +
+    '<div style="font-family:\'Cormorant Garamond\',serif;font-size:2.1rem;font-weight:600;color:var(--ink);line-height:1.1;margin-bottom:14px;">The staged path to <em style="color:var(--gold);">profitability.</em></div>' +
+    '<div style="font-size:0.92rem;color:var(--ink-2);line-height:1.75;margin-bottom:22px;">Five stages — Tahaarah, Sabr, Yaqeen, Tawakkul, Ihsan — calibrated to your actual data. Niyyah tells you exactly where you stand, what\'s blocking the next stage, and the one focus that gets you through it. Plus <strong style="color:var(--ink);">Mizan</strong> (live verdict on every trade you propose), <strong style="color:var(--ink);">Edge Audit</strong>, <strong style="color:var(--ink);">Risk-of-Ruin</strong>, <strong style="color:var(--ink);">Disaster Brake</strong>, and <strong style="color:var(--ink);">Witness Mode</strong>.</div>' +
+    '<button class="btn btn-gold btn-lg" onclick="upgradeToSirat()">Upgrade to Sirat — $38/mo</button>' +
+    '<div style="margin-top:10px;font-family:\'JetBrains Mono\',monospace;font-size:0.58rem;letter-spacing:0.14em;color:var(--ink-4);text-transform:uppercase;">or $300/yr · save $156 · 7-day refund</div>' +
+    '</div>';
+}
+
+// Re-open the paywall pre-selected to Sirat so the user can upgrade.
+function upgradeToSirat(){
+  try{ setTier('sirat'); }catch(_){}
+  var pw = el('paywall-screen'); if(pw) pw.classList.add('show');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// MIZAN — pre-trade live validator
+// ══════════════════════════════════════════════════════════════════════════
+//
+// Weighs a proposed trade against the user's own evidence in real time.
+// Pure deterministic — no AI, no external calls. Wired into the entry
+// modal as the user types.
+//
+// Returns { overall:'green'|'yellow'|'red', verdicts:[{name,signal,message}], summary }.
+
+function computeMizan(p, s){
+  var verdicts = [];
+  var add = function(name, signal, message){ verdicts.push({ name:name, signal:signal, message:message }); };
+
+  var closed = (s.trades||[]).filter(function(t){ return t.status==='closed' && !t.sample; });
+
+  // 1. Playbook match
+  var pbHit = null;
+  (s.playbook||[]).forEach(function(pb){
+    if(pb.name && p.setup && pb.name.toLowerCase() === p.setup.toLowerCase()) pbHit = pb;
+  });
+  if(p.setup){
+    if(pbHit){
+      add('Playbook', 'green', 'Setup "' + p.setup + '" is in your playbook. ✓');
+    } else {
+      add('Playbook', 'yellow', '"' + p.setup + '" isn\'t in your playbook yet. Add it or pick a known setup.');
+    }
+  }
+
+  // 2. Setup edge
+  if(p.setup){
+    var sameSetup = closed.filter(function(t){ return (t.setup||'').toLowerCase() === p.setup.toLowerCase(); });
+    if(sameSetup.length >= 5){
+      var w = sameSetup.filter(function(t){return t.pnl>0;}).length;
+      var wr = Math.round(w/sameSetup.length*100);
+      var net = sameSetup.reduce(function(a,t){return a+t.pnl;},0);
+      var exp = Math.round(net/sameSetup.length);
+      var sig = wr >= 55 ? 'green' : wr >= 40 ? 'yellow' : 'red';
+      add('Setup edge', sig, 'Your last ' + sameSetup.length + ' "' + p.setup + '" trades: ' + wr + '% WR · ' + (exp>=0?'+':'') + '$' + Math.abs(exp) + '/trade.');
+    } else if(sameSetup.length > 0){
+      add('Setup edge', 'yellow', 'Only ' + sameSetup.length + ' prior trades on "' + p.setup + '" — too few to know your edge.');
+    }
+  }
+
+  // 3. Instrument edge
+  if(p.instrument){
+    var sameInst = closed.filter(function(t){ return (t.instrument||'').toLowerCase() === p.instrument.toLowerCase(); });
+    if(sameInst.length >= 5){
+      var iw = sameInst.filter(function(t){return t.pnl>0;}).length;
+      var iwr = Math.round(iw/sameInst.length*100);
+      var inet = sameInst.reduce(function(a,t){return a+t.pnl;},0);
+      var isig = iwr >= 50 && inet > 0 ? 'green' : iwr >= 40 ? 'yellow' : 'red';
+      add('Instrument', isig, p.instrument + ': ' + sameInst.length + ' trades · ' + iwr + '% WR · net ' + (inet>=0?'+':'') + '$' + Math.abs(inet) + '.');
+    }
+  }
+
+  // 4. Time-of-day edge
+  var now = new Date();
+  var hour = now.getHours();
+  if(closed.length >= 10){
+    var sameHour = closed.filter(function(t){
+      if(!t.time) return false;
+      return Math.abs(parseInt(t.time.split(':')[0]) - hour) <= 0;
+    });
+    if(sameHour.length >= 5){
+      var hw = sameHour.filter(function(t){return t.pnl>0;}).length;
+      var hwr = Math.round(hw/sameHour.length*100);
+      var hsig = hwr >= 55 ? 'green' : hwr >= 40 ? 'yellow' : 'red';
+      add('Time of day', hsig, hour + ':00 hour · ' + sameHour.length + ' trades · ' + hwr + '% WR.');
+    }
+  }
+
+  // 5. Day-state context (post-win / post-loss)
+  var today = (function(){ var n=new Date(); return n.getFullYear()+'-'+pad(n.getMonth()+1)+'-'+pad(n.getDate()); })();
+  var yest = (function(){ var d=new Date(); d.setDate(d.getDate()-1); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); })();
+  var yestClosed = closed.filter(function(t){ return t.date === yest; });
+  var yestPnl = yestClosed.reduce(function(a,t){return a+t.pnl;},0);
+  if(yestClosed.length && closed.length >= 10){
+    var afterWin = closed.length >= 12 ? closed.filter(function(t,i,arr){
+      var prev = arr[i+1]; return prev && prev.pnl > 0;
+    }) : [];
+    var afterLoss = closed.length >= 12 ? closed.filter(function(t,i,arr){
+      var prev = arr[i+1]; return prev && prev.pnl < 0;
+    }) : [];
+    if(yestPnl > 0 && afterWin.length >= 5){
+      var awr = Math.round(afterWin.filter(function(t){return t.pnl>0;}).length / afterWin.length * 100);
+      var sig5 = awr >= 50 ? 'green' : awr >= 40 ? 'yellow' : 'red';
+      add('Day state', sig5, 'Yesterday closed +$' + Math.round(yestPnl) + '. Your post-win trades: ' + awr + '% WR — kibr guard.');
+    } else if(yestPnl < 0 && afterLoss.length >= 5){
+      var lwr = Math.round(afterLoss.filter(function(t){return t.pnl>0;}).length / afterLoss.length * 100);
+      var sig5b = lwr >= 50 ? 'green' : lwr >= 40 ? 'yellow' : 'red';
+      add('Day state', sig5b, 'Yesterday closed -$' + Math.round(Math.abs(yestPnl)) + '. Your post-loss trades: ' + lwr + '% WR — revenge guard.');
+    }
+  }
+
+  // 6. Sirat focus alignment
+  var sirat = s.settings && s.settings.sirat;
+  if(sirat && sirat.currentStage === 'sabr' && p.setup){
+    // Sabr stage: focus is on one chosen top setup. If we have a top
+    // setup and the proposed trade isn't it, flag.
+    var bySetup = {};
+    closed.forEach(function(t){
+      var k = (t.setup||'').trim() || '(unnamed)';
+      (bySetup[k] = bySetup[k] || []).push(t);
+    });
+    var top = null;
+    Object.keys(bySetup).forEach(function(k){
+      var ts = bySetup[k];
+      if(!top || ts.length > top.count) top = { name:k, count:ts.length };
+    });
+    if(top && top.name.toLowerCase() !== p.setup.toLowerCase()){
+      add('Sirat focus', 'red', 'Sabr stage says concentrate on "' + top.name + '" (your largest sample). This is "' + p.setup + '" — outside focus.');
+    }
+  }
+
+  // 7. Daily-limit proximity
+  var todaysClosed = closed.filter(function(t){ return t.date === today; });
+  var todayPnl = todaysClosed.reduce(function(a,t){return a+t.pnl;},0);
+  var dailyLimit = s.morning && s.morning[today] && s.morning[today].lossLimit;
+  if(dailyLimit && todayPnl < 0){
+    var loss = Math.abs(todayPnl);
+    var pctOfLimit = Math.round(loss/dailyLimit*100);
+    if(pctOfLimit >= 70){
+      add('Daily limit', 'red', 'Today: -$' + Math.round(loss) + ' (' + pctOfLimit + '% of -$' + dailyLimit + ' limit). Step away.');
+    } else if(pctOfLimit >= 40){
+      add('Daily limit', 'yellow', 'Today: -$' + Math.round(loss) + ' (' + pctOfLimit + '% of -$' + dailyLimit + ' limit).');
+    }
+  }
+
+  // 8. Consecutive loss guard
+  if(todaysClosed.length >= 2){
+    // Walk backwards through today's chronologically-last trades. We can't
+    // perfectly order without timestamps, so use array order (newest first
+    // because trades.unshift on save).
+    var streak = 0;
+    for(var i=0; i<todaysClosed.length; i++){
+      if(todaysClosed[i].pnl < 0) streak++;
+      else break;
+    }
+    if(streak >= 3){
+      add('Loss streak', 'red', streak + ' consecutive losses today. Your nafs wants the next trade. Your data says wait.');
+    } else if(streak >= 2){
+      add('Loss streak', 'yellow', streak + ' losses in a row today. Half-size or wait for an A+ setup.');
+    }
+  }
+
+  // Aggregate verdict
+  var reds = verdicts.filter(function(v){return v.signal==='red';}).length;
+  var yellows = verdicts.filter(function(v){return v.signal==='yellow';}).length;
+  var greens = verdicts.filter(function(v){return v.signal==='green';}).length;
+  var overall = reds > 0 ? 'red' : yellows > greens ? 'yellow' : greens > 0 ? 'green' : 'neutral';
+  var summary = reds > 0
+    ? (reds + ' red signal' + (reds===1?'':'s') + '. Read carefully before entering.')
+    : yellows > 0
+      ? (yellows + ' caution flag' + (yellows===1?'':'s') + '. Proceed with eyes open.')
+      : greens > 0
+        ? 'Your own data supports this trade.'
+        : 'Not enough history yet to judge.';
+
+  return { overall: overall, verdicts: verdicts, summary: summary };
+}
+
+// Build the proposed-trade object from the current entry modal form state.
+function _readProposedTradeFromModal(){
+  var dir = el('e-dir') ? el('e-dir').value : 'LONG';
+  var setupSel = el('e-setup-sel') ? el('e-setup-sel').value : '';
+  var setupTxt = el('e-setup') ? el('e-setup').value : '';
+  var time = el('e-time') ? el('e-time').value : '';
+  return {
+    instrument: (el('e-inst') ? el('e-inst').value : '').toUpperCase().trim(),
+    direction: dir,
+    setup: (setupSel || setupTxt || '').trim(),
+    entry: el('e-entry') ? el('e-entry').value : '',
+    stop: el('e-stop') ? el('e-stop').value : '',
+    target: el('e-target') ? el('e-target').value : '',
+    time: time,
+    emotion: S.selEmotion || ''
+  };
+}
+
+var _mizanTimer = null;
+function refreshMizan(){
+  var panel = el('mizan-panel'); if(!panel) return;
+  if(!isSirat()){ panel.style.display = 'none'; panel.innerHTML = ''; return; }
+  // Debounce — typing in a price field would otherwise re-render on every keystroke
+  if(_mizanTimer) clearTimeout(_mizanTimer);
+  _mizanTimer = setTimeout(_doRenderMizan, 120);
+}
+
+function _doRenderMizan(){
+  var panel = el('mizan-panel'); if(!panel) return;
+  var proposed = _readProposedTradeFromModal();
+  if(!proposed.instrument && !proposed.setup){
+    panel.style.display = 'none'; panel.innerHTML = '';
+    return;
+  }
+  panel.style.display = '';
+  var r = computeMizan(proposed, S);
+  var ringColor = r.overall==='red' ? 'var(--red)' : r.overall==='yellow' ? 'var(--gold)' : r.overall==='green' ? 'var(--green)' : 'var(--ink-3)';
+  var ringText = r.overall.toUpperCase();
+  var html = '<div style="border:1px solid rgba(218,180,98,0.22);border-radius:14px;padding:16px 18px;background:linear-gradient(160deg,#1a1810 0%,#0e0c08 100%);">';
+  html += '<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap;">';
+  html += '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.54rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;">MIZAN · LIVE VERDICT</div>';
+  html += '<div style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:rgba(0,0,0,0.4);border:1px solid ' + ringColor + ';color:' + ringColor + ';font-family:\'JetBrains Mono\',monospace;font-size:0.62rem;letter-spacing:0.16em;font-weight:600;"><span style="width:6px;height:6px;border-radius:50%;background:' + ringColor + ';"></span>' + ringText + '</div>';
+  html += '</div>';
+  html += '<div style="font-size:0.86rem;color:var(--ink-2);line-height:1.6;margin-bottom:10px;">' + esc(r.summary) + '</div>';
+  if(r.verdicts.length){
+    html += '<div style="display:flex;flex-direction:column;gap:6px;">';
+    r.verdicts.forEach(function(v){
+      var c = v.signal==='red' ? 'var(--red)' : v.signal==='yellow' ? 'var(--gold)' : 'var(--green)';
+      html += '<div style="display:flex;align-items:flex-start;gap:10px;font-size:0.8rem;color:var(--ink-2);line-height:1.5;">';
+      html += '<div style="width:5px;height:5px;border-radius:50%;background:' + c + ';margin-top:7px;flex-shrink:0;"></div>';
+      html += '<div><strong style="color:var(--ink);">' + esc(v.name) + '</strong> — ' + esc(v.message) + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+  html += '<div style="margin-top:10px;font-size:0.68rem;color:var(--ink-4);font-style:italic;">Mizan never blocks — it weighs. Final say is yours.</div>';
+  html += '</div>';
+  panel.innerHTML = html;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// RISK-OF-RUIN — Monte Carlo against the user's actual trade distribution
+// ══════════════════════════════════════════════════════════════════════════
+function renderRiskOfRuin(){
+  var host = el('ror-result'); if(!host) return;
+  var closed = (S.trades||[]).filter(function(t){return t.status==='closed' && !t.sample;});
+  if(closed.length < 20){
+    host.innerHTML = '<div style="font-size:0.82rem;color:var(--ink-4);background:var(--surface-2);border:1px solid var(--line-2);border-radius:10px;padding:14px 16px;line-height:1.6;">Risk-of-Ruin needs at least 20 closed trades to simulate against. You have ' + closed.length + '. Keep logging.</div>';
+    return;
+  }
+  host.innerHTML = '<div style="font-size:0.82rem;color:var(--ink-3);">Running 10,000 simulations…</div>';
+  // Run async so the UI doesn't freeze on slower devices.
+  setTimeout(function(){
+    var pnls = closed.map(function(t){return t.pnl||0;});
+    var SIMS = 10000;
+    var STEPS = 100;
+    var ddBuckets = { p50:0, p75:0, p95:0, ruin:0 };
+    var ddSamples = [];
+    for(var s=0; s<SIMS; s++){
+      var eq = 0, peak = 0, mdd = 0;
+      for(var i=0; i<STEPS; i++){
+        eq += pnls[Math.floor(Math.random()*pnls.length)];
+        if(eq > peak) peak = eq;
+        var dd = peak - eq;
+        if(dd > mdd) mdd = dd;
+      }
+      ddSamples.push(mdd);
+      if(eq <= -Math.max(peak, 1000)) ddBuckets.ruin++;
+    }
+    ddSamples.sort(function(a,b){return a-b;});
+    ddBuckets.p50 = ddSamples[Math.floor(SIMS*0.5)];
+    ddBuckets.p75 = ddSamples[Math.floor(SIMS*0.75)];
+    ddBuckets.p95 = ddSamples[Math.floor(SIMS*0.95)];
+    var ruinPct = (ddBuckets.ruin / SIMS * 100).toFixed(1);
+    host.innerHTML =
+      '<div style="background:var(--surface-2);border:1px solid var(--line-2);border-radius:12px;padding:16px 18px;">' +
+        '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;">' +
+          '<div><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.16em;color:var(--ink-3);text-transform:uppercase;">Median DD</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:1.5rem;font-weight:600;color:var(--ink);line-height:1.1;">-$' + Math.round(ddBuckets.p50) + '</div></div>' +
+          '<div><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.16em;color:var(--ink-3);text-transform:uppercase;">75th %ile</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:1.5rem;font-weight:600;color:var(--gold);line-height:1.1;">-$' + Math.round(ddBuckets.p75) + '</div></div>' +
+          '<div><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.16em;color:var(--ink-3);text-transform:uppercase;">95th %ile</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:1.5rem;font-weight:600;color:var(--red);line-height:1.1;">-$' + Math.round(ddBuckets.p95) + '</div></div>' +
+        '</div>' +
+        '<div style="font-size:0.78rem;color:var(--ink-3);line-height:1.65;">' +
+          'Across 10,000 simulations of your next 100 trades (resampled from your real win/loss distribution), the median worst drawdown is <strong style="color:var(--ink);">-$' + Math.round(ddBuckets.p50) + '</strong>. There\'s a 5% chance it exceeds <strong style="color:var(--red);">-$' + Math.round(ddBuckets.p95) + '</strong>. Plan around the 95th percentile, not the median.' +
+        '</div>' +
+      '</div>';
+  }, 40);
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// EDGE AUDIT — auto-generated shareable monthly report
+// ══════════════════════════════════════════════════════════════════════════
+function generateEdgeAudit(){
+  if(!isSirat()){ toast('Sirat-only feature','e'); return; }
+  var closed = (S.trades||[]).filter(function(t){return t.status==='closed' && !t.sample;});
+  if(closed.length < 5){ toast('Need at least 5 closed trades for an audit','e'); return; }
+  toast('Rendering audit…','i');
+  var ensureLib = window.htmlToImage
+    ? Promise.resolve(window.htmlToImage)
+    : new Promise(function(resolve, reject){
+        var sc = document.createElement('script');
+        sc.src = 'https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js';
+        sc.onload = function(){ resolve(window.htmlToImage); };
+        sc.onerror = reject;
+        document.head.appendChild(sc);
+      });
+
+  // Build the poster
+  var month = new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'});
+  var monthKey = (new Date()).toISOString().slice(0,7);
+  var monthly = closed.filter(function(t){ return (t.date||'').slice(0,7) === monthKey; });
+  if(!monthly.length) monthly = closed.slice(0, 30); // fallback so the poster always has content
+  var wins = monthly.filter(function(t){return t.pnl>0;});
+  var pnl = monthly.reduce(function(a,t){return a+t.pnl;},0);
+  var wr = monthly.length ? Math.round(wins.length/monthly.length*100) : 0;
+
+  // Aggregate by setup
+  var bySetup = {};
+  monthly.forEach(function(t){
+    var k = (t.setup||'(no setup)').trim();
+    if(!bySetup[k]) bySetup[k] = { n:0, w:0, pnl:0 };
+    bySetup[k].n++; bySetup[k].pnl += t.pnl||0; if((t.pnl||0)>0) bySetup[k].w++;
+  });
+  var setupRows = Object.keys(bySetup).map(function(k){
+    var d = bySetup[k];
+    return { name:k, n:d.n, wr: Math.round(d.w/d.n*100), pnl:d.pnl };
+  }).sort(function(a,b){return b.pnl-a.pnl;}).slice(0,5);
+
+  // Time-of-day aggregate
+  var byHour = {};
+  monthly.forEach(function(t){
+    if(!t.time) return;
+    var h = parseInt(t.time.split(':')[0],10);
+    if(isNaN(h)) return;
+    if(!byHour[h]) byHour[h] = { n:0, w:0, pnl:0 };
+    byHour[h].n++; byHour[h].pnl += t.pnl||0; if((t.pnl||0)>0) byHour[h].w++;
+  });
+  var bestHour = null, worstHour = null;
+  Object.keys(byHour).forEach(function(h){
+    var d = byHour[h];
+    if(d.n < 2) return;
+    if(!bestHour || d.pnl > bestHour.pnl) bestHour = { h:h, pnl:d.pnl, wr:Math.round(d.w/d.n*100), n:d.n };
+    if(!worstHour || d.pnl < worstHour.pnl) worstHour = { h:h, pnl:d.pnl, wr:Math.round(d.w/d.n*100), n:d.n };
+  });
+
+  // Behavioral
+  var calmWins = monthly.filter(function(t){return ['calm','patient','focused'].indexOf(t.emotion||'')>-1 && t.pnl>0;}).length;
+  var emotionalLosses = monthly.filter(function(t){return ['fomo','revenge','urgency','anxious','overconf'].indexOf(t.emotion||'')>-1 && t.pnl<0;}).length;
+
+  var diag = computeUserStage(S);
+  var focusNext = diag.focusThisWeek;
+
+  var poster = document.createElement('div');
+  poster.style.cssText = 'position:fixed;left:-9999px;top:0;width:1080px;padding:80px 70px;background:linear-gradient(160deg,#1e1b12 0%,#0a0906 100%);color:#f2ead6;font-family:Inter,sans-serif;';
+  var html = '';
+  html += '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.9rem;letter-spacing:0.3em;color:#dab462;text-transform:uppercase;margin-bottom:8px;">☽ Niyyah · Edge Audit</div>';
+  html += '<div style="font-family:\'Cormorant Garamond\',serif;font-size:3.4rem;font-weight:600;color:#f2ead6;line-height:1.05;letter-spacing:-0.02em;margin-bottom:6px;">' + esc(month) + '</div>';
+  html += '<div style="font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:1.2rem;color:#beb29a;margin-bottom:30px;">' + monthly.length + ' trades · ' + wr + '% win rate · ' + (pnl>=0?'+':'') + '$' + Math.round(Math.abs(pnl)) + ' net</div>';
+
+  html += '<div style="margin-bottom:26px;"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;letter-spacing:0.22em;color:#dab462;text-transform:uppercase;margin-bottom:10px;">SETUP EDGE</div>';
+  setupRows.forEach(function(r){
+    html += '<div style="display:flex;justify-content:space-between;font-size:1.05rem;padding:8px 0;border-bottom:1px solid rgba(218,180,98,0.08);"><span style="color:#f2ead6;font-weight:500;">' + esc(r.name) + '</span><span style="color:#beb29a;">' + r.n + ' trades · ' + r.wr + '% WR · <strong style="color:' + (r.pnl>=0?'#6cb088':'#d28282') + ';">' + (r.pnl>=0?'+':'-') + '$' + Math.round(Math.abs(r.pnl)) + '</strong></span></div>';
+  });
+  html += '</div>';
+
+  if(bestHour && worstHour){
+    html += '<div style="margin-bottom:26px;"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;letter-spacing:0.22em;color:#dab462;text-transform:uppercase;margin-bottom:10px;">TIME OF DAY</div>';
+    html += '<div style="font-size:1.05rem;color:#f2ead6;line-height:1.7;">Best: <strong>' + bestHour.h + ':00–' + (bestHour.h+1) + ':00</strong> · ' + bestHour.wr + '% WR · <span style="color:#6cb088;">+$' + Math.round(bestHour.pnl) + '</span><br>Worst: <strong>' + worstHour.h + ':00–' + (worstHour.h+1) + ':00</strong> · ' + worstHour.wr + '% WR · <span style="color:#d28282;">-$' + Math.round(Math.abs(worstHour.pnl)) + '</span></div></div>';
+  }
+
+  html += '<div style="margin-bottom:26px;"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;letter-spacing:0.22em;color:#dab462;text-transform:uppercase;margin-bottom:10px;">BEHAVIOR</div>';
+  html += '<div style="font-size:1.05rem;color:#f2ead6;line-height:1.7;">Calm-state wins: <strong>' + calmWins + '</strong> · Emotional losses: <strong style="color:#d28282;">' + emotionalLosses + '</strong></div></div>';
+
+  if(focusNext){
+    html += '<div style="margin-top:30px;padding:24px 26px;background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.2);border-radius:14px;"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;letter-spacing:0.22em;color:#dab462;text-transform:uppercase;margin-bottom:10px;">NEXT MONTH\'S FOCUS</div>';
+    html += '<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.5rem;font-weight:600;color:#f2ead6;line-height:1.3;margin-bottom:6px;">' + esc(focusNext.title) + '</div>';
+    html += '<div style="font-size:1rem;color:#beb29a;line-height:1.65;">' + esc(focusNext.body) + '</div></div>';
+  }
+
+  html += '<div style="margin-top:42px;padding-top:22px;border-top:1px solid rgba(218,180,98,0.18);font-family:\'JetBrains Mono\',monospace;font-size:0.78rem;color:#8a7e67;letter-spacing:0.18em;text-transform:uppercase;text-align:center;">niyyahtrader.app · trade with intention</div>';
+  poster.innerHTML = html;
+  document.body.appendChild(poster);
+
+  ensureLib.then(function(lib){
+    return lib.toPng(poster, { pixelRatio: 1, width: 1080, height: poster.scrollHeight });
+  }).then(function(dataUrl){
+    document.body.removeChild(poster);
+    var a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = 'niyyah-edge-audit-' + monthKey + '.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    toast('✓ Saved edge-audit-' + monthKey + '.png','s');
+  }).catch(function(err){
+    try{ document.body.removeChild(poster); }catch(_){}
+    toast('Could not render image: ' + (err && err.message || 'load failed'),'e');
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// DISASTER BRAKE — opt-in lockout when you're about to tilt
+// ══════════════════════════════════════════════════════════════════════════
+function siratLockUntil(){
+  return (S.settings && S.settings.sirat && S.settings.sirat.lockUntil) || 0;
+}
+function isSiratLocked(){
+  return siratLockUntil() > Date.now();
+}
+function openDisasterBrake(){
+  if(!isSirat()){ upgradeToSirat(); return; }
+  var html = '<div style="background:linear-gradient(160deg,#1e1810 0%,#0e0c08 100%);border:1px solid rgba(210,130,130,0.32);border-radius:18px;padding:28px 26px;max-width:440px;width:100%;">';
+  html += '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.55rem;letter-spacing:0.22em;color:var(--red);text-transform:uppercase;margin-bottom:8px;">DISASTER BRAKE</div>';
+  html += '<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.6rem;font-weight:600;color:var(--ink);line-height:1.25;margin-bottom:14px;">Stop yourself. <em style="color:var(--red);">Now.</em></div>';
+  html += '<div style="font-size:0.85rem;color:var(--ink-2);line-height:1.7;margin-bottom:16px;">Trade entry will be locked until the duration you pick is up. You\'ll need to write one line about what triggered this before unlocking.</div>';
+  html += '<label style="display:block;font-family:\'JetBrains Mono\',monospace;font-size:0.54rem;letter-spacing:0.16em;color:var(--ink-3);text-transform:uppercase;margin-bottom:6px;">LOCK FOR</label>';
+  html += '<select id="db-duration" style="width:100%;background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:10px 12px;color:var(--ink);font-family:Inter,sans-serif;font-size:0.86rem;margin-bottom:14px;">';
+  html += '<option value="3600">1 hour</option>';
+  html += '<option value="14400">4 hours</option>';
+  html += '<option value="86400" selected>Until tomorrow (24h)</option>';
+  html += '<option value="604800">Until next week (7 days)</option>';
+  html += '</select>';
+  html += '<label style="display:block;font-family:\'JetBrains Mono\',monospace;font-size:0.54rem;letter-spacing:0.16em;color:var(--ink-3);text-transform:uppercase;margin-bottom:6px;">WHAT TRIGGERED THIS? (REQUIRED)</label>';
+  html += '<textarea id="db-reason" rows="3" placeholder="One sentence is enough. Be honest." style="width:100%;background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:10px 12px;color:var(--ink);font-family:Inter,sans-serif;font-size:0.86rem;margin-bottom:18px;resize:vertical;"></textarea>';
+  html += '<div style="display:flex;gap:8px;justify-content:flex-end;">';
+  html += '<button class="btn btn-outline" onclick="closeDisasterBrake()">Cancel</button>';
+  html += '<button class="btn btn-danger" onclick="engageDisasterBrake()">Engage brake</button>';
+  html += '</div></div>';
+  var overlay = el('db-overlay');
+  if(!overlay){
+    overlay = document.createElement('div');
+    overlay.id = 'db-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:9100;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.78);backdrop-filter:blur(8px);padding:24px;';
+    overlay.onclick = function(e){ if(e.target===overlay) closeDisasterBrake(); };
+    document.body.appendChild(overlay);
+  }
+  overlay.innerHTML = html;
+  overlay.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeDisasterBrake(){
+  var overlay = el('db-overlay'); if(overlay){ overlay.style.display = 'none'; overlay.innerHTML=''; }
+  document.body.style.overflow = '';
+}
+function engageDisasterBrake(){
+  var dur = parseInt(el('db-duration') && el('db-duration').value || '86400', 10);
+  var reason = (el('db-reason') && el('db-reason').value || '').trim();
+  if(reason.length < 8){ toast('Write at least one honest line first','e'); return; }
+  var until = Date.now() + dur*1000;
+  if(!S.settings) S.settings = {};
+  if(!S.settings.sirat) S.settings.sirat = {};
+  S.settings.sirat.lockUntil = until;
+  S.settings.sirat.brakes = S.settings.sirat.brakes || [];
+  S.settings.sirat.brakes.push({ at: new Date().toISOString(), reason: reason, durationSec: dur });
+  sv('settings', S.settings);
+  closeDisasterBrake();
+  toast('✓ Entry locked until ' + new Date(until).toLocaleString(),'s');
+  // Refresh the dashboard / topbar so the lock badge shows immediately.
+  if(el('page-dashboard').classList.contains('active')) renderDash();
+  _refreshBrakeBadge();
+}
+function _refreshBrakeBadge(){
+  var btn = el('topbar-brake'); if(!btn) return;
+  btn.style.display = isSirat() ? '' : 'none';
+  if(isSiratLocked()){
+    btn.classList.add('locked');
+    btn.title = 'Locked until ' + new Date(siratLockUntil()).toLocaleString();
+  } else {
+    btn.classList.remove('locked');
+    btn.title = 'Disaster brake — lock yourself out';
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// WITNESS MODE — weekly summary email to a trusted person (Sirat-only)
+// ══════════════════════════════════════════════════════════════════════════
+function renderWitnessRow(){
+  var row = el('witness-row'); if(!row) return;
+  if(!isSirat()){
+    row.innerHTML = '<div style="font-size:0.78rem;color:var(--ink-4);">Available on Sirat. <a onclick="upgradeToSirat()" style="color:var(--gold);cursor:pointer;">Upgrade →</a></div>';
+    return;
+  }
+  var w = (S.settings && S.settings.witness) || null;
+  if(w && w.email){
+    row.innerHTML =
+      '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">' +
+        '<div style="flex:1;font-size:0.82rem;color:var(--ink-2);">Weekly summary going to <strong style="color:var(--gold);">' + esc(w.email) + '</strong>' + (w.label ? ' (' + esc(w.label) + ')' : '') + '. Discipline metrics only — no P&L, no trade detail.</div>' +
+        '<button class="btn btn-ghost btn-sm" onclick="clearWitness()">Disable</button>' +
+      '</div>';
+  } else {
+    row.innerHTML =
+      '<div style="display:flex;flex-direction:column;gap:8px;">' +
+        '<div style="display:grid;grid-template-columns:1.4fr 1fr;gap:8px;">' +
+          '<input type="email" id="w-email" placeholder="brother@example.com" style="background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;color:var(--ink);font-size:0.84rem;">' +
+          '<input type="text" id="w-label" placeholder="Spouse · Mentor · Brother" style="background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;color:var(--ink);font-size:0.84rem;">' +
+        '</div>' +
+        '<div style="display:flex;justify-content:flex-end;"><button class="btn btn-gold btn-sm" onclick="saveWitness()">Enable witness</button></div>' +
+      '</div>';
+  }
+}
+function saveWitness(){
+  var email = (el('w-email') && el('w-email').value || '').trim();
+  var label = (el('w-label') && el('w-label').value || '').trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ toast('Enter a valid email','e'); return; }
+  if(!S.settings) S.settings = {};
+  S.settings.witness = { email: email, label: label, since: new Date().toISOString() };
+  sv('settings', S.settings);
+  renderWitnessRow();
+  toast('✓ Witness mode on. First report goes out Sunday.','s');
+}
+function clearWitness(){
+  if(!S.settings) S.settings = {};
+  delete S.settings.witness;
+  sv('settings', S.settings);
+  renderWitnessRow();
+  toast('Witness mode off','i');
+}
+
 // ── ZAKAT ──────────────────────────────────────────────────────────────────
 // Estimate zakat due on trading wealth. Pulls realized P&L from the user's
 // own journal so the only numbers they have to provide are: hawl start date,
@@ -4855,6 +5762,7 @@ function renderSettings(){
   renderPrayerLocRow();
   renderPushToggleRow();
   renderReferralRow();
+  renderWitnessRow();
 }
 
 // ── PRAYER-LOCATION OPT-IN ────────────────────────────────────────────────
@@ -6080,6 +6988,7 @@ function init(){
     sv('sessionCount', S.sessionCount);
     sv('lastSessionAt', S.lastSessionAt);
     updateNav();
+    try{ _refreshBrakeBadge(); }catch(e){}
     try{renderDash();}catch(e){console.error('Init renderDash:',e);}
     // Hook the local scheduler on every app open — bridges from "user is
     // active" → "reminder fires later today while tab is still open."
