@@ -2529,7 +2529,19 @@ function authSubmit(){
         if(as)as.classList.add('show');
         var lg=document.getElementById('landing');
         if(lg)lg.classList.add('hide');
-        cred.user.sendEmailVerification({url: 'https://niyyah-psi.vercel.app'}).then(function(){
+        // Send the verification email. Try with a continue-URL pointing at
+        // the current origin so the user lands back on the site after
+        // clicking the email link — but only if it's an authorized domain.
+        // If Firebase rejects the URL (auth/unauthorized-continue-uri),
+        // fall back to a no-URL send so the email STILL gets delivered.
+        var verifySend = cred.user.sendEmailVerification({url: window.location.origin + '/'})
+          .catch(function(verifyErr){
+            if(verifyErr && /unauthorized-continue-uri|invalid-continue-uri/.test(verifyErr.code||'')){
+              return cred.user.sendEmailVerification(); // retry without URL
+            }
+            throw verifyErr;
+          });
+        verifySend.then(function(){
           AUTH.signOut();
           if(card)card.classList.remove('auth-loading');
           if(err){
@@ -2582,9 +2594,39 @@ function authSubmit(){
   }
 }
 
+// True on any iOS device (iPhone / iPad) or in-app browser variants — these
+// are the runtimes where signInWithPopup breaks because of ITP / third-party
+// cookie blocking. On these, we use signInWithRedirect instead.
+function _needsRedirectAuth(){
+  var ua = navigator.userAgent || '';
+  // iOS Safari / iPad: real iPad with iPadOS reports as Macintosh + has touch.
+  var iOS = /iPhone|iPod|iPad/.test(ua) ||
+            (navigator.platform === 'MacIntel' && (navigator.maxTouchPoints || 0) > 1);
+  // Common in-app browsers (Instagram, FB, X) where popups also flake out.
+  var inApp = /FBAN|FBAV|Instagram|Twitter/.test(ua);
+  return iOS || inApp;
+}
+
 function authGoogle(){
   var provider = new firebase.auth.GoogleAuthProvider();
   provider.setCustomParameters({'prompt': 'select_account'});
+
+  // On iOS Safari signInWithPopup fails with auth/internal-error because of
+  // third-party cookie blocking. Use the redirect flow instead — the result
+  // is picked up on the next page load by getRedirectResult below.
+  if(_needsRedirectAuth()){
+    try {
+      AUTH.signInWithRedirect(provider);
+    } catch(e){
+      var err = el('auth-error');
+      if(err){
+        err.style.color='var(--red)';
+        err.textContent = e.code ? friendlyAuthError(e.code) : e.message;
+      }
+    }
+    return;
+  }
+
   AUTH.signInWithPopup(provider).then(function(result){
     // If this is a brand-new signup with a pending referral code, stamp it
     // on the user doc so the backend can credit on first payment.
@@ -2601,11 +2643,32 @@ function authGoogle(){
     var err = el('auth-error');
     if(err){
       err.style.color='var(--red)';
-      // Show real error code for debugging
-      err.textContent = e.code ? e.code + ': ' + (friendlyAuthError(e.code)) : e.message;
+      err.textContent = e.code ? friendlyAuthError(e.code) : e.message;
     }
   });
 }
+
+// Handle the return from a signInWithRedirect flow. Fires once per page load
+// — if the user just came back from Google, this resolves with the user and
+// onAuthStateChanged takes over from there. If they didn't sign in via
+// redirect, result.user is null and we silently no-op.
+AUTH.getRedirectResult().then(function(result){
+  if(!result || !result.user) return;
+  var ref = window._pendingReferral;
+  var isNew = result.additionalUserInfo && result.additionalUserInfo.isNewUser;
+  if(isNew && ref){
+    DB.collection('users').doc(result.user.uid)
+      .set({ referredBy: ref }, { merge: true })
+      .catch(function(){});
+    try{ sessionStorage.removeItem('niyyah_ref'); }catch(_){}
+  }
+}).catch(function(e){
+  var err = el('auth-error');
+  if(err){
+    err.style.color='var(--red)';
+    err.textContent = e.code ? friendlyAuthError(e.code) : e.message;
+  }
+});
 
 
 // ── PASSWORD RESET ──────────────────────────────────────────────────────────
@@ -2628,16 +2691,25 @@ function authForgot(){
 
 function friendlyAuthError(code){
   var msgs = {
-    'auth/user-not-found':      'No account found with this email.',
-    'auth/wrong-password':      'Incorrect password.',
-    'auth/email-already-in-use':'This email is already registered.',
-    'auth/weak-password':       'Password must be at least 6 characters.',
-    'auth/invalid-email':       'Please enter a valid email address.',
-    'auth/too-many-requests':   'Too many attempts. Please try again later.',
-    'auth/popup-closed-by-user':'Sign-in cancelled.',
-    'auth/network-request-failed': 'Network error. Check your connection.'
+    'auth/user-not-found':           'No account found with this email.',
+    'auth/wrong-password':           'Incorrect password.',
+    'auth/invalid-credential':       'Incorrect email or password.',
+    'auth/email-already-in-use':     'This email is already registered. Try signing in instead.',
+    'auth/weak-password':            'Password must be at least 6 characters.',
+    'auth/invalid-email':            'Please enter a valid email address.',
+    'auth/too-many-requests':        'Too many attempts. Please try again in a few minutes.',
+    'auth/popup-closed-by-user':     'Sign-in cancelled.',
+    'auth/popup-blocked':            'Your browser blocked the sign-in popup. Allow popups for this site or try again.',
+    'auth/cancelled-popup-request':  'Sign-in cancelled.',
+    'auth/network-request-failed':   'Network error. Check your connection and try again.',
+    'auth/internal-error':           'Sign-in temporarily unavailable. Try email/password, or try again in a moment.',
+    'auth/account-exists-with-different-credential': 'An account with this email already exists with a different sign-in method.',
+    'auth/operation-not-allowed':    'This sign-in method is not enabled. Email support if this persists.',
+    'auth/unauthorized-domain':      'This domain is not authorized. Email support@niyyahtrader.app.',
+    'auth/user-disabled':            'This account has been disabled. Email support@niyyahtrader.app.',
+    'auth/requires-recent-login':    'For security, please sign in again to continue.'
   };
-  return msgs[code] || ('Error: ' + code);
+  return msgs[code] || ('Sign-in error (' + code + '). Try again, or use email/password.');
 }
 
 // ── STREAK ──────────────────────────────────────────────────────────────────
