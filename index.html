@@ -2059,7 +2059,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <!-- ── REFERRAL ─────────────────────────────────────────────────────── -->
   <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2);">
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">REFER A BROTHER</div>
-    <div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;margin-bottom:14px;">Share Niyyah with another Muslim trader. When they subscribe with your link, you both get 1 month free. <em>(Credit applies after their first successful payment — runs on a Cloud Function that you'll deploy from <code>functions/redeemReferral.js</code>.)</em></div>
+    <div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;margin-bottom:14px;">Share Niyyah with another Muslim trader. When they subscribe with your link, you both get 1 month free — credit posts after their first successful payment.</div>
     <div id="referral-row"></div>
   </div>
 
@@ -2370,6 +2370,17 @@ var AUTH      = firebase.auth();
 var DB        = firebase.firestore();
 var FUNCTIONS = firebase.functions();
 var UID       = null;
+
+// Flip each flag to true once the corresponding Cloud Function is deployed
+// and its config is set. While a flag is false, the UI surfaces a clear
+// "Coming soon" state instead of letting users opt into a feature whose
+// backend is silently inert. See functions/{dailyNudge,redeemReferral,
+// sendWitnessReport}.js for their deploy steps.
+var BACKEND_FLAGS = {
+  push:     false, // sendDailyNudge deployed AND PUSH_VAPID_PUBLIC set below
+  referral: false, // creditReferral deployed AND wired into stripeWebhook
+  witness:  false  // sendWitnessReport deployed AND email provider configured
+};
 
 // Offline persistence + multi-tab sync. Writes queue locally if offline and
 // replay on reconnect; remote changes from another tab/device propagate live.
@@ -5701,21 +5712,26 @@ function renderWitnessRow(){
     row.innerHTML = '<div style="font-size:0.78rem;color:var(--ink-4);">Available on Sirat. <a onclick="upgradeToSirat()" style="color:var(--gold);cursor:pointer;">Upgrade →</a></div>';
     return;
   }
+  var live = !!BACKEND_FLAGS.witness;
+  var comingSoon = live ? '' :
+    '<div style="font-size:0.74rem;color:var(--gold);background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.18);border-radius:8px;padding:9px 12px;margin-bottom:10px;line-height:1.55;">' +
+      '<strong style="letter-spacing:0.04em;">Coming soon.</strong> The weekly report backend isn\'t live yet — you can set your witness now, but the first email will only go out once the backend ships. We won\'t silently fail.' +
+    '</div>';
   var w = (S.settings && S.settings.witness) || null;
   if(w && w.email){
-    row.innerHTML =
+    row.innerHTML = comingSoon +
       '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">' +
-        '<div style="flex:1;font-size:0.82rem;color:var(--ink-2);">Weekly summary going to <strong style="color:var(--gold);">' + esc(w.email) + '</strong>' + (w.label ? ' (' + esc(w.label) + ')' : '') + '. Discipline metrics only — no P&L, no trade detail.</div>' +
+        '<div style="flex:1;font-size:0.82rem;color:var(--ink-2);">' + (live?'Weekly summary going to':'Witness set to') + ' <strong style="color:var(--gold);">' + esc(w.email) + '</strong>' + (w.label ? ' (' + esc(w.label) + ')' : '') + '. Discipline metrics only — no P&L, no trade detail.</div>' +
         '<button class="btn btn-ghost btn-sm" onclick="clearWitness()">Disable</button>' +
       '</div>';
   } else {
-    row.innerHTML =
+    row.innerHTML = comingSoon +
       '<div style="display:flex;flex-direction:column;gap:8px;">' +
         '<div style="display:grid;grid-template-columns:1.4fr 1fr;gap:8px;">' +
           '<input type="email" id="w-email" placeholder="brother@example.com" style="background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;color:var(--ink);font-size:0.84rem;">' +
           '<input type="text" id="w-label" placeholder="Spouse · Mentor · Brother" style="background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;color:var(--ink);font-size:0.84rem;">' +
         '</div>' +
-        '<div style="display:flex;justify-content:flex-end;"><button class="btn btn-gold btn-sm" onclick="saveWitness()">Enable witness</button></div>' +
+        '<div style="display:flex;justify-content:flex-end;"><button class="btn btn-gold btn-sm" onclick="saveWitness()">' + (live?'Enable witness':'Save witness (no email yet)') + '</button></div>' +
       '</div>';
   }
 }
@@ -5727,7 +5743,7 @@ function saveWitness(){
   S.settings.witness = { email: email, label: label, since: new Date().toISOString() };
   sv('settings', S.settings);
   renderWitnessRow();
-  toast('✓ Witness mode on. First report goes out Sunday.','s');
+  toast(BACKEND_FLAGS.witness ? '✓ Witness mode on. First report goes out Sunday.' : '✓ Witness saved. Emails start once the backend ships.','s');
 }
 function clearWitness(){
   if(!S.settings) S.settings = {};
@@ -5920,11 +5936,16 @@ function renderPushToggleRow(){
     row.innerHTML = '<div style="font-size:0.74rem;color:var(--ink-4);">Push notifications are not supported in this browser.</div>';
     return;
   }
+  var live = !!(BACKEND_FLAGS.push && PUSH_VAPID_PUBLIC);
   var enabled = !!(S.settings && S.settings.pushSubscription);
-  row.innerHTML =
+  var comingSoon = live ? '' :
+    '<div style="font-size:0.74rem;color:var(--gold);background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.18);border-radius:8px;padding:9px 12px;margin-bottom:10px;line-height:1.55;">' +
+      '<strong style="letter-spacing:0.04em;">Coming soon.</strong> The scheduled-push backend isn\'t live yet — enabling here just saves your preference. In-tab reminders (above) work today.' +
+    '</div>';
+  row.innerHTML = comingSoon +
     '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">' +
       '<div style="flex:1;font-size:0.82rem;color:'+(enabled?'var(--ink-2)':'var(--ink-3)')+';"><strong style="color:'+(enabled?'var(--gold)':'var(--ink-3)')+';">Daily nudge</strong> — one push a day if your state needs it (streak-at-risk, post-loss reflection, weekly muhasabah). Off by default.</div>' +
-      '<button class="btn btn-'+(enabled?'outline':'gold')+' btn-sm" onclick="'+(enabled?'disablePush()':'enablePush()')+'">'+(enabled?'Disable':'Enable')+'</button>' +
+      '<button class="btn btn-'+(enabled?'outline':'gold')+' btn-sm" '+(live?'':'disabled style="opacity:0.55;cursor:not-allowed;"')+' onclick="'+(enabled?'disablePush()':'enablePush()')+'">'+(enabled?'Disable':'Enable')+'</button>' +
     '</div>';
 }
 function enablePush(){
@@ -5983,7 +6004,12 @@ function renderReferralRow(){
   }
   var code = S.settings.referralCode;
   var url = window.location.origin + '/?ref=' + code;
-  row.innerHTML =
+  var live = !!BACKEND_FLAGS.referral;
+  var comingSoon = live ? '' :
+    '<div style="font-size:0.74rem;color:var(--gold);background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.18);border-radius:8px;padding:9px 12px;margin-bottom:10px;line-height:1.55;">' +
+      '<strong style="letter-spacing:0.04em;">Coming soon.</strong> Credit-on-payment isn\'t live yet — share the link, and once the backend ships your referrals will be honoured.' +
+    '</div>';
+  row.innerHTML = comingSoon +
     '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--surface-2);border:1px solid var(--line-2);border-radius:10px;padding:12px 14px;">' +
       '<div style="flex:1;min-width:200px;"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.56rem;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;margin-bottom:5px;">YOUR REFERRAL LINK</div><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.74rem;color:var(--ink);word-break:break-all;line-height:1.5;">'+esc(url)+'</div></div>' +
       '<button class="btn btn-gold btn-sm" onclick="copyReferralLink()">Copy link</button>' +
