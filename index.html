@@ -2405,6 +2405,8 @@ function showAuth(mode){
   var landing=el('landing');if(landing)landing.classList.add('hide');
   authMode=mode||'signin';
   if(as) as.classList.add('show');
+  // Clear any stale error from a previous attempt or a failed redirect result.
+  var err=el('auth-error');if(err&&!wasOnAuth){err.textContent='';err.style.color='';}
   var ph=el('auth-pw-hint');
   if(mode==='signup'){
     var lbl=el('auth-mode-label'),btn=el('auth-submit-btn'),sw=el('auth-switch'),nw=el('auth-name-wrap');
@@ -2479,6 +2481,7 @@ function scrollToFeatures(){
 
 var authMode = 'signin';
 var _verificationMode = false; // true while showing 'check your email' message
+var _redirectAuthFailed = false; // true when getRedirectResult() caught an error
 
 function authToggle(){
   authMode = authMode === 'signin' ? 'signup' : 'signin';
@@ -2674,10 +2677,19 @@ AUTH.getRedirectResult().then(function(result){
     try{ sessionStorage.removeItem('niyyah_ref'); }catch(_){}
   }
 }).catch(function(e){
+  // A redirect sign-in was attempted but failed (e.g. ITP cleared state).
+  // Surface the auth screen so the user can see the error and retry.
+  // The flag prevents onAuthStateChanged(null) from hiding it again if
+  // it fires after this catch (race condition between init order).
+  _redirectAuthFailed = true;
+  var landing = el('landing');
+  if(landing) landing.classList.add('hide');
+  var as = el('auth-screen');
+  if(as) as.classList.add('show');
   var err = el('auth-error');
   if(err){
     err.style.color='var(--red)';
-    err.textContent = e.code ? friendlyAuthError(e.code) : e.message;
+    err.textContent = 'Google sign-in didn't complete — please try again, or use email and password.';
   }
 });
 
@@ -3049,6 +3061,13 @@ AUTH.onAuthStateChanged(function(user){
     if(_verificationMode){
       // Just sent verification email — stay on auth screen, don't go to landing
       _verificationMode = false;
+      if(authScreen) authScreen.classList.add('show');
+      return;
+    }
+    if(_redirectAuthFailed){
+      // getRedirectResult() already showed the auth screen with an error.
+      // Don't let this null-user event hide it again.
+      _redirectAuthFailed = false;
       if(authScreen) authScreen.classList.add('show');
       return;
     }
