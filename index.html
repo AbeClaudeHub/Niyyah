@@ -2608,17 +2608,12 @@ function authSubmit(){
   }
 }
 
-// True on any iOS device (iPhone / iPad) or in-app browser variants — these
-// are the runtimes where signInWithPopup breaks because of ITP / third-party
-// cookie blocking. On these, we use signInWithRedirect instead.
+// True only for in-app browsers where window.open() is blocked entirely.
+// Regular iOS Safari handles signInWithPopup via postMessage (not cookies),
+// so ITP is not an issue there — only use redirect for apps that block popups.
 function _needsRedirectAuth(){
   var ua = navigator.userAgent || '';
-  // iOS Safari / iPad: real iPad with iPadOS reports as Macintosh + has touch.
-  var iOS = /iPhone|iPod|iPad/.test(ua) ||
-            (navigator.platform === 'MacIntel' && (navigator.maxTouchPoints || 0) > 1);
-  // Common in-app browsers (Instagram, FB, X) where popups also flake out.
-  var inApp = /FBAN|FBAV|Instagram|Twitter/.test(ua);
-  return iOS || inApp;
+  return /FBAN|FBAV|Instagram|Twitter/.test(ua);
 }
 
 function authGoogle(){
