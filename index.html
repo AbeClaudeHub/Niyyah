@@ -2677,19 +2677,12 @@ AUTH.getRedirectResult().then(function(result){
     try{ sessionStorage.removeItem('niyyah_ref'); }catch(_){}
   }
 }).catch(function(e){
-  // A redirect sign-in was attempted but failed (e.g. ITP cleared state).
-  // Surface the auth screen so the user can see the error and retry.
-  // The flag prevents onAuthStateChanged(null) from hiding it again if
-  // it fires after this catch (race condition between init order).
   _redirectAuthFailed = true;
-  var landing = el('landing');
-  if(landing) landing.classList.add('hide');
-  var as = el('auth-screen');
-  if(as) as.classList.add('show');
+  showAuth('signin');
   var err = el('auth-error');
   if(err){
     err.style.color='var(--red)';
-    err.textContent = 'Google sign-in didn't complete — please try again, or use email and password.';
+    err.textContent = "Google sign-in didn’t complete — please try again, or use email and password.";
   }
 });
 
