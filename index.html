@@ -2413,6 +2413,24 @@ var BACKEND_FLAGS = {
 window._DEMO = false;
 function isDemo(){ return !!window._DEMO; }
 
+// Test-access bypass: real auth + real Firestore writes, no payment required.
+// Two paths:
+//   1. Preview hostname (Vercel preview URL, Firebase hosting preview, or
+//      localhost). Production domain (niyyahtrader.app) is NEVER bypassed.
+//   2. Email allowlist — add an address to TEST_EMAILS and that account
+//      skips the paywall even on production. Useful for trusted testers /
+//      yourself when you want to dogfood the prod build without paying.
+// Unlocks Sirat tier so every premium feature is testable.
+var TEST_EMAILS = []; // e.g. ['you@example.com'] — keep this list tiny.
+function _isTestEnvironment(){
+  var h = (window.location.hostname || '').toLowerCase();
+  if(h === 'localhost' || h === '127.0.0.1') return true;
+  if(/\.vercel\.app$/.test(h)) return true;
+  if(/\.web\.app$/.test(h) || /\.firebaseapp\.com$/.test(h)) return true;
+  var email = (AUTH.currentUser && AUTH.currentUser.email || '').toLowerCase();
+  return !!(email && TEST_EMAILS.indexOf(email) >= 0);
+}
+
 // Offline persistence + multi-tab sync. Writes queue locally if offline and
 // replay on reconnect; remote changes from another tab/device propagate live.
 try {
@@ -2878,11 +2896,23 @@ function isSirat(){ return !!(S && S._sub && S._sub.status === 'active' && S._su
 function checkSubscription(){
   var pw = el('paywall-screen');
   var sb = el('sub-status-bar');
+  // Test-access bypass — preview hostnames or allowlisted emails skip the
+  // paywall entirely and get Sirat-tier access. Real Firestore writes still
+  // happen; only the payment gate is lifted. See _isTestEnvironment().
+  var testBypass = _isTestEnvironment();
   DB.collection('users').doc(UID).get().then(function(doc){
     var data = doc.exists ? doc.data() : {};
     var sub  = data.subscription || {};
     var status = sub.status;
     var onboarded = data.onboarded === true;
+    if(testBypass && status !== 'active'){
+      S._sub = { status: 'active', tier: 'sirat' };
+      window._TEST_BYPASS = true;
+      if(pw) pw.classList.remove('show');
+      init();
+      if(!onboarded) setTimeout(showOB, 600);
+      return;
+    }
     // Cache subscription state for client-side gates (Sirat features).
     S._sub = { status: status || null, tier: sub.tier || 'base' };
     if(status === 'active'){
@@ -7329,7 +7359,11 @@ function init(){
     var user=AUTH.currentUser;
     if(S.settings.name){setText('sf-av',S.settings.name[0].toUpperCase());setText('sf-name',S.settings.name);}
     else if(user&&user.displayName){setText('sf-av',user.displayName[0].toUpperCase());setText('sf-name',user.displayName);}
-    if(user&&user.email){setText('sf-plan-label',user.email);}
+    if(user&&user.email){
+      var planText = user.email;
+      if(window._TEST_BYPASS) planText = '⚡ Preview · paywall bypassed';
+      setText('sf-plan-label', planText);
+    }
     if(S.openTradeId){var found=S.trades.find(function(t){return t.id===S.openTradeId&&t.status==='open';});if(!found){S.openTradeId=null;sv('openTradeId',null);}}
     // Increment session counter — drives PWA-install nudge timing
     S.sessionCount = (S.sessionCount||0) + 1;
