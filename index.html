@@ -1657,6 +1657,11 @@ body:not(.legal-visitor) .legal-back{display:none;}
       </div>
     </div>
 
+    <!-- PRAYER × PERFORMANCE — the headline version of the Analytics prayer
+         radar, promoted to the dashboard. The single most defensible insight
+         in the product, surfaced daily instead of buried. -->
+    <div id="prayer-edge-wrap"></div>
+
     <!-- MORNING INTENTION (only renders in the AM window — see renderDash).
          Paired with salah so the morning ritual is one contiguous block. -->
     <div class="today-intention" id="today-intention-card">
@@ -1671,6 +1676,12 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <!-- SINGLE BEHAVIORAL INSIGHT. Sits with daily mission as the "what to
          pay attention to today" pair. -->
     <div id="today-insight-wrap"></div>
+
+    <!-- NAFS PULSE — the missing output for the input the journal page
+         captures. Hero promises "nafs tracking"; this card is what the
+         user sees back. Averages + week-over-week deltas for sabr,
+         tawakkul, kibr, shukr, with a one-line takeaway. -->
+    <div id="nafs-pulse-wrap"></div>
 
     <!-- MUHASABAH (only shows in evening with trades) -->
     <div id="muhasabah-wrap"></div>
@@ -4587,6 +4598,119 @@ function calcDeenScore(){
 }
 
 // ── DASHBOARD ──────────────────────────────────────────────────────────────
+// Prayer × performance — the dashboard headline of the Analytics radar.
+// Compares win rate on full-prayer days vs partial-prayer days. This is the
+// product's single most defensible claim; it belongs on the daily surface,
+// not buried in analytics. Hidden until there's enough signal to be honest
+// (5+ closed trades, 3+ prayer days, and trades on both kinds of day).
+function renderPrayerEdge(){
+  var wrap=el('prayer-edge-wrap'); if(!wrap) return;
+  var closed=S.trades.filter(function(t){return t.status==='closed' && !t.sample;});
+  var prayerDays=Object.keys(S.dailyPrayers||{});
+  if(closed.length<5 || prayerDays.length<3){ wrap.innerHTML=''; return; }
+  var full={}, partial={};
+  prayerDays.forEach(function(d){
+    var p=S.dailyPrayers[d]||{};
+    var cnt=['fajr','dhuhr','asr','maghrib','isha'].filter(function(k){return p[k];}).length;
+    if(cnt===5) full[d]=true; else partial[d]=true;
+  });
+  var fullT=closed.filter(function(t){return full[t.date];});
+  var partT=closed.filter(function(t){return partial[t.date];});
+  if(fullT.length<3 || partT.length<2){ wrap.innerHTML=''; return; }
+  function wr(list){ return Math.round(list.filter(function(t){return t.pnl>0;}).length/list.length*100); }
+  function avgP(list){ return list.reduce(function(s,t){return s+t.pnl;},0)/list.length; }
+  var fW=wr(fullT), pW=wr(partT), fA=avgP(fullT), pA=avgP(partT);
+  var delta=fW-pW;
+  var takeaway;
+  if(delta>=8){
+    takeaway='You win <strong style="color:var(--gold);">'+delta+'% more</strong> on days you pray all five. That is not random — it is clarity.';
+  } else if(delta<=-8){
+    takeaway='Your sample leans the other way right now. Small data — keep logging both your prayers and your trades and let the truth settle.';
+  } else {
+    takeaway='Your edge holds steady across prayer days. Keep the foundation — consistency compounds.';
+  }
+  function col(list){ return wr(list)>=50?'var(--green)':'var(--gold-2)'; }
+  wrap.innerHTML='<div class="today-card">'+
+    '<div class="today-section-title">Prayer × Performance</div>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;">'+
+      '<div style="background:var(--surface-2);border:1px solid rgba(112,184,142,0.22);border-radius:10px;padding:12px 13px;">'+
+        '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;margin-bottom:6px;">Full-prayer days</div>'+
+        '<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.9rem;font-weight:600;color:'+col(fullT)+';line-height:1;">'+fW+'<span style="font-size:0.7rem;color:var(--ink-4);">% win</span></div>'+
+        '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.62rem;color:var(--ink-3);margin-top:5px;">'+fullT.length+' trades · avg '+fmt(fA,true)+'</div>'+
+      '</div>'+
+      '<div style="background:var(--surface-2);border:1px solid var(--line-2);border-radius:10px;padding:12px 13px;">'+
+        '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;margin-bottom:6px;">Partial-prayer days</div>'+
+        '<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.9rem;font-weight:600;color:'+col(partT)+';line-height:1;">'+pW+'<span style="font-size:0.7rem;color:var(--ink-4);">% win</span></div>'+
+        '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.62rem;color:var(--ink-3);margin-top:5px;">'+partT.length+' trades · avg '+fmt(pA,true)+'</div>'+
+      '</div>'+
+    '</div>'+
+    '<div style="font-size:0.82rem;color:var(--ink-2);margin-top:11px;padding:10px 12px;background:rgba(218,180,98,0.05);border:1px solid rgba(218,180,98,0.14);border-radius:8px;line-height:1.55;">'+takeaway+'</div>'+
+  '</div>';
+}
+
+// Nafs pulse — the output surface for the nafs ratings the journal captures.
+// Reads every journal entry's nafs object, splits into a recent window
+// (≤10 days) and a prior window (11-30 days), and shows current averages
+// with a movement arrow. Kibr is inverted — rising kibr is a warning, not
+// progress. Hidden entirely until there's at least one recent reflection.
+function renderNafsPulse(){
+  var wrap=el('nafs-pulse-wrap'); if(!wrap) return;
+  var KEYS=['sabr','tawakkul','kibr','shukr'];
+  var LABEL={sabr:'Sabr',tawakkul:'Tawakkul',kibr:'Kibr',shukr:'Shukr'};
+  var AR={sabr:'صَبْر',tawakkul:'تَوَكُّل',kibr:'كِبْر',shukr:'شُكْر'};
+  var UP_GOOD={sabr:true,tawakkul:true,kibr:false,shukr:true};
+  var now=Date.now(), recent=[], prior=[];
+  (S.journals||[]).forEach(function(j){
+    if(!j.nafs) return;
+    var t=new Date((j.date||'')+'T12:00:00').getTime();
+    if(isNaN(t)) return;
+    var days=Math.round((now-t)/86400000);
+    if(days>=0 && days<=10) recent.push(j.nafs);
+    else if(days>=11 && days<=30) prior.push(j.nafs);
+  });
+  if(!recent.length){ wrap.innerHTML=''; return; }
+  function avg(list,k){ if(!list.length) return null; return list.reduce(function(s,n){return s+(+n[k]||0);},0)/list.length; }
+  var rows=KEYS.map(function(k){ return {key:k,nowV:avg(recent,k),prevV:avg(prior,k),upGood:UP_GOOD[k]}; });
+  var cards=rows.map(function(c){
+    if(c.nowV===null) return '';
+    var delta=(c.prevV!==null)?(c.nowV-c.prevV):null;
+    var arrow='', col='var(--ink-3)';
+    if(delta!==null && Math.abs(delta)>=0.15){
+      var up=delta>0; arrow=up?'↑':'↓';
+      var good=(up&&c.upGood)||(!up&&!c.upGood);
+      col=good?'var(--green)':'var(--gold-2)';
+    } else if(delta!==null){ arrow='→'; }
+    return '<div style="background:var(--surface-2);border:1px solid var(--line-2);border-radius:10px;padding:11px 10px;text-align:center;">'+
+      '<div style="font-family:\'Cormorant Garamond\',serif;font-size:0.95rem;color:var(--gold);margin-bottom:2px;">'+AR[c.key]+'</div>'+
+      '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.46rem;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;margin-bottom:7px;">'+LABEL[c.key]+'</div>'+
+      '<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.55rem;font-weight:600;color:var(--ink);line-height:1;">'+c.nowV.toFixed(1)+'<span style="font-size:0.6rem;color:var(--ink-4);">/5</span></div>'+
+      (arrow?'<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.62rem;color:'+col+';margin-top:5px;">'+arrow+(delta!==null&&Math.abs(delta)>=0.05?' '+(delta>0?'+':'')+delta.toFixed(1):'')+'</div>':'<div style="height:13px;"></div>')+
+      '</div>';
+  }).join('');
+  // One takeaway, chosen from the strongest week-over-week movement.
+  var moved=rows.filter(function(c){return c.nowV!==null&&c.prevV!==null;})
+    .map(function(c){return Object.assign({},c,{delta:c.nowV-c.prevV});})
+    .sort(function(a,b){return Math.abs(b.delta)-Math.abs(a.delta);})[0];
+  var tagline='';
+  if(moved && Math.abs(moved.delta)>=0.4){
+    var rising=moved.delta>0;
+    var L={
+      sabr:    [ 'Your sabr is climbing. Keep waiting for the setup.', 'Your sabr is slipping — patience first, profits follow.' ],
+      tawakkul:[ 'Tawakkul rising. Stop set, target set, release.', 'Tawakkul slipping — are you managing trades or worrying them?' ],
+      kibr:    [ 'Kibr trending up — same rules, always. Watch for cocky entries after wins.', 'Kibr falling. The nafs is quieter this week — alhamdulillah.' ],
+      shukr:   [ 'Shukr rising — discipline that follows gratitude lasts.', 'Shukr slipping. End every session grateful, win or lose.' ]
+    };
+    tagline=L[moved.key][rising?0:1];
+  } else if(!prior.length && recent.length>=2){
+    tagline='Your nafs baseline is forming. Keep the weekly check — the trend is where the truth shows.';
+  }
+  wrap.innerHTML='<div class="today-card">'+
+    '<div class="today-section-title">Nafs · recent reflection</div>'+
+    '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px;">'+cards+'</div>'+
+    (tagline?'<div style="font-size:0.82rem;color:var(--ink-2);margin-top:11px;padding:10px 12px;background:rgba(218,180,98,0.05);border:1px solid rgba(218,180,98,0.14);border-radius:8px;line-height:1.55;">'+tagline+'</div>':'')+
+  '</div>';
+}
+
 function renderDash(){
   var closed=S.trades.filter(function(t){return t.status==='closed';});
   var totalPnl=closed.reduce(function(s,t){return s+t.pnl;},0);
@@ -4665,6 +4789,12 @@ function renderDash(){
 
   // ── SINGLE BEHAVIORAL INSIGHT ──────────────────────────────────────────
   renderTodayInsight();
+
+  // ── PRAYER × PERFORMANCE ───────────────────────────────────────────────
+  renderPrayerEdge();
+
+  // ── NAFS PULSE ─────────────────────────────────────────────────────────
+  renderNafsPulse();
 
   // ── MORNING INTENTION ──────────────────────────────────────────────────
   // Only meaningful in the morning, and only after the user has any trade history
