@@ -2259,19 +2259,35 @@ body:not(.legal-visitor) .legal-back{display:none;}
 </div>
 
 <div class="modal-bg" id="td-modal" onclick="if(event.target===this)closeTD()">
- <div class="modal"><div class="modal-head"><div class="modal-title" id="td-title">Trade <em>Detail</em></div><button class="modal-close" onclick="closeTD()">×</button></div><div class="modal-body" id="td-body"></div><div class="modal-foot"><button class="btn btn-outline" onclick="closeTD()">Close</button><button class="btn btn-gold btn-sm" id="td-edit-btn" onclick="editTrade(currentTDId)" style="display:none;">Edit P&amp;L</button></div></div>
+ <div class="modal"><div class="modal-head"><div class="modal-title" id="td-title">Trade <em>Detail</em></div><button class="modal-close" onclick="closeTD()">×</button></div><div class="modal-body" id="td-body"></div><div class="modal-foot"><button class="btn btn-outline" onclick="closeTD()">Close</button><button class="btn btn-danger btn-sm" id="td-delete-btn" onclick="deleteOpenTrade(currentTDId)" style="display:none;">Delete Trade</button><button class="btn btn-gold btn-sm" id="td-edit-btn" onclick="editTrade(currentTDId)" style="display:none;">Edit Trade</button></div></div>
 </div>
 
-<!-- EDIT P&L MODAL -->
+<!-- EDIT TRADE MODAL -->
 <div class="modal-bg" id="edit-pnl-modal" onclick="if(event.target===this)closeEditPnl()">
- <div class="modal" style="max-width:380px;">
-  <div class="modal-head"><div class="modal-title">Edit <em>P&amp;L</em></div><button class="modal-close" onclick="closeEditPnl()">×</button></div>
+ <div class="modal" style="max-width:480px;">
+  <div class="modal-head"><div class="modal-title">Edit <em>Trade</em></div><button class="modal-close" onclick="closeEditPnl()">×</button></div>
   <div class="modal-body">
-   <div id="edit-pnl-ref" style="background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);padding:10px 13px;margin-bottom:14px;font-size:0.82rem;color:var(--ink-2);"></div>
-   <div class="field"><label>P&amp;L ($)</label><input type="number" inputmode="decimal" id="edit-pnl-input" placeholder="225 or -120" onkeydown="if(event.key==='Enter')saveEditPnl();"></div>
-   <div style="font-size:0.7rem;color:var(--ink-4);margin-top:-4px;line-height:1.55;">Updating this will recalculate the trade's Quality score.</div>
+   <div class="field-row c2">
+    <div class="field"><label>Instrument</label><input type="text" id="edit-inst" placeholder="ES, NQ, MGC…" autocomplete="off"></div>
+    <div class="field"><label>Direction</label><select id="edit-dir"><option value="LONG">Long</option><option value="SHORT">Short</option></select></div>
+   </div>
+   <div class="field-row c2">
+    <div class="field"><label>Date</label><input type="date" id="edit-date"></div>
+    <div class="field"><label>Setup</label><input type="text" id="edit-setup" placeholder="ORB, VWAP…" autocomplete="off"></div>
+   </div>
+   <div class="field-row c3">
+    <div class="field"><label>Entry</label><input type="text" inputmode="decimal" id="edit-entry" placeholder="21,050" autocomplete="off"></div>
+    <div class="field"><label>Stop</label><input type="text" inputmode="decimal" id="edit-stop" placeholder="21,000" autocomplete="off"></div>
+    <div class="field"><label>Target</label><input type="text" inputmode="decimal" id="edit-target-edit" placeholder="21,150" autocomplete="off"></div>
+   </div>
+   <div class="field-row c2">
+    <div class="field"><label>Exit Price</label><input type="text" inputmode="decimal" id="edit-exit" placeholder="21,095" autocomplete="off"></div>
+    <div class="field"><label>P&amp;L ($)</label><input type="number" inputmode="decimal" id="edit-pnl-input" placeholder="225 or -120"></div>
+   </div>
+   <div class="field"><label>Lesson</label><textarea id="edit-lesson" rows="2" placeholder="What did this trade teach you?"></textarea></div>
+   <div style="font-size:0.7rem;color:var(--ink-4);margin-top:2px;line-height:1.55;">Changing P&amp;L recalculates the Quality Score.</div>
   </div>
-  <div class="modal-foot"><button class="btn btn-outline" onclick="closeEditPnl()">Cancel</button><button class="btn btn-gold" id="edit-pnl-save" onclick="saveEditPnl()">Save</button></div>
+  <div class="modal-foot"><button class="btn btn-outline" onclick="closeEditPnl()">Cancel</button><button class="btn btn-gold" id="edit-pnl-save" onclick="saveEditPnl()">Save Changes</button></div>
  </div>
 </div>
 
@@ -2736,18 +2752,25 @@ function friendlyAuthError(code){
 
 // ── STREAK ──────────────────────────────────────────────────────────────────
 function calcStreak(){
-  var closed=S.trades.filter(function(t){return t.status==='closed';});
-  if(!closed.length)return 0;
-  var days=[];
-  closed.forEach(function(t){if(days.indexOf(t.date)<0)days.push(t.date);});
-  days.sort().reverse();
+  // A "streak day" is any day where the user logged at least one closed trade
+  // OR tapped at least one prayer — consistent with what renderStreakRisk() promises.
+  var tradeDays={};
+  S.trades.filter(function(t){return t.status==='closed';})
+    .forEach(function(t){tradeDays[t.date]=true;});
+  var prayerDays={};
+  Object.keys(S.dailyPrayers||{}).forEach(function(d){
+    if(Object.values(S.dailyPrayers[d]).some(Boolean)) prayerDays[d]=true;
+  });
+  var allDays=Object.keys(Object.assign({},tradeDays,prayerDays));
+  if(!allDays.length)return 0;
+  allDays.sort().reverse();
   var today=localDate();
   var yest=new Date();yest.setDate(yest.getDate()-1);
   var yd=yest.getFullYear()+'-'+pad(yest.getMonth()+1)+'-'+pad(yest.getDate());
-  if(days[0]!==today&&days[0]!==yd)return 0;
+  if(allDays[0]!==today&&allDays[0]!==yd)return 0;
   var streak=1;
-  for(var i=1;i<days.length;i++){
-    var a=new Date(days[i-1]+'T12:00:00'),b=new Date(days[i]+'T12:00:00');
+  for(var i=1;i<allDays.length;i++){
+    var a=new Date(allDays[i-1]+'T12:00:00'),b=new Date(allDays[i]+'T12:00:00');
     if((a-b)/(86400000)===1)streak++;else break;
   }
   return streak;
@@ -2802,13 +2825,20 @@ var _editPnlId=null;
 function editTrade(id){
   var t=S.trades.find(function(x){return x.id===id;});if(!t||t.status==='open')return;
   _editPnlId=id;
-  var ref=el('edit-pnl-ref');
-  if(ref)ref.innerHTML='<strong style="color:var(--ink);">'+esc(t.instrument)+' '+esc(t.direction)+'</strong> · '+fmtDate(t.date)+(t.time?' at '+esc(t.time):'');
-  var input=el('edit-pnl-input');
-  if(input){input.value=(t.pnl||0);}
+  var setField=function(eid,val){var e=el(eid);if(e)e.value=val||'';};
+  setField('edit-inst',t.instrument);
+  var dirSel=el('edit-dir');if(dirSel)dirSel.value=t.direction||'LONG';
+  setField('edit-date',t.date);
+  setField('edit-setup',t.setup);
+  setField('edit-entry',t.entryPrice);
+  setField('edit-stop',t.stopPrice);
+  setField('edit-target-edit',t.targetPrice);
+  setField('edit-exit',t.exitPrice);
+  setField('edit-lesson',t.lesson);
+  var pnlIn=el('edit-pnl-input');if(pnlIn)pnlIn.value=(t.pnl!=null?t.pnl:'');
   var m=el('edit-pnl-modal');if(m)m.classList.add('show');
   document.body.style.overflow='hidden';
-  setTimeout(function(){if(input){input.focus();input.select();}},80);
+  setTimeout(function(){var e=el('edit-inst');if(e){e.focus();e.select();}},80);
 }
 function closeEditPnl(){
   var m=el('edit-pnl-modal');if(m)m.classList.remove('show');
@@ -2818,11 +2848,23 @@ function closeEditPnl(){
 function saveEditPnl(){
   if(_editPnlId===null)return;
   var t=S.trades.find(function(x){return x.id===_editPnlId;});if(!t){closeEditPnl();return;}
-  var input=el('edit-pnl-input');var raw=input?input.value:'';
-  var parsed=parseFloat(raw);
-  if(raw===''||isNaN(parsed)){toast('Enter a valid number','e');return;}
-  var prior=t.pnl;
-  t.pnl=parsed;t.quality=calcQ(t);
+  var getVal=function(eid){var e=el(eid);return e?e.value.trim():'';};
+  var rawPnl=getVal('edit-pnl-input');
+  var parsed=rawPnl!==''?parseFloat(rawPnl):null;
+  if(rawPnl!==''&&isNaN(parsed)){toast('Enter a valid P&L number','e');return;}
+  // Save snapshot for rollback
+  var prior=JSON.parse(JSON.stringify(t));
+  t.instrument=getVal('edit-inst')||t.instrument;
+  t.direction=el('edit-dir')?el('edit-dir').value:t.direction;
+  t.date=getVal('edit-date')||t.date;
+  t.setup=getVal('edit-setup')||null;
+  t.entryPrice=getVal('edit-entry')||t.entryPrice;
+  t.stopPrice=getVal('edit-stop')||t.stopPrice;
+  t.targetPrice=getVal('edit-target-edit')||t.targetPrice;
+  t.exitPrice=getVal('edit-exit')||t.exitPrice;
+  t.lesson=getVal('edit-lesson')||t.lesson;
+  if(parsed!==null) t.pnl=parsed;
+  t.quality=calcQ(t);
   var btn=el('edit-pnl-save'),orig=btn?btn.innerHTML:'';
   if(btn){btn.disabled=true;btn.classList.add('is-loading');btn.innerHTML='<span class="spinner"></span>Saving…';}
   sv('trades',S.trades).then(function(){
@@ -2830,7 +2872,9 @@ function saveEditPnl(){
     if(el('page-dashboard').classList.contains('active'))renderDash();
     if(el('page-trades').classList.contains('active'))renderTrades();
   }).catch(function(){
-    t.pnl=prior;t.quality=calcQ(t);
+    // Rollback on failure
+    var idx=S.trades.findIndex(function(x){return x.id===prior.id;});
+    if(idx>-1)S.trades[idx]=prior;
   }).then(function(){
     if(btn){btn.disabled=false;btn.classList.remove('is-loading');btn.innerHTML=orig;}
   });
@@ -2840,6 +2884,7 @@ function doSignOut(){
   confirmModal({title:'Sign out?',text:'You can sign back in anytime — your data stays safe.',okText:'Sign out',icon:'👋'}).then(function(ok){if(ok)_doSignOut();});
 }
 function _doSignOut(){
+  if(_subListener){ _subListener(); _subListener=null; }
   AUTH.signOut();
 }
 
@@ -2850,26 +2895,36 @@ function _doSignOut(){
 // access at call time, not script-parse time.)
 function isSirat(){ return !!(S && S._sub && S._sub.status === 'active' && S._sub.tier === 'sirat'); }
 
+var _subListener = null; // Firestore onSnapshot unsubscribe handle
+
 function checkSubscription(){
-  var pw = el('paywall-screen');
-  var sb = el('sub-status-bar');
-  DB.collection('users').doc(UID).get().then(function(doc){
+  // Cancel any previous listener before starting a new one (e.g. on re-login)
+  if(_subListener){ _subListener(); _subListener=null; }
+
+  var _initialized = false; // only call init() once per session
+
+  _subListener = DB.collection('users').doc(UID).onSnapshot(function(doc){
     var data = doc.exists ? doc.data() : {};
     var sub  = data.subscription || {};
     var status = sub.status;
     var onboarded = data.onboarded === true;
-    // Cache subscription state for client-side gates (Sirat features).
+    // Keep the cached sub state current so isSirat() always reflects live data.
     S._sub = { status: status || null, tier: sub.tier || 'base' };
+
+    var pw = el('paywall-screen');
+    var sb = el('sub-status-bar');
+
     if(status === 'active'){
       if(pw) pw.classList.remove('show');
-      init();
-      if(!onboarded) setTimeout(showOB, 600);
+      if(sb) sb.classList.remove('show');
+      if(!_initialized){
+        _initialized = true;
+        init();
+        if(!onboarded) setTimeout(showOB, 600);
+      }
     }else{
-      // Visitor explicitly opened a legal page — don't slam the paywall/onboarding
-      // on top of it. They'll route back via backToLanding().
       if(_showingLegalPage) return;
       if(!onboarded){
-        // New user — show onboarding FIRST, then paywall
         window._prePaywallMode = true;
         S.obStep = 0;
         var ob = el('onboard'); if(ob) ob.classList.add('show');
@@ -2882,7 +2937,7 @@ function checkSubscription(){
         }
       }
     }
-  }).catch(function(e){
+  }, function(e){
     console.error('Subscription check failed:',e);
     if(_showingLegalPage) return;
     var pw = el('paywall-screen');
@@ -3871,10 +3926,23 @@ function openTD(id){
     (t.screenshot?'<div class="td-section"><div class="td-label">Chart Screenshot</div><div class="td-screenshot" onclick="openImageZoom('+t.id+')"><img id="td-shot-'+t.id+'" src="'+esc(t.screenshot)+'" alt="Trade chart"></div></div>':'');
   var title=el('td-title');if(title)title.innerHTML=esc(t.instrument)+' <em>Detail</em>';
   var eb=el('td-edit-btn');if(eb)eb.style.display=t.status==='closed'?'':'none';
+  var db=el('td-delete-btn');if(db)db.style.display=t.status==='open'?'':'none';
   m.classList.add('show');document.body.style.overflow='hidden';
 }
 function mkTDItem(label,val){return'<div class="td-item"><div class="td-item-label">'+label+'</div><div class="td-item-val">'+val+'</div></div>';}
 function closeTD(){var m=el('td-modal');if(m)m.classList.remove('show');document.body.style.overflow='';currentTDId=null;}
+function deleteOpenTrade(id){
+  confirmModal({title:'Delete this open trade?',text:'The trade will be permanently removed. This cannot be undone.',okText:'Delete trade',danger:true,icon:'⚠'}).then(function(ok){
+    if(!ok)return;
+    S.trades=S.trades.filter(function(t){return t.id!==id;});
+    if(S.openTradeId===id)S.openTradeId=null;
+    sv('trades',S.trades);sv('openTradeId',S.openTradeId);
+    closeTD();toast('Trade deleted','s');
+    if(el('page-dashboard').classList.contains('active'))renderDash();
+    if(el('page-trades').classList.contains('active'))renderTrades();
+    if(el('page-intrade').classList.contains('active'))renderInTrade();
+  });
+}
 
 // ── IMAGE ZOOM ─────────────────────────────────────────────────────────────
 function openImageZoom(tradeId){
@@ -7357,6 +7425,44 @@ if('serviceWorker' in navigator && location.protocol==='https:'){
     },1500);
   });
 }
+
+// ── MODAL ACCESSIBILITY: Escape closes, Tab stays trapped inside ──────────
+(function(){
+  var FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+  var MODAL_CLOSERS = {
+    'entry-modal':    function(){ closeEntry(false); },
+    'exit-modal':     function(){ closeExit(); },
+    'edit-pnl-modal': function(){ closeEditPnl(); },
+    'td-modal':       function(){ closeTD(); },
+    'csv-modal':      function(){ if(typeof closeCsvModal==='function') closeCsvModal(); }
+  };
+  document.addEventListener('keydown', function(e){
+    // Find the topmost visible modal
+    var activeModal = null;
+    Object.keys(MODAL_CLOSERS).forEach(function(id){
+      var m = document.getElementById(id);
+      if(m && m.classList.contains('show')) activeModal = m;
+    });
+    if(!activeModal) return;
+    if(e.key === 'Escape'){
+      e.preventDefault();
+      var closer = MODAL_CLOSERS[activeModal.id];
+      if(closer) closer();
+      return;
+    }
+    if(e.key === 'Tab'){
+      var focusable = Array.from(activeModal.querySelectorAll(FOCUSABLE))
+        .filter(function(el){ return !el.closest('[style*="display:none"]') && !el.closest('[style*="display: none"]'); });
+      if(!focusable.length) return;
+      var first = focusable[0], last = focusable[focusable.length-1];
+      if(e.shiftKey){
+        if(document.activeElement === first){ e.preventDefault(); last.focus(); }
+      } else {
+        if(document.activeElement === last){ e.preventDefault(); first.focus(); }
+      }
+    }
+  });
+})();
 </script>
 </body>
 </html>
