@@ -1156,9 +1156,9 @@ body:not(.legal-visitor) .legal-back{display:none;}
           <div class="lmock-nav-item active"><span class="dot"></span>Dashboard</div>
           <div class="lmock-nav-item"><span class="dot"></span>In Trade</div>
           <div class="lmock-nav-item"><span class="dot"></span>Trades</div>
-          <div class="lmock-nav-item"><span class="dot"></span>Journal</div>
+          <div class="lmock-nav-item"><span class="dot"></span>Calendar</div>
           <div class="lmock-nav-item"><span class="dot"></span>Analytics</div>
-          <div class="lmock-nav-item"><span class="dot"></span>Playbook</div>
+          <div class="lmock-nav-item"><span class="dot"></span>Journal</div>
         </div>
         <div class="lmock-main">
           <!-- KPI row -->
@@ -1611,8 +1611,9 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="nav-item active" data-page="dashboard" onclick="go('dashboard',this)"><span class="nav-icon">⌂</span>Dashboard<span class="nav-badge" id="nav-muh-dot" style="display:none;background:var(--gold);"></span></div>
     <div class="nav-item" id="nav-intrade" data-page="intrade" onclick="go('intrade',this)"><span class="nav-icon">⚡</span>In Trade<span class="nav-badge" id="nav-oc"></span></div>
     <div class="nav-item" data-page="trades" onclick="go('trades',this)"><span class="nav-icon">⊞</span>Trades<span class="nav-badge" id="nav-tc">0</span></div>
-    <div class="nav-item" data-page="journal" onclick="go('journal',this)"><span class="nav-icon">✎</span>Journal</div>
+    <div class="nav-item" data-page="calendar" onclick="go('calendar',this)"><span class="nav-icon">▦</span>Calendar</div>
     <div class="nav-item" data-page="analytics" onclick="go('analytics',this)"><span class="nav-icon">⌖</span>Analytics</div>
+    <div class="nav-item" data-page="journal" onclick="go('journal',this)"><span class="nav-icon">✎</span>Journal</div>
     <div class="nav-item" data-page="playbook" onclick="go('playbook',this)"><span class="nav-icon">❑</span>Playbook</div>
   </nav>
   <div class="sidebar-foot"><div class="sf-av" id="sf-av">A</div><div style="flex:1;min-width:0;"><div class="sf-name" id="sf-name">Welcome</div><div class="sf-plan" id="sf-plan-label">Account</div></div><button aria-label="Open settings" title="Settings" style="background:transparent;border:none;color:var(--ink-3);cursor:pointer;font-size:0.95rem;padding:6px;border-radius:6px;transition:color var(--t),background var(--t);" onmouseover="this.style.color='var(--gold)';this.style.background='var(--surface-2)';" onmouseout="this.style.color='var(--ink-3)';this.style.background='transparent';" onclick="go('settings',null)">⚙</button></div>
@@ -2033,7 +2034,6 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div style="display:flex;gap:8px;flex-wrap:wrap;">
       <button class="btn btn-ghost btn-sm" onclick="go('guide',null)">? How Niyyah works</button>
       <button class="btn btn-ghost btn-sm" onclick="go('goals',null)">◎ Goals</button>
-      <button class="btn btn-ghost btn-sm" onclick="go('calendar',null)">▦ Calendar</button>
       <button class="btn btn-ghost btn-sm" onclick="go('risk',null)">⚖ Risk Calc</button>
       <button class="btn btn-ghost btn-sm" onclick="go('zakat',null)">☪ Zakat</button>
       <button class="btn btn-ghost btn-sm" id="settings-sirat-link" onclick="go('sirat',null)" style="display:none;">✦ Sirat — Your Path</button>
