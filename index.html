@@ -103,6 +103,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .nav-badge-sirat{background:linear-gradient(135deg,#ecc878,#dab462);color:#0b0a08;letter-spacing:0.1em;font-weight:700;}
 .nav-item.is-sirat .nav-badge-sirat{display:none;}
 .nav-item.active .nav-badge,.nav-item.alert .nav-badge{background:var(--gold);color:var(--bg);}
+.nav-item.active .nav-badge-sirat{background:linear-gradient(135deg,#ecc878,#dab462);color:#0b0a08;}
+.nav-label{font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-4);padding:15px 18px 6px;}
+.nav-label:first-child{padding-top:6px;}
 .nav-item.alert{color:var(--gold-2);}
 .sidebar-foot{padding:11px 15px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;}
 .sf-av{width:31px;height:31px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-deep));display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--bg);font-size:0.8rem;flex-shrink:0;}
@@ -1608,13 +1611,21 @@ body:not(.legal-visitor) .legal-back{display:none;}
 <aside class="sidebar" id="sidebar">
   <div class="brand"><div class="brand-mark">☽</div><div><div class="brand-name">Niyyah</div><div class="brand-sub">Trade with intention</div></div></div>
   <nav class="nav">
+    <div class="nav-label">Trade</div>
     <div class="nav-item active" data-page="dashboard" onclick="go('dashboard',this)"><span class="nav-icon">⌂</span>Dashboard<span class="nav-badge" id="nav-muh-dot" style="display:none;background:var(--gold);"></span></div>
     <div class="nav-item" id="nav-intrade" data-page="intrade" onclick="go('intrade',this)"><span class="nav-icon">⚡</span>In Trade<span class="nav-badge" id="nav-oc"></span></div>
     <div class="nav-item" data-page="trades" onclick="go('trades',this)"><span class="nav-icon">⊞</span>Trades<span class="nav-badge" id="nav-tc">0</span></div>
     <div class="nav-item" data-page="calendar" onclick="go('calendar',this)"><span class="nav-icon">▦</span>Calendar</div>
+    <div class="nav-label">Review</div>
     <div class="nav-item" data-page="analytics" onclick="go('analytics',this)"><span class="nav-icon">⌖</span>Analytics</div>
     <div class="nav-item" data-page="journal" onclick="go('journal',this)"><span class="nav-icon">✎</span>Journal</div>
     <div class="nav-item" data-page="playbook" onclick="go('playbook',this)"><span class="nav-icon">❑</span>Playbook</div>
+    <div class="nav-label">The Path</div>
+    <div class="nav-item" id="nav-sirat" data-page="sirat" onclick="go('sirat',this)"><span class="nav-icon">✦</span>Sirat<span class="nav-badge nav-badge-sirat">Upgrade</span></div>
+    <div class="nav-item" data-page="goals" onclick="go('goals',this)"><span class="nav-icon">◎</span>Goals</div>
+    <div class="nav-label">Tools</div>
+    <div class="nav-item" data-page="risk" onclick="go('risk',this)"><span class="nav-icon">△</span>Risk Calc</div>
+    <div class="nav-item" data-page="zakat" onclick="go('zakat',this)"><span class="nav-icon">◈</span>Zakat</div>
   </nav>
   <div class="sidebar-foot"><div class="sf-av" id="sf-av">A</div><div style="flex:1;min-width:0;"><div class="sf-name" id="sf-name">Welcome</div><div class="sf-plan" id="sf-plan-label">Account</div></div><button aria-label="Open settings" title="Settings" style="background:transparent;border:none;color:var(--ink-3);cursor:pointer;font-size:0.95rem;padding:6px;border-radius:6px;transition:color var(--t),background var(--t);" onmouseover="this.style.color='var(--gold)';this.style.background='var(--surface-2)';" onmouseout="this.style.color='var(--ink-3)';this.style.background='transparent';" onclick="go('settings',null)">⚙</button></div>
 </aside>
@@ -6219,6 +6230,7 @@ function engageDisasterBrake(){
   _refreshBrakeBadge();
 }
 function _refreshBrakeBadge(){
+  var navS = el('nav-sirat'); if(navS) navS.classList.toggle('is-sirat', isSirat());
   var btn = el('topbar-brake'); if(!btn) return;
   btn.style.display = isSirat() ? '' : 'none';
   if(isSiratLocked()){
