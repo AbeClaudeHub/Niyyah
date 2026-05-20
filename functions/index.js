@@ -160,7 +160,20 @@ exports.createCheckoutSession = functions
       'http://localhost:5173',
       'http://localhost:3000'
     ];
-    const safeOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+    // Also trust this project's own Vercel deployments — the production alias
+    // (niyyah-psi.vercel.app) and branch previews (niyyah-git-<branch>.vercel.app)
+    // — so the post-checkout redirect lands back on whatever URL the user
+    // actually checked out from instead of a domain that may not be live yet.
+    function isAllowedOrigin(o) {
+      if (!o) return false;
+      if (ALLOWED_ORIGINS.indexOf(o) > -1) return true;
+      try {
+        const host = new URL(o).hostname;
+        if (/^niyyah[a-z0-9-]*\.vercel\.app$/.test(host)) return true;
+      } catch (e) {}
+      return false;
+    }
+    const safeOrigin = isAllowedOrigin(origin) ? origin : ALLOWED_ORIGINS[0];
 
     const customerId = await getOrCreateCustomer(uid, email);
 
