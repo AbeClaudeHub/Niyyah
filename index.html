@@ -4198,7 +4198,7 @@ function saveEntry(){
   // Single atomic write: both fields land together or neither does.
   svMulti({trades:S.trades, openTradeId:S.openTradeId})
     .then(function(){
-      closeEntry();
+      closeEntry(true);
       ['e-inst','e-setup','e-entry','e-stop','e-target'].forEach(function(id){var e=el(id);if(e)e.value='';});
       updateNav(); toast('\u2713 Trade entered \u2014 come back to log the close','s');
       if(el('page-dashboard').classList.contains('active'))renderDash();
