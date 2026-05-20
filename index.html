@@ -3142,6 +3142,7 @@ AUTH.onAuthStateChanged(function(user){
     checkSubscription();
   }else{
     UID = null;
+    if(window._DEMO) return;
     if(_verificationMode){
       // Just sent verification email — stay on auth screen, don't go to landing
       _verificationMode = false;
@@ -3481,6 +3482,7 @@ function enterDemoMode(){
   }catch(e){}
   // Add a query param so refresh keeps the user in demo.
   try{ history.replaceState({}, '', '/?demo=1'); }catch(e){}
+  try{ _refreshBrakeBadge(); }catch(e){}
   go('dashboard', null);
 }
 
@@ -3529,7 +3531,7 @@ function esc(s){
 // "glitches and takes me back to Safari."
 (function _ownInitialHistory(){
   try{
-    var cur = window.location.pathname || '/';
+    var cur = (window.location.pathname || '/') + (window.location.search || '');
     window.history.replaceState({path: cur, niyyah: true, view: 'initial'}, '', cur);
   }catch(_){}
 })();
