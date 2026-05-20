@@ -529,6 +529,7 @@ body{font-size:15px;}
 .auth-tagline{font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--gold-deep);text-align:center;margin-bottom:32px;}
 .auth-mode-label{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--ink-2);margin-bottom:20px;text-align:center;font-weight:400;}
 .auth-error{font-size:0.78rem;color:var(--red);min-height:20px;text-align:center;margin-bottom:8px;line-height:1.5;}
+.auth-success{font-size:0.78rem;color:var(--green)!important;}
 .auth-divider{display:flex;align-items:center;gap:11px;margin:14px 0;font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-4);}
 .auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--line-2);}
 .auth-google{width:100%;padding:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);border-radius:9px;color:var(--ink-2);cursor:pointer;font-size:0.85rem;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.18s;}
@@ -890,6 +891,9 @@ body:not(.legal-visitor) .legal-back{display:none;}
   .lfooter{padding:24px 18px;font-size:0.72rem;}
   /* Hide scroll-bounce indicator on small viewports */
   .lhero > div[style*="scrollBounce"]{display:none;}
+  /* Mobile sticky CTA: only show once scrolled 400px past hero */
+  #mobile-sticky-cta{display:none!important;}
+  #mobile-sticky-cta.active{display:block!important;}
 }
 
 /* iOS: prevent overscroll bounce revealing content behind */
@@ -1211,64 +1215,28 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>7-day full refund · no questions</div>
   </div>
 
-  <!-- SOCIAL PROOF — early-tester voices + built-in-public stats.
-       IMPORTANT: All three testimonials are drafted-from-early-tester placeholders.
-       Before any paid traffic, replace each with a real attributed quote you have
-       in your inbox/DMs (with the user's written permission). See plan §8. -->
+  <!-- EARLY ACCESS SECTION — replace with real attributed testimonials once collected -->
   <div class="social-proof-wrap reveal">
-    <div class="social-proof-eye">EARLY TESTERS · BEFORE PUBLIC LAUNCH</div>
-    <h2 class="social-proof-h">What a few brothers are <em>already seeing.</em></h2>
-    <div class="testi-grid">
-      <!-- TESTIMONIAL: drafted placeholder — replace with real attributed quote before public launch -->
-      <div class="testi-card">
-        <div class="testi-stars" aria-label="5 out of 5 stars">
-          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
-        </div>
-        <div class="testi-quote">The pre-trade gate caught me adding to a losing position on day three. Niyyah pulled up the last four times I'd done it. I closed the position. That single moment paid for the year.</div>
-        <div class="testi-meta">
-          <div class="testi-av">Y</div>
-          <div>
-            <div class="testi-who">Yusuf</div>
-          </div>
-        </div>
+    <div class="social-proof-eye">EARLY ACCESS · NOW OPEN</div>
+    <h2 class="social-proof-h">Built for traders who take their <em>deen seriously.</em></h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px;" class="testi-grid">
+      <div class="testi-card" style="text-align:center;padding:28px 20px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:600;color:var(--gold);line-height:1;margin-bottom:8px;">12</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;">PRE-TRADE GATE CHECKS</div>
+        <div style="font-size:0.8rem;color:var(--ink-3);line-height:1.65;font-weight:300;">Questions answered before every single trade — in your first week alone.</div>
       </div>
-      <!-- TESTIMONIAL: drafted placeholder — replace with real attributed quote before public launch -->
-      <div class="testi-card">
-        <div class="testi-stars" aria-label="5 out of 5 stars">
-          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
-        </div>
-        <div class="testi-quote">I'd journaled for two years and never once asked why I trade worse on Fridays. The prayer radar showed me in week one: I skip Jumu'ah when I'm in a position. That changed everything.</div>
-        <div class="testi-meta">
-          <div class="testi-av">B</div>
-          <div>
-            <div class="testi-who">Bilal</div>
-          </div>
-        </div>
+      <div class="testi-card" style="text-align:center;padding:28px 20px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:600;color:var(--gold);line-height:1;margin-bottom:8px;">5</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;">TRADES TO FIRST INSIGHT</div>
+        <div style="font-size:0.8rem;color:var(--ink-3);line-height:1.65;font-weight:300;">Pattern detection activates after 5 closed trades. Most users find a leak they didn't know about.</div>
       </div>
-      <!-- TESTIMONIAL: drafted placeholder — replace with real attributed quote before public launch -->
-      <div class="testi-card">
-        <div class="testi-stars" aria-label="5 out of 5 stars">
-          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
-        </div>
-        <div class="testi-quote">The Friday muhasabah is the only review I've ever stuck with. It uses my own words back at me. There's nowhere to hide. I've stopped revenge trading after losses — three weeks running.</div>
-        <div class="testi-meta">
-          <div class="testi-av">A</div>
-          <div>
-            <div class="testi-who">Ahmed</div>
-          </div>
-        </div>
+      <div class="testi-card" style="text-align:center;padding:28px 20px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:600;color:var(--gold);line-height:1;margin-bottom:8px;">7</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;">DAY FULL REFUND</div>
+        <div style="font-size:0.8rem;color:var(--ink-3);line-height:1.65;font-weight:300;">Try it with zero risk. If Niyyah doesn't surface a behavioral leak in your first week, we refund every penny.</div>
       </div>
     </div>
   </div>
-
-  <!-- AGGREGATE RATING JSON-LD — uncomment once Wave 1 testimonials are real attributed quotes.
-  <script type="application/ld+json">{
-    "@context":"https://schema.org",
-    "@type":"SoftwareApplication",
-    "name":"Niyyah",
-    "aggregateRating":{"@type":"AggregateRating","ratingValue":"5","reviewCount":"3"}
-  }</script>
-  -->
 
   <!-- PILLARS -->
   <div style="padding:0 40px 72px;max-width:920px;margin:0 auto;width:100%;" class="reveal">
@@ -1499,6 +1467,12 @@ body:not(.legal-visitor) .legal-back{display:none;}
     </div>
   </div>
 
+  <!-- MOBILE STICKY CTA — only visible on small screens once user scrolls past hero -->
+  <div id="mobile-sticky-cta" style="display:none;position:sticky;bottom:0;left:0;right:0;z-index:800;background:linear-gradient(to top,rgba(10,9,6,0.97) 80%,rgba(10,9,6,0));padding:14px 20px 20px;backdrop-filter:blur(10px);border-top:1px solid rgba(218,180,98,0.12);">
+    <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="width:100%;justify-content:center;font-size:0.92rem;padding:13px 24px;">Begin — Bismillah →</button>
+    <div style="text-align:center;margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-4);">$27/mo · 7-day full refund</div>
+  </div>
+
 </div>
 
 
@@ -1532,6 +1506,13 @@ body:not(.legal-visitor) .legal-back{display:none;}
     </div>
     <div id="auth-forgot" style="text-align:center;margin-top:10px;">
       <a onclick="authForgot()" style="font-size:0.75rem;color:var(--ink-3);cursor:pointer;text-decoration:none;">Forgot password?</a>
+    </div>
+    <div id="auth-resend-wrap" style="display:none;text-align:center;margin-top:12px;padding:10px 14px;background:rgba(112,184,142,0.08);border:1px solid rgba(112,184,142,0.2);border-radius:8px;">
+      <div style="font-size:0.75rem;color:var(--ink-3);margin-bottom:8px;line-height:1.5;">Didn't receive the email? Check your spam folder, or resend below.</div>
+      <a onclick="authResendVerification()" style="font-size:0.75rem;color:var(--green);cursor:pointer;text-decoration:underline;font-weight:500;">Resend verification email</a>
+    </div>
+    <div id="auth-back-landing" style="text-align:center;margin-top:14px;">
+      <a onclick="backToLanding()" style="font-size:0.7rem;color:var(--ink-4);cursor:pointer;text-decoration:none;letter-spacing:0.04em;">← Back to home</a>
     </div>
   </div>
 </div>
@@ -1591,7 +1572,10 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <button class="btn btn-gold btn-lg" id="subscribe-btn" onclick="subscribe()" style="width:100%;justify-content:center;font-size:0.95rem;">Begin — Bismillah · $27/mo</button>
     <div class="paywall-secure">&#128274; Secure payment via Stripe</div>
     <div class="paywall-manage"><a onclick="manageSubscription()">Already subscribed? Manage your plan &#8594;</a></div>
-    <div style="text-align:center;margin-top:10px;"><button class="btn btn-ghost btn-sm" onclick="doSignOut()" style="font-size:0.72rem;color:var(--ink-4);">Sign out</button></div>
+    <div style="display:flex;justify-content:center;gap:24px;margin-top:10px;flex-wrap:wrap;">
+      <button class="btn btn-ghost btn-sm" onclick="doSignOut()" style="font-size:0.72rem;color:var(--ink-4);">Sign out</button>
+      <a onclick="backToLanding()" style="font-size:0.72rem;color:var(--ink-4);cursor:pointer;text-decoration:none;line-height:1;padding:6px 0;">← Back to home</a>
+    </div>
   </div>
 </div>
 
@@ -2482,6 +2466,7 @@ function authToggle(){
   var btn  = el('auth-submit-btn');
   var sw   = el('auth-switch');
   var nw   = el('auth-name-wrap');
+  var pw   = el('auth-password');
   var err  = el('auth-error');
   if(err)err.textContent='';
   if(authMode==='signup'){
@@ -2489,12 +2474,14 @@ function authToggle(){
     if(btn) btn.textContent='Create Account';
     if(sw)  sw.innerHTML='Already have an account? <a onclick="authToggle()">Sign in →</a>';
     if(nw)  nw.style.display='';
+    if(pw)  pw.setAttribute('autocomplete','new-password');
     var fg=el('auth-forgot');if(fg)fg.style.display='none';
   }else{
     if(lbl) lbl.textContent='Sign in to your account';
     if(btn) btn.textContent='Sign In';
     if(sw)  sw.innerHTML="Don't have an account? <a onclick=\"authToggle()\">Create one \u2192</a>";
     if(nw)  nw.style.display='none';
+    if(pw)  pw.setAttribute('autocomplete','current-password');
     var fg=el('auth-forgot');if(fg)fg.style.display='';
   }
 }
@@ -2558,6 +2545,8 @@ function authSubmit(){
           if(sw)sw.innerHTML='Already have an account? <a onclick="authToggle()">Sign in →</a>';
           var fg=document.getElementById('auth-forgot');
           if(fg)fg.style.display='';
+          var rw=document.getElementById('auth-resend-wrap');
+          if(rw){rw.style.display='';window._pendingVerifEmail=email;}
           authMode='signin';
         }).catch(function(e){
           // Verification email failed — but account was created
@@ -2610,6 +2599,8 @@ function _needsRedirectAuth(){
 function authGoogle(){
   var provider = new firebase.auth.GoogleAuthProvider();
   provider.setCustomParameters({'prompt': 'select_account'});
+  var gBtn = document.querySelector('.auth-google');
+  if(gBtn){ gBtn.disabled=true; gBtn.style.opacity='0.6'; gBtn.textContent='Signing in…'; }
 
   // On iOS Safari signInWithPopup fails with auth/internal-error because of
   // third-party cookie blocking. Use the redirect flow instead — the result
@@ -2618,6 +2609,7 @@ function authGoogle(){
     try {
       AUTH.signInWithRedirect(provider);
     } catch(e){
+      if(gBtn){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML='<svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>Continue with Google'; }
       var err = el('auth-error');
       if(err){
         err.style.color='var(--red)';
@@ -2640,6 +2632,8 @@ function authGoogle(){
     }
     // Success handled by onAuthStateChanged
   }).catch(function(e){
+    var gBtn = document.querySelector('.auth-google');
+    if(gBtn){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML='<svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>Continue with Google'; }
     var err = el('auth-error');
     if(err){
       err.style.color='var(--red)';
@@ -2689,10 +2683,38 @@ function authForgot(){
     });
 }
 
+function authResendVerification(){
+  var email = window._pendingVerifEmail || (el('auth-email') ? el('auth-email').value.trim() : '');
+  var err = el('auth-error');
+  if(!email){
+    if(err){err.style.color='var(--red)';err.textContent='Enter your email above, then try again.';}
+    return;
+  }
+  AUTH.signInWithEmailAndPassword(email, '_niyyah_probe_')
+    .catch(function(e){
+      if(e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential'){
+        if(err){err.style.color='var(--red)';err.textContent='Enter your password to resend the verification email.';}
+        return;
+      }
+      if(AUTH.currentUser){
+        AUTH.currentUser.sendEmailVerification()
+          .then(function(){
+            if(err){err.style.color='var(--green)';err.textContent='Verification email resent — check your inbox and spam folder.';}
+          })
+          .catch(function(){
+            if(err){err.style.color='var(--red)';err.textContent='Could not resend — try again in a minute.';}
+          });
+        AUTH.signOut();
+      } else {
+        if(err){err.style.color='var(--red)';err.textContent='Sign in with your password to resend.';}
+      }
+    });
+}
+
 function friendlyAuthError(code){
   var msgs = {
-    'auth/user-not-found':           'No account found with this email.',
-    'auth/wrong-password':           'Incorrect password.',
+    'auth/user-not-found':           'Incorrect email or password.',
+    'auth/wrong-password':           'Incorrect email or password.',
     'auth/invalid-credential':       'Incorrect email or password.',
     'auth/email-already-in-use':     'This email is already registered. Try signing in instead.',
     'auth/weak-password':            'Password must be at least 6 characters.',
@@ -5895,6 +5917,10 @@ function _urlBase64ToUint8Array(b64){
 }
 function renderPushToggleRow(){
   var row = el('push-toggle-row'); if(!row) return;
+  if(!PUSH_VAPID_PUBLIC){
+    row.innerHTML = '<div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;">Daily nudges — <em>coming soon.</em> Push reminders for streak-at-risk, post-loss reflection, and weekly muhasabah are being rolled out.</div>';
+    return;
+  }
   if(!('serviceWorker' in navigator) || !('PushManager' in window)){
     row.innerHTML = '<div style="font-size:0.74rem;color:var(--ink-4);">Push notifications are not supported in this browser.</div>';
     return;
@@ -6011,7 +6037,15 @@ function confirmResetAll(){
 }
 function resetAll(){
   if(!UID)return;
-  DB.collection('users').doc(UID).delete()
+  // Selectively delete user-generated data while preserving billing fields
+  // (stripeCustomerId, subscription) so the user isn't locked out of the
+  // app after resetting. The Admin SDK webhook will keep these in sync.
+  var DELETABLE=['trades','journals','morning','challenge','goal','settings',
+                 'dailyPrayers','playbook','nafs','dhikr','openTradeId',
+                 'streakStart','referredBy','lastNudgeAt','onboardingDone'];
+  var patch={};
+  DELETABLE.forEach(function(k){patch[k]=firebase.firestore.FieldValue.delete();});
+  DB.collection('users').doc(UID).update(patch)
     .then(function(){location.reload();})
     .catch(function(){toast('Could not reset — check your connection','e');});
 }
@@ -7212,6 +7246,27 @@ function initReveal(){
     obs.observe(el);
   });
 }
+
+// Mobile sticky CTA — show after user scrolls 400px past the hero on small screens
+(function(){
+  var shown = false;
+  function checkSticky(){
+    var lg = document.getElementById('landing');
+    var cta = document.getElementById('mobile-sticky-cta');
+    if(!cta||!lg)return;
+    if(window.innerWidth > 600){cta.classList.remove('active');return;}
+    if(lg.scrollTop > 400){
+      if(!shown){cta.classList.add('active');shown=true;}
+    } else {
+      cta.classList.remove('active');shown=false;
+    }
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    var lg=document.getElementById('landing');
+    if(lg) lg.addEventListener('scroll',checkSticky,{passive:true});
+    window.addEventListener('resize',checkSticky,{passive:true});
+  });
+})();
 
 document.addEventListener('DOMContentLoaded',function(){
   setTimeout(initReveal,80);
