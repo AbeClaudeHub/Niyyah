@@ -331,15 +331,15 @@ label{display:block;font-family:'Inter',sans-serif;font-size:0.74rem;font-weight
 .emotion-btn .ei{display:block;font-size:1.2rem;margin-bottom:3px;}
 .modal-bg{position:fixed;inset:0;background:rgba(4,3,2,0.92);display:none;align-items:flex-start;justify-content:center;z-index:200;padding:22px 16px;overflow-y:auto;backdrop-filter:blur(14px);}
 .modal-bg.show{display:flex;animation:fadeIn 0.18s ease;}
-.modal{background:linear-gradient(160deg,rgba(28,24,15,1),rgba(12,10,7,1));border:1px solid rgba(218,180,98,0.15);border-radius:var(--r-xl);width:100%;max-width:620px;margin:auto;box-shadow:0 40px 100px rgba(0,0,0,0.85),0 0 0 1px rgba(218,180,98,0.05);position:relative;animation:scaleIn 0.32s cubic-bezier(0.16,1,0.3,1);}
+.modal{background:linear-gradient(160deg,rgba(28,24,15,1),rgba(12,10,7,1));border:1px solid rgba(218,180,98,0.15);border-radius:var(--r-xl);width:100%;max-width:620px;margin:auto;box-shadow:0 40px 100px rgba(0,0,0,0.85),0 0 0 1px rgba(218,180,98,0.05);position:relative;animation:scaleIn 0.32s cubic-bezier(0.16,1,0.3,1);display:flex;flex-direction:column;max-height:calc(100vh - 44px);}
 .modal::before{content:'';position:absolute;top:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
 .modal-head{padding:19px 24px;border-bottom:1px solid var(--line-2);display:flex;align-items:center;justify-content:space-between;}
 .modal-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;color:var(--ink);}
 .modal-title em{color:var(--gold);font-style:italic;}
 .modal-close{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;color:var(--ink-3);cursor:pointer;font-size:1.2rem;transition:var(--t);}
 .modal-close:hover{background:var(--surface-2);color:var(--ink);}
-.modal-body{padding:20px 24px;max-height:74vh;overflow-y:auto;}
-.modal-foot{padding:15px 24px;border-top:1px solid var(--line-2);display:flex;justify-content:flex-end;gap:7px;}
+.modal-body{padding:20px 24px;overflow-y:auto;flex:1;min-height:0;}
+.modal-foot{padding:15px 24px;border-top:1px solid var(--line-2);display:flex;justify-content:flex-end;gap:7px;flex-shrink:0;}
 .exit-modal{max-width:460px;}
 .goal-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;margin-bottom:10px;}
 .prog-track{height:7px;background:var(--surface-3);border-radius:4px;overflow:hidden;margin:13px 0 6px;}
@@ -1123,7 +1123,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <button class="btn btn-outline btn-lg" onclick="scrollToFeatures()" style="backdrop-filter:blur(8px);">See how it works</button>
     </div>
     <div class="lhero-price">$27/mo · 7-day full refund · cancel anytime · Stripe-secured</div>
-    <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-4);">annual saves up to $156 &nbsp;·&nbsp; <a href="#pricing-section" style="color:var(--gold-deep);text-decoration:none;border-bottom:1px solid rgba(218,180,98,0.3);">see plans →</a></div>
+    <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-4);">annual saves up to $156 &nbsp;·&nbsp; <a href="#pricing-section" onclick="setTimeout(function(){setPlan('annual');},200)" style="color:var(--gold-deep);text-decoration:none;border-bottom:1px solid rgba(218,180,98,0.3);cursor:pointer;">see plans →</a></div>
     <div style="margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.45;cursor:pointer;animation:scrollBounce 2s ease-in-out infinite;" onclick="scrollToFeatures()">
       <div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-3);">SCROLL</div>
       <div style="width:1px;height:32px;background:linear-gradient(to bottom,var(--gold),transparent);"></div>
@@ -1212,7 +1212,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <!-- TRUST BAR -->
   <div class="trust-bar reveal">
     <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Stripe-secured payment</div>
-    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>7-day full refund · no questions</div>
+    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>7-day full refund · email <a href="mailto:support@niyyahtrader.app" style="color:var(--gold-deep);text-decoration:none;">support@niyyahtrader.app</a></div>
   </div>
 
   <!-- EARLY ACCESS SECTION — replace with real attributed testimonials once collected -->
@@ -1482,6 +1482,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="auth-brand"><em>Niyyah</em></div>
     <div class="auth-tagline">Journal · Analytics · Deen</div>
     <div class="auth-mode-label" id="auth-mode-label">Sign in to your account</div>
+    <div id="auth-success-banner" style="display:none;background:rgba(112,184,142,0.1);border:1px solid rgba(112,184,142,0.3);border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:0.82rem;color:var(--green);line-height:1.55;text-align:center;"></div>
     <div class="auth-error" id="auth-error"></div>
     <div class="field" id="auth-name-wrap" style="display:none;">
       <label>Your Name</label>
@@ -1658,6 +1659,9 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <!-- MUHASABAH (only shows in evening with trades) -->
     <div id="muhasabah-wrap"></div>
     <div id="friday-wrap"></div>
+
+    <!-- SIRAT PATH TEASER (Sirat subscribers only) -->
+    <div id="sirat-teaser-wrap"></div>
 
     <!-- SINGLE BEHAVIORAL INSIGHT -->
     <div id="today-insight-wrap"></div>
@@ -2199,7 +2203,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
    </div>
    <div class="fs-label">Trade Details</div>
    <div class="field-row c3"><div class="field"><label>Date</label><input type="date" id="e-date"></div><div class="field"><label>Time</label><input type="time" id="e-time"></div><div class="field"><label>Instrument</label><input type="text" id="e-inst" placeholder="ES, NQ, MGC…"></div></div>
-   <div class="field-row c3"><div class="field"><label>Direction</label><select id="e-dir"><option value="LONG">Long</option><option value="SHORT">Short</option></select></div><div class="field"><label>Setup (Playbook)</label><select id="e-setup-sel"><option value="">— Select or type below —</option></select></div><div class="field"><label>Or type setup name</label><input type="text" id="e-setup" placeholder="ORB, VWAP, BPB…"></div></div>
+   <div class="field-row c3" id="e-setup-row"><div class="field"><label>Direction</label><select id="e-dir"><option value="LONG">Long</option><option value="SHORT">Short</option></select></div><div class="field" id="e-setup-sel-field"><label>Playbook Setup</label><select id="e-setup-sel"><option value="">— Select or type below —</option></select></div><div class="field"><label id="e-setup-label">Setup name</label><input type="text" id="e-setup" placeholder="ORB, VWAP, BPB…"></div></div>
    <div class="field-row c3"><div class="field"><label>Entry Price</label><input type="text" inputmode="decimal" autocomplete="off" id="e-entry" placeholder="21,050"></div><div class="field"><label>Stop Loss</label><input type="text" inputmode="decimal" autocomplete="off" id="e-stop" placeholder="21,000"></div><div class="field"><label>Target</label><input type="text" inputmode="decimal" autocomplete="off" id="e-target" placeholder="21,150"></div></div>
    <div id="e-rr-warn" style="display:none;margin:-4px 0 12px;font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;color:var(--gold);background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.18);padding:8px 12px;border-radius:8px;"></div>
    <!-- MIZAN — Sirat-only live verdict, populated by refreshMizan() -->
@@ -2238,7 +2242,8 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <div class="modal-head"><div class="modal-title">Close <em>Trade</em></div><button class="modal-close" onclick="closeExit()">×</button></div>
   <div class="modal-body">
    <div id="exit-ref" style="background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);padding:12px 14px;margin-bottom:14px;font-size:0.84rem;color:var(--ink-2);"></div>
-   <div class="field-row c2"><div class="field"><label>Exit Price</label><input type="text" inputmode="decimal" autocomplete="off" id="x-exit" placeholder="21,095"></div><div class="field"><label>P&amp;L ($)</label><input type="number" inputmode="decimal" id="x-pnl" placeholder="225 or -120"></div></div>
+   <div class="field-row c2"><div class="field"><label>Exit Price</label><input type="text" inputmode="decimal" autocomplete="off" id="x-exit" placeholder="21,095" oninput="autoCalcExitHint()"></div><div class="field"><label>P&amp;L ($)</label><input type="number" inputmode="decimal" id="x-pnl" placeholder="225 or -120"></div></div>
+   <div id="x-pnl-hint" style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.06em;margin:-8px 0 10px;padding:6px 10px;border-radius:6px;background:rgba(255,255,255,0.03);display:none;"></div>
    <div class="field"><label>Outcome</label><select id="x-outcome"><option value="win">Win — followed all rules</option><option value="win-broke">Win — but broke a rule</option><option value="loss">Loss — followed all rules</option><option value="loss-broke">Loss — broke a rule</option><option value="be">Break even</option></select></div>
    <div class="field"><label>Emotion at exit</label>
     <div class="emotion-grid">
@@ -2485,6 +2490,7 @@ function authToggle(){
   var pw   = el('auth-password');
   var err  = el('auth-error');
   if(err)err.textContent='';
+  var sb=el('auth-success-banner');if(sb){sb.style.display='none';sb.innerHTML='';}
   if(authMode==='signup'){
     if(lbl) lbl.textContent='Create your account';
     if(btn) btn.textContent='Create Account';
@@ -2537,7 +2543,7 @@ function authSubmit(){
         // clicking the email link — but only if it's an authorized domain.
         // If Firebase rejects the URL (auth/unauthorized-continue-uri),
         // fall back to a no-URL send so the email STILL gets delivered.
-        var verifySend = cred.user.sendEmailVerification({url: window.location.origin + '/'})
+        var verifySend = cred.user.sendEmailVerification({url: window.location.origin + '/?verified=1'})
           .catch(function(verifyErr){
             if(verifyErr && /unauthorized-continue-uri|invalid-continue-uri/.test(verifyErr.code||'')){
               return cred.user.sendEmailVerification(); // retry without URL
@@ -2547,16 +2553,15 @@ function authSubmit(){
         verifySend.then(function(){
           AUTH.signOut();
           if(card)card.classList.remove('auth-loading');
-          if(err){
-            err.style.color='var(--green)';
-            err.textContent='Account created! Check your inbox (and spam) for the verification email.';
-          }
+          if(err){err.style.color='';err.textContent='';}
+          var sb=document.getElementById('auth-success-banner');
+          if(sb){sb.style.display='';sb.innerHTML='Account created — check your inbox (and spam) for the verification link. Once verified, sign in below ↓';}
           var btn=document.getElementById('auth-submit-btn');
           if(btn)btn.textContent='Sign In';
           var nw=document.getElementById('auth-name-wrap');
           if(nw)nw.style.display='none';
           var lbl=document.getElementById('auth-mode-label');
-          if(lbl)lbl.textContent='Sign in to your account';
+          if(lbl)lbl.textContent='Now sign in to your account';
           var sw=document.getElementById('auth-switch');
           if(sw)sw.innerHTML='Already have an account? <a onclick="authToggle()">Sign in →</a>';
           var fg=document.getElementById('auth-forgot');
@@ -2566,19 +2571,17 @@ function authSubmit(){
           authMode='signin';
         }).catch(function(e){
           // Verification email failed — but account was created
-          // Just sign them out and show success anyway, they can request resend on sign in
           AUTH.signOut();
           if(card)card.classList.remove('auth-loading');
-          if(err){
-            err.style.color='var(--green)';
-            err.textContent='Account created! Sign in below — a verification email will be sent shortly.';
-          }
+          if(err){err.style.color='';err.textContent='';}
+          var sb=document.getElementById('auth-success-banner');
+          if(sb){sb.style.display='';sb.innerHTML='Account created — a verification email will arrive shortly. Sign in below once verified ↓';}
           var btn=document.getElementById('auth-submit-btn');
           if(btn)btn.textContent='Sign In';
           var nw=document.getElementById('auth-name-wrap');
           if(nw)nw.style.display='none';
           var lbl=document.getElementById('auth-mode-label');
-          if(lbl)lbl.textContent='Sign in to your account';
+          if(lbl)lbl.textContent='Now sign in to your account';
           var sw=document.getElementById('auth-switch');
           if(sw)sw.innerHTML='Already have an account? <a onclick="authToggle()">Sign in →</a>';
           var fg=document.getElementById('auth-forgot');
@@ -3090,6 +3093,15 @@ function manageSubscription(){
   }
   if(params.get('cancelled') === 'true'){
     history.replaceState({}, '', window.location.pathname);
+  }
+  if(params.get('verified') === '1'){
+    history.replaceState({}, '', window.location.pathname);
+    var authScreen = document.getElementById('auth-screen');
+    if(authScreen) authScreen.classList.add('show');
+    var sb = document.getElementById('auth-success-banner');
+    if(sb){sb.style.display='';sb.innerHTML='Your email is verified — sign in below to access Niyyah ↓';}
+    var lbl = document.getElementById('auth-mode-label');
+    if(lbl) lbl.textContent = 'Welcome back — sign in';
   }
 })();
 
@@ -3746,6 +3758,12 @@ function openEntryModal(){
   resetIC();
   var sel=el('e-setup-sel');
   if(sel){sel.innerHTML='<option value="">— Select from Playbook —</option>';S.playbook.forEach(function(p){sel.innerHTML+='<option value="'+esc(p.name)+'">'+esc(p.name)+'</option>';});}
+  var selField=el('e-setup-sel-field');
+  if(selField)selField.style.display=S.playbook.length?'':'none';
+  var setupLbl=el('e-setup-label');
+  if(setupLbl)setupLbl.textContent=S.playbook.length?'Or type setup name':'Setup name';
+  var setupRow=el('e-setup-row');
+  if(setupRow)setupRow.className='field-row '+(S.playbook.length?'c3':'c2');
   // Mizan live-verdict wiring (Sirat-only — refreshMizan no-ops otherwise).
   // Attach listeners once per modal open. We use a flag to avoid stacking.
   if(!m._mizanWired){
@@ -3855,6 +3873,28 @@ function openExitModal(){
   m.classList.add('show');document.body.style.overflow='hidden';
   S.selExEmotion=null;
   document.querySelectorAll('#exit-modal .emotion-btn').forEach(function(b){b.classList.remove('on');});
+  var hint=el('x-pnl-hint');if(hint){hint.textContent='';hint.style.display='none';}
+  var xp=el('x-pnl');if(xp)xp.value='';
+  var xe=el('x-exit');if(xe)xe.value='';
+}
+function autoCalcExitHint(){
+  var t=S.trades.find(function(x){return x.id===S.openTradeId&&x.status==='open';});
+  var hint=el('x-pnl-hint');if(!hint)return;
+  if(!t||!t.entryPrice){hint.style.display='none';return;}
+  var exitRaw=(el('x-exit')?el('x-exit').value:'').replace(/[^\d.\-]/g,'');
+  var entryRaw=(t.entryPrice||'').replace(/[^\d.\-]/g,'');
+  var exitVal=parseFloat(exitRaw),entryVal=parseFloat(entryRaw);
+  if(isNaN(exitVal)||isNaN(entryVal)){hint.style.display='none';return;}
+  var diff=exitVal-entryVal;
+  var isLong=t.direction==='LONG';
+  var profitable=isLong?(diff>0):(diff<0);
+  hint.textContent='Price moved '+(diff>=0?'+':'')+diff.toFixed(4).replace(/\.?0+$/,'')+' pts \u00b7 P&L should be '+(diff===0?'zero':profitable?'positive (+)':'negative (\u2212)');
+  hint.style.color=diff===0?'var(--ink-3)':profitable?'var(--green)':'var(--red)';
+  hint.style.display='';
+  var pnlEl=el('x-pnl');
+  if(pnlEl&&!pnlEl.value){
+    pnlEl.placeholder=profitable?'e.g. +225':diff===0?'0':'e.g. -120';
+  }
 }
 function closeExit(){var m=el('exit-modal');if(m)m.classList.remove('show');document.body.style.overflow='';}
 function saveExit(){
@@ -3864,8 +3904,8 @@ function saveExit(){
   // Lesson is required on close. The whole product premise is reflection —
   // accepting empty lessons quietly betrays it.
   var lessonText = (el('x-lesson') ? el('x-lesson').value : '').trim();
-  if(lessonText.length < 4){
-    toast('Add a one-line lesson before closing — this is the mirror','e');
+  if(lessonText.length < 20){
+    toast('Lesson too short — write a full sentence (min 20 chars). This is the mirror.','e');
     var lx = el('x-lesson');
     if(lx){lx.focus(); lx.style.borderColor='var(--red)'; setTimeout(function(){lx.style.borderColor='';}, 1800);}
     return;
@@ -4316,6 +4356,26 @@ function calcDeenScore(){
 }
 
 // ── DASHBOARD ──────────────────────────────────────────────────────────────
+function renderSiratTeaser(){
+  var wrap=el('sirat-teaser-wrap');if(!wrap)return;
+  wrap.innerHTML='';
+  if(!isSirat())return;
+  var result=computeUserStage(S);if(!result)return;
+  var stage=SIRAT_STAGES[result.stage]||{name:result.stage,sub:''};
+  var grad=result.graduation;
+  if(!grad)return;
+  var pct=grad.target>0?Math.min(100,Math.round(grad.progress/grad.target*100)):100;
+  wrap.innerHTML='<div style="background:linear-gradient(90deg,rgba(218,180,98,0.06),transparent 70%);border:1px solid rgba(218,180,98,0.12);border-left:3px solid rgba(218,180,98,0.5);border-radius:0 var(--r-lg) var(--r-lg) 0;padding:12px 16px;margin-bottom:8px;cursor:pointer;" onclick="go(\'sirat\',document.querySelector(\'[data-page=sirat]\'))">'
+    +'<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;">'
+    +'<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.48rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(218,180,98,0.6);">SIRAT PATH · '+stage.name.toUpperCase()+'</div>'
+    +'<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.48rem;letter-spacing:0.1em;color:var(--ink-3);">'+grad.progress+' / '+grad.target+'</div>'
+    +'</div>'
+    +'<div style="font-size:0.78rem;color:var(--ink-2);margin-bottom:8px;">'+esc(grad.label)+' — '+esc(grad.copy)+'</div>'
+    +'<div style="height:4px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;">'
+    +'<div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#9a7820,#dab462);border-radius:3px;transition:width 0.8s cubic-bezier(0.16,1,0.3,1);"></div>'
+    +'</div>'
+    +'</div>';
+}
 function renderDash(){
   var closed=S.trades.filter(function(t){return t.status==='closed';});
   var totalPnl=closed.reduce(function(s,t){return s+t.pnl;},0);
@@ -4391,6 +4451,9 @@ function renderDash(){
     var prayerDays=Object.keys(S.dailyPrayers||{}).length;
     sHint.style.display = (prayedCount===0 && prayerDays<3) ? '' : 'none';
   }
+
+  // ── SIRAT PATH TEASER (Sirat subscribers) ─────────────────────────────
+  renderSiratTeaser();
 
   // ── SINGLE BEHAVIORAL INSIGHT ──────────────────────────────────────────
   renderTodayInsight();
@@ -4488,7 +4551,7 @@ function renderTodayInsight(){
     } else {
       var remaining=5-closed.length;
       var pct=Math.round((closed.length/5)*100);
-      e.innerHTML='<div class="today-insight" style="cursor:default;"><div class="today-insight-label">PATTERN DETECTION · '+closed.length+' OF 5</div><div class="today-insight-text"><strong>'+remaining+' more closed trade'+(remaining===1?'':'s')+'</strong> and your nafs patterns unlock — revenge sequences, prayer correlation, the calm-vs-emotional gap. The mirror needs data to reflect.</div><div style="margin-top:10px;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#9a7820,#dab462,#ecc878);border-radius:3px;transition:width 0.8s cubic-bezier(0.16,1,0.3,1);"></div></div></div>';
+      e.innerHTML='<div class="today-insight" style="cursor:default;"><div class="today-insight-label">YOUR TRADING PATTERNS · '+closed.length+' OF 5 TRADES</div><div class="today-insight-text"><strong>'+remaining+' more closed trade'+(remaining===1?'':'s')+'</strong> and your behavioral insights unlock — revenge sequences, prayer correlation, the calm-vs-emotional edge. The mirror needs data to reflect.</div><div style="margin-top:10px;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;"><div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#9a7820,#dab462,#ecc878);border-radius:3px;transition:width 0.8s cubic-bezier(0.16,1,0.3,1);"></div></div></div>';
     }
     return;
   }
@@ -4662,12 +4725,14 @@ function renderInTrade(){
     if(panels)panels.style.display='none';
     return;
   }
-  if(pe)pe.textContent='YOU ARE IN A TRADE';if(pt)pt.innerHTML='Tawakkul \u2014 <em>Release</em> the outcome.';if(ps)ps.textContent='Your analysis is done. Your stop is set. Trust Allah with what happens next.';if(cb)cb.style.display='';
+  if(pe)pe.textContent='YOU ARE IN A TRADE';if(pt)pt.innerHTML='Tawakkul \u2014 <em>Release</em> the outcome.';if(ps)ps.innerHTML='Your analysis is done. Your stop is set. Trust Allah with what happens next.<br><span style="font-family:\'JetBrains Mono\',monospace;font-size:0.58rem;letter-spacing:0.08em;color:var(--ink-4);">Switch to your platform to monitor price \u2014 return here to close.</span>';if(cb)cb.style.display='';
   if(panels)panels.style.display='';
   if(de)de.innerHTML='<div class="panel" style="border-color:rgba(218,180,98,0.3);background:linear-gradient(135deg,rgba(218,180,98,0.07),transparent),var(--surface);position:relative;overflow:hidden;"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);"></div><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;"><div><div class="open-badge" style="margin-bottom:11px;">LIVE POSITION</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:2rem;font-weight:600;color:var(--ink);letter-spacing:-0.02em;margin-bottom:9px;">'+esc(t.instrument)+' <span style="color:'+(t.direction==='LONG'?'var(--green)':'var(--red)')+';">'+esc(t.direction)+'</span></div><div style="display:flex;gap:16px;font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;color:var(--ink-3);flex-wrap:wrap;line-height:2;">'+(t.entryPrice?'<span>Entry\u00a0<strong style="color:var(--ink);">'+esc(t.entryPrice)+'</strong></span>':'')+(t.stopPrice?'<span>Stop\u00a0<strong style="color:var(--red);">'+esc(t.stopPrice)+'</strong></span>':'')+(t.targetPrice?'<span>Target\u00a0<strong style="color:var(--green);">'+esc(t.targetPrice)+'</strong></span>':'')+(t.setup?'<span>Setup\u00a0<strong style="color:var(--gold);">'+esc(t.setup)+'</strong></span>':'')+'</div></div><div style="text-align:right;flex-shrink:0;"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px;">QUALITY</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:2rem;font-weight:600;color:var(--gold);">'+(t.quality||'\u2014')+'</div></div></div></div>';
 }
 
 // ── TRADES ─────────────────────────────────────────────────────────────────
+var _tradeSortKey='date',_tradeSortDir=-1;
+function sortT(key){if(_tradeSortKey===key){_tradeSortDir*=-1;}else{_tradeSortKey=key;_tradeSortDir=-1;}renderTrades();}
 function filterT(f,btn){S.tradeFilter=f;sv('tradeFilter',f);document.querySelectorAll('#page-trades .tg-btn').forEach(function(b){b.classList.remove('active');});if(btn)btn.classList.add('active');renderTrades();}
 function renderTrades(){
   var w=el('trade-table-wrap');if(!w)return;
@@ -4677,9 +4742,12 @@ function renderTrades(){
   else if(S.tradeFilter==='losses')t=t.filter(function(x){return x.status==='closed'&&x.pnl<0;});
   var sq=el('trade-search')?el('trade-search').value.trim().toLowerCase():'';
   if(sq)t=t.filter(function(x){return(x.instrument||'').toLowerCase().includes(sq)||(x.setup||'').toLowerCase().includes(sq)||(x.date||'').includes(sq)||(x.emotion||'').toLowerCase().includes(sq);});
+  t.sort(function(a,b){var av,bv;if(_tradeSortKey==='pnl'){av=a.status==='open'?-Infinity:(a.pnl||0);bv=b.status==='open'?-Infinity:(b.pnl||0);}else if(_tradeSortKey==='quality'){av=a.status==='open'?-1:(a.quality||0);bv=b.status==='open'?-1:(b.quality||0);}else{av=a.date||'';bv=b.date||'';}if(av<bv)return _tradeSortDir;if(av>bv)return -_tradeSortDir;return 0;});
   if(!t.length){w.innerHTML='<div class="empty"><div class="empty-icon">\ud83d\udcca</div><div class="empty-title">No trades match this filter</div></div>';return;}
   function etag(e){if(['calm','patient','focused'].includes(e||''))return'g';if(['fomo','revenge','urgency','overconf','anxious'].includes(e||''))return'r';return'o';}
-  w.innerHTML='<div class="table-wrap"><table class="t-table"><thead><tr><th>Date</th><th>Instrument</th><th>Side</th><th>Setup</th><th>State</th><th>Quality</th><th>P&L</th></tr></thead><tbody>'+t.map(function(x){return'<tr style="cursor:pointer;" onclick="openTD('+x.id+')" class="'+(x.status==='open'?'open-row':'')+'"><td style="font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;">'+fmtDate(x.date)+'</td><td style="color:var(--ink);font-weight:600;">'+esc(x.instrument)+'</td><td><span class="t-side '+(x.direction==='LONG'?'long':'short')+'">'+esc(x.direction)+'</span></td><td style="color:var(--ink-3);font-size:0.8rem;">'+(x.setup?esc(x.setup):'\u2014')+'</td><td><span class="e-tag '+etag(x.emotion)+'">'+(x.emotion?esc(x.emotion):'\u2014')+'</span></td><td>'+(x.status==='open'?'<span class="open-pill">OPEN</span>':'<div class="q-score"><div class="q-bar"><div class="q-fill" style="width:'+(x.quality||0)+'%;"></div></div>'+(x.quality||0)+'</div>')+'</td><td>'+(x.status==='open'?'<button class="btn btn-gold btn-sm" onclick="event.stopPropagation();openExitModal()">Close</button>':'<div class="t-pnl '+(x.pnl>=0?'pos':'neg')+'">'+fmt(x.pnl,true)+'</div>')+'</td></tr>';}).join('')+'</tbody></table></div>';
+  function si(key){return _tradeSortKey===key?(_tradeSortDir===1?' \u2191':' \u2193'):'';}
+  function th(lbl,key){return'<th style="cursor:pointer;user-select:none;" onclick="sortT(\''+key+'\')">'+lbl+si(key)+'</th>';}
+  w.innerHTML='<div class="table-wrap"><table class="t-table"><thead><tr>'+th('Date','date')+'<th>Instrument</th><th>Side</th><th>Setup</th><th>State</th>'+th('Quality','quality')+th('P&L','pnl')+'</tr></thead><tbody>'+t.map(function(x){return'<tr style="cursor:pointer;" onclick="openTD('+x.id+')" class="'+(x.status==='open'?'open-row':'')+'"><td style="font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;">'+fmtDate(x.date)+'</td><td style="color:var(--ink);font-weight:600;">'+esc(x.instrument)+'</td><td><span class="t-side '+(x.direction==='LONG'?'long':'short')+'">'+esc(x.direction)+'</span></td><td style="color:var(--ink-3);font-size:0.8rem;">'+(x.setup?esc(x.setup):'\u2014')+'</td><td><span class="e-tag '+etag(x.emotion)+'">'+(x.emotion?esc(x.emotion):'\u2014')+'</span></td><td>'+(x.status==='open'?'<span class="open-pill">OPEN</span>':'<div class="q-score"><div class="q-bar"><div class="q-fill" style="width:'+(x.quality||0)+'%;"></div></div>'+(x.quality||0)+'</div>')+'</td><td>'+(x.status==='open'?'<button class="btn btn-gold btn-sm" onclick="event.stopPropagation();openExitModal()">Close</button>':'<div class="t-pnl '+(x.pnl>=0?'pos':'neg')+'">'+fmt(x.pnl,true)+'</div>')+'</td></tr>';}).join('')+'</tbody></table></div>';
 }
 
 // ── CALENDAR ─────────────────────────────────────────────────────────────────
@@ -4772,8 +4840,10 @@ function renderAnalytics(){
     var pf=grossL>0?(grossW/grossL).toFixed(2):'\u221e';var avgW=wins.length?grossW/wins.length:0,avgL=losses.length?grossL/losses.length:0;
     var pr=avgL>0?(avgW/avgL).toFixed(2):'\u221e';var cw=0,cl=0,mxW=0,mxL=0;
     closed.forEach(function(t){if(t.pnl>0){cw++;cl=0;if(cw>mxW)mxW=cw;}else{cl++;cw=0;if(cl>mxL)mxL=cl;}});
-    function mc(lbl,val,col){return'<div class="metric-card"><div class="metric-label">'+lbl+'</div><div class="metric-val" style="color:'+(col||'var(--gold)')+'">'+val+'</div></div>';}
-    pm.innerHTML=mc('PROFIT FACTOR',pf,parseFloat(pf)>=1?'var(--green)':'var(--red)')+mc('PAYOFF RATIO',pr,'var(--ink)')+mc('MAX CONSEC WINS',mxW,'var(--green)')+mc('MAX CONSEC LOSSES',mxL,'var(--red)');
+    function mc(lbl,val,col,note){return'<div class="metric-card"><div class="metric-label">'+lbl+'</div><div class="metric-val" style="color:'+(col||'var(--gold)')+'">'+val+'</div>'+(note?'<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;color:var(--ink-3);margin-top:3px;letter-spacing:0.05em;">'+note+'</div>':'')+'</div>';}
+    var pfColor=pf==='\u221e'?'var(--green)':parseFloat(pf)>=1?'var(--green)':'var(--red)';
+    var pfNote=pf==='\u221e'?'no losing trades yet':null;
+    pm.innerHTML=mc('PROFIT FACTOR',pf,pfColor,pfNote)+mc('PAYOFF RATIO',pr,pr==='\u221e'?'var(--green)':'var(--ink)')+mc('MAX CONSEC WINS',mxW,'var(--green)')+mc('MAX CONSEC LOSSES',mxL,'var(--red)');
   }else if(pm)pm.innerHTML='';
   if(!window.Chart)return;
   var dc=el('dow-chart');if(dc){try{if(C.dow)C.dow.destroy();}catch(e){}try{var dows=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];var dd=dows.map(function(_,i){return closed.filter(function(t){return new Date(t.date+'T12:00:00').getDay()===i;}).reduce(function(s,t){return s+t.pnl;},0);});C.dow=new Chart(dc,mkBarCfg(dd,dows,false));}catch(e){}}
@@ -4782,11 +4852,11 @@ function renderAnalytics(){
   var pr=el('prayer-radar');if(pr){try{if(C.pr)C.pr.destroy();}catch(e){}try{var ps=['fajr','dhuhr','asr','maghrib','isha'],lbs=['Fajr','Dhuhr','Asr','Maghrib','Isha'];var dkeys=Object.keys(S.dailyPrayers);if(dkeys.length>=3){var vals=ps.map(function(p){var pd=dkeys.filter(function(d){return S.dailyPrayers[d][p];});var pt=closed.filter(function(t){return pd.indexOf(t.date)>-1;});return pt.length?Math.round(pt.filter(function(t){return t.pnl>0;}).length/pt.length*100):0;});C.pr=new Chart(pr,{type:'radar',data:{labels:lbs,datasets:[{data:vals,backgroundColor:'rgba(218,180,98,0.1)',borderColor:'rgba(218,180,98,0.6)',pointBackgroundColor:'#dab462',pointBorderColor:'#0b0a08',borderWidth:2,pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#181510',borderColor:'rgba(218,180,98,0.25)',borderWidth:1,titleColor:'#f0e8d4',bodyColor:'#beb29a',callbacks:{label:function(ctx){return'Win rate: '+ctx.parsed.r+'%';}}}},scales:{r:{backgroundColor:'transparent',grid:{color:'rgba(255,255,255,0.055)'},angleLines:{color:'rgba(218,180,98,0.1)'},pointLabels:{color:'#beb29a',font:{family:'JetBrains Mono',size:10}},ticks:{color:'#4a4538',backdropColor:'transparent',stepSize:25},min:0,max:100}}}});}else{pr.parentElement.innerHTML='<div class="empty" style="padding:44px;"><div class="empty-icon">\ud83e\udd32</div><div class="empty-title">Track prayers for 3+ days</div><div class="empty-text">The prayer radar needs at least 3 days of data to show meaningful correlation.</div></div>';}
   }catch(e){}}
   var st=el('setup-wrap');if(st){var setups=[];closed.forEach(function(t){if(t.setup&&setups.indexOf(t.setup)<0)setups.push(t.setup);});if(!setups.length){st.innerHTML='<div class="empty"><div class="empty-icon">\u2699</div><div class="empty-title">Tag setups when logging trades</div></div>';}else{var sd=setups.map(function(s){var ts=closed.filter(function(t){return t.setup===s;});var w=ts.filter(function(t){return t.pnl>0;}).length;var pnl=ts.reduce(function(a,t){return a+t.pnl;},0);var wr=Math.round(w/ts.length*100);return{s:s,n:ts.length,wr:wr,pnl:pnl,avg:pnl/ts.length};}).sort(function(a,b){return b.pnl-a.pnl;});st.innerHTML='<table class="s-table"><thead><tr><th>Setup</th><th>Trades</th><th>Win Rate</th><th>Total P&L</th><th>Avg P&L</th></tr></thead><tbody>'+sd.map(function(d){return'<tr><td style="color:var(--ink);font-weight:500;">'+esc(d.s)+'</td><td style="font-family:\'JetBrains Mono\',monospace;font-size:0.74rem;">'+d.n+'</td><td><div class="s-bar"><div class="s-bar-fill" style="width:'+d.wr+'%;background:'+(d.wr>=50?'var(--green)':'var(--red)')+';height:100%;border-radius:3px;"></div></div><span style="font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;">'+d.wr+'%</span></td><td class="t-pnl '+(d.pnl>=0?'pos':'neg')+'">'+fmt(d.pnl,true)+'</td><td class="t-pnl '+(d.avg>=0?'pos':'neg')+'">'+fmt(d.avg,true)+'</td></tr>';}).join('')+'</tbody></table>';}}
-  var da=el('deen-wrap');if(da){var dDays=Object.keys(S.dailyPrayers);if(dDays.length<5){da.innerHTML='<div class="empty"><div class="empty-icon">\ud83e\udd32</div><div class="empty-title">Track prayers daily for 5+ days</div><div class="empty-text">5+ days builds a pattern. 20+ days builds a conviction. Keep going.</div></div>';}else{var pN={fajr:'Fajr \ud83c\udf19',dhuhr:'Dhuhr \u2600\ufe0f',asr:'Asr \ud83c\udf24',maghrib:'Maghrib \ud83c\udf05',isha:'Isha \u2b50'};var rows=['fajr','dhuhr','asr','maghrib','isha'].map(function(p){var yD=dDays.filter(function(d){return S.dailyPrayers[d][p];}),nD=dDays.filter(function(d){return!S.dailyPrayers[d][p];});var yT=closed.filter(function(t){return yD.indexOf(t.date)>-1;}),nT=closed.filter(function(t){return nD.indexOf(t.date)>-1;});var yWR=yT.length?Math.round(yT.filter(function(t){return t.pnl>0;}).length/yT.length*100):0,nWR=nT.length?Math.round(nT.filter(function(t){return t.pnl>0;}).length/nT.length*100):0;var yP=yT.reduce(function(s,t){return s+t.pnl;},0),nP=nT.reduce(function(s,t){return s+t.pnl;},0);return{name:pN[p],yN:yT.length,nN:nT.length,yWR:yWR,nWR:nWR,yP:yP,nP:nP,diff:yWR-nWR};});da.innerHTML='<table class="s-table"><thead><tr><th>Prayer</th><th>Days prayed</th><th>Win %</th><th>P&L</th><th>Days missed</th><th>Win %</th><th>P&L</th><th>Edge</th><th>Confidence</th></tr></thead><tbody>'+rows.map(function(r){
+  var da=el('deen-wrap');if(da){var dDays=Object.keys(S.dailyPrayers);if(dDays.length<5){da.innerHTML='<div class="empty"><div class="empty-icon">\ud83e\udd32</div><div class="empty-title">Track prayers daily for 5+ days</div><div class="empty-text">5+ days builds a pattern. 20+ days builds a conviction. Keep going.</div></div>';}else{var pN={fajr:'Fajr \ud83c\udf19',dhuhr:'Dhuhr \u2600\ufe0f',asr:'Asr \ud83c\udf24',maghrib:'Maghrib \ud83c\udf05',isha:'Isha \u2b50'};var rows=['fajr','dhuhr','asr','maghrib','isha'].map(function(p){var yD=dDays.filter(function(d){return S.dailyPrayers[d][p];}),nD=dDays.filter(function(d){return!S.dailyPrayers[d][p];});var yT=closed.filter(function(t){return yD.indexOf(t.date)>-1;}),nT=closed.filter(function(t){return nD.indexOf(t.date)>-1;});var yWR=yT.length?Math.round(yT.filter(function(t){return t.pnl>0;}).length/yT.length*100):0,nWR=nT.length?Math.round(nT.filter(function(t){return t.pnl>0;}).length/nT.length*100):0;var yP=yT.reduce(function(s,t){return s+t.pnl;},0),nP=nT.reduce(function(s,t){return s+t.pnl;},0);return{name:pN[p],yN:yT.length,nN:nT.length,yWR:yWR,nWR:nWR,yP:yP,nP:nP,diff:yWR-nWR};});da.innerHTML='<div style="overflow-x:auto"><table class="s-table"><thead><tr><th>Prayer</th><th>Days prayed</th><th>Win %</th><th>P&L</th><th>Days missed</th><th>Win %</th><th>P&L</th><th>Edge</th><th>Confidence</th></tr></thead><tbody>'+rows.map(function(r){
   var conf=r.yN<3||r.nN<3?'low':r.yN<8||r.nN<8?'mid':'high';
   var confLabel=conf==='low'?'Insufficient data':conf==='mid'?'Pattern emerging':'High confidence';
   return'<tr><td style="color:var(--ink);font-weight:500;">'+r.name+'</td><td style="font-family:\'JetBrains Mono\',monospace;font-size:0.72rem;">'+r.yN+'</td><td style="color:var(--green);font-family:\'JetBrains Mono\',monospace;font-size:0.72rem;">'+r.yWR+'%</td><td class="t-pnl '+(r.yP>=0?'pos':'neg')+'">'+fmt(r.yP,true)+'</td><td style="font-family:\'JetBrains Mono\',monospace;font-size:0.72rem;">'+r.nN+'</td><td style="color:var(--red);font-family:\'JetBrains Mono\',monospace;font-size:0.72rem;">'+r.nWR+'%</td><td class="t-pnl '+(r.nP>=0?'pos':'neg')+'">'+fmt(r.nP,true)+'</td><td style="font-family:\'JetBrains Mono\',monospace;font-size:0.72rem;color:'+(r.diff>0?'var(--green)':'var(--red)')+';">'+(r.diff>0?'+':'')+r.diff+'%</td><td><span class="muh-confidence '+conf+'">'+confLabel+'</span></td></tr>';
-}).join('')+'</tbody></table><p style="font-size:0.74rem;color:var(--ink-3);margin-top:10px;">Edge = win rate when prayed minus win rate when missed.</p>';}}
+}).join('')+'</tbody></table></div><p style="font-size:0.74rem;color:var(--ink-3);margin-top:10px;">Edge = win rate when prayed minus win rate when missed.</p>';}}
 }
 function mkBarCfg(data,labels,smallTick){return{type:'bar',data:{labels:labels,datasets:[{data:data,backgroundColor:data.map(function(v){return v>=0?'rgba(108,176,136,0.65)':'rgba(210,130,130,0.65)';}),borderColor:data.map(function(v){return v>=0?'#6cb088':'#d28282';}),borderWidth:1.5,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:'#867c66',font:{size:smallTick?9:11}}},y:{grid:{color:'rgba(255,255,255,0.024)'},ticks:{color:'#867c66',callback:function(v){return'$'+v;}}}}}};}
 
