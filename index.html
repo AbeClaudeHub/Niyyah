@@ -60,13 +60,13 @@
   --green:#70b88e;--green-soft:rgba(112,184,142,0.1);
   --red:#d68484;--red-soft:rgba(214,132,132,0.1);
   --shadow:0 8px 40px rgba(0,0,0,0.55);--shadow-lg:0 28px 72px rgba(0,0,0,0.75);
-  --r:8px;--r-lg:12px;--r-xl:16px;
+  --r:10px;--r-lg:16px;--r-xl:22px;
   --t:0.18s cubic-bezier(0.4,0,0.2,1);--t-slow:0.5s cubic-bezier(0.16,1,0.3,1);
 }
 html,body{background:#0a0906;min-height:100%;}
 html{scroll-behavior:smooth;}
 body{background:#0a0906;color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:14.5px;line-height:1.55;min-height:100vh;display:flex;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at -5% -10%,rgba(218,180,98,0.05) 0%,transparent 55%),radial-gradient(ellipse 40% 35% at 105% 105%,rgba(218,180,98,0.03) 0%,transparent 55%);pointer-events:none;z-index:0;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at -5% -10%,rgba(218,180,98,0.13) 0%,transparent 55%),radial-gradient(ellipse 40% 35% at 105% 105%,rgba(218,180,98,0.07) 0%,transparent 55%),radial-gradient(ellipse 30% 25% at 50% 100%,rgba(112,184,142,0.04) 0%,transparent 50%);pointer-events:none;z-index:0;}
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 @keyframes slideUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 @keyframes slideIn{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
@@ -103,9 +103,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .nav-badge-sirat{background:linear-gradient(135deg,#ecc878,#dab462);color:#0b0a08;letter-spacing:0.1em;font-weight:700;}
 .nav-item.is-sirat .nav-badge-sirat{display:none;}
 .nav-item.active .nav-badge,.nav-item.alert .nav-badge{background:var(--gold);color:var(--bg);}
-.nav-item.active .nav-badge-sirat{background:linear-gradient(135deg,#ecc878,#dab462);color:#0b0a08;}
-.nav-label{font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-4);padding:15px 18px 6px;}
-.nav-label:first-child{padding-top:6px;}
 .nav-item.alert{color:var(--gold-2);}
 .sidebar-foot{padding:11px 15px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;}
 .sf-av{width:31px;height:31px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-deep));display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--bg);font-size:0.8rem;flex-shrink:0;}
@@ -139,20 +136,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .btn-red{background:var(--red-soft);border:1px solid rgba(210,130,130,0.25);color:var(--red);}
 .btn-sm{padding:5px 11px;font-size:0.7rem;}.btn-lg{padding:12px 24px;font-size:0.87rem;}
 .fab{position:fixed;bottom:28px;right:28px;width:60px;height:60px;border-radius:50%;background:linear-gradient(145deg,#f8e5a8,#ecc878,#dab462,#b8962a);color:#0b0a08;display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:700;box-shadow:0 8px 36px rgba(218,180,98,0.45),0 0 0 1px rgba(218,180,98,0.18);cursor:pointer;border:none;transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.25s;z-index:90;}
-.demo-banner{display:none;position:fixed;top:0;left:0;right:0;z-index:120;background:linear-gradient(90deg,rgba(218,180,98,0.18),rgba(218,180,98,0.08) 60%,rgba(218,180,98,0.18));border-bottom:1px solid rgba(218,180,98,0.32);backdrop-filter:blur(10px);padding:10px 18px;font-family:'Inter',sans-serif;font-size:0.78rem;color:var(--ink);align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;line-height:1.5;}
-.demo-banner.show{display:flex;}
-.demo-banner-tag{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;padding:3px 9px;border:1px solid rgba(218,180,98,0.45);border-radius:30px;background:rgba(218,180,98,0.06);}
-.demo-banner-text{color:var(--ink-2);font-size:0.78rem;}
-.demo-banner-text strong{color:var(--ink);}
-.demo-banner-cta{font-family:'Inter',sans-serif;font-size:0.78rem;font-weight:600;color:var(--gold);background:rgba(218,180,98,0.1);border:1px solid rgba(218,180,98,0.4);padding:5px 14px;border-radius:8px;cursor:pointer;transition:var(--t);}
-.demo-banner-cta:hover{background:rgba(218,180,98,0.18);}
-.demo-banner-exit{font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.06em;color:var(--ink-3);background:transparent;border:none;cursor:pointer;padding:5px 8px;text-transform:uppercase;}
-.demo-banner-exit:hover{color:var(--ink-2);}
-body.demo-active .sidebar{padding-top:48px;}
-body.demo-active .topbar{top:44px;}
 .fab:hover{transform:scale(1.08);box-shadow:0 12px 44px rgba(218,180,98,0.55),0 0 0 2px rgba(218,180,98,0.28);}
 .fab:active{transform:scale(0.96);}
-.panel{background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:22px;margin-bottom:12px;transition:border-color 0.2s,box-shadow 0.2s;position:relative;}
+.panel{background:linear-gradient(160deg,#1f1c13 0%,#141109 100%);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:22px;margin-bottom:12px;transition:border-color 0.2s,box-shadow 0.2s;position:relative;overflow:hidden;}.panel::after{content:"";position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(218,180,98,0.06),transparent);pointer-events:none;}
 .panel:hover{border-color:rgba(218,180,98,0.18);box-shadow:0 4px 24px rgba(0,0,0,0.25);}
 .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:17px;gap:10px;flex-wrap:wrap;}
 .panel-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:500;color:var(--ink);}
@@ -191,7 +177,7 @@ body.demo-active .topbar{top:44px;}
 .kpi{background:linear-gradient(145deg,#221f15,#131009);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:20px 22px;transition:border-color 0.2s,box-shadow 0.2s;position:relative;overflow:hidden;}.kpi::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(218,180,98,0.15),transparent);}
 .kpi:hover{border-color:rgba(218,180,98,0.22);box-shadow:0 6px 18px rgba(0,0,0,0.3);}
 .kpi-label{font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;}
-.kpi-val{font-family:'JetBrains Mono',monospace;font-size:1.65rem;font-weight:600;color:var(--ink);line-height:1;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;}
+.kpi-val{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:600;color:var(--ink);line-height:1;letter-spacing:-0.03em;}
 .kpi-val.g{color:var(--green);}.kpi-val.r{color:var(--red);}.kpi-val.o{color:var(--gold);}
 .kpi-meta{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--ink-3);margin-top:6px;}
 .kpi-spark{margin-top:9px;height:21px;}
@@ -206,10 +192,10 @@ body.demo-active .topbar{top:44px;}
 .today-sub{font-size:0.82rem;color:var(--ink-3);font-weight:300;margin-bottom:22px;line-height:1.6;}
 .today-actions{display:flex;gap:10px;flex-wrap:wrap;}
 .today-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.today-card{background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:18px 20px;transition:all 0.2s cubic-bezier(0.4,0,0.2,1);}
+.today-card{background:linear-gradient(145deg,#1a1710,#0f0d09);border:1px solid rgba(255,255,255,0.06);border-radius:var(--r-lg);padding:18px 20px;transition:all 0.2s cubic-bezier(0.4,0,0.2,1);}
 .today-card:hover{border-color:rgba(218,180,98,0.2);transform:translateY(-2px);}
 .today-card-label{font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-4);margin-bottom:8px;}
-.today-card-val{font-family:'JetBrains Mono',monospace;font-size:1.3rem;font-weight:600;color:var(--ink);line-height:1;letter-spacing:-0.01em;font-variant-numeric:tabular-nums;}
+.today-card-val{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:500;color:var(--ink);line-height:1;letter-spacing:-0.02em;}
 .today-card-val.g{color:var(--green);}
 .today-card-val.r{color:var(--red);}
 .today-card-val.gold{color:var(--gold);}
@@ -410,10 +396,10 @@ label{display:block;font-family:'Inter',sans-serif;font-size:0.74rem;font-weight
 .risk-result-label{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-top:6px;}
 .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
 @media(max-width:900px){.metric-grid{grid-template-columns:repeat(2,1fr);}}
-.metric-card{background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:18px 20px;transition:border-color var(--t),transform var(--t);}
+.metric-card{background:linear-gradient(145deg,#1c1912,#0f0d09);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:18px 20px;transition:border-color var(--t),transform var(--t);}
 .metric-card:hover{border-color:rgba(218,180,98,0.15);transform:translateY(-1px);}
 .metric-label{font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:9px;}
-.metric-val{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:600;line-height:1;letter-spacing:-0.01em;font-variant-numeric:tabular-nums;}
+.metric-val{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;line-height:1;letter-spacing:-0.02em;}
 .cal-nav{display:flex;align-items:center;gap:8px;margin-bottom:16px;}
 .cal-nav-title{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:500;color:var(--ink);flex:1;text-align:center;}
 .cal-dow-row{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:5px;}
@@ -1130,10 +1116,11 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="orb-3 landing-orb"></div>
     <div class="lhero-badge"><span class="lhero-badge-dot"></span>For Muslim Traders</div>
     <h1 class="lhero-h1">You don't have a strategy problem.<br>You have a <em>nafs</em> problem.</h1>
-    <p class="lhero-sub"><strong>Niyyah ends the loop.</strong> Your <em>nafs</em> — the inner voice that whispers <em>"just one more trade"</em> after a loss — is what turns a $200 stop into an $1,800 disaster. We make that voice visible.</p>
+    <p class="lhero-sub"><strong>Niyyah ends the loop.</strong> The accountability system for traders whose strategy works — but whose nafs doesn't.</p>
+    <div class="lhero-clarifier"><strong>Nafs</strong> · the lower self that whispers <em>"just one more trade"</em> after a loss — and turns a $200 stop into a $1,800 disaster.</div>
     <div class="lhero-btns" style="margin-top:24px;">
       <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 32px;">Begin — Bismillah →</button>
-      <button class="btn btn-outline btn-lg" onclick="enterDemoMode()" style="backdrop-filter:blur(8px);">Try the demo →</button>
+      <button class="btn btn-outline btn-lg" onclick="scrollToFeatures()" style="backdrop-filter:blur(8px);">See how it works</button>
     </div>
     <div class="lhero-price">$27/mo · 7-day full refund · cancel anytime · Stripe-secured</div>
     <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-4);">annual saves up to $156 &nbsp;·&nbsp; <a href="#pricing-section" onclick="setTimeout(function(){setPlan('annual');},200)" style="color:var(--gold-deep);text-decoration:none;border-bottom:1px solid rgba(218,180,98,0.3);cursor:pointer;">see plans →</a></div>
@@ -1145,7 +1132,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
 
   <!-- APP MOCK PREVIEW -->
   <div style="padding:0 40px 80px;max-width:920px;margin:0 auto;width:100%;opacity:0;animation:slideIn 0.8s cubic-bezier(0.16,1,0.3,1) 0.7s forwards;">
-    <div style="text-align:center;margin-bottom:20px;font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--ink-4);">Preview · <a onclick="enterDemoMode()" style="color:var(--gold);cursor:pointer;text-decoration:none;border-bottom:1px solid rgba(218,180,98,0.3);">touch the real thing →</a></div>
+    <div style="text-align:center;margin-bottom:20px;font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--ink-4);">LIVE PRODUCT PREVIEW</div>
     <div class="lmock" style="box-shadow:0 60px 120px rgba(0,0,0,0.8),0 0 0 1px rgba(218,180,98,0.08),0 0 80px rgba(218,180,98,0.04);">
       <div class="lmock-bar">
         <div class="lmock-dot" style="background:#ff5f57;"></div>
@@ -1167,6 +1154,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
           <div class="lmock-nav-item"><span class="dot"></span>Calendar</div>
           <div class="lmock-nav-item"><span class="dot"></span>Analytics</div>
           <div class="lmock-nav-item"><span class="dot"></span>Journal</div>
+          <div class="lmock-nav-item"><span class="dot"></span>Playbook</div>
         </div>
         <div class="lmock-main">
           <!-- KPI row -->
@@ -1452,7 +1440,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
           <li>Monthly <strong style="color:var(--ink);">Edge Audit</strong> — auto-generated shareable report</li>
           <li><strong style="color:var(--ink);">Risk-of-Ruin</strong> — Monte Carlo on your actual data</li>
           <li><strong style="color:var(--ink);">Disaster Brake</strong> — one-tap lock-out when you're tilting</li>
-          <li><strong style="color:var(--ink);">Witness Mode</strong> — weekly summary to a trusted person <span style="font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.1em;color:var(--gold-deep);text-transform:uppercase;">· soon</span></li>
+          <li><strong style="color:var(--ink);">Witness Mode</strong> — weekly summary to a trusted person</li>
           <li>Everything in Base, included</li>
         </ul>
         <div style="margin-top:auto;">
@@ -1571,7 +1559,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
           <li><strong>Sirat</strong> — staged path to profitability</li>
           <li><strong>Mizan</strong> — live verdict on every trade</li>
           <li>Monthly Edge Audit · Risk-of-Ruin Monte Carlo</li>
-          <li>Disaster Brake · Witness Mode <span style="font-family:'JetBrains Mono',monospace;font-size:0.54rem;letter-spacing:0.1em;color:var(--gold-deep);text-transform:uppercase;">soon</span></li>
+          <li>Disaster Brake · Witness Mode</li>
           <li>Everything in Base, included</li>
         </ul>
         <div class="pw-tier-select" id="pw-sirat-select">Select</div>
@@ -1597,21 +1585,23 @@ body:not(.legal-visitor) .legal-back{display:none;}
 <aside class="sidebar" id="sidebar">
   <div class="brand"><div class="brand-mark">☽</div><div><div class="brand-name">Niyyah</div><div class="brand-sub">Trade with intention</div></div></div>
   <nav class="nav">
-    <div class="nav-label">Trade</div>
     <div class="nav-item active" data-page="dashboard" onclick="go('dashboard',this)"><span class="nav-icon">⌂</span>Dashboard<span class="nav-badge" id="nav-muh-dot" style="display:none;background:var(--gold);"></span></div>
     <div class="nav-item" id="nav-intrade" data-page="intrade" onclick="go('intrade',this)"><span class="nav-icon">⚡</span>In Trade<span class="nav-badge" id="nav-oc"></span></div>
     <div class="nav-item" data-page="trades" onclick="go('trades',this)"><span class="nav-icon">⊞</span>Trades<span class="nav-badge" id="nav-tc">0</span></div>
     <div class="nav-item" data-page="calendar" onclick="go('calendar',this)"><span class="nav-icon">▦</span>Calendar</div>
-    <div class="nav-label">Review</div>
     <div class="nav-item" data-page="analytics" onclick="go('analytics',this)"><span class="nav-icon">⌖</span>Analytics</div>
+    <div class="nav-sect">DAILY</div>
     <div class="nav-item" data-page="journal" onclick="go('journal',this)"><span class="nav-icon">✎</span>Journal</div>
+    <div class="nav-sect">PROFITABILITY</div>
+    <div class="nav-item" data-page="sirat" onclick="go('sirat',this)"><span class="nav-icon">✦</span>Sirat<span class="nav-badge nav-badge-sirat" id="nav-sirat-badge">PRO</span></div>
+    <div class="nav-sect">TOOLS</div>
     <div class="nav-item" data-page="playbook" onclick="go('playbook',this)"><span class="nav-icon">❑</span>Playbook</div>
-    <div class="nav-label">The Path</div>
-    <div class="nav-item" id="nav-sirat" data-page="sirat" onclick="go('sirat',this)"><span class="nav-icon">✦</span>Sirat<span class="nav-badge nav-badge-sirat">Upgrade</span></div>
+    <div class="nav-item" data-page="risk" onclick="go('risk',this)"><span class="nav-icon">⚖</span>Risk Calc</div>
+    <div class="nav-item" data-page="zakat" onclick="go('zakat',this)"><span class="nav-icon">☪</span>Zakat</div>
+    <div class="nav-sect">SETUP</div>
+    <div class="nav-item" data-page="guide" onclick="go('guide',this)"><span class="nav-icon">?</span>Guide</div>
     <div class="nav-item" data-page="goals" onclick="go('goals',this)"><span class="nav-icon">◎</span>Goals</div>
-    <div class="nav-label">Tools</div>
-    <div class="nav-item" data-page="risk" onclick="go('risk',this)"><span class="nav-icon">△</span>Risk Calc</div>
-    <div class="nav-item" data-page="zakat" onclick="go('zakat',this)"><span class="nav-icon">◈</span>Zakat</div>
+    <div class="nav-item" data-page="blueprint" onclick="go('blueprint',this)"><span class="nav-icon">❋</span>Blueprint</div>
   </nav>
   <div class="sidebar-foot"><div class="sf-av" id="sf-av">A</div><div style="flex:1;min-width:0;"><div class="sf-name" id="sf-name">Welcome</div><div class="sf-plan" id="sf-plan-label">Account</div></div><button aria-label="Open settings" title="Settings" style="background:transparent;border:none;color:var(--ink-3);cursor:pointer;font-size:0.95rem;padding:6px;border-radius:6px;transition:color var(--t),background var(--t);" onmouseover="this.style.color='var(--gold)';this.style.background='var(--surface-2)';" onmouseout="this.style.color='var(--ink-3)';this.style.background='transparent';" onclick="go('settings',null)">⚙</button></div>
 </aside>
@@ -1634,13 +1624,21 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <div class="today-actions" id="today-actions"></div>
     </div>
 
-    <!-- OPEN TRADE BANNER (only shows when active). Promoted to right after
-         state — when a position is live, that fact is the most important
-         thing on the page. -->
-    <div id="open-banner"></div>
+    <!-- DAILY MISSION — one specific action the app tells you to take today,
+         picked from your state (post-loss / Friday / streak / leak). -->
+    <div id="daily-mission-wrap"></div>
 
-    <!-- SALAH — compact pill row. Promoted: for a Muslim trader, the daily
-         salah row is THE deen surface. Lives directly under state. -->
+    <!-- STREAK — surfaced right after state so returning users see momentum -->
+    <div id="streak-wrap"></div>
+
+    <!-- 30-DAY HABIT CHAIN — visual habit chain. Empty cells today create
+         the same pull as an unticked checkbox. -->
+    <div id="habit-chain-wrap"></div>
+
+    <!-- DAILY REFLECTION (shown every morning, after first trade exists) -->
+    <div id="daily-reflection-wrap"></div>
+
+    <!-- SALAH — compact pill row -->
     <div class="today-card" id="today-salah-card">
       <div class="today-section-title" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
         <span>Today's Salah · <span id="sal-count-today">0/5</span></span>
@@ -1655,31 +1653,8 @@ body:not(.legal-visitor) .legal-back{display:none;}
       </div>
     </div>
 
-    <!-- PRAYER × PERFORMANCE — the headline version of the Analytics prayer
-         radar, promoted to the dashboard. The single most defensible insight
-         in the product, surfaced daily instead of buried. -->
-    <div id="prayer-edge-wrap"></div>
-
-    <!-- MORNING INTENTION (only renders in the AM window — see renderDash).
-         Paired with salah so the morning ritual is one contiguous block. -->
-    <div class="today-intention" id="today-intention-card">
-      <div class="today-section-title">Morning Intention</div>
-      <textarea id="today-intention-input" rows="2" placeholder="Today I intend to trade with…" onblur="saveTodayIntention()"></textarea>
-    </div>
-
-    <!-- DAILY MISSION — one specific action the app tells you to take today,
-         picked from your state (post-loss / Friday / streak / leak). -->
-    <div id="daily-mission-wrap"></div>
-
-    <!-- SINGLE BEHAVIORAL INSIGHT. Sits with daily mission as the "what to
-         pay attention to today" pair. -->
-    <div id="today-insight-wrap"></div>
-
-    <!-- NAFS PULSE — the missing output for the input the journal page
-         captures. Hero promises "nafs tracking"; this card is what the
-         user sees back. Averages + week-over-week deltas for sabr,
-         tawakkul, kibr, shukr, with a one-line takeaway. -->
-    <div id="nafs-pulse-wrap"></div>
+    <!-- OPEN TRADE BANNER (only shows when active) -->
+    <div id="open-banner"></div>
 
     <!-- MUHASABAH (only shows in evening with trades) -->
     <div id="muhasabah-wrap"></div>
@@ -1691,16 +1666,14 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <!-- SINGLE BEHAVIORAL INSIGHT -->
     <div id="today-insight-wrap"></div>
 
-    <!-- STREAK — motivation; sits below the daily-action block so it
-         doesn't crowd the things the user actually does today. -->
-    <div id="streak-wrap"></div>
+    <!-- MORNING INTENTION (only renders in the AM window — see renderDash) -->
+    <div class="today-intention" id="today-intention-card">
+      <div class="today-section-title">Morning Intention</div>
+      <textarea id="today-intention-input" rows="2" placeholder="Today I intend to trade with…" onblur="saveTodayIntention()"></textarea>
+    </div>
 
-    <!-- 30-DAY HABIT CHAIN — visual habit chain. Pairs with streak as the
-         "look at your run" motivation block. -->
-    <div id="habit-chain-wrap"></div>
-
-    <!-- NOTIFICATION OPT-IN — growth nudge. Stays below the intention/
-         motivation block so it never crowds the primary state on first paint. -->
+    <!-- NOTIFICATION OPT-IN — moved below intention so the prompt never
+         crowds the primary state card on first paint. -->
     <div id="notif-prompt-wrap"></div>
 
     <!-- PWA INSTALL NUDGE — appears on 3rd+ session if not installed.
@@ -1777,7 +1750,6 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <button class="btn btn-gold btn-sm an-range-btn active"  data-range="all" onclick="setAnRange('all',this)">All</button>
     </div>
     <div style="flex:1;"></div>
-    <button class="btn btn-ghost btn-sm" onclick="go('calendar',null)" style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;">▦ Calendar view →</button>
     <div id="an-filter-summary" style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--ink-4);"></div>
   </div>
   <div class="metric-grid" id="perf-metrics"></div>
@@ -1896,10 +1868,6 @@ body:not(.legal-visitor) .legal-back{display:none;}
 
 <div class="page" id="page-guide">
   <div class="ph"><div class="ph-eye">HOW IT WORKS</div><div class="ph-title">The <em>Guide</em></div><div class="ph-sub">Everything you need to know to get the most out of Niyyah. Read this once. Refer back anytime.</div></div>
-  <div class="grid-2">
-    <div class="panel" style="border-color:rgba(218,180,98,0.18);"><div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--ink);margin-bottom:14px;">The Four Principles</div><div style="font-size:0.84rem;color:var(--ink-2);line-height:1.9;"><p style="margin-bottom:11px;"><span style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--gold);">صَبْر </span><strong style="color:var(--ink);">Sabr — Patience is the strategy.</strong> Zero trades because nothing qualified = winning session.</p><p style="margin-bottom:11px;"><span style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--gold);">تَوَكُّل </span><strong style="color:var(--ink);">Tawakkul — Release the outcome.</strong> Set your stop. Set your target. Execute. Release.</p><p style="margin-bottom:11px;"><span style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--gold);">كِبْر </span><strong style="color:var(--ink);">Kibr — The silent killer.</strong> After wins the nafs whispers "I've figured it out." Same rules, always.</p><p><span style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--gold);">شُكْر </span><strong style="color:var(--ink);">Shukr — End every session grateful.</strong> Win or lose. Returns clean the next day.</p></div></div>
-    <div class="panel"><div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--ink);margin-bottom:4px;">Rules Written in Stone</div><div style="font-size:0.72rem;color:var(--ink-4);margin-bottom:12px;font-family:'JetBrains Mono',monospace;letter-spacing:0.06em;">Defaults. Adjust in Playbook for your system.</div><div style="font-size:0.84rem;color:var(--ink-2);line-height:2.1;"><p>→ Risk only your defined % per trade — set it once, never deviate</p><p>→ Personal daily limit: 40% of firm's</p><p>→ Maximum 3 trades per session</p><p>→ Minimum 2:1 reward to risk</p><p>→ No trading first 15 minutes of open</p><p>→ Stop after 2 consecutive losses</p><p>→ No trading around high-impact news</p><p style="color:var(--red);margin-top:7px;">✕ Never miss Salah for a trade</p><p style="color:var(--red);">✕ Never move your stop</p><p style="color:var(--green);margin-top:7px;">✓ Zero trades today = winning session</p><p style="color:var(--green);">✓ Lost with discipline = system working</p></div></div>
-  </div>
   <div class="panel" style="border-color:rgba(218,180,98,0.18);"><div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--ink);margin-bottom:14px;">Logging a Trade — Two Parts</div><div style="font-size:0.86rem;color:var(--ink-2);line-height:1.85;"><p style="margin-bottom:10px;"><strong style="color:var(--ink);">Step 1 — Entry:</strong> Tap the <strong style="color:var(--gold);">+</strong> button. Answer the gate questions. Fill in instrument, setup, entry/stop/target. Tap <em>Enter Trade</em>. <strong style="color:var(--gold);">Go trade.</strong></p><p><strong style="color:var(--ink);">Step 2 — Close:</strong> When done, come back. Tap <em>Close Trade</em>. Fill in exit price, P&amp;L, outcome, emotion, and one lesson.</p></div></div>
   <div class="panel"><div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--ink);margin-bottom:14px;">The Pre-Trade Gate</div><div style="font-size:0.86rem;color:var(--ink-2);line-height:1.85;"><p style="margin-bottom:8px;"><strong style="color:var(--ink);">1. Did you wait for your full setup criteria?</strong> — Sabr made measurable.</p><p style="margin-bottom:8px;"><strong style="color:var(--ink);">2. Are there 2 or more confluences?</strong> — Separates trading from maysir.</p><p><strong style="color:var(--ink);">3. Are you in a calm, clear state?</strong> — The single strongest predictor of outcome.</p></div></div>
 
@@ -2030,16 +1998,6 @@ body:not(.legal-visitor) .legal-back{display:none;}
 <div class="page" id="page-settings">
   <div class="ph"><div class="ph-eye">SETTINGS</div><div class="ph-title">Your <em>Account</em></div></div>
   <div class="panel" style="max-width:460px;margin-bottom:10px;padding:14px 18px;background:var(--surface-2);">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;">RESOURCES</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      <button class="btn btn-ghost btn-sm" onclick="go('guide',null)">? How Niyyah works</button>
-      <button class="btn btn-ghost btn-sm" onclick="go('goals',null)">◎ Goals</button>
-      <button class="btn btn-ghost btn-sm" onclick="go('risk',null)">⚖ Risk Calc</button>
-      <button class="btn btn-ghost btn-sm" onclick="go('zakat',null)">☪ Zakat</button>
-      <button class="btn btn-ghost btn-sm" id="settings-sirat-link" onclick="go('sirat',null)" style="display:none;">✦ Sirat — Your Path</button>
-    </div>
-  </div>
-  <div class="panel" style="max-width:460px;margin-bottom:10px;padding:14px 18px;background:var(--surface-2);">
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;">LEGAL</div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;">
       <button class="btn btn-ghost btn-sm" onclick="go('privacy',null)">Privacy Policy</button>
@@ -2085,7 +2043,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <!-- ── REFERRAL ─────────────────────────────────────────────────────── -->
   <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2);">
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">REFER A BROTHER</div>
-    <div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;margin-bottom:14px;">Share Niyyah with another Muslim trader. When they subscribe with your link, you both get 1 month free — credit posts after their first successful payment.</div>
+    <div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;margin-bottom:14px;">Share Niyyah with another Muslim trader. When they subscribe with your link, you both get 1 month free. <em>(Credit applies after their first successful payment — runs on a Cloud Function that you'll deploy from <code>functions/redeemReferral.js</code>.)</em></div>
     <div id="referral-row"></div>
   </div>
 
@@ -2233,24 +2191,10 @@ body:not(.legal-visitor) .legal-back{display:none;}
 
 <button class="fab" onclick="openEntryModal()" title="Log a trade · press N" aria-label="Log a trade (shortcut: N)">+</button>
 
-<!-- DEMO MODE BANNER — fixed-top bar shown only while window._DEMO is true.
-     Markup is inert without enterDemoMode() flipping body.demo-active. -->
-<div class="demo-banner" id="demo-banner" role="status" aria-live="polite">
-  <span class="demo-banner-tag">Demo Mode</span>
-  <span class="demo-banner-text"><strong>You're touching the real product</strong> with sample data — nothing you do here is saved.</span>
-  <button class="demo-banner-cta" onclick="exitDemoToSignup()">Sign up to save your work →</button>
-  <button class="demo-banner-exit" onclick="exitDemoMode()" aria-label="End demo">× End demo</button>
-</div>
-
 <div class="modal-bg" id="entry-modal" onclick="if(event.target===this)closeEntry()">
  <div class="modal">
   <div class="modal-head"><div class="modal-title">Enter a <em>Trade</em></div><button class="modal-close" onclick="closeEntry()">×</button></div>
   <div class="modal-body">
-   <!-- NIYYAH STRIP — wires the morning intention into the trading loop.
-        Populated by renderNiyyahStrip() on modal open: confirms today's
-        niyyah if set, or prompts to set one inline. "Trade with intention"
-        made literal. -->
-   <div id="niyyah-strip" style="margin-bottom:14px;"></div>
    <div class="gate"><div class="gate-title">Before entering — answer honestly.</div>
     <div class="gate-q"><div class="gate-q-text">Did you wait for your full setup criteria?</div><div class="gate-q-btns"><button class="gqb yes" onclick="gAns('waited','yes',this)">Yes</button><button class="gqb no" onclick="gAns('waited','no',this)">No</button></div></div>
     <div class="gate-q"><div class="gate-q-text">Are there 2 or more confluences?</div><div class="gate-q-btns"><button class="gqb yes" onclick="gAns('conf','yes',this)">Yes</button><button class="gqb no" onclick="gAns('conf','no',this)">No</button></div></div>
@@ -2261,7 +2205,6 @@ body:not(.legal-visitor) .legal-back{display:none;}
    <div class="field-row c3"><div class="field"><label>Date</label><input type="date" id="e-date"></div><div class="field"><label>Time</label><input type="time" id="e-time"></div><div class="field"><label>Instrument</label><input type="text" id="e-inst" placeholder="ES, NQ, MGC…"></div></div>
    <div class="field-row c3" id="e-setup-row"><div class="field"><label>Direction</label><select id="e-dir"><option value="LONG">Long</option><option value="SHORT">Short</option></select></div><div class="field" id="e-setup-sel-field"><label>Playbook Setup</label><select id="e-setup-sel"><option value="">— Select or type below —</option></select></div><div class="field"><label id="e-setup-label">Setup name</label><input type="text" id="e-setup" placeholder="ORB, VWAP, BPB…"></div></div>
    <div class="field-row c3"><div class="field"><label>Entry Price</label><input type="text" inputmode="decimal" autocomplete="off" id="e-entry" placeholder="21,050"></div><div class="field"><label>Stop Loss</label><input type="text" inputmode="decimal" autocomplete="off" id="e-stop" placeholder="21,000"></div><div class="field"><label>Target</label><input type="text" inputmode="decimal" autocomplete="off" id="e-target" placeholder="21,150"></div></div>
-   <div style="display:flex;justify-content:flex-end;margin:-6px 0 10px;"><a onclick="openRiskCalcFromEntry()" style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;color:var(--gold);cursor:pointer;text-transform:uppercase;">⚖ Calculate position size →</a></div>
    <div id="e-rr-warn" style="display:none;margin:-4px 0 12px;font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;color:var(--gold);background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.18);padding:8px 12px;border-radius:8px;"></div>
    <!-- MIZAN — Sirat-only live verdict, populated by refreshMizan() -->
    <div id="mizan-panel" style="display:none;margin:0 0 14px;"></div>
@@ -2427,42 +2370,6 @@ var AUTH      = firebase.auth();
 var DB        = firebase.firestore();
 var FUNCTIONS = firebase.functions();
 var UID       = null;
-
-// Flip each flag to true once the corresponding Cloud Function is deployed
-// and its config is set. While a flag is false, the UI surfaces a clear
-// "Coming soon" state instead of letting users opt into a feature whose
-// backend is silently inert. See functions/{dailyNudge,redeemReferral,
-// sendWitnessReport}.js for their deploy steps.
-var BACKEND_FLAGS = {
-  push:     false, // sendDailyNudge deployed AND PUSH_VAPID_PUBLIC set below
-  referral: false, // creditReferral deployed AND wired into stripeWebhook
-  witness:  false  // sendWitnessReport deployed AND email provider configured
-};
-
-// Demo mode lets visitors (and you) tour the full product without auth or
-// payment. Triggered by ?demo=1 in the URL or the hero "Try the demo" button.
-// All state lives in window._DEMO + the in-memory S object — never written to
-// Firestore. Closing the tab loses everything, by design.
-window._DEMO = false;
-function isDemo(){ return !!window._DEMO; }
-
-// Test-access bypass: real auth + real Firestore writes, no payment required.
-// Two paths:
-//   1. Preview hostname (Vercel preview URL, Firebase hosting preview, or
-//      localhost). Production domain (niyyahtrader.app) is NEVER bypassed.
-//   2. Email allowlist — add an address to TEST_EMAILS and that account
-//      skips the paywall even on production. Useful for trusted testers /
-//      yourself when you want to dogfood the prod build without paying.
-// Unlocks Sirat tier so every premium feature is testable.
-var TEST_EMAILS = []; // e.g. ['you@example.com'] — keep this list tiny.
-function _isTestEnvironment(){
-  var h = (window.location.hostname || '').toLowerCase();
-  if(h === 'localhost' || h === '127.0.0.1') return true;
-  if(/\.vercel\.app$/.test(h)) return true;
-  if(/\.web\.app$/.test(h) || /\.firebaseapp\.com$/.test(h)) return true;
-  var email = (AUTH.currentUser && AUTH.currentUser.email || '').toLowerCase();
-  return !!(email && TEST_EMAILS.indexOf(email) >= 0);
-}
 
 // Offline persistence + multi-tab sync. Writes queue locally if offline and
 // replay on reconnect; remote changes from another tab/device propagate live.
@@ -2994,13 +2901,6 @@ function isSirat(){ return !!(S && S._sub && S._sub.status === 'active' && S._su
 var _subListener = null; // Firestore onSnapshot unsubscribe handle
 
 function checkSubscription(){
-  var pw = el('paywall-screen');
-  var sb = el('sub-status-bar');
-  // Test-access bypass — preview hostnames or allowlisted emails skip the
-  // paywall entirely and get Sirat-tier access. Real Firestore writes still
-  // happen; only the payment gate is lifted. See _isTestEnvironment().
-  var testBypass = _isTestEnvironment();
-  DB.collection('users').doc(UID).get().then(function(doc){
   // Cancel any previous listener before starting a new one (e.g. on re-login)
   if(_subListener){ _subListener(); _subListener=null; }
 
@@ -3128,11 +3028,6 @@ function pickTierAndSignup(tier){
 }
 
 function subscribe(){
-  if(isDemo()){
-    toast('Demo mode — sign up first, then you can subscribe.','i');
-    exitDemoToSignup();
-    return;
-  }
   var btn = el('subscribe-btn');
   var originalHTML = btn ? btn.innerHTML : '';
   if(btn){
@@ -3227,7 +3122,6 @@ AUTH.onAuthStateChanged(function(user){
     checkSubscription();
   }else{
     UID = null;
-    if(window._DEMO) return;
     if(_verificationMode){
       // Just sent verification email — stay on auth screen, don't go to landing
       _verificationMode = false;
@@ -3271,23 +3165,7 @@ function _saveErrorToast(e,label){
     toast(msg,'e');
   }
 }
-// Throttle the "demo — not saved" toast aggressively (8s) so a flurry of
-// writes during one trade-save flow shows at most one. Banner already
-// carries the standing reminder, so this toast only confirms the moment.
-var _demoToastAt = 0;
-function _demoSavePing(){
-  if(!isDemo()) return false;
-  var now = Date.now();
-  if(now - _demoToastAt > 8000){
-    _demoToastAt = now;
-    if(typeof toast === 'function'){
-      toast('Demo · not saved','i');
-    }
-  }
-  return true; // signal: caller should skip the real write
-}
 function sv(k,v){
-  if(_demoSavePing()) return Promise.resolve();
   if(!UID||!DB)return Promise.resolve();
   var u={};
   u[k] = (v===null) ? firebase.firestore.FieldValue.delete() : v;
@@ -3298,7 +3176,6 @@ function sv(k,v){
 // Atomic multi-field write. All fields in `obj` land in the same Firestore
 // set() call, so partial failure can't leave the doc inconsistent.
 function svMulti(obj){
-  if(_demoSavePing()) return Promise.resolve();
   if(!UID||!DB)return Promise.resolve();
   var u={};
   Object.keys(obj).forEach(function(k){
@@ -3343,254 +3220,6 @@ function loadAll(){
   });
 }
 
-// ── DEMO MODE ─────────────────────────────────────────────────────────────
-// Populates S with a realistic month of sample data so a visitor can tour
-// every page without signing up. Deterministic — every demo session looks
-// identical so the demo is a stable sales surface, not a moving target.
-//
-// CRITICAL: every field name must match what saveEntry / saveExit / saveJournal
-// / saveGoal write. Mismatched keys silently break renders. The schema below
-// is paired against those save functions — keep them in sync.
-function seedDemoData(){
-  var today = new Date();
-  function daysAgo(n){
-    var d = new Date(today.getFullYear(), today.getMonth(), today.getDate() - n);
-    return d.toISOString().slice(0,10);
-  }
-  function isoAt(n, hh, mm){
-    var d = new Date(today.getFullYear(), today.getMonth(), today.getDate() - n, hh||9, mm||35);
-    return d.toISOString();
-  }
-  var nextId = 1000;
-  function tradeId(){ return 1700000000000 + (nextId++); }
-
-  // Map our shorthand rules + pnl into the real outcome enum used by the
-  // close form (win / win-broke / loss / loss-broke / be). Reader functions
-  // look for outcome.indexOf('broke') > -1 to detect rule-breaks.
-  function outcomeFor(pnl, rules){
-    if(Math.abs(pnl) < 5) return 'be';
-    if(pnl > 0) return rules === 'no' ? 'win-broke' : 'win';
-    return rules === 'no' ? 'loss-broke' : 'loss';
-  }
-  // Plausible lessons that match the trade pattern. Read in the trade-detail
-  // modal — empty lessons look like missing data.
-  var LESSONS = {
-    'win':        'Trusted the setup, took the target, walked away. Sabr made measurable.',
-    'win-broke':  'Won this one but I cut early before target — luck, not edge. Same rules next time.',
-    'loss':       'Loss but I followed every rule. The setup was valid; the day wasn\'t. Discipline intact.',
-    'loss-broke': 'Chased after the first stop hit. The nafs spoke louder than my plan. Read Surah Al-Asr after.',
-    'be':         'Stop-out for tiny loss when momentum didn\'t confirm. Right to size out — kibr would have held.'
-  };
-
-  // 16 trades + 1 currently-open trade over ~28 days. Net ~+$1,420 across
-  // 10W / 6L to give every chart something to draw without faking a hero stat.
-  var T = [
-    // [daysAgo, time, inst, direction, setup, entry, stop, target, exit, pnl, emotion, exitEmotion, rules]
-    [27,'09:35','NQ','LONG','Opening Range Breakout',21050,21020,21130,21118, 1360,'calm','calm','yes'],
-    [27,'10:42','MNQ','SHORT','VWAP Reclaim',21155,21175,21105,21175, -200,'urgency','frustrated','no'],
-    [25,'09:38','NQ','LONG','Bias Pullback',21080,21055,21160,21142, 1240,'patient','focused','yes'],
-    [24,'09:33','MNQ','LONG','Opening Range Breakout',21210,21188,21275,21258,   96,'focused','calm','yes'],
-    [22,'10:15','NQ','SHORT','VWAP Reclaim',21305,21330,21240,21330, -500,'fomo','anxious','no'],
-    [21,'09:40','NQ','LONG','Bias Pullback',21185,21162,21255,21240, 1100,'calm','calm','yes'],
-    [19,'14:08','MNQ','SHORT','Opening Range Breakout',21340,21358,21290,21302,   76,'patient','focused','yes'],
-    [18,'09:45','NQ','LONG','VWAP Reclaim',21220,21195,21295,21288, 1360,'calm','calm','yes'],
-    [16,'11:22','NQ','LONG','Opening Range Breakout',21165,21142,21240,21142, -460,'revenge','anxious','no'],
-    [15,'09:36','MNQ','LONG','Bias Pullback',21240,21218,21315,21308,   68,'patient','calm','yes'],
-    [12,'09:34','NQ','LONG','Opening Range Breakout',21305,21282,21380,21368, 1260,'calm','focused','yes'],
-    [11,'14:30','NQ','SHORT','VWAP Reclaim',21390,21412,21330,21342,  960,'focused','calm','yes'],
-    [ 8,'09:38','MNQ','LONG','Bias Pullback',21420,21398,21495,21498,   76,'patient','calm','yes'],
-    [ 7,'10:18','NQ','SHORT','Opening Range Breakout',21465,21490,21405,21490, -500,'fomo','anxious','no'],
-    [ 4,'09:35','NQ','LONG','VWAP Reclaim',21510,21485,21585,21572, 1240,'calm','focused','yes'],
-    [ 2,'09:33','MNQ','LONG','Opening Range Breakout',21520,21498,21598,21586,   64,'patient','focused','yes']
-  ];
-  S.trades = T.map(function(r){
-    var pnl = r[9];
-    var rules = r[12];
-    var outcome = outcomeFor(pnl, rules);
-    var qScore = (rules==='yes'?70:30) + (['calm','patient','focused'].indexOf(r[10])>=0?15:-10) + (pnl>0?15:0);
-    qScore = Math.max(10, Math.min(100, qScore));
-    var fullPrayers = { fajr:true, dhuhr:true, asr:true, maghrib:true, isha:true };
-    return {
-      id: tradeId(),
-      status: 'closed',
-      date: daysAgo(r[0]),
-      time: r[1],
-      instrument: r[2],
-      direction: r[3],
-      setup: r[4],
-      entryPrice: String(r[5]),
-      stopPrice:  String(r[6]),
-      targetPrice:String(r[7]),
-      exitPrice:  String(r[8]),
-      pnl: pnl,
-      emotion: r[10],
-      exitEmotion: r[11],
-      outcome: outcome,
-      lesson: LESSONS[outcome] || '',
-      islamicCheck: { bismillah:true, prayer:true, setup:true, stop:true },
-      gateAnswers: { waited:'yes', conf:'yes', calm: ['calm','patient','focused'].indexOf(r[10])>=0 ? 'yes' : 'no' },
-      prayers: fullPrayers,
-      screenshot: null,
-      quality: qScore,
-      createdAt: isoAt(r[0], parseInt(r[1].split(':')[0],10), parseInt(r[1].split(':')[1],10)),
-      closedAt:  isoAt(r[0], parseInt(r[1].split(':')[0],10)+1, parseInt(r[1].split(':')[1],10))
-    };
-  });
-
-  // Live position: one open trade entered ~22 minutes ago. Makes the In Trade
-  // page useful instead of an empty placeholder, and exercises the
-  // pre-trade-gate icons that linger after entry.
-  var openTime = new Date(today.getTime() - 22*60000);
-  var openHH = String(openTime.getHours()).padStart(2,'0');
-  var openMM = String(openTime.getMinutes()).padStart(2,'0');
-  var openTrade = {
-    id: tradeId(),
-    status: 'open',
-    date: daysAgo(0),
-    time: openHH + ':' + openMM,
-    instrument: 'NQ',
-    direction: 'LONG',
-    setup: 'Opening Range Breakout',
-    entryPrice: '21,610',
-    stopPrice:  '21,582',
-    targetPrice:'21,695',
-    pnl: 0,
-    emotion: 'calm',
-    islamicCheck: { bismillah:true, prayer:true, setup:true, stop:true },
-    gateAnswers:  { waited:'yes', conf:'yes', calm:'yes' },
-    prayers: { fajr:true, dhuhr:true, asr:false, maghrib:false, isha:false },
-    screenshot: null,
-    quality: 92,
-    createdAt: openTime.toISOString()
-  };
-  S.trades.unshift(openTrade);
-  S.openTradeId = openTrade.id;
-
-  // 30 days of prayer history — mostly full, one Friday missed at -16 and a
-  // 4/5 day at -7. Shows the prayer-radar pattern without faking perfection.
-  S.dailyPrayers = {};
-  for(var d=0; d<30; d++){
-    var key = daysAgo(d);
-    var dow = new Date(today.getFullYear(), today.getMonth(), today.getDate()-d).getDay();
-    var full = !(d===16 && dow===5) && !(d===7);
-    S.dailyPrayers[key] = {
-      fajr:    full,
-      dhuhr:   d===0 ? true : full,   // today: Fajr + Dhuhr done so the row
-      asr:     d===0 ? false : full,  //          shows partial progress
-      maghrib: d===0 ? false : (full || (d===7)),
-      isha:    d===0 ? false : (full || (d===7))
-    };
-  }
-
-  // Playbook — three setups whose names match the trade setups above so the
-  // Performance-by-Setup table populates.
-  S.playbook = [
-    { id:'demo-pb-1', name:'Opening Range Breakout', condition:'Trending open, momentum',
-      desc:'Break of pre-market high with volume confirm.', rr:2, inst:'NQ, MNQ', hold:'5–15 min',
-      entry:'Price breaks above pre-market high\nVolume confirms the move\nVWAP below entry',
-      exit:'Target next major level\nStop below the breakout candle',
-      avoid:'News within 30 min\nSpread wider than 2 points' },
-    { id:'demo-pb-2', name:'VWAP Reclaim', condition:'Reversion-from-extreme',
-      desc:'Reclaim of VWAP after a clean test from below.', rr:2.5, inst:'NQ, MNQ', hold:'10–25 min',
-      entry:'Price tests then reclaims VWAP\nHigher-low confirms\nVolume increase on reclaim',
-      exit:'Target premarket high or session high\nStop below reclaim low',
-      avoid:'No clean test\nChoppy conditions' },
-    { id:'demo-pb-3', name:'Bias Pullback', condition:'Trend day, clean structure',
-      desc:'Pullback into a level inside an established bias.', rr:2, inst:'NQ, MNQ, ES', hold:'8–20 min',
-      entry:'Trend bias is clear\nPullback into named level\nReversal candle in direction of bias',
-      exit:'Target prior swing\nStop beyond pullback extreme',
-      avoid:'Choppy / no bias\nLevel too far from entry' }
-  ];
-
-  // Morning intentions (per-date) — what saveJournal writes into S.morning.
-  // Today's intention populates the dashboard "Morning Intention" textarea.
-  S.morning = {};
-  S.morning[daysAgo(25)] = { intention:'Today I will wait for ORB or VWAP Reclaim only. Max risk $300. Max 2 trades.', lossLimit:'300', maxTrades:'2', key:'21,150 PDH' };
-  S.morning[daysAgo(16)] = { intention:'Bias Pullback only today. Max risk $300. Stop after 1 loss.',                     lossLimit:'300', maxTrades:'1', key:'21,200' };
-  S.morning[daysAgo( 7)] = { intention:'Patient morning. Wait for A+ setup. Max 1 trade.',                                lossLimit:'300', maxTrades:'1', key:'21,440' };
-  S.morning[daysAgo( 0)] = { intention:'Bismillah. ORB only. Max risk $300. Stop after 1 loss.',                          lossLimit:'300', maxTrades:'1', key:'21,600' };
-
-  // Evening reflections — exact shape saveJournal writes.
-  S.journals = [
-    { id: 1700000900001, date: daysAgo(25), rules:'yes',
-      what:'Took ORB long, hit target. Stayed disciplined on second setup that didn\'t materialize.',
-      fix:'Continue waiting for full setup criteria. Don\'t force the second trade.',
-      shukr:'Alhamdulillah — clean entry, clean exit, full presence at Dhuhr.',
-      nafs:{sabr:4, tawakkul:4, kibr:2, shukr:5}, createdAt: isoAt(25, 21, 30) },
-    { id: 1700000900002, date: daysAgo(16), rules:'no',
-      what:'Took the loss, then chased a second setup out of frustration. Lost on that too. Skipped Dhuhr.',
-      fix:'When the first trade loses, close the platform. Pray. Come back tomorrow.',
-      shukr:'Even the losing day reminds me my rules exist for a reason.',
-      nafs:{sabr:1, tawakkul:2, kibr:3, shukr:3}, createdAt: isoAt(16, 21, 0) },
-    { id: 1700000900003, date: daysAgo(7), rules:'nt',
-      what:'No A+ setup formed. Closed the day flat. Read Surah Al-Kahf (Friday).',
-      fix:'Zero trades today = winning session. This is the work.',
-      shukr:'Shukr for the discipline to walk away.',
-      nafs:{sabr:5, tawakkul:5, kibr:2, shukr:5}, createdAt: isoAt(7, 19, 45) }
-  ];
-
-  // Settings + goal + streak. Goal uses `deadline` (not `dl`) to match
-  // saveGoal's shape so the deadline field actually renders.
-  S.settings = { name: 'Friend', referralCode: 'DEMOXY' };
-  S.goal     = { desc:'$3,000 monthly target', target:3000, deadline: daysAgo(-12), createdAt: new Date(today.getTime() - 18*86400000).toISOString() };
-  S.challenge = null;
-  S.nafs   = { sabr:3, tawakkul:4, kibr:2, shukr:4 };
-  S.dhikr  = { sub:33, alh:21, akb:7 }; // realistic running counts while a trade is open
-  S.gateAns = {};
-  S.icChecked = { bismillah:false, prayer:false, setup:false, stop:false };
-  S.obStep = 99; // bypass the onboarding wizard in demo
-  // Sample stats the app stamps on real accounts — keeps welcome/onboarding logic happy.
-  S.sessionCount = 4;
-}
-
-function enterDemoMode(){
-  window._DEMO = true;
-  document.body.classList.add('demo-active');
-  // Hide the landing / auth / paywall surfaces; demo bypasses all three.
-  var lg = el('landing');         if(lg) lg.classList.add('hide');
-  var as = el('auth-screen');     if(as) as.classList.remove('show');
-  var pw = el('paywall-screen');  if(pw) pw.classList.remove('show');
-  // Show the banner.
-  var db = el('demo-banner');     if(db) db.classList.add('show');
-  // Unlock Sirat tier so every hero-promised feature is reachable: Mizan
-  // verdict in the entry modal, witness mode in settings, disaster brake,
-  // path-to-profitability stages. Without this the demo only shows base
-  // tier and the hero feels like a lie.
-  S._sub = { status:'active', tier:'sirat' };
-  // Seed state and route to dashboard.
-  seedDemoData();
-  // Trade count badge, profile chips, etc. read from S — render once.
-  try{
-    var sfn=el('sf-name');if(sfn) sfn.textContent='Demo';
-    var sfa=el('sf-av');if(sfa) sfa.textContent='D';
-    var sfp=el('sf-plan-label');if(sfp) sfp.textContent='Demo';
-  }catch(e){}
-  // Add a query param so refresh keeps the user in demo.
-  try{ history.replaceState({}, '', '/?demo=1'); }catch(e){}
-  try{ _refreshBrakeBadge(); }catch(e){}
-  go('dashboard', null);
-}
-
-function exitDemoMode(){
-  window._DEMO = false;
-  document.body.classList.remove('demo-active');
-  var db = el('demo-banner'); if(db) db.classList.remove('show');
-  // Wipe in-memory demo state so it doesn't bleed into a real signup later.
-  S.trades=[];S.journals=[];S.morning={};S.challenge=null;S.goal=null;
-  S.settings={};S.dailyPrayers={};S.playbook=[];S.openTradeId=null;
-  S.nafs={sabr:0,tawakkul:0,kibr:0,shukr:0};
-  // Back to landing.
-  try{ history.replaceState({}, '', '/'); }catch(e){}
-  var lg = el('landing'); if(lg) lg.classList.remove('hide');
-}
-
-// Exit demo into the signup flow so the visitor's intent ("save this") is
-// preserved straight into auth.
-function exitDemoToSignup(){
-  exitDemoMode();
-  if(typeof showAuth === 'function') showAuth('signup');
-}
-
 // ── UTILS ──────────────────────────────────────────────────────────────────
 function el(id){return document.getElementById(id);}
 
@@ -3616,7 +3245,7 @@ function esc(s){
 // "glitches and takes me back to Safari."
 (function _ownInitialHistory(){
   try{
-    var cur = (window.location.pathname || '/') + (window.location.search || '');
+    var cur = window.location.pathname || '/';
     window.history.replaceState({path: cur, niyyah: true, view: 'initial'}, '', cur);
   }catch(_){}
 })();
@@ -4060,23 +3689,6 @@ function selExEm(btn){document.querySelectorAll('#exit-modal .emotion-btn').forE
 
 // ── QUALITY SCORE ──────────────────────────────────────────────────────────
 // Out of 11 points. Returns 0–100.
-// R-multiple: trade result expressed in units of initial risk. Risk per unit
-// is |entry − stop|; reward per unit is the directional move from entry to
-// exit. +2R means the trade made twice what it risked; −1R is a full stop-out.
-// Uses only entryPrice/stopPrice/exitPrice — no position size required.
-function calcR(t){
-  if(!t || t.status!=='closed') return null;
-  var e=parseFloat(String(t.entryPrice||'').replace(/,/g,''));
-  var s=parseFloat(String(t.stopPrice||'').replace(/,/g,''));
-  var x=parseFloat(String(t.exitPrice||'').replace(/,/g,''));
-  if(isNaN(e)||isNaN(s)||isNaN(x)) return null;
-  var risk=Math.abs(e-s);
-  if(risk < 1e-9) return null;
-  var dir=(t.direction==='SHORT') ? -1 : 1;
-  return ((x-e)*dir)/risk;
-}
-function fmtR(r){ return (r>=0?'+':'')+r.toFixed(2)+'R'; }
-
 function calcQ(t){
   var s=0,m=0;
 
@@ -4124,42 +3736,6 @@ function calcQ(t){
 }
 
 // ── ENTRY MODAL ────────────────────────────────────────────────────────────
-// Niyyah strip — shown at the top of the entry modal. If the user set a
-// morning intention today (from the dashboard or here), confirm it; else
-// prompt to set one inline. Both write to S.morning[today].intention, so
-// the dashboard card and this strip stay in sync.
-function renderNiyyahStrip(){
-  var strip=el('niyyah-strip'); if(!strip) return;
-  var today=localDate();
-  var saved=S.morning&&S.morning[today]&&S.morning[today].intention;
-  if(saved){
-    strip.innerHTML='<div style="display:flex;align-items:flex-start;gap:9px;padding:11px 13px;background:rgba(112,184,142,0.07);border:1px solid rgba(112,184,142,0.22);border-radius:10px;">'+
-      '<span style="color:var(--green);font-size:0.9rem;flex-shrink:0;line-height:1.4;">✓</span>'+
-      '<div style="flex:1;min-width:0;"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.16em;color:var(--ink-3);text-transform:uppercase;margin-bottom:3px;">Today\'s Niyyah</div>'+
-      '<div style="font-size:0.84rem;color:var(--ink-2);line-height:1.5;">'+esc(saved)+'</div></div></div>';
-  } else {
-    strip.innerHTML='<div style="padding:12px 13px;background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.2);border-radius:10px;">'+
-      '<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.05rem;color:var(--ink);margin-bottom:7px;">You haven\'t set your <em style="color:var(--gold);font-style:italic;">niyyah</em> today.</div>'+
-      '<div style="font-size:0.78rem;color:var(--ink-3);margin-bottom:9px;line-height:1.55;">Name your intention before the first trade. Trading with intention is the whole point — not an afterthought.</div>'+
-      '<textarea id="niyyah-quick" rows="2" placeholder="Today I intend to trade with patience. Max risk $___. Max ___ trades." style="width:100%;background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:9px 11px;color:var(--ink);font-size:0.84rem;font-family:inherit;resize:vertical;margin-bottom:8px;box-sizing:border-box;"></textarea>'+
-      '<div style="display:flex;justify-content:flex-end;"><button class="btn btn-gold btn-sm" onclick="saveNiyyahQuick()">Set niyyah · Bismillah</button></div></div>';
-  }
-}
-function saveNiyyahQuick(){
-  var ta=el('niyyah-quick'); if(!ta) return;
-  var val=(ta.value||'').trim();
-  if(val.length<3){ toast('Name your intention first','e'); ta.focus(); return; }
-  var today=localDate();
-  if(!S.morning) S.morning={};
-  if(!S.morning[today]) S.morning[today]={};
-  S.morning[today].intention=val;
-  sv('morning',S.morning);
-  renderNiyyahStrip();
-  // Keep the dashboard intention textarea in sync if it's mounted.
-  var dashInt=el('today-intention-input'); if(dashInt) dashInt.value=val;
-  toast('✓ Niyyah set. Bismillah.','s');
-}
-
 function openEntryModal(){
   // Sirat: Disaster Brake hard-blocks new trades while the user is locked.
   if(isSirat() && isSiratLocked()){
@@ -4173,7 +3749,6 @@ function openEntryModal(){
   document.body.style.overflow='hidden';
   S.gateAns={};S.selEmotion=null;S.icChecked={bismillah:false,prayer:false,setup:false,stop:false};
   S.entryScreenshot=null;
-  renderNiyyahStrip();
   resetScreenshotZone('e-screenshot-zone','entry');
   document.querySelectorAll('.gqb').forEach(function(b){b.classList.remove('on');});
   var gw=el('gate-warn');if(gw)gw.classList.remove('show');
@@ -4209,21 +3784,6 @@ function closeEntry(force){
     return;
   }
   m.classList.remove('show');document.body.style.overflow='';
-}
-// Bridge from the entry modal to the standalone Risk Calc. Carries the
-// in-progress entry/stop so the user doesn't retype them, then jumps to
-// the calc page. The modal is force-closed (user already implicitly
-// chose to step out for sizing) and they can re-open it via the FAB.
-function openRiskCalcFromEntry(){
-  var entry=el('e-entry')&&el('e-entry').value;
-  var stop=el('e-stop')&&el('e-stop').value;
-  closeEntry(true);
-  go('risk',null);
-  setTimeout(function(){
-    var ea=el('rc-entry'); if(ea && entry){ea.value=(entry||'').replace(/,/g,'');}
-    var sa=el('rc-stop'); if(sa && stop){sa.value=(stop||'').replace(/,/g,'');}
-    if(typeof calcRisk==='function')calcRisk();
-  },0);
 }
 function saveEntry(){
   var inst=(el('e-inst')?el('e-inst').value:'').toUpperCase().trim();
@@ -4289,7 +3849,7 @@ function saveEntry(){
   // Single atomic write: both fields land together or neither does.
   svMulti({trades:S.trades, openTradeId:S.openTradeId})
     .then(function(){
-      closeEntry(true);
+      closeEntry();
       ['e-inst','e-setup','e-entry','e-stop','e-target'].forEach(function(id){var e=el(id);if(e)e.value='';});
       updateNav(); toast('\u2713 Trade entered \u2014 come back to log the close','s');
       if(el('page-dashboard').classList.contains('active'))renderDash();
@@ -4394,12 +3954,11 @@ function openTD(id){
   var m=el('td-modal');if(!m)return;
   var ic=t.islamicCheck||{};var icScore=Object.values(ic).filter(Boolean).length;
   var body=el('td-body');
-  if(body)body.innerHTML='<div class="td-section"><div class="td-label">Position</div><div style="font-family:\'JetBrains Mono\',monospace;font-size:1.7rem;font-weight:600;color:var(--ink);letter-spacing:0.01em;margin-bottom:10px;">'+esc(t.instrument)+' <span style="color:'+(t.direction==='LONG'?'var(--green)':'var(--red)')+'">'+esc(t.direction)+'</span></div><div class="td-row">'+
+  if(body)body.innerHTML='<div class="td-section"><div class="td-label">Position</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:2rem;font-weight:600;color:var(--ink);margin-bottom:10px;">'+esc(t.instrument)+' <span style="color:'+(t.direction==='LONG'?'var(--green)':'var(--red)')+'">'+esc(t.direction)+'</span></div><div class="td-row">'+
     mkTDItem('Date',fmtDate(t.date))+mkTDItem('Time',esc(t.time)||'\u2014')+mkTDItem('Setup',esc(t.setup)||'\u2014')+mkTDItem('Status',esc(t.status.toUpperCase()))+
     '</div></div><div class="td-section"><div class="td-label">Prices</div><div class="td-row">'+mkTDItem('Entry',esc(t.entryPrice)||'\u2014')+mkTDItem('Stop',esc(t.stopPrice)||'\u2014')+mkTDItem('Target',esc(t.targetPrice)||'\u2014')+mkTDItem('Exit',esc(t.exitPrice)||'\u2014')+'</div></div>'+
     '<div class="td-section"><div class="td-label">Result</div><div class="td-row">'+
     mkTDItem('P&L','<span class="t-pnl '+(t.pnl>=0?'pos':'neg')+'">'+fmt(t.pnl,true)+'</span>')+
-    (function(){var r=calcR(t);return r!==null?mkTDItem('R-Multiple','<span class="t-pnl '+(r>=0?'pos':'neg')+'">'+fmtR(r)+'</span>'):'';})()+
     mkTDItem('Quality',(t.quality||0)+'/100')+mkTDItem('Outcome',esc(t.outcome)||'\u2014')+mkTDItem('Islamic',icScore+'/4 \u2713')+
     '</div></div><div class="td-section"><div class="td-label">Psychology</div><div class="td-row">'+mkTDItem('Entry State',esc(t.emotion)||'\u2014')+mkTDItem('Exit State',esc(t.exitEmotion)||'\u2014')+'</div>'+
     (t.lesson?'<div style="margin-top:10px;padding:11px 13px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);font-size:0.84rem;color:var(--ink-2);line-height:1.6;"><strong style="color:var(--gold);">Lesson:</strong> '+esc(t.lesson)+'</div>':'')+'</div>'+
@@ -4899,12 +4458,6 @@ function renderDash(){
   // ── SINGLE BEHAVIORAL INSIGHT ──────────────────────────────────────────
   renderTodayInsight();
 
-  // ── PRAYER × PERFORMANCE ───────────────────────────────────────────────
-  renderPrayerEdge();
-
-  // ── NAFS PULSE ─────────────────────────────────────────────────────────
-  renderNafsPulse();
-
   // ── MORNING INTENTION ──────────────────────────────────────────────────
   // Only meaningful in the morning, and only after the user has any trade history
   // (zero-trade users don't need another empty input on day 1).
@@ -5058,7 +4611,7 @@ function drawSpark(id,vals){
 function renderInsights(){
   var e=el('insights-wrap');if(!e)return;
   var closed=S.trades.filter(function(t){return t.status==='closed';});
-  if(closed.length<3){e.innerHTML='<div class="empty" style="padding:26px 8px;"><div class="empty-icon">\ud83c\udf19</div><div class="empty-title">Insights after 3 closed trades</div><div class="empty-text">Keep logging. The patterns will emerge.</div></div>';return;}
+  if(closed.length<4){e.innerHTML='<div class="empty" style="padding:26px 8px;"><div class="empty-icon">\ud83c\udf19</div><div class="empty-title">Insights after 5 closed trades</div><div class="empty-text">Keep logging. The patterns will emerge.</div></div>';return;}
   var ins=[];
 
   // Contradiction detection — calm entry, bad exit
@@ -5174,7 +4727,7 @@ function renderInTrade(){
   }
   if(pe)pe.textContent='YOU ARE IN A TRADE';if(pt)pt.innerHTML='Tawakkul \u2014 <em>Release</em> the outcome.';if(ps)ps.innerHTML='Your analysis is done. Your stop is set. Trust Allah with what happens next.<br><span style="font-family:\'JetBrains Mono\',monospace;font-size:0.58rem;letter-spacing:0.08em;color:var(--ink-4);">Switch to your platform to monitor price \u2014 return here to close.</span>';if(cb)cb.style.display='';
   if(panels)panels.style.display='';
-  if(de)de.innerHTML='<div class="panel" style="border-color:rgba(218,180,98,0.3);background:linear-gradient(135deg,rgba(218,180,98,0.07),transparent),var(--surface);position:relative;overflow:hidden;"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);"></div><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;"><div><div class="open-badge" style="margin-bottom:11px;">LIVE POSITION</div><div style="font-family:\'JetBrains Mono\',monospace;font-size:1.7rem;font-weight:600;color:var(--ink);letter-spacing:0.01em;margin-bottom:9px;">'+esc(t.instrument)+' <span style="color:'+(t.direction==='LONG'?'var(--green)':'var(--red)')+';">'+esc(t.direction)+'</span></div><div style="display:flex;gap:16px;font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;color:var(--ink-3);flex-wrap:wrap;line-height:2;">'+(t.entryPrice?'<span>Entry\u00a0<strong style="color:var(--ink);">'+esc(t.entryPrice)+'</strong></span>':'')+(t.stopPrice?'<span>Stop\u00a0<strong style="color:var(--red);">'+esc(t.stopPrice)+'</strong></span>':'')+(t.targetPrice?'<span>Target\u00a0<strong style="color:var(--green);">'+esc(t.targetPrice)+'</strong></span>':'')+(t.setup?'<span>Setup\u00a0<strong style="color:var(--gold);">'+esc(t.setup)+'</strong></span>':'')+'</div></div><div style="text-align:right;flex-shrink:0;"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px;">QUALITY</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:2rem;font-weight:600;color:var(--gold);">'+(t.quality||'\u2014')+'</div></div></div></div>';
+  if(de)de.innerHTML='<div class="panel" style="border-color:rgba(218,180,98,0.3);background:linear-gradient(135deg,rgba(218,180,98,0.07),transparent),var(--surface);position:relative;overflow:hidden;"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);"></div><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;"><div><div class="open-badge" style="margin-bottom:11px;">LIVE POSITION</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:2rem;font-weight:600;color:var(--ink);letter-spacing:-0.02em;margin-bottom:9px;">'+esc(t.instrument)+' <span style="color:'+(t.direction==='LONG'?'var(--green)':'var(--red)')+';">'+esc(t.direction)+'</span></div><div style="display:flex;gap:16px;font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;color:var(--ink-3);flex-wrap:wrap;line-height:2;">'+(t.entryPrice?'<span>Entry\u00a0<strong style="color:var(--ink);">'+esc(t.entryPrice)+'</strong></span>':'')+(t.stopPrice?'<span>Stop\u00a0<strong style="color:var(--red);">'+esc(t.stopPrice)+'</strong></span>':'')+(t.targetPrice?'<span>Target\u00a0<strong style="color:var(--green);">'+esc(t.targetPrice)+'</strong></span>':'')+(t.setup?'<span>Setup\u00a0<strong style="color:var(--gold);">'+esc(t.setup)+'</strong></span>':'')+'</div></div><div style="text-align:right;flex-shrink:0;"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px;">QUALITY</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:2rem;font-weight:600;color:var(--gold);">'+(t.quality||'\u2014')+'</div></div></div></div>';
 }
 
 // ── TRADES ─────────────────────────────────────────────────────────────────
@@ -5815,7 +5368,7 @@ function _siratUpsell(){
   return '<div style="background:linear-gradient(160deg,#1e1b12 0%,#0f0d09 100%);border:1px solid rgba(218,180,98,0.28);border-radius:20px;padding:38px 36px;text-align:left;max-width:720px;margin:0 auto;">' +
     '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.56rem;letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;">SIRAT — NIYYAH PREMIUM</div>' +
     '<div style="font-family:\'Cormorant Garamond\',serif;font-size:2.1rem;font-weight:600;color:var(--ink);line-height:1.1;margin-bottom:14px;">The staged path to <em style="color:var(--gold);">profitability.</em></div>' +
-    '<div style="font-size:0.92rem;color:var(--ink-2);line-height:1.75;margin-bottom:22px;">Five stages — Tahaarah, Sabr, Yaqeen, Tawakkul, Ihsan — calibrated to your actual data. Niyyah tells you exactly where you stand, what\'s blocking the next stage, and the one focus that gets you through it. Plus <strong style="color:var(--ink);">Mizan</strong> (live verdict on every trade you propose), <strong style="color:var(--ink);">Edge Audit</strong>, <strong style="color:var(--ink);">Risk-of-Ruin</strong>, <strong style="color:var(--ink);">Disaster Brake</strong>, and <strong style="color:var(--ink);">Witness Mode</strong> <span style="color:var(--gold-deep);font-size:0.78rem;">(coming soon)</span>.</div>' +
+    '<div style="font-size:0.92rem;color:var(--ink-2);line-height:1.75;margin-bottom:22px;">Five stages — Tahaarah, Sabr, Yaqeen, Tawakkul, Ihsan — calibrated to your actual data. Niyyah tells you exactly where you stand, what\'s blocking the next stage, and the one focus that gets you through it. Plus <strong style="color:var(--ink);">Mizan</strong> (live verdict on every trade you propose), <strong style="color:var(--ink);">Edge Audit</strong>, <strong style="color:var(--ink);">Risk-of-Ruin</strong>, <strong style="color:var(--ink);">Disaster Brake</strong>, and <strong style="color:var(--ink);">Witness Mode</strong>.</div>' +
     '<button class="btn btn-gold btn-lg" onclick="upgradeToSirat()">Upgrade to Sirat — $38/mo</button>' +
     '<div style="margin-top:10px;font-family:\'JetBrains Mono\',monospace;font-size:0.58rem;letter-spacing:0.14em;color:var(--ink-4);text-transform:uppercase;">or $300/yr · save $156 · 7-day refund</div>' +
     '</div>';
@@ -6268,7 +5821,6 @@ function engageDisasterBrake(){
   _refreshBrakeBadge();
 }
 function _refreshBrakeBadge(){
-  var navS = el('nav-sirat'); if(navS) navS.classList.toggle('is-sirat', isSirat());
   var btn = el('topbar-brake'); if(!btn) return;
   btn.style.display = isSirat() ? '' : 'none';
   if(isSiratLocked()){
@@ -6289,26 +5841,21 @@ function renderWitnessRow(){
     row.innerHTML = '<div style="font-size:0.78rem;color:var(--ink-4);">Available on Sirat. <a onclick="upgradeToSirat()" style="color:var(--gold);cursor:pointer;">Upgrade →</a></div>';
     return;
   }
-  var live = !!BACKEND_FLAGS.witness;
-  var comingSoon = live ? '' :
-    '<div style="font-size:0.74rem;color:var(--gold);background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.18);border-radius:8px;padding:9px 12px;margin-bottom:10px;line-height:1.55;">' +
-      '<strong style="letter-spacing:0.04em;">Coming soon.</strong> The weekly report backend isn\'t live yet — you can set your witness now, but the first email will only go out once the backend ships. We won\'t silently fail.' +
-    '</div>';
   var w = (S.settings && S.settings.witness) || null;
   if(w && w.email){
-    row.innerHTML = comingSoon +
+    row.innerHTML =
       '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">' +
-        '<div style="flex:1;font-size:0.82rem;color:var(--ink-2);">' + (live?'Weekly summary going to':'Witness set to') + ' <strong style="color:var(--gold);">' + esc(w.email) + '</strong>' + (w.label ? ' (' + esc(w.label) + ')' : '') + '. Discipline metrics only — no P&L, no trade detail.</div>' +
+        '<div style="flex:1;font-size:0.82rem;color:var(--ink-2);">Weekly summary going to <strong style="color:var(--gold);">' + esc(w.email) + '</strong>' + (w.label ? ' (' + esc(w.label) + ')' : '') + '. Discipline metrics only — no P&L, no trade detail.</div>' +
         '<button class="btn btn-ghost btn-sm" onclick="clearWitness()">Disable</button>' +
       '</div>';
   } else {
-    row.innerHTML = comingSoon +
+    row.innerHTML =
       '<div style="display:flex;flex-direction:column;gap:8px;">' +
         '<div style="display:grid;grid-template-columns:1.4fr 1fr;gap:8px;">' +
           '<input type="email" id="w-email" placeholder="brother@example.com" style="background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;color:var(--ink);font-size:0.84rem;">' +
           '<input type="text" id="w-label" placeholder="Spouse · Mentor · Brother" style="background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;color:var(--ink);font-size:0.84rem;">' +
         '</div>' +
-        '<div style="display:flex;justify-content:flex-end;"><button class="btn btn-gold btn-sm" onclick="saveWitness()">' + (live?'Enable witness':'Save witness (no email yet)') + '</button></div>' +
+        '<div style="display:flex;justify-content:flex-end;"><button class="btn btn-gold btn-sm" onclick="saveWitness()">Enable witness</button></div>' +
       '</div>';
   }
 }
@@ -6320,7 +5867,7 @@ function saveWitness(){
   S.settings.witness = { email: email, label: label, since: new Date().toISOString() };
   sv('settings', S.settings);
   renderWitnessRow();
-  toast(BACKEND_FLAGS.witness ? '✓ Witness mode on. First report goes out Sunday.' : '✓ Witness saved. Emails start once the backend ships.','s');
+  toast('✓ Witness mode on. First report goes out Sunday.','s');
 }
 function clearWitness(){
   if(!S.settings) S.settings = {};
@@ -6444,7 +5991,6 @@ function renderSettings(){
     var dispEl=el('s-display-name');if(dispEl)dispEl.textContent=S.settings.name||user.displayName||user.email.split('@')[0];
     var avEl=el('s-avatar');if(avEl)avEl.textContent=(S.settings.name||user.displayName||user.email)[0].toUpperCase();
   }
-  var siratLink=el('settings-sirat-link');if(siratLink)siratLink.style.display=isSirat()?'':'none';
   renderPrayerLocRow();
   renderPushToggleRow();
   renderReferralRow();
@@ -6517,16 +6063,11 @@ function renderPushToggleRow(){
     row.innerHTML = '<div style="font-size:0.74rem;color:var(--ink-4);">Push notifications are not supported in this browser.</div>';
     return;
   }
-  var live = !!(BACKEND_FLAGS.push && PUSH_VAPID_PUBLIC);
   var enabled = !!(S.settings && S.settings.pushSubscription);
-  var comingSoon = live ? '' :
-    '<div style="font-size:0.74rem;color:var(--gold);background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.18);border-radius:8px;padding:9px 12px;margin-bottom:10px;line-height:1.55;">' +
-      '<strong style="letter-spacing:0.04em;">Coming soon.</strong> The scheduled-push backend isn\'t live yet — enabling here just saves your preference. In-tab reminders (above) work today.' +
-    '</div>';
-  row.innerHTML = comingSoon +
+  row.innerHTML =
     '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">' +
       '<div style="flex:1;font-size:0.82rem;color:'+(enabled?'var(--ink-2)':'var(--ink-3)')+';"><strong style="color:'+(enabled?'var(--gold)':'var(--ink-3)')+';">Daily nudge</strong> — one push a day if your state needs it (streak-at-risk, post-loss reflection, weekly muhasabah). Off by default.</div>' +
-      '<button class="btn btn-'+(enabled?'outline':'gold')+' btn-sm" '+(live?'':'disabled style="opacity:0.55;cursor:not-allowed;"')+' onclick="'+(enabled?'disablePush()':'enablePush()')+'">'+(enabled?'Disable':'Enable')+'</button>' +
+      '<button class="btn btn-'+(enabled?'outline':'gold')+' btn-sm" onclick="'+(enabled?'disablePush()':'enablePush()')+'">'+(enabled?'Disable':'Enable')+'</button>' +
     '</div>';
 }
 function enablePush(){
@@ -6585,12 +6126,7 @@ function renderReferralRow(){
   }
   var code = S.settings.referralCode;
   var url = window.location.origin + '/?ref=' + code;
-  var live = !!BACKEND_FLAGS.referral;
-  var comingSoon = live ? '' :
-    '<div style="font-size:0.74rem;color:var(--gold);background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.18);border-radius:8px;padding:9px 12px;margin-bottom:10px;line-height:1.55;">' +
-      '<strong style="letter-spacing:0.04em;">Coming soon.</strong> Credit-on-payment isn\'t live yet — share the link, and once the backend ships your referrals will be honoured.' +
-    '</div>';
-  row.innerHTML = comingSoon +
+  row.innerHTML =
     '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--surface-2);border:1px solid var(--line-2);border-radius:10px;padding:12px 14px;">' +
       '<div style="flex:1;min-width:200px;"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.56rem;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;margin-bottom:5px;">YOUR REFERRAL LINK</div><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.74rem;color:var(--ink);word-break:break-all;line-height:1.5;">'+esc(url)+'</div></div>' +
       '<button class="btn btn-gold btn-sm" onclick="copyReferralLink()">Copy link</button>' +
@@ -6624,14 +6160,6 @@ function copyReferralLink(){
       }catch(_){}
     }
   }catch(_){}
-  // Honour ?demo=1 — auto-enter demo mode after the auth listener has had a
-  // tick to settle. Wrapped in setTimeout so AUTH.onAuthStateChanged's "no
-  // user → show landing" branch runs first, then we immediately override it.
-  try{
-    if(/[?&]demo=1\b/i.test(window.location.search || '')){
-      setTimeout(function(){ if(typeof enterDemoMode === 'function') enterDemoMode(); }, 50);
-    }
-  }catch(_){}
 })();
 function saveSettings(){var sn=el('s-name');S.settings.name=sn?sn.value:'';sv('settings',S.settings);if(S.settings.name){setText('sf-av',S.settings.name[0].toUpperCase());setText('sf-name',S.settings.name);}toast('\u2713 Saved','s');}
 function confirmResetAll(){
@@ -6662,10 +6190,6 @@ function resetAll(){
 
 // GDPR-compliant: deletes Firestore data AND Firebase Auth user
 function deleteAccount(){
-  if(isDemo()){
-    toast('Demo mode — there\'s nothing to delete. Refresh to start fresh.','i');
-    return;
-  }
   confirmModal({
     title:'Delete your account forever?',
     text:'Your Niyyah account and ALL data (trades, journals, prayer history) will be permanently deleted. This cannot be undone.',
@@ -7700,11 +7224,7 @@ function init(){
     var user=AUTH.currentUser;
     if(S.settings.name){setText('sf-av',S.settings.name[0].toUpperCase());setText('sf-name',S.settings.name);}
     else if(user&&user.displayName){setText('sf-av',user.displayName[0].toUpperCase());setText('sf-name',user.displayName);}
-    if(user&&user.email){
-      var planText = user.email;
-      if(window._TEST_BYPASS) planText = '⚡ Preview · paywall bypassed';
-      setText('sf-plan-label', planText);
-    }
+    if(user&&user.email){setText('sf-plan-label',user.email);}
     if(S.openTradeId){var found=S.trades.find(function(t){return t.id===S.openTradeId&&t.status==='open';});if(!found){S.openTradeId=null;sv('openTradeId',null);}}
     // Increment session counter — drives PWA-install nudge timing
     S.sessionCount = (S.sessionCount||0) + 1;
