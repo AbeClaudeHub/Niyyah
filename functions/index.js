@@ -23,43 +23,63 @@
      # 1. Install
      cd functions && npm install
 
-     # 2. Set Stripe config (NEVER commit these — they live in Firebase,
-     #    not git). Paste each value once; Firebase stores it encrypted.
-     firebase functions:config:set \
-       stripe.secret="sk_live_...REPLACE_ME..." \
-       stripe.webhook_secret="whsec_...REPLACE_ME..." \
-       stripe.price_id="price_...REPLACE_ME..."
+     # 2. Store the two secrets in Cloud Secret Manager (encrypted, never in
+     #    git). Each command prompts for the value:
+     firebase functions:secrets:set STRIPE_SECRET           # sk_live_...
+     firebase functions:secrets:set STRIPE_WEBHOOK_SECRET   # whsec_... (from step 5)
 
-     # 3. Deploy
+     # 3. Set the four price IDs in functions/.env (not secret — they appear
+     #    at checkout anyway). Copy .env.example to .env and fill in:
+     #      STRIPE_PRICE_BASE_MONTHLY=price_...
+     #      STRIPE_PRICE_BASE_ANNUAL=price_...
+     #      STRIPE_PRICE_SIRAT_MONTHLY=price_...
+     #      STRIPE_PRICE_SIRAT_ANNUAL=price_...
+
+     # 4. Deploy
      firebase deploy --only functions
 
-     # 4. In the Stripe dashboard, add a webhook endpoint pointing to:
-     #      https://<your-region>-<your-project>.cloudfunctions.net/stripeWebhook
+     # 5. In the Stripe dashboard, add a webhook endpoint pointing to:
+     #      https://us-central1-sunnahtrader-f71f1.cloudfunctions.net/stripeWebhook
      #    Subscribe it to these events:
      #      checkout.session.completed
      #      customer.subscription.updated
      #      customer.subscription.deleted
      #      invoice.payment_failed
-     #    Copy the signing secret (whsec_…) and re-run step 2 with it.
+     #    Copy the signing secret (whsec_…) into STRIPE_WEBHOOK_SECRET (step 2),
+     #    then redeploy: firebase deploy --only functions
 
    ════════════════════════════════════════════════════════════════════════ */
 
 const functions = require('firebase-functions');
 const admin     = require('firebase-admin');
+const { defineSecret, defineString } = require('firebase-functions/params');
 
 admin.initializeApp();
 const db = admin.firestore();
 
-// Lazy-load Stripe so config-read errors are deferrable and don't
-// crash cold-start for unrelated functions.
+// Secrets live in Cloud Secret Manager (`firebase functions:secrets:set`),
+// never in git or the deprecated runtime config. Bound per-function below via
+// runWith({ secrets: [...] }); .value() reads them at runtime.
+const STRIPE_SECRET         = defineSecret('STRIPE_SECRET');
+const STRIPE_WEBHOOK_SECRET = defineSecret('STRIPE_WEBHOOK_SECRET');
+
+// Price IDs aren't secret (they appear at checkout), so they come from params
+// backed by functions/.env — easy to vary per project/environment.
+const PRICE_BASE_MONTHLY  = defineString('STRIPE_PRICE_BASE_MONTHLY',  { default: '' });
+const PRICE_BASE_ANNUAL   = defineString('STRIPE_PRICE_BASE_ANNUAL',   { default: '' });
+const PRICE_SIRAT_MONTHLY = defineString('STRIPE_PRICE_SIRAT_MONTHLY', { default: '' });
+const PRICE_SIRAT_ANNUAL  = defineString('STRIPE_PRICE_SIRAT_ANNUAL',  { default: '' });
+
+// Lazy-load Stripe so a missing secret surfaces as a clean error inside the
+// request rather than crashing cold-start for unrelated functions.
 let _stripe = null;
 function stripe() {
   if (_stripe) return _stripe;
-  const key = (functions.config().stripe || {}).secret;
+  const key = STRIPE_SECRET.value();
   if (!key) {
     throw new functions.https.HttpsError(
       'failed-precondition',
-      'Stripe secret not configured. Run: firebase functions:config:set stripe.secret="sk_..."'
+      'Stripe secret not configured. Run: firebase functions:secrets:set STRIPE_SECRET'
     );
   }
   _stripe = require('stripe')(key, { apiVersion: '2024-12-18.acacia' });
@@ -70,40 +90,33 @@ function stripe() {
 // axes: monthly|annual × base|sirat → 4 prices. Base is the original product
 // at $27/$230, Sirat is the $38/$300 premium tier.
 //
-// Config keys (set in Firebase, never in git):
-//   stripe.price_id                 — base monthly  ($27)
-//   stripe.price_id_annual          — base annual   ($230)
-//   stripe.price_id_sirat_monthly   — sirat monthly ($38)
-//   stripe.price_id_sirat_annual    — sirat annual  ($300)
-//
-// TODO(deploy): set whichever prices you haven't set yet:
-//   firebase functions:config:set \
-//     stripe.price_id_annual="price_..." \
-//     stripe.price_id_sirat_monthly="price_..." \
-//     stripe.price_id_sirat_annual="price_..."
-//   firebase deploy --only functions
+// Price IDs come from params (functions/.env):
+//   STRIPE_PRICE_BASE_MONTHLY    — base monthly  ($27)
+//   STRIPE_PRICE_BASE_ANNUAL     — base annual   ($230)
+//   STRIPE_PRICE_SIRAT_MONTHLY   — sirat monthly ($38)
+//   STRIPE_PRICE_SIRAT_ANNUAL    — sirat annual  ($300)
 //
 // Missing config falls back to monthly base (so checkout never hard-fails for
 // a user) and logs a warning we can spot in Functions logs.
 function priceId(plan, tier) {
-  const cfg = functions.config().stripe || {};
   tier = (tier === 'sirat') ? 'sirat' : 'base';
   plan = (plan === 'annual') ? 'annual' : 'monthly';
+  const baseMonthly = PRICE_BASE_MONTHLY.value();
   let key;
   if (tier === 'sirat') {
-    key = (plan === 'annual') ? cfg.price_id_sirat_annual : cfg.price_id_sirat_monthly;
+    key = (plan === 'annual') ? PRICE_SIRAT_ANNUAL.value() : PRICE_SIRAT_MONTHLY.value();
   } else {
-    key = (plan === 'annual') ? cfg.price_id_annual : cfg.price_id;
+    key = (plan === 'annual') ? PRICE_BASE_ANNUAL.value() : baseMonthly;
   }
   if (key) return key;
   console.warn('Stripe price not configured for tier='+tier+' plan='+plan+' — falling back to base monthly.');
-  if (!cfg.price_id) {
+  if (!baseMonthly) {
     throw new functions.https.HttpsError(
       'failed-precondition',
-      'Stripe price_id not configured. Run: firebase functions:config:set stripe.price_id="price_..."'
+      'Stripe price not configured. Set STRIPE_PRICE_BASE_MONTHLY in functions/.env'
     );
   }
-  return cfg.price_id;
+  return baseMonthly;
 }
 
 // Returns the existing Stripe customer id for this uid, or creates one
@@ -125,7 +138,7 @@ async function getOrCreateCustomer(uid, email) {
 // ── 1. CHECKOUT SESSION ─────────────────────────────────────────────────
 // Called by the client when the user clicks "Begin — Bismillah".
 exports.createCheckoutSession = functions
-  .runWith({ memory: '256MB', timeoutSeconds: 30 })
+  .runWith({ memory: '256MB', timeoutSeconds: 30, secrets: [STRIPE_SECRET] })
   .https.onCall(async (data, context) => {
     if (!context.auth) {
       throw new functions.https.HttpsError('unauthenticated', 'Sign in to subscribe.');
@@ -147,7 +160,20 @@ exports.createCheckoutSession = functions
       'http://localhost:5173',
       'http://localhost:3000'
     ];
-    const safeOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+    // Also trust this project's own Vercel deployments — the production alias
+    // (niyyah-psi.vercel.app) and branch previews (niyyah-git-<branch>.vercel.app)
+    // — so the post-checkout redirect lands back on whatever URL the user
+    // actually checked out from instead of a domain that may not be live yet.
+    function isAllowedOrigin(o) {
+      if (!o) return false;
+      if (ALLOWED_ORIGINS.indexOf(o) > -1) return true;
+      try {
+        const host = new URL(o).hostname;
+        if (/^niyyah[a-z0-9-]*\.vercel\.app$/.test(host)) return true;
+      } catch (e) {}
+      return false;
+    }
+    const safeOrigin = isAllowedOrigin(origin) ? origin : ALLOWED_ORIGINS[0];
 
     const customerId = await getOrCreateCustomer(uid, email);
 
@@ -176,7 +202,7 @@ exports.createCheckoutSession = functions
 // ── 2. BILLING PORTAL ───────────────────────────────────────────────────
 // "Manage your plan" → Stripe-hosted page for card / cancel / invoices.
 exports.createPortalSession = functions
-  .runWith({ memory: '256MB', timeoutSeconds: 30 })
+  .runWith({ memory: '256MB', timeoutSeconds: 30, secrets: [STRIPE_SECRET] })
   .https.onCall(async (data, context) => {
     if (!context.auth) {
       throw new functions.https.HttpsError('unauthenticated', 'Sign in first.');
@@ -209,20 +235,20 @@ exports.createPortalSession = functions
 // requires the unparsed request body (req.rawBody, populated automatically
 // by Firebase Functions for HTTPS requests).
 exports.stripeWebhook = functions
-  .runWith({ memory: '256MB', timeoutSeconds: 60 })
+  .runWith({ memory: '256MB', timeoutSeconds: 60, secrets: [STRIPE_SECRET, STRIPE_WEBHOOK_SECRET] })
   .https.onRequest(async (req, res) => {
     if (req.method !== 'POST') { res.status(405).send('Method not allowed'); return; }
 
-    const cfg = functions.config().stripe || {};
+    const webhookSecret = STRIPE_WEBHOOK_SECRET.value();
     const sig = req.headers['stripe-signature'];
-    if (!cfg.webhook_secret || !sig) {
+    if (!webhookSecret || !sig) {
       res.status(400).send('Webhook not configured');
       return;
     }
 
     let event;
     try {
-      event = stripe().webhooks.constructEvent(req.rawBody, sig, cfg.webhook_secret);
+      event = stripe().webhooks.constructEvent(req.rawBody, sig, webhookSecret);
     } catch (err) {
       console.error('Webhook signature verification failed:', err.message);
       res.status(400).send(`Webhook Error: ${err.message}`);
