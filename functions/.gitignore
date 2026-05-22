@@ -3,4 +3,3 @@ node_modules/
 .runtimeconfig.json
 .env
 .env.*
-!.env.example
