@@ -2384,6 +2384,18 @@ body:not(.legal-visitor) .legal-back{display:none;}
 // The Firebase web SDK API key is a public project identifier — it is meant
 // to ship in the browser. Per-user access is enforced server-side by
 // Firestore Security Rules, not by this key.
+// ── STATE ──────────────────────────────────────────────────────────────────
+// Declared before Firebase initialisation so demo mode works even if the
+// Firebase CDN fails to load.
+var S={trades:[],journals:[],morning:{},challenge:null,goal:null,settings:{},
+       dailyPrayers:{},playbook:[],nafs:{sabr:0,tawakkul:0,kibr:0,shukr:0},
+       dhikr:{sub:0,alh:0,akb:0},openTradeId:null,
+       selEmotion:null,selExEmotion:null,gateAns:{},
+       icChecked:{bismillah:false,prayer:false,setup:false,stop:false},
+       eqRange:'all',calMonth:new Date(),tradeFilter:'all',obStep:1,
+       editPBId:null,_sub:{status:null,tier:'base'}};
+var C={};
+
 var firebaseConfig = {
   apiKey:            "AIzaSyDHRFYq_vJIaUpih1LjbfTGP9G1guFQ5J4",
   authDomain:        "sunnahtrader-f71f1.firebaseapp.com",
@@ -2393,17 +2405,35 @@ var firebaseConfig = {
   appId:             "1:233039236996:web:ca9b435aa6ac8122a997d1"
 };
 
-firebase.initializeApp(firebaseConfig);
-var AUTH      = firebase.auth();
-var DB        = firebase.firestore();
-var FUNCTIONS = firebase.functions();
-var UID       = null;
-
-// Offline persistence + multi-tab sync. Writes queue locally if offline and
-// replay on reconnect; remote changes from another tab/device propagate live.
+var AUTH, DB, FUNCTIONS;
 try {
-  DB.enablePersistence({ synchronizeTabs: true }).catch(function(){});
-} catch(e){}
+  if(typeof firebase === 'undefined') throw new Error('Firebase SDK not loaded');
+  firebase.initializeApp(firebaseConfig);
+  AUTH      = firebase.auth();
+  DB        = firebase.firestore();
+  FUNCTIONS = firebase.functions();
+  try { DB.enablePersistence({synchronizeTabs:true}).catch(function(){}); } catch(e){}
+} catch(fbErr) {
+  console.warn('Firebase unavailable:', fbErr.message);
+  // Minimal stubs so demo mode and routing work without Firebase
+  var _fbUnavailMsg = 'Unable to connect. Please check your internet connection and try again.';
+  var _fbReject = function(){ return Promise.reject({code:'auth/network-request-failed',message:_fbUnavailMsg}); };
+  var _fbResolve = function(){ return Promise.resolve(); };
+  AUTH = {
+    onAuthStateChanged: function(cb){ setTimeout(function(){ cb(null); },50); return function(){}; },
+    getRedirectResult: function(){ return Promise.resolve({user:null}); },
+    createUserWithEmailAndPassword: _fbReject,
+    signInWithEmailAndPassword: _fbReject,
+    signInWithPopup: _fbReject,
+    signInWithRedirect: _fbReject,
+    signOut: _fbResolve,
+    sendPasswordResetEmail: _fbResolve,
+    currentUser: null
+  };
+  DB = null;
+  FUNCTIONS = { httpsCallable: function(){ return function(){ return Promise.reject(new Error(_fbUnavailMsg)); }; } };
+}
+var UID = null;
 
 // ── AUTH ───────────────────────────────────────────────────────────────────
 
@@ -3287,15 +3317,7 @@ function exitDemo(){
   showAuth('signup');
 }
 
-// ── STATE ──────────────────────────────────────────────────────────────────
-var S={trades:[],journals:[],morning:{},challenge:null,goal:null,settings:{},
-       dailyPrayers:{},playbook:[],nafs:{sabr:0,tawakkul:0,kibr:0,shukr:0},
-       dhikr:{sub:0,alh:0,akb:0},openTradeId:null,
-       selEmotion:null,selExEmotion:null,gateAns:{},
-       icChecked:{bismillah:false,prayer:false,setup:false,stop:false},
-       eqRange:'all',calMonth:new Date(),tradeFilter:'all',obStep:1,
-       editPBId:null,_sub:{status:null,tier:'base'}};
-var C={};
+// ── STATE initialised before Firebase (see above) ──
 
 // ── STORAGE (Firestore) ────────────────────────────────────────────────────
 var _saveErrorAt = 0; // debounce error toasts so we don't spam
@@ -3753,10 +3775,10 @@ function checkGate(){
     var partDays=Object.keys(S.dailyPrayers).filter(function(d){return d!==today&&!Object.values(S.dailyPrayers[d]).every(Boolean);});
     var fpT=closed.filter(function(t){return fullDays.indexOf(t.date)>-1;});
     var ppT=closed.filter(function(t){return partDays.indexOf(t.date)>-1;});
-    if(fpT.length>=3&&ppT.length>=3){
+    if(fpT.length>=5&&ppT.length>=3){
       var fpWR=Math.round(fpT.filter(function(t){return t.pnl>0;}).length/fpT.length*100);
       var ppWR=Math.round(ppT.filter(function(t){return t.pnl>0;}).length/ppT.length*100);
-      if(fpWR>ppWR+10){insights.push(prayedToday+'/5 prayers logged so far today. Your data: full-prayer days average <strong>'+fpWR+'%</strong> win rate vs <strong>'+ppWR+'%</strong>.');}
+      if(fpWR>ppWR+10){insights.push('Your data: full-prayer days → <strong>'+fpWR+'%</strong> win rate ('+fpT.length+' trades). Partial-prayer days → <strong>'+ppWR+'%</strong> ('+ppT.length+' trades).');}
     }
   }
 
