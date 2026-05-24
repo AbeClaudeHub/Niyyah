@@ -267,7 +267,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .mbar.e{background:var(--surface-3);opacity:0.3;}
 .mbar-label{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--ink-4);margin-top:3px;}
 .mbar-base{position:absolute;left:0;right:0;bottom:22px;height:1px;background:rgba(255,255,255,0.06);}
-.table-wrap{overflow-x:auto;}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:rgba(218,180,98,0.3) transparent;}
+.table-wrap::-webkit-scrollbar{height:3px;}
+.table-wrap::-webkit-scrollbar-thumb{background:rgba(218,180,98,0.3);border-radius:2px;}
 .t-table{width:100%;border-collapse:collapse;min-width:600px;}
 .t-table thead{background:var(--surface-2);}
 .t-table th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:0.53rem;letter-spacing:0.13em;text-transform:uppercase;color:var(--ink-3);padding:11px 12px;border-bottom:1px solid var(--line);}
@@ -301,7 +303,9 @@ label{display:block;font-family:'Inter',sans-serif;font-size:0.74rem;font-weight
 .field-row{display:grid;gap:10px;}
 .field-row.c2{grid-template-columns:1fr 1fr;}
 .field-row.c3{grid-template-columns:1fr 1fr 1fr;}
-@media(max-width:500px){.field-row.c2,.field-row.c3{grid-template-columns:1fr;}}
+.field-row.c4{grid-template-columns:1fr 1fr 1fr 1fr;}
+@media(max-width:500px){.field-row.c2,.field-row.c3,.field-row.c4{grid-template-columns:1fr;}}
+@media(max-width:700px) and (min-width:501px){.field-row.c4{grid-template-columns:1fr 1fr;}}
 .fs-label{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin:16px 0 10px;display:flex;align-items:center;gap:8px;}
 .fs-label::after{content:'';flex:1;height:1px;background:var(--line-2);}
 .gate{background:linear-gradient(145deg,#151210,#0d0b08);border:1px solid rgba(218,180,98,0.2);border-radius:var(--r-lg);padding:18px 20px;margin-bottom:14px;box-shadow:inset 0 1px 0 rgba(218,180,98,0.06);}
@@ -1702,6 +1706,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
         <div class="today-card"><div class="today-card-label">LAST TRADE QUALITY</div><div class="today-card-val gold" id="kpi-last-q">—</div><div class="today-card-sub" id="kpi-last-q-m">—</div></div>
       </div>
       <div id="stats-strip" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px;"></div>
+      <div id="sirat-stage-strip" style="display:none;margin-bottom:12px;"></div>
       <div class="panel"><div class="panel-head"><div class="panel-title">Equity Curve</div><div class="toggle-group"><button class="tg-btn active" onclick="setEq('all',this)">All</button><button class="tg-btn" onclick="setEq('30',this)">30D</button><button class="tg-btn" onclick="setEq('7',this)">7D</button></div></div><div class="chart-wrap"><canvas id="eq-chart"></canvas></div></div>
       <div class="panel" style="margin-top:12px;"><div class="panel-head"><div class="panel-title">Pattern Insights</div></div><div id="insights-wrap"></div><div style="margin-top:14px;"><div class="verse"><div class="verse-ar" id="v-ar"></div><div class="verse-en" id="v-en"></div><div class="verse-ref" id="v-ref"></div></div></div></div>
       <div class="panel" style="margin-top:12px;"><div class="panel-head"><div class="panel-title">Recent Trades</div><button class="btn btn-ghost btn-sm" onclick="go('trades',document.querySelector('[data-page=trades]'))">View all →</button></div><div id="recent-wrap"></div></div>
@@ -2026,6 +2031,23 @@ body:not(.legal-visitor) .legal-back{display:none;}
   </div>
   <div style="font-size:0.72rem;color:var(--ink-4);margin-top:10px;line-height:1.55;">Reset All Data permanently deletes all trades, journals, and prayer history. Your account remains active.</div>
 
+  <!-- ── SUBSCRIPTION STATUS ──────────────────────────────────────────── -->
+  <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2);">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;">SUBSCRIPTION</div>
+    <div id="s-sub-status" style="font-size:0.84rem;color:var(--ink-2);margin-bottom:10px;"></div>
+    <button class="btn btn-outline btn-sm" onclick="manageSubscription()">Manage / Cancel Plan →</button>
+  </div>
+
+  <!-- ── PASSWORD ─────────────────────────────────────────────────────── -->
+  <div id="s-password-section" style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2);display:none;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;">CHANGE PASSWORD</div>
+    <div class="field-row c2" style="margin-bottom:8px;">
+      <div class="field"><label>New Password</label><input type="password" id="s-new-pw" placeholder="min 8 characters" minlength="8"></div>
+      <div class="field"><label>Confirm</label><input type="password" id="s-conf-pw" placeholder="repeat password"></div>
+    </div>
+    <button class="btn btn-gold btn-sm" onclick="changePassword()">Update Password</button>
+  </div>
+
   <!-- ── NOTIFICATIONS ────────────────────────────────────────────────── -->
   <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2);">
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">REMINDERS</div>
@@ -2210,14 +2232,14 @@ body:not(.legal-visitor) .legal-back{display:none;}
    <div class="fs-label">Trade Details</div>
    <div class="field-row c3"><div class="field"><label>Date</label><input type="date" id="e-date"></div><div class="field"><label>Time</label><input type="time" id="e-time"></div><div class="field"><label>Instrument</label><input type="text" id="e-inst" placeholder="ES, NQ, MGC…"></div></div>
    <div class="field-row c3" id="e-setup-row"><div class="field"><label>Direction</label><select id="e-dir"><option value="LONG">Long</option><option value="SHORT">Short</option></select></div><div class="field" id="e-setup-sel-field"><label>Playbook Setup</label><select id="e-setup-sel"><option value="">— Select or type below —</option></select></div><div class="field"><label id="e-setup-label">Setup name</label><input type="text" id="e-setup" placeholder="ORB, VWAP, BPB…"></div></div>
-   <div class="field-row c3"><div class="field"><label>Entry Price</label><input type="text" inputmode="decimal" autocomplete="off" id="e-entry" placeholder="21,050"></div><div class="field"><label>Stop Loss</label><input type="text" inputmode="decimal" autocomplete="off" id="e-stop" placeholder="21,000"></div><div class="field"><label>Target</label><input type="text" inputmode="decimal" autocomplete="off" id="e-target" placeholder="21,150"></div></div>
+   <div class="field-row c4"><div class="field"><label>Entry Price</label><input type="text" inputmode="decimal" autocomplete="off" id="e-entry" placeholder="21,050"></div><div class="field"><label>Stop Loss</label><input type="text" inputmode="decimal" autocomplete="off" id="e-stop" placeholder="21,000"></div><div class="field"><label>Target</label><input type="text" inputmode="decimal" autocomplete="off" id="e-target" placeholder="21,150"></div><div class="field"><label>Qty / Contracts</label><input type="number" inputmode="decimal" id="e-qty" placeholder="1" min="0.01" step="any"></div></div>
    <div id="e-rr-warn" style="display:none;margin:-4px 0 12px;font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;color:var(--gold);background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.18);padding:8px 12px;border-radius:8px;"></div>
    <!-- MIZAN — Sirat-only live verdict, populated by refreshMizan() -->
    <div id="mizan-panel" style="display:none;margin:0 0 14px;"></div>
    <div class="fs-label">Islamic Pre-Trade Check</div>
    <div class="ic-grid">
     <div class="ic-item" id="ic-bismillah" onclick="toggleIC('bismillah')"><div class="ic-circle" id="icc-bismillah">✓</div><div><span class="ic-arabic">بِسْمِ اللَّه</span><span class="ic-text">Said Bismillah?</span></div></div>
-    <div class="ic-item" id="ic-prayer" onclick="toggleIC('prayer')"><div class="ic-circle" id="icc-prayer">✓</div><div><span class="ic-arabic">صَلَاة</span><span class="ic-text">All prayers due so far today prayed?</span></div></div>
+    <div class="ic-item" id="ic-prayer" onclick="toggleIC('prayer')"><div class="ic-circle" id="icc-prayer">✓</div><div><span class="ic-arabic">صَلَاة</span><span class="ic-text">Prayed before this session?</span></div></div>
     <div class="ic-item" id="ic-setup2" onclick="toggleIC('setup')"><div class="ic-circle" id="icc-setup">✓</div><div><span class="ic-arabic">لَيْسَ مَيْسِر</span><span class="ic-text">Clear setup, not a gamble?</span></div></div>
     <div class="ic-item" id="ic-stop" onclick="toggleIC('stop')"><div class="ic-circle" id="icc-stop">✓</div><div><span class="ic-arabic">وَقَايَة</span><span class="ic-text">Stop loss set before entering?</span></div></div>
    </div>
@@ -2263,7 +2285,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
      <button class="emotion-btn" data-e="focused" onclick="selExEm(this)"><span class="ei">🎯</span>Focused</button>
     </div>
    </div>
-   <div class="field"><label>Lesson from this trade</label><textarea id="x-lesson" rows="2" placeholder="What did this trade teach you?"></textarea></div>
+   <div class="field"><label>Lesson from this trade <span id="x-lesson-count" style="color:var(--ink-3);font-weight:400;">(0/20 min)</span></label><textarea id="x-lesson" rows="2" placeholder="What did this trade teach you?" oninput="var n=this.value.length,el=document.getElementById('x-lesson-count');if(el){el.textContent='('+n+'/20 min)';el.style.color=n>=20?'var(--green)':'var(--ink-3)';}"></textarea></div>
   </div>
   <div class="modal-foot"><button class="btn btn-outline" onclick="closeExit()">Cancel</button><button class="btn btn-gold" id="save-exit-btn" onclick="saveExit()">Close Trade ✓</button></div>
  </div>
@@ -3258,7 +3280,7 @@ function exitDemo(){
   UID = null;
   S.trades=[];S.journals=[];S.morning={};S.challenge=null;S.goal=null;
   S.settings={};S.dailyPrayers={};S.playbook=[];S.openTradeId=null;
-  if(S._sub) S._sub = {};
+  S._sub = {status:null,tier:'base'};
   var banner=el('demo-banner'); if(banner) banner.style.display='none';
   document.body.style.paddingTop = '';
   var lg=el('landing'); if(lg) lg.classList.remove('hide');
@@ -3272,7 +3294,7 @@ var S={trades:[],journals:[],morning:{},challenge:null,goal:null,settings:{},
        selEmotion:null,selExEmotion:null,gateAns:{},
        icChecked:{bismillah:false,prayer:false,setup:false,stop:false},
        eqRange:'all',calMonth:new Date(),tradeFilter:'all',obStep:1,
-       editPBId:null};
+       editPBId:null,_sub:{status:null,tier:'base'}};
 var C={};
 
 // ── STORAGE (Firestore) ────────────────────────────────────────────────────
@@ -3734,7 +3756,7 @@ function checkGate(){
     if(fpT.length>=3&&ppT.length>=3){
       var fpWR=Math.round(fpT.filter(function(t){return t.pnl>0;}).length/fpT.length*100);
       var ppWR=Math.round(ppT.filter(function(t){return t.pnl>0;}).length/ppT.length*100);
-      if(fpWR>ppWR+10){insights.push(prayedToday+'/5 prayers today. Full-prayer days: <strong>'+fpWR+'%</strong> win rate vs <strong>'+ppWR+'%</strong>. Consider praying first.');}
+      if(fpWR>ppWR+10){insights.push(prayedToday+'/5 prayers logged so far today. Your data: full-prayer days average <strong>'+fpWR+'%</strong> win rate vs <strong>'+ppWR+'%</strong>.');}
     }
   }
 
@@ -3913,7 +3935,8 @@ function closeEntry(force){
   m.classList.remove('show');document.body.style.overflow='';
 }
 function saveEntry(){
-  var inst=(el('e-inst')?el('e-inst').value:'').toUpperCase().trim();
+  var rawInst=(el('e-inst')?el('e-inst').value:'').trim();
+  var inst=_normaliseInst(rawInst)||rawInst.toUpperCase().trim();
   if(!inst){toast('Please enter the instrument','e');return;}
   var dir = el('e-dir') ? el('e-dir').value : 'LONG';
   var rawEntry = el('e-entry')?el('e-entry').value:'';
@@ -3968,6 +3991,7 @@ function saveEntry(){
     gateAnswers:Object.assign({},S.gateAns),
     prayers:Object.assign({},getTodayPrayers()),
     screenshot:S.entryScreenshot||null,
+    qty:parseFloat((el('e-qty')?el('e-qty').value:'')||1)||1,
     pnl:0,createdAt:new Date().toISOString()};
   t.quality=calcQ(t);
   // Snapshot prior state so we can revert if the write fails.
@@ -4001,8 +4025,31 @@ function openExitModal(){
   S.selExEmotion=null;
   document.querySelectorAll('#exit-modal .emotion-btn').forEach(function(b){b.classList.remove('on');});
   var hint=el('x-pnl-hint');if(hint){hint.textContent='';hint.style.display='none';}
-  var xp=el('x-pnl');if(xp)xp.value='';
+  var xp=el('x-pnl');if(xp){xp.value='';xp._userEdited=false;}
   var xe=el('x-exit');if(xe)xe.value='';
+}
+var TICK_VALUES={
+  'ES':50,'MES':5,
+  'NQ':20,'MNQ':2,
+  'YM':5,'MYM':0.5,
+  'RTY':50,'M2K':5,
+  'GC':100,'MGC':10,
+  'SI':5000,'MSI':500,
+  'CL':1000,'MCL':100,
+  'NG':10000,
+  'ZB':1000,'ZN':1000,'ZF':1000,
+  'MNQU':2,'MESU':5,'ESU':50,'NQU':20
+};
+function _normaliseInst(s){
+  if(!s)return '';
+  var u=s.toUpperCase().replace(/[^A-Z0-9]/g,'');
+  // Strip trailing contract month letters + year digits (e.g. ESM25 -> ES, NQZ4 -> NQ)
+  u=u.replace(/([A-Z]{1,5})[FGHJKMNQUVXZ]\d{1,2}$/, '$1');
+  // Strip leading slash
+  u=u.replace(/^\//, '');
+  // Common aliases
+  var alias={'EMINI':'ES','EMININQ':'NQ','SP500':'ES','NAS100':'NQ','DOW':'YM','RUSSELL':'RTY','GOLD':'GC','SILVER':'SI','OIL':'CL','CRUDE':'CL','CRUDEOIL':'CL'};
+  return alias[u]||u;
 }
 function autoCalcExitHint(){
   var t=S.trades.find(function(x){return x.id===S.openTradeId&&x.status==='open';});
@@ -4014,13 +4061,32 @@ function autoCalcExitHint(){
   if(isNaN(exitVal)||isNaN(entryVal)){hint.style.display='none';return;}
   var diff=exitVal-entryVal;
   var isLong=t.direction==='LONG';
-  var profitable=isLong?(diff>0):(diff<0);
-  hint.textContent='Price moved '+(diff>=0?'+':'')+diff.toFixed(4).replace(/\.?0+$/,'')+' pts \u00b7 P&L should be '+(diff===0?'zero':profitable?'positive (+)':'negative (\u2212)');
-  hint.style.color=diff===0?'var(--ink-3)':profitable?'var(--green)':'var(--red)';
-  hint.style.display='';
+  var pricePnl=isLong?diff:-diff;
+  var profitable=pricePnl>0;
+  var norm=_normaliseInst(t.instrument||'');
+  var tickVal=TICK_VALUES[norm];
+  var qty=parseFloat(t.qty)||1;
   var pnlEl=el('x-pnl');
-  if(pnlEl&&!pnlEl.value){
-    pnlEl.placeholder=profitable?'e.g. +225':diff===0?'0':'e.g. -120';
+  if(tickVal&&!isNaN(diff)){
+    var dollarPnl=Math.round(pricePnl*tickVal*qty*100)/100;
+    hint.textContent='Auto-calculated: '+(dollarPnl>=0?'$+':'$')+dollarPnl.toLocaleString()
+      +' ('+qty+' contract'+(qty!==1?'s':'')+' \u00d7 $'+tickVal+'/pt)';
+    hint.style.color=dollarPnl===0?'var(--ink-3)':dollarPnl>0?'var(--green)':'var(--red)';
+    hint.style.display='';
+    if(pnlEl&&!pnlEl._userEdited){
+      pnlEl.value=dollarPnl;
+      if(!pnlEl._changeListenerAdded){
+        pnlEl.addEventListener('input',function(){pnlEl._userEdited=true;});
+        pnlEl._changeListenerAdded=true;
+      }
+    }
+  } else {
+    hint.textContent='Price moved '+(diff>=0?'+':'')+diff.toFixed(4).replace(/\.?0+$/,'')+' pts \u00b7 P&L direction: '+(diff===0?'flat':profitable?'positive':'negative');
+    hint.style.color=diff===0?'var(--ink-3)':profitable?'var(--green)':'var(--red)';
+    hint.style.display='';
+    if(pnlEl&&!pnlEl.value&&!pnlEl._userEdited){
+      pnlEl.placeholder=profitable?'e.g. +225':diff===0?'0':'e.g. -120';
+    }
   }
 }
 function closeExit(){var m=el('exit-modal');if(m)m.classList.remove('show');document.body.style.overflow='';}
@@ -4478,7 +4544,13 @@ function renderDailyReflection(){
 function calcDeenScore(){
   var days=Object.keys(S.dailyPrayers);if(!days.length)return null;
   var recent=days.sort().slice(-20);
-  var avg=recent.map(function(d){return Object.values(S.dailyPrayers[d]).filter(Boolean).length/5*100;});
+  if(!recent.length)return null;
+  var avg=recent.map(function(d){
+    var prayers=S.dailyPrayers[d];
+    if(!prayers||typeof prayers!=='object')return 0;
+    return Object.values(prayers).filter(Boolean).length/5*100;
+  });
+  if(!avg.length)return null;
   return Math.round(avg.reduce(function(a,v){return a+v;},0)/avg.length);
 }
 
@@ -4616,6 +4688,27 @@ function renderDash(){
   // ── ADVANCED SECTION ───────────────────────────────────────────────────
   // Hide the expand entirely until the user has closed at least one trade —
   // before that, the analytics panel is empty placeholders.
+  // Sirat stage teaser strip
+  var sss=el('sirat-stage-strip');
+  if(sss){
+    if(isSirat()){
+      var stg=computeUserStage(S);
+      var stageName={tahaarah:'Tahaarah',sabr:'Sabr',yaqeen:'Yaqeen',tawakkul:'Tawakkul',ihsan:'Ihsan'}[stg.stage]||stg.stage;
+      var stageIdx={tahaarah:1,sabr:2,yaqeen:3,tawakkul:4,ihsan:5}[stg.stage]||1;
+      var closedReal=closed.filter(function(t){return !t.sample;});
+      var minT=SIRAT_THRESHOLDS.minTradesForStage2||20;
+      var progressPct=stg.stage==='tahaarah'?Math.min(100,Math.round(closedReal.length/minT*100)):100;
+      sss.style.display='';
+      sss.innerHTML='<div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">'
+        +'<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);">SIRAT · STAGE '+stageIdx+'/5</div>'
+        +'<div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;font-weight:600;color:var(--ink);">'+stageName+'</div>'
+        +(stg.stage==='tahaarah'?'<div style="flex:1;min-width:100px;"><div style="height:4px;background:var(--surface-2);border-radius:2px;"><div style="height:4px;background:var(--gold);border-radius:2px;width:'+progressPct+'%;transition:width .5s;"></div></div><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;color:var(--ink-3);margin-top:4px;">'+closedReal.length+' / '+minT+' trades to Stage 2</div></div>':'')
+        +'<button class="btn btn-ghost btn-sm" onclick="go(\'sirat\')" style="margin-left:auto;">View path →</button>'
+        +'</div>';
+    } else {
+      sss.style.display='none';
+    }
+  }
   var expBtn=el('today-expand-btn');
   if(expBtn) expBtn.style.display = closed.length ? '' : 'none';
   var adv=el('today-advanced');
@@ -5994,7 +6087,7 @@ function saveWitness(){
   S.settings.witness = { email: email, label: label, since: new Date().toISOString() };
   sv('settings', S.settings);
   renderWitnessRow();
-  toast('✓ Witness mode on. First report goes out Sunday.','s');
+  toast('✓ Witness saved. Weekly email delivery is rolling out — you\'ll be notified when active.','s');
 }
 function clearWitness(){
   if(!S.settings) S.settings = {};
@@ -6117,11 +6210,45 @@ function renderSettings(){
     var emailEl=el('s-email');if(emailEl)emailEl.textContent=user.email;
     var dispEl=el('s-display-name');if(dispEl)dispEl.textContent=S.settings.name||user.displayName||user.email.split('@')[0];
     var avEl=el('s-avatar');if(avEl)avEl.textContent=(S.settings.name||user.displayName||user.email)[0].toUpperCase();
+    // Show subscription status
+    var subEl=el('s-sub-status');
+    if(subEl){
+      var tier=(S._sub&&S._sub.tier)||'base';
+      var status=(S._sub&&S._sub.status)||'inactive';
+      if(status==='active'||status==='trialing'){
+        subEl.innerHTML='<span style="color:var(--green);">\u2713 Active</span> \u00b7 <strong>'+( tier==='sirat'?'Sirat ($38/mo)':'Base ($27/mo)')+'</strong>';
+      } else {
+        subEl.innerHTML='No active subscription. <a onclick="upgradeToSirat()" style="color:var(--gold);cursor:pointer;">View plans \u2192</a>';
+      }
+    }
+    // Show password change only for email/password users (not Google/OAuth)
+    var isEmailUser=user.providerData&&user.providerData.some(function(p){return p.providerId==='password';});
+    var pwSection=el('s-password-section');
+    if(pwSection)pwSection.style.display=isEmailUser?'':'none';
   }
   renderPrayerLocRow();
   renderPushToggleRow();
   renderReferralRow();
   renderWitnessRow();
+}
+function changePassword(){
+  var np=(el('s-new-pw')&&el('s-new-pw').value)||'';
+  var cp=(el('s-conf-pw')&&el('s-conf-pw').value)||'';
+  if(np.length<8){toast('Password must be at least 8 characters','e');return;}
+  if(np!==cp){toast('Passwords do not match','e');return;}
+  var user=AUTH.currentUser;
+  if(!user){toast('Not signed in','e');return;}
+  user.updatePassword(np).then(function(){
+    toast('\u2713 Password updated','s');
+    if(el('s-new-pw'))el('s-new-pw').value='';
+    if(el('s-conf-pw'))el('s-conf-pw').value='';
+  }).catch(function(e){
+    if(e.code==='auth/requires-recent-login'){
+      toast('For security, please sign out and sign back in before changing your password.','e');
+    } else {
+      toast(friendlyAuthError(e),'e');
+    }
+  });
 }
 
 // ── PRAYER-LOCATION OPT-IN ────────────────────────────────────────────────
@@ -6344,7 +6471,7 @@ function deleteAccount(){
       });
   });
 }
-function exportData(){var d={trades:S.trades,journals:S.journals,morning:S.morning,challenge:S.challenge,goal:S.goal,settings:S.settings,dailyPrayers:S.dailyPrayers,playbook:S.playbook,exportedAt:new Date().toISOString()};var b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download='niyyah-'+localDate()+'.json';a.click();URL.revokeObjectURL(u);toast('\u2713 Exported','s');}
+function exportData(){var d={trades:S.trades,journals:S.journals,morning:S.morning,challenge:S.challenge,goal:S.goal,settings:S.settings,dailyPrayers:S.dailyPrayers,playbook:S.playbook,nafs:S.nafs,dhikr:S.dhikr,exportedAt:new Date().toISOString()};var b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download='niyyah-'+localDate()+'.json';a.click();URL.revokeObjectURL(u);toast('\u2713 Exported','s');}
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 // initScrollReveal replaced by initReveal below
@@ -7545,6 +7672,16 @@ document.addEventListener('DOMContentLoaded',function(){
     var lg=el('landing'); if(lg) lg.classList.add('hide');
     _suppressHistory = true;
     try{ showLegalPage(initialPath); } finally { _suppressHistory = false; }
+  }
+  // Email verification redirect: /?verified=1
+  var urlParams = new URLSearchParams(window.location.search);
+  if(urlParams.get('verified')==='1'){
+    history.replaceState({},document.title,window.location.pathname);
+    setTimeout(function(){
+      showAuth('signin');
+      var err=el('auth-error');
+      if(err){err.style.color='var(--green)';err.textContent='\u2713 Email verified! Sign in to access your journal.';}
+    },300);
   }
 });
 
