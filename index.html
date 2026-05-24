@@ -1120,7 +1120,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="lhero-clarifier"><strong>Nafs</strong> · the lower self that whispers <em>"just one more trade"</em> after a loss — and turns a $200 stop into a $1,800 disaster.</div>
     <div class="lhero-btns" style="margin-top:24px;">
       <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 32px;">Begin — Bismillah →</button>
-      <button class="btn btn-outline btn-lg" onclick="scrollToFeatures()" style="backdrop-filter:blur(8px);">See how it works</button>
+      <button class="btn btn-outline btn-lg" onclick="startDemo()" style="backdrop-filter:blur(8px);">Try Demo — No sign-up</button>
     </div>
     <div class="lhero-price">$27/mo · 7-day full refund · cancel anytime · Stripe-secured</div>
     <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-4);">annual saves up to $156 &nbsp;·&nbsp; <a href="#pricing-section" onclick="setTimeout(function(){setPlan('annual');},200)" style="color:var(--gold-deep);text-decoration:none;border-bottom:1px solid rgba(218,180,98,0.3);cursor:pointer;">see plans →</a></div>
@@ -1606,7 +1606,13 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <div class="sidebar-foot"><div class="sf-av" id="sf-av">A</div><div style="flex:1;min-width:0;"><div class="sf-name" id="sf-name">Welcome</div><div class="sf-plan" id="sf-plan-label">Account</div></div><button aria-label="Open settings" title="Settings" style="background:transparent;border:none;color:var(--ink-3);cursor:pointer;font-size:0.95rem;padding:6px;border-radius:6px;transition:color var(--t),background var(--t);" onmouseover="this.style.color='var(--gold)';this.style.background='var(--surface-2)';" onmouseout="this.style.color='var(--ink-3)';this.style.background='transparent';" onclick="go('settings',null)">⚙</button></div>
 </aside>
 <main class="main">
-<div class="topbar"><button class="mob-toggle" onclick="toggleSB()">☰</button><div class="topbar-title" id="topbar-title">Today</div><div class="topbar-date" id="topbar-date"></div><div class="topbar-spacer"></div><button id="topbar-brake" class="topbar-brake" onclick="openDisasterBrake()" title="Disaster brake — lock yourself out" style="display:none;" aria-label="Open Disaster Brake">⏻</button></div>
+<div id="demo-banner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:600;background:linear-gradient(90deg,rgba(12,10,7,0.97),rgba(18,14,8,0.97));border-bottom:1px solid rgba(218,180,98,0.35);padding:9px 16px;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
+  <span style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);background:rgba(218,180,98,0.12);border:1px solid rgba(218,180,98,0.3);padding:3px 8px;border-radius:4px;">DEMO</span>
+  <span style="font-size:0.8rem;color:var(--ink-2);">Exploring with 3 weeks of sample data. Nothing is saved.</span>
+  <button onclick="exitDemo()" style="background:linear-gradient(135deg,#9a7820,#dab462);border:none;color:#0a0906;font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;font-weight:700;text-transform:uppercase;padding:6px 14px;border-radius:6px;cursor:pointer;">Sign Up Free →</button>
+  <button onclick="exitDemo()" style="background:none;border:none;color:var(--ink-4);cursor:pointer;font-size:1rem;padding:4px 6px;line-height:1;" title="Exit demo">×</button>
+</div>
+<div class="topbar" id="main-topbar"><button class="mob-toggle" onclick="toggleSB()">☰</button><div class="topbar-title" id="topbar-title">Today</div><div class="topbar-date" id="topbar-date"></div><div class="topbar-spacer"></div><button id="topbar-brake" class="topbar-brake" onclick="openDisasterBrake()" title="Disaster brake — lock yourself out" style="display:none;" aria-label="Open Disaster Brake">⏻</button></div>
 
 <div class="page active" id="page-dashboard">
   <div class="today-view">
@@ -2435,6 +2441,7 @@ function showLegalPage(page){
   go(page,null);
 }
 function backToLanding(){
+  if(window._demoMode) return;
   _showingLegalPage = false;
   document.body.classList.remove('legal-visitor');
   var ret = _legalReturnTo;
@@ -2901,6 +2908,7 @@ function isSirat(){ return !!(S && S._sub && S._sub.status === 'active' && S._su
 var _subListener = null; // Firestore onSnapshot unsubscribe handle
 
 function checkSubscription(){
+  if(window._demoMode) return; // demo mode handles its own sub state
   // Cancel any previous listener before starting a new one (e.g. on re-login)
   if(_subListener){ _subListener(); _subListener=null; }
 
@@ -3107,6 +3115,7 @@ function manageSubscription(){
 
 // Auth state observer — runs when page loads and when auth changes
 AUTH.onAuthStateChanged(function(user){
+  if(window._demoMode) return; // demo mode owns its own state — ignore Firebase events
   var authScreen = el('auth-screen');
   var pwScreen   = el('paywall-screen');
   if(user){
@@ -3141,6 +3150,121 @@ AUTH.onAuthStateChanged(function(user){
   }
 });
 
+// ── DEMO MODE ─────────────────────────────────────────────────────────────────
+window._demoMode = false;
+
+function _demoDate(daysAgo){
+  var dt=new Date(); dt.setDate(dt.getDate()-daysAgo);
+  return dt.toISOString().split('T')[0];
+}
+
+function startDemo(){
+  window._demoMode = true;
+  UID = 'demo-user';
+
+  // Grant Sirat-level access so every feature is visible
+  if(!S._sub) S._sub = {};
+  S._sub.status = 'active';
+  S._sub.tier   = 'sirat';
+
+  var d = _demoDate;
+
+  S.settings     = { name:'Khalid', leak:'revenge' };
+  S.openTradeId  = null;
+  S.tradeFilter  = 'all';
+  S.calMonth     = new Date();
+  S.nafs         = {sabr:0,tawakkul:0,kibr:0,shukr:0};
+  S.dhikr        = {sub:0,alh:0,akb:0};
+  S.gateAns      = {};
+  S.icChecked    = {bismillah:false,prayer:false,setup:false,stop:false};
+
+  S.trades = [
+    {id:101,date:d(0), time:'09:45',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5320',stopLoss:'5310',target:'5340',status:'closed',pnl:150, exitPrice:'5340',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Setup played out perfectly. Waited for the full ORB breakout and executed clean.',quality:88},
+    {id:102,date:d(1), time:'10:15',instrument:'NQ', direction:'SHORT',setup:'VWAP',  entryPrice:'18240',stopLoss:'18280',target:'18180',status:'closed',pnl:-80, exitPrice:'18260',outcome:'loss',emotion:'fomo',     exitEmotion:'frustrated', lesson:'Chased a VWAP short that was already extended. Did not wait for the retest.',quality:42},
+    {id:103,date:d(2), time:'09:32',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5298',stopLoss:'5290',target:'5318',status:'closed',pnl:200, exitPrice:'5318',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Clean ORB setup. Prayed all 5 today. Executed with no hesitation.',quality:92},
+    {id:104,date:d(3), time:'11:05',instrument:'MGC',direction:'LONG', setup:'BPB',   entryPrice:'2031',stopLoss:'2026',target:'2041',status:'closed',pnl:-50, exitPrice:'2028',outcome:'loss',emotion:'revenge',  exitEmotion:'frustrated', lesson:'Took this to recover from yesterday. Classic revenge — setup was marginal.',quality:28},
+    {id:105,date:d(4), time:'09:50',instrument:'ES', direction:'SHORT',setup:'VWAP',  entryPrice:'5310',stopLoss:'5318',target:'5294',status:'closed',pnl:320, exitPrice:'5294',outcome:'win', emotion:'focused',  exitEmotion:'content',    lesson:'Best trade of the week. Clear VWAP short, respected my stop, let it run to target.',quality:94},
+    {id:106,date:d(5), time:'10:30',instrument:'NQ', direction:'LONG', setup:'ORB',   entryPrice:'18190',stopLoss:'18170',target:'18230',status:'closed',pnl:-60, exitPrice:'18178',outcome:'loss',emotion:'calm',     exitEmotion:'calm',       lesson:'Setup was valid, just did not move. Stopped out at plan. No regrets.',quality:82},
+    {id:107,date:d(6), time:'09:38',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5285',stopLoss:'5276',target:'5305',status:'closed',pnl:190, exitPrice:'5304',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Pre-market prep paid off. Knew the level, waited, took it.',quality:90},
+    {id:108,date:d(8), time:'10:55',instrument:'MGC',direction:'SHORT',setup:'BPB',   entryPrice:'2018',stopLoss:'2023',target:'2008',status:'closed',pnl:-50, exitPrice:'2021',outcome:'loss',emotion:'anxious',  exitEmotion:'frustrated', lesson:'Did not feel clear. Missed Fajr and Dhuhr today. Should not have traded.',quality:35},
+    {id:109,date:d(9), time:'09:45',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5271',stopLoss:'5263',target:'5291',status:'closed',pnl:200, exitPrice:'5291',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Full prayer day, calm session. Executed perfectly.',quality:91},
+    {id:110,date:d(10),time:'10:22',instrument:'NQ', direction:'LONG', setup:'Breakout',entryPrice:'18085',stopLoss:'18065',target:'18125',status:'closed',pnl:400, exitPrice:'18125',outcome:'win', emotion:'focused',  exitEmotion:'content',    lesson:'Breakout from consolidation. Held through the pullback and got full target.',quality:89},
+    {id:111,date:d(11),time:'11:40',instrument:'ES', direction:'SHORT',setup:'VWAP',  entryPrice:'5280',stopLoss:'5288',target:'5264',status:'closed',pnl:-80, exitPrice:'5286',outcome:'loss',emotion:'revenge',  exitEmotion:'frustrated', lesson:'Revenge trade after the morning stop. Knew it as I was taking it.',quality:22},
+    {id:112,date:d(12),time:'09:48',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5265',stopLoss:'5258',target:'5283',status:'closed',pnl:180, exitPrice:'5283',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Routine ORB. Waited for the open, got the breakout, executed.',quality:88},
+    {id:113,date:d(13),time:'10:15',instrument:'MGC',direction:'LONG', setup:'BPB',   entryPrice:'2015',stopLoss:'2010',target:'2025',status:'closed',pnl:100, exitPrice:'2025',outcome:'win', emotion:'patient',  exitEmotion:'content',    lesson:'Gold BPB plays beautifully when dollar is weak. Patient entry.',quality:85},
+    {id:114,date:d(15),time:'09:33',instrument:'NQ', direction:'SHORT',setup:'VWAP',  entryPrice:'18020',stopLoss:'18050',target:'17980',status:'closed',pnl:-90, exitPrice:'18044',outcome:'loss',emotion:'fomo',     exitEmotion:'frustrated', lesson:'Chased the short too early. VWAP rejection was not confirmed.',quality:38},
+    {id:115,date:d(16),time:'09:52',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5250',stopLoss:'5242',target:'5270',status:'closed',pnl:200, exitPrice:'5270',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Clean week opener. Good prep, all prayers done, clean entry.',quality:93}
+  ];
+
+  // Build 21 days of prayer data — mirrors the trade days
+  var pr = {};
+  for(var i=0;i<21;i++){
+    var dStr = d(i);
+    var badDay = [3,8,11,14].indexOf(i) > -1;
+    pr[dStr] = {
+      fajr:    !badDay,
+      dhuhr:   !badDay || i===5,
+      asr:     true,
+      maghrib: true,
+      isha:    true
+    };
+  }
+  S.dailyPrayers = pr;
+
+  S.playbook = [
+    {id:1,name:'ORB',    inst:'ES/NQ', desc:'Opening Range Breakout — 5-min range break with volume', entry:'Wait for 5min close above/below range\nVolume confirmation\nNo major news', avoid:'Low volume\nWithin 30min of news', rr:'2'},
+    {id:2,name:'VWAP',   inst:'ES/NQ', desc:'VWAP retest rejection — aligned with daily trend',       entry:'Price bounces off VWAP cleanly\nAligned with daily trend\n1min confirmation', avoid:'Chasing after extended move\nCounter-trend', rr:'2'},
+    {id:3,name:'BPB',    inst:'MGC',   desc:'Bull/Bear pattern break — key level break and retest',   entry:'Break and close beyond level\nWait for retest candle\nEnter on that candle', avoid:'First candle entries\nLow-volume sessions', rr:'2'},
+    {id:4,name:'Breakout',inst:'NQ',   desc:'Range breakout on higher timeframe level',               entry:'HTF resistance broken\nVolume surge on break\n5min pullback entry', avoid:'Late entries\nLow ADR days', rr:'2.5'}
+  ];
+
+  S.journals = [
+    {date:d(2), intention:'Trade with patience. Only ORB setups on ES.', fix:'Stop entering before confirmation.', shukr:'Alhamdulillah for another day of health and provision'},
+    {date:d(7), intention:'Full session focus. No revenge after any stops.', fix:'Revenge trade on day 4 cost me — the gate is there for a reason.', shukr:'Grateful for a profitable week'},
+    {date:d(14),intention:'Light day. 2 trades max.', fix:'Missed prayers twice this week — it shows in the results.', shukr:'Family, health, ability to learn'}
+  ];
+
+  // Show app, hide landing
+  var lg=el('landing'); if(lg) lg.classList.add('hide');
+  var authSc=el('auth-screen'); if(authSc) authSc.classList.remove('show');
+  var pwSc=el('paywall-screen'); if(pwSc) pwSc.classList.remove('show');
+  var obEl=el('onboard'); if(obEl) obEl.classList.remove('show');
+
+  // Show demo banner — push entire body down so banner doesn't overlap sidebar or topbar
+  var banner=el('demo-banner');
+  if(banner){ banner.style.display='flex'; }
+  document.body.style.paddingTop = '42px';
+
+  // Set sidebar display name
+  var av=el('sf-av'); if(av) av.textContent='K';
+  var nm=el('sf-name'); if(nm) nm.textContent='Khalid';
+  var pl=el('sf-plan-label'); if(pl) pl.textContent='Demo Mode · Sirat';
+
+  // Init app views
+  try{ updateNav(); }catch(e){}
+  try{ _refreshBrakeBadge(); }catch(e){}
+  var td=el('topbar-date');
+  if(td){
+    var greg=new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+    var hij=hijriToday();
+    td.innerHTML=greg+(hij?' <span style="color:var(--gold-deep);margin:0 4px;opacity:0.7;">·</span> <span style="color:var(--gold-deep);">'+hij+'</span>':'');
+  }
+  try{ renderDash(); }catch(e){ console.error('Demo renderDash:',e); }
+  go('dashboard', document.querySelector('[data-page=dashboard]'));
+}
+
+function exitDemo(){
+  window._demoMode = false;
+  UID = null;
+  S.trades=[];S.journals=[];S.morning={};S.challenge=null;S.goal=null;
+  S.settings={};S.dailyPrayers={};S.playbook=[];S.openTradeId=null;
+  if(S._sub) S._sub = {};
+  var banner=el('demo-banner'); if(banner) banner.style.display='none';
+  document.body.style.paddingTop = '';
+  var lg=el('landing'); if(lg) lg.classList.remove('hide');
+  showAuth('signup');
+}
+
 // ── STATE ──────────────────────────────────────────────────────────────────
 var S={trades:[],journals:[],morning:{},challenge:null,goal:null,settings:{},
        dailyPrayers:{},playbook:[],nafs:{sabr:0,tawakkul:0,kibr:0,shukr:0},
@@ -3166,6 +3290,7 @@ function _saveErrorToast(e,label){
   }
 }
 function sv(k,v){
+  if(window._demoMode) return Promise.resolve();
   if(!UID||!DB)return Promise.resolve();
   var u={};
   u[k] = (v===null) ? firebase.firestore.FieldValue.delete() : v;
@@ -3176,6 +3301,7 @@ function sv(k,v){
 // Atomic multi-field write. All fields in `obj` land in the same Firestore
 // set() call, so partial failure can't leave the doc inconsistent.
 function svMulti(obj){
+  if(window._demoMode) return Promise.resolve();
   if(!UID||!DB)return Promise.resolve();
   var u={};
   Object.keys(obj).forEach(function(k){
@@ -3187,6 +3313,7 @@ function svMulti(obj){
 }
 
 function loadAll(){
+  if(window._demoMode) return Promise.resolve(true);
   if(!UID||!DB)return Promise.resolve(false);
   return DB.collection('users').doc(UID).get().then(function(doc){
     var d = doc.exists ? doc.data() : {};
