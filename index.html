@@ -4022,7 +4022,7 @@ function saveEntry(){
   // Single atomic write: both fields land together or neither does.
   svMulti({trades:S.trades, openTradeId:S.openTradeId})
     .then(function(){
-      closeEntry();
+      closeEntry(true);
       ['e-inst','e-setup','e-entry','e-stop','e-target'].forEach(function(id){var e=el(id);if(e)e.value='';});
       updateNav(); toast('\u2713 Trade entered \u2014 come back to log the close','s');
       if(el('page-dashboard').classList.contains('active'))renderDash();
@@ -4047,7 +4047,7 @@ function openExitModal(){
   S.selExEmotion=null;
   document.querySelectorAll('#exit-modal .emotion-btn').forEach(function(b){b.classList.remove('on');});
   var hint=el('x-pnl-hint');if(hint){hint.textContent='';hint.style.display='none';}
-  var xp=el('x-pnl');if(xp){xp.value='';xp._userEdited=false;}
+  var xp=el('x-pnl');if(xp){xp.value='';xp._userEdited=false;if(!xp._changeListenerAdded){xp.addEventListener('input',function(){xp._userEdited=true;});xp._changeListenerAdded=true;}}
   var xe=el('x-exit');if(xe)xe.value='';
 }
 var TICK_VALUES={
@@ -4684,7 +4684,7 @@ function renderDash(){
   // (zero-trade users don't need another empty input on day 1).
   var intentCard=el('today-intention-card');
   var intentEl=el('today-intention-input');
-  var showIntent = h < 12 && S.trades.length > 0;
+  var showIntent = h < 18 && S.trades.length > 0;
   if(intentCard) intentCard.style.display = showIntent ? '' : 'none';
   if(showIntent && intentEl && !intentEl.value){
     var today=localDate();
@@ -4797,37 +4797,80 @@ function renderTodayInsight(){
     }
     return;
   }
-  var insight=null,type='neutral';
+  // Build a pool of all valid insights, then pick one deterministically by day
+  // so the user sees different patterns on different days instead of always
+  // the same first match.
+  var insightPool=[];
+
+  // 1. Active revenge pattern (always surfaces if present — it's urgent)
   var last5=closed.slice(0,5);
   var revRecent=last5.filter(function(t){return t.emotion==='revenge';});
   if(revRecent.length>=2){
     var revWR=Math.round(revRecent.filter(function(t){return t.pnl>0;}).length/revRecent.length*100);
-    insight='<strong>'+revRecent.length+' revenge trades</strong> in your last 5. Win rate: <strong>'+revWR+'%</strong>. The pattern is active. Notice it before the next entry.';type='warn';
+    insightPool.push({text:'<strong>'+revRecent.length+' revenge trades</strong> in your last 5. Win rate: <strong>'+revWR+'%</strong>. The pattern is active. Notice it before the next entry.',type:'warn',priority:0});
   }
-  if(!insight){
-    var pDays=Object.keys(S.dailyPrayers);
-    var fullPD=pDays.filter(function(d){return Object.values(S.dailyPrayers[d]).every(Boolean);});
-    var partPD=pDays.filter(function(d){return!Object.values(S.dailyPrayers[d]).every(Boolean);});
-    var fpT=closed.filter(function(t){return fullPD.indexOf(t.date)>-1;});
-    var ppT=closed.filter(function(t){return partPD.indexOf(t.date)>-1;});
-    if(fpT.length>=4&&ppT.length>=4){
-      var fpWR=Math.round(fpT.filter(function(t){return t.pnl>0;}).length/fpT.length*100);
-      var ppWR=Math.round(ppT.filter(function(t){return t.pnl>0;}).length/ppT.length*100);
-      if(fpWR>ppWR+10){insight='Full salah days: <strong>'+fpWR+'%</strong> win rate vs <strong>'+ppWR+'%</strong>. Your data is telling you something.';type='good';}
-    }
+
+  // 2. Losing streak warning
+  var last3=closed.slice(0,3);
+  if(last3.length===3&&last3.every(function(t){return t.pnl<0;})){
+    var ls3Pnl=last3.reduce(function(s,t){return s+t.pnl;},0);
+    insightPool.push({text:'Three losses in a row. Total: <strong>'+fmt(ls3Pnl,true)+'</strong>. Ask yourself honestly — is the next trade from your playbook, or from wanting it back?',type:'warn',priority:1});
   }
-  if(!insight){
-    var calm=closed.filter(function(t){return['calm','patient','focused'].includes(t.emotion||'');});
-    var emot=closed.filter(function(t){return['fomo','revenge','urgency','overconf'].includes(t.emotion||'');});
-    if(calm.length>=4&&emot.length>=3){
-      var cWR=Math.round(calm.filter(function(t){return t.pnl>0;}).length/calm.length*100);
-      var eWR=Math.round(emot.filter(function(t){return t.pnl>0;}).length/emot.length*100);
-      if(cWR>eWR+15){insight='Calm trades: <strong>'+cWR+'%</strong> win rate vs <strong>'+eWR+'%</strong> emotional. Stillness is already your edge.';type='good';}
-    }
+
+  // 3. Win streak / kibr warning
+  var last4=closed.slice(0,4);
+  if(last4.length===4&&last4.every(function(t){return t.pnl>0;})){
+    insightPool.push({text:'<strong>4 wins in a row</strong>. Alhamdulillah — and this is exactly when kibr enters. Apply the same rules on trade 5 as you did on trade 1.',type:'warn',priority:2});
   }
-  if(!insight){e.innerHTML='';return;}
-  var label=type==='warn'?'Pattern Alert':type==='good'?'Your Edge':'Today\'s Insight';
-  e.innerHTML='<div class="today-insight" onclick="go(\'analytics\',document.querySelector(\'[data-page=analytics]\'))" title="See full analytics"><div class="today-insight-label">'+label+'</div><div class="today-insight-text">'+insight+'</div></div>';
+
+  // 4. Prayer-to-P&L correlation
+  var pDays=Object.keys(S.dailyPrayers);
+  var fullPD=pDays.filter(function(d){return Object.values(S.dailyPrayers[d]).every(Boolean);});
+  var partPD=pDays.filter(function(d){return!Object.values(S.dailyPrayers[d]).every(Boolean);});
+  var fpT=closed.filter(function(t){return fullPD.indexOf(t.date)>-1;});
+  var ppT=closed.filter(function(t){return partPD.indexOf(t.date)>-1;});
+  if(fpT.length>=4&&ppT.length>=4){
+    var fpWR=Math.round(fpT.filter(function(t){return t.pnl>0;}).length/fpT.length*100);
+    var ppWR=Math.round(ppT.filter(function(t){return t.pnl>0;}).length/ppT.length*100);
+    if(fpWR>ppWR+10){insightPool.push({text:'Full salah days: <strong>'+fpWR+'%</strong> win rate ('+fpT.length+' trades) vs <strong>'+ppWR+'%</strong> on partial-prayer days ('+ppT.length+' trades). Your data is telling you something.',type:'good',priority:3});}
+  }
+
+  // 5. Calm vs emotional edge
+  var calm=closed.filter(function(t){return['calm','patient','focused'].includes(t.emotion||'');});
+  var emot=closed.filter(function(t){return['fomo','revenge','urgency','overconf'].includes(t.emotion||'');});
+  if(calm.length>=4&&emot.length>=3){
+    var cWR=Math.round(calm.filter(function(t){return t.pnl>0;}).length/calm.length*100);
+    var eWR=Math.round(emot.filter(function(t){return t.pnl>0;}).length/emot.length*100);
+    if(cWR>eWR+15){insightPool.push({text:'Calm trades: <strong>'+cWR+'%</strong> win rate vs <strong>'+eWR+'%</strong> emotional. Stillness is already your edge.',type:'good',priority:4});}
+  }
+
+  // 6. Best setup spotlight
+  var setups={};closed.forEach(function(t){if(t.setup){if(!setups[t.setup])setups[t.setup]={w:0,n:0,pnl:0};setups[t.setup].n++;if(t.pnl>0)setups[t.setup].w++;setups[t.setup].pnl+=t.pnl;}});
+  var bestSetup=null,bestSWR=-1;Object.keys(setups).forEach(function(s){if(setups[s].n>=4){var wr=Math.round(setups[s].w/setups[s].n*100);if(wr>bestSWR){bestSWR=wr;bestSetup=s;}}});
+  if(bestSetup&&bestSWR>=60){insightPool.push({text:'Your <strong>'+esc(bestSetup)+'</strong> setup: <strong>'+bestSWR+'%</strong> win rate over '+setups[bestSetup].n+' trades. This is your edge. Trade it until your data says otherwise.',type:'good',priority:5});}
+
+  // 7. Day-of-week best day
+  var dowMap={};closed.forEach(function(t){var d=new Date(t.date+'T12:00:00').getDay();if(!dowMap[d])dowMap[d]={pnl:0,n:0};dowMap[d].pnl+=t.pnl;dowMap[d].n++;});
+  var dowNames=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var bestDow=null,bestDowPnl=-Infinity;Object.keys(dowMap).forEach(function(d){if(dowMap[d].n>=3&&dowMap[d].pnl>bestDowPnl){bestDowPnl=dowMap[d].pnl;bestDow=d;}});
+  var worstDow=null,worstDowPnl=Infinity;Object.keys(dowMap).forEach(function(d){if(dowMap[d].n>=3&&dowMap[d].pnl<worstDowPnl){worstDowPnl=dowMap[d].pnl;worstDow=d;}});
+  if(worstDow!==null&&worstDowPnl<0){insightPool.push({text:'<strong>'+dowNames[worstDow]+'</strong> is your worst trading day ('+(worstDowPnl>0?'+':'')+fmt(worstDowPnl,true)+' total). Consider trading lighter or skipping entirely.',type:'warn',priority:6});}
+  else if(bestDow!==null&&bestDowPnl>0){insightPool.push({text:'<strong>'+dowNames[bestDow]+'</strong> is your strongest day — <strong>'+fmt(bestDowPnl,true)+'</strong> total P&L. Be fully present on it.',type:'good',priority:7});}
+
+  // 8. Overtrading warning (5+ trades on any single day)
+  var dayTradeCounts={};closed.forEach(function(t){dayTradeCounts[t.date]=(dayTradeCounts[t.date]||0)+1;});
+  var overtradeDays=Object.values(dayTradeCounts).filter(function(n){return n>=5;}).length;
+  if(overtradeDays>=2){insightPool.push({text:'You\'ve had <strong>'+overtradeDays+' sessions with 5+ trades</strong>. More trades rarely means more profit — it usually means the nafs is running the session.',type:'warn',priority:8});}
+
+  if(!insightPool.length){e.innerHTML='';return;}
+
+  // Always show the highest-priority urgent alert if it exists.
+  // For non-urgent insights, rotate by day of year so the user sees variety.
+  insightPool.sort(function(a,b){return a.priority-b.priority;});
+  var urgent=insightPool.find(function(x){return x.priority<=2;});
+  var chosen=urgent||insightPool[new Date().getDate()%insightPool.length];
+  var label=chosen.type==='warn'?'Pattern Alert':chosen.type==='good'?'Your Edge':'Today\'s Insight';
+  e.innerHTML='<div class="today-insight" onclick="go(\'analytics\',document.querySelector(\'[data-page=analytics]\'))" title="See full analytics"><div class="today-insight-label">'+label+'</div><div class="today-insight-text">'+chosen.text+'</div></div>';
 }
 function renderSparklines(){
   var dayMap={};
@@ -5093,7 +5136,7 @@ function renderAnalytics(){
   var wc=el('wl-chart');if(wc){try{if(C.wl)C.wl.destroy();}catch(e){}try{var w2=closed.filter(function(t){return t.pnl>0;}).length,l2=closed.filter(function(t){return t.pnl<0;}).length,be=closed.filter(function(t){return t.pnl===0;}).length;if(w2||l2||be)C.wl=new Chart(wc,{type:'doughnut',data:{labels:['Wins','Losses','BE'],datasets:[{data:[w2,l2,be],backgroundColor:['#6cb088','#d28282','#867c66'],borderColor:'#181510',borderWidth:3}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'right',labels:{color:'#beb29a',font:{family:'Inter',size:11},padding:12,boxWidth:8}}}}});}catch(e){}}
   var pr=el('prayer-radar');if(pr){try{if(C.pr)C.pr.destroy();}catch(e){}try{var ps=['fajr','dhuhr','asr','maghrib','isha'],lbs=['Fajr','Dhuhr','Asr','Maghrib','Isha'];var dkeys=Object.keys(S.dailyPrayers);if(dkeys.length>=3){var vals=ps.map(function(p){var pd=dkeys.filter(function(d){return S.dailyPrayers[d][p];});var pt=closed.filter(function(t){return pd.indexOf(t.date)>-1;});return pt.length?Math.round(pt.filter(function(t){return t.pnl>0;}).length/pt.length*100):0;});C.pr=new Chart(pr,{type:'radar',data:{labels:lbs,datasets:[{data:vals,backgroundColor:'rgba(218,180,98,0.1)',borderColor:'rgba(218,180,98,0.6)',pointBackgroundColor:'#dab462',pointBorderColor:'#0b0a08',borderWidth:2,pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#181510',borderColor:'rgba(218,180,98,0.25)',borderWidth:1,titleColor:'#f0e8d4',bodyColor:'#beb29a',callbacks:{label:function(ctx){return'Win rate: '+ctx.parsed.r+'%';}}}},scales:{r:{backgroundColor:'transparent',grid:{color:'rgba(255,255,255,0.055)'},angleLines:{color:'rgba(218,180,98,0.1)'},pointLabels:{color:'#beb29a',font:{family:'JetBrains Mono',size:10}},ticks:{color:'#4a4538',backdropColor:'transparent',stepSize:25},min:0,max:100}}}});}else{pr.parentElement.innerHTML='<div class="empty" style="padding:44px;"><div class="empty-icon">\ud83e\udd32</div><div class="empty-title">Track prayers for 3+ days</div><div class="empty-text">The prayer radar needs at least 3 days of data to show meaningful correlation.</div></div>';}
   }catch(e){}}
-  var st=el('setup-wrap');if(st){var setups=[];closed.forEach(function(t){if(t.setup&&setups.indexOf(t.setup)<0)setups.push(t.setup);});if(!setups.length){st.innerHTML='<div class="empty"><div class="empty-icon">\u2699</div><div class="empty-title">Tag setups when logging trades</div></div>';}else{var sd=setups.map(function(s){var ts=closed.filter(function(t){return t.setup===s;});var w=ts.filter(function(t){return t.pnl>0;}).length;var pnl=ts.reduce(function(a,t){return a+t.pnl;},0);var wr=Math.round(w/ts.length*100);return{s:s,n:ts.length,wr:wr,pnl:pnl,avg:pnl/ts.length};}).sort(function(a,b){return b.pnl-a.pnl;});st.innerHTML='<table class="s-table"><thead><tr><th>Setup</th><th>Trades</th><th>Win Rate</th><th>Total P&L</th><th>Avg P&L</th></tr></thead><tbody>'+sd.map(function(d){return'<tr><td style="color:var(--ink);font-weight:500;">'+esc(d.s)+'</td><td style="font-family:\'JetBrains Mono\',monospace;font-size:0.74rem;">'+d.n+'</td><td><div class="s-bar"><div class="s-bar-fill" style="width:'+d.wr+'%;background:'+(d.wr>=50?'var(--green)':'var(--red)')+';height:100%;border-radius:3px;"></div></div><span style="font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;">'+d.wr+'%</span></td><td class="t-pnl '+(d.pnl>=0?'pos':'neg')+'">'+fmt(d.pnl,true)+'</td><td class="t-pnl '+(d.avg>=0?'pos':'neg')+'">'+fmt(d.avg,true)+'</td></tr>';}).join('')+'</tbody></table>';}}
+  var st=el('setup-wrap');if(st){var setups=[];closed.forEach(function(t){if(t.setup&&setups.indexOf(t.setup)<0)setups.push(t.setup);});if(!setups.length){st.innerHTML='<div class="empty"><div class="empty-icon">\u2699</div><div class="empty-title">Tag setups when logging trades</div></div>';}else{var sd=setups.map(function(s){var ts=closed.filter(function(t){return t.setup===s;});var w=ts.filter(function(t){return t.pnl>0;}).length;var pnl=ts.reduce(function(a,t){return a+t.pnl;},0);var wr=Math.round(w/ts.length*100);return{s:s,n:ts.length,wr:wr,pnl:pnl,avg:pnl/ts.length};}).sort(function(a,b){return b.pnl-a.pnl;});st.innerHTML='<div class="table-wrap"><table class="s-table"><thead><tr><th>Setup</th><th>Trades</th><th>Win Rate</th><th>Total P&L</th><th>Avg P&L</th></tr></thead><tbody>'+sd.map(function(d){return'<tr><td style="color:var(--ink);font-weight:500;">'+esc(d.s)+'</td><td style="font-family:\'JetBrains Mono\',monospace;font-size:0.74rem;">'+d.n+'</td><td><div class="s-bar"><div class="s-bar-fill" style="width:'+d.wr+'%;background:'+(d.wr>=50?'var(--green)':'var(--red)')+';height:100%;border-radius:3px;"></div></div><span style="font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;">'+d.wr+'%</span></td><td class="t-pnl '+(d.pnl>=0?'pos':'neg')+'">'+fmt(d.pnl,true)+'</td><td class="t-pnl '+(d.avg>=0?'pos':'neg')+'">'+fmt(d.avg,true)+'</td></tr>';}).join('')+'</tbody></table></div>';}}
   var da=el('deen-wrap');if(da){var dDays=Object.keys(S.dailyPrayers);if(dDays.length<5){da.innerHTML='<div class="empty"><div class="empty-icon">\ud83e\udd32</div><div class="empty-title">Track prayers daily for 5+ days</div><div class="empty-text">5+ days builds a pattern. 20+ days builds a conviction. Keep going.</div></div>';}else{var pN={fajr:'Fajr \ud83c\udf19',dhuhr:'Dhuhr \u2600\ufe0f',asr:'Asr \ud83c\udf24',maghrib:'Maghrib \ud83c\udf05',isha:'Isha \u2b50'};var rows=['fajr','dhuhr','asr','maghrib','isha'].map(function(p){var yD=dDays.filter(function(d){return S.dailyPrayers[d][p];}),nD=dDays.filter(function(d){return!S.dailyPrayers[d][p];});var yT=closed.filter(function(t){return yD.indexOf(t.date)>-1;}),nT=closed.filter(function(t){return nD.indexOf(t.date)>-1;});var yWR=yT.length?Math.round(yT.filter(function(t){return t.pnl>0;}).length/yT.length*100):0,nWR=nT.length?Math.round(nT.filter(function(t){return t.pnl>0;}).length/nT.length*100):0;var yP=yT.reduce(function(s,t){return s+t.pnl;},0),nP=nT.reduce(function(s,t){return s+t.pnl;},0);return{name:pN[p],yN:yT.length,nN:nT.length,yWR:yWR,nWR:nWR,yP:yP,nP:nP,diff:yWR-nWR};});da.innerHTML='<div style="overflow-x:auto"><table class="s-table"><thead><tr><th>Prayer</th><th>Days prayed</th><th>Win %</th><th>P&L</th><th>Days missed</th><th>Win %</th><th>P&L</th><th>Edge</th><th>Confidence</th></tr></thead><tbody>'+rows.map(function(r){
   var conf=r.yN<3||r.nN<3?'low':r.yN<8||r.nN<8?'mid':'high';
   var confLabel=conf==='low'?'Insufficient data':conf==='mid'?'Pattern emerging':'High confidence';
@@ -5476,13 +5519,13 @@ function _siratKpisFor(stage, closed, s, ctx){
     var top = ctx.topSetup;
     return [
       kpi('Top setup', top ? top.name : '—', top ? (top.count + ' trades · ' + top.wr + '% WR') : 'Tag setups on every trade'),
-      kpi('Profit factor (30d)', ctx.pf === Infinity ? '∞' : (ctx.pf||0).toFixed(2), 'Gross wins ÷ gross losses'),
+      kpi('Profit factor (30d)', ctx.pf === Infinity ? '∞' : (ctx.pf||0).toFixed(2), ctx.pf === Infinity ? 'No losing trades yet — keep it that way' : 'Gross wins ÷ gross losses'),
       kpi('Expectancy (30d)', (ctx.expectancy>=0?'+':'') + '$' + Math.round(ctx.expectancy||0), 'Per-trade average over the last 30 days')
     ];
   }
   if(stage === 'yaqeen'){
     return [
-      kpi('Profit factor (30d)', ctx.pf === Infinity ? '∞' : (ctx.pf||0).toFixed(2), 'Goal: stay above 1.4'),
+      kpi('Profit factor (30d)', ctx.pf === Infinity ? '∞' : (ctx.pf||0).toFixed(2), ctx.pf === Infinity ? 'No losing trades yet — goal: stay above 1.4' : 'Goal: stay above 1.4'),
       kpi('Expectancy (30d)', (ctx.expectancy>=0?'+':'') + '$' + Math.round(ctx.expectancy||0), 'Per-trade average'),
       kpi('Top setup', ctx.topSetup ? (ctx.topSetup.name + ' · ' + ctx.topSetup.wr + '%') : '—', ctx.topSetup ? (ctx.topSetup.count + ' trades') : 'Find your one best setup')
     ];
@@ -5491,7 +5534,7 @@ function _siratKpisFor(stage, closed, s, ctx){
     return [
       kpi('Positive months in a row', ctx.positiveRun, 'Goal: ' + SIRAT_THRESHOLDS.ihsanMinMonths + '+ for Ihsan'),
       kpi('Max drawdown', Math.round(ctx.ddPct||0) + '%', 'Stay under ' + SIRAT_THRESHOLDS.tawakkulMaxDDPct + '%'),
-      kpi('Profit factor (30d)', ctx.pf === Infinity ? '∞' : (ctx.pf||0).toFixed(2), 'Edge defense')
+      kpi('Profit factor (30d)', ctx.pf === Infinity ? '∞' : (ctx.pf||0).toFixed(2), ctx.pf === Infinity ? 'No losing trades yet — edge defense' : 'Edge defense')
     ];
   }
   return [
