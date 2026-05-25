@@ -3,7 +3,7 @@
 // Also: route notification taps back into the app (Friday muhasabah,
 // streak guard, post-loss cooldown).
 
-const CACHE = 'niyyah-v2';
+const CACHE = 'niyyah-v3';
 const STATIC_HOSTS = [
   'fonts.googleapis.com',
   'fonts.gstatic.com',
@@ -30,7 +30,7 @@ self.addEventListener('fetch', (event) => {
   if (
     url.hostname.includes('firebaseio') ||
     url.hostname.includes('firestore') ||
-    url.hostname.includes('googleapis.com') && !STATIC_HOSTS.includes(url.hostname) ||
+    (url.hostname.includes('googleapis.com') && !STATIC_HOSTS.includes(url.hostname)) ||
     url.hostname.includes('identitytoolkit') ||
     url.hostname.includes('stripe.com') ||
     url.hostname.includes('cloudfunctions')

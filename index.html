@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Niyyah — The trading journal for Muslim traders</title>
-<meta name="description" content="The accountability system for traders whose strategy already works — but whose nafs keeps getting in the way. Pre-trade gate, prayer-to-P&L radar, Friday muhasabah. $27/mo, 7-day refund.">
+<meta name="description" content="The accountability system for traders whose strategy already works — but whose nafs keeps getting in the way. Pre-trade gate, prayer-to-P&L radar, Friday muhasabah. From $19/mo, 7-day refund.">
 <link rel="canonical" href="https://niyyahtrader.com/">
 <meta name="theme-color" content="#0a0906">
 <meta name="robots" content="index,follow,max-image-preview:large">
@@ -810,6 +810,19 @@ body:not(.legal-visitor) .legal-back{display:none;}
   .testi-grid{grid-template-columns:1fr;gap:10px;margin-bottom:24px;}
   .testi-stats{grid-template-columns:1fr;}
   .testi-stat{padding:18px 16px;}
+  .pillars-grid{grid-template-columns:1fr!important;}
+  .comp-grid{grid-template-columns:1.4fr 0.6fr 0.6fr 0.6fr!important;}
+  .comp-grid > div{padding:8px 6px!important;font-size:0.68rem!important;}
+  .comp-grid .comp-head{font-size:0.42rem!important;letter-spacing:0.08em!important;padding:8px 4px!important;}
+}
+
+/* ── STICKY MOBILE CTA ─────────────────────────────────────────────────── */
+.sticky-cta{display:none;}
+@media(max-width:580px){
+  .sticky-cta{position:fixed;bottom:0;left:0;right:0;z-index:200;background:linear-gradient(180deg,transparent,rgba(10,9,6,0.95) 20%);padding:12px 16px 16px;display:none;opacity:0;transform:translateY(100%);transition:opacity 0.3s,transform 0.3s;}
+  .sticky-cta.show{display:block;opacity:1;transform:translateY(0);}
+  .sticky-cta .btn{width:100%;justify-content:center;font-size:0.88rem;padding:14px 20px;}
+  .sticky-cta-sub{font-family:'JetBrains Mono',monospace;font-size:0.5rem;text-align:center;color:var(--ink-4);margin-top:6px;letter-spacing:0.08em;}
 }
 
 /* CTA pulse removed — the gold button's built-in shimmer is the only motion accent we need on primary CTAs */
@@ -1109,6 +1122,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <div class="lnav-name">Niyyah</div>
     </div>
     <div class="lnav-btns">
+      <a onclick="document.getElementById('pricing-section').scrollIntoView({behavior:'smooth'})" style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);cursor:pointer;text-decoration:none;padding:9px 12px;transition:color 0.18s;">Pricing</a>
       <button class="lnav-signin" onclick="showAuth('signin')">Sign In</button>
       <button class="lnav-cta" onclick="showAuth('signup')">Begin — Bismillah →</button>
     </div>
@@ -1126,7 +1140,8 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 32px;">Begin — Bismillah →</button>
       <button class="btn btn-outline btn-lg" onclick="startDemo()" style="backdrop-filter:blur(8px);">Try Demo — No sign-up</button>
     </div>
-    <div class="lhero-price">$27/mo · 7-day full refund · cancel anytime · Stripe-secured</div>
+    <div class="lhero-clarifier"><strong>A trading journal built on Islamic psychology.</strong> Pre-trade gate · prayer-to-P&amp;L radar · nafs tracking · Friday muhasabah · playbook · equity curve · risk calculator.</div>
+    <div class="lhero-price">From $19/mo (billed annually) · 7-day full refund · no card to try the demo</div>
     <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-4);">annual saves up to $156 &nbsp;·&nbsp; <a href="#pricing-section" onclick="setTimeout(function(){setPlan('annual');},200)" style="color:var(--gold-deep);text-decoration:none;border-bottom:1px solid rgba(218,180,98,0.3);cursor:pointer;">see plans →</a></div>
     <div style="margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.45;cursor:pointer;animation:scrollBounce 2s ease-in-out infinite;" onclick="scrollToFeatures()">
       <div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-3);">SCROLL</div>
@@ -1219,32 +1234,34 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>7-day full refund · email <a href="mailto:support@niyyahtrader.com" style="color:var(--gold-deep);text-decoration:none;">support@niyyahtrader.com</a></div>
   </div>
 
-  <!-- EARLY ACCESS SECTION — replace with real attributed testimonials once collected -->
+  <!-- HOW IT WORKS — concrete scenarios showing features in action.
+       Once you have 3+ real attributed quotes (with written permission),
+       swap these scenario cards for a proper testimonial grid. -->
   <div class="social-proof-wrap reveal">
-    <div class="social-proof-eye">EARLY ACCESS · NOW OPEN</div>
-    <h2 class="social-proof-h">Built for traders who take their <em>deen seriously.</em></h2>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px;" class="testi-grid">
-      <div class="testi-card" style="text-align:center;padding:28px 20px;">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:600;color:var(--gold);line-height:1;margin-bottom:8px;">12</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;">PRE-TRADE GATE CHECKS</div>
-        <div style="font-size:0.8rem;color:var(--ink-3);line-height:1.65;font-weight:300;">Questions answered before every single trade — in your first week alone.</div>
+    <div class="social-proof-eye">HOW NIYYAH CATCHES WHAT YOU MISS</div>
+    <h2 class="social-proof-h">Three moments that <em>change everything.</em></h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:12px;">SCENARIO 1</div>
+        <div class="testi-quote" style="font-style:normal;">You're about to add to a losing NQ position. The pre-trade gate pulls up the last four times you did exactly this — all losses. You see the pattern. You close instead of doubling down. <strong style="color:var(--ink);">One decision. One year of subscription paid for.</strong></div>
+        <div style="margin-top:auto;padding-top:14px;font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);">Feature: Pre-trade gate</div>
       </div>
-      <div class="testi-card" style="text-align:center;padding:28px 20px;">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:600;color:var(--gold);line-height:1;margin-bottom:8px;">5</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;">TRADES TO FIRST INSIGHT</div>
-        <div style="font-size:0.8rem;color:var(--ink-3);line-height:1.65;font-weight:300;">Pattern detection activates after 5 closed trades. Most users find a leak they didn't know about.</div>
+      <div class="testi-card">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:12px;">SCENARIO 2</div>
+        <div class="testi-quote" style="font-style:normal;">You've journaled for two years and never asked why Fridays are your worst day. The prayer radar shows it in week one: you skip Jumu'ah when you're in a position. <strong style="color:var(--ink);">Your own data, surfaced in a way no spreadsheet would.</strong></div>
+        <div style="margin-top:auto;padding-top:14px;font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);">Feature: Prayer-to-P&L radar</div>
       </div>
-      <div class="testi-card" style="text-align:center;padding:28px 20px;">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:600;color:var(--gold);line-height:1;margin-bottom:8px;">7</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;">DAY FULL REFUND</div>
-        <div style="font-size:0.8rem;color:var(--ink-3);line-height:1.65;font-weight:300;">Try it with zero risk. If Niyyah doesn't surface a behavioral leak in your first week, we refund every penny.</div>
+      <div class="testi-card">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:12px;">SCENARIO 3</div>
+        <div class="testi-quote" style="font-style:normal;">Friday muhasabah uses your own journal entries from the week — your words, your trades, your missed prayers. There's nowhere to hide. <strong style="color:var(--ink);">Three weeks in, you stop revenge trading after losses. Not because someone told you to — because you saw what it costs.</strong></div>
+        <div style="margin-top:auto;padding-top:14px;font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);">Feature: Friday muhasabah</div>
       </div>
     </div>
   </div>
 
   <!-- PILLARS -->
   <div style="padding:0 40px 72px;max-width:920px;margin:0 auto;width:100%;" class="reveal">
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(218,180,98,0.1);border-radius:16px;overflow:hidden;border:1px solid rgba(218,180,98,0.12);">
+    <div class="pillars-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(218,180,98,0.1);border-radius:16px;overflow:hidden;border:1px solid rgba(218,180,98,0.12);">
       <div class="lstat-item" style="background:linear-gradient(145deg,#1a1710,#0f0d09);padding:26px 22px;text-align:left;">
         <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:10px;">01 · Before</div>
         <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--ink);line-height:1.25;margin-bottom:4px;">Pre-trade gate</div>
@@ -1330,6 +1347,57 @@ body:not(.legal-visitor) .legal-back{display:none;}
   </div>
 
 
+  <!-- COMPARISON TABLE — Niyyah vs generic journals -->
+  <div class="comp-wrap reveal">
+    <div style="text-align:center;margin-bottom:28px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;">HONEST COMPARISON</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:500;color:var(--ink);letter-spacing:-0.035em;line-height:1.1;">What you get <em style="color:var(--gold);font-weight:600;">that they don't.</em></h2>
+    </div>
+    <div class="comp-grid">
+      <div class="comp-head">Feature</div>
+      <div class="comp-head us">Niyyah</div>
+      <div class="comp-head">TradeZella</div>
+      <div class="comp-head">Spreadsheet</div>
+      <div class="comp-row">Pre-trade emotional gate</div>
+      <div class="comp-row comp-yes">&#10003;</div>
+      <div class="comp-row comp-no">&#10005;</div>
+      <div class="comp-row comp-no">&#10005;</div>
+      <div class="comp-row">Prayer-to-P&amp;L correlation</div>
+      <div class="comp-row comp-yes">&#10003;</div>
+      <div class="comp-row comp-no">&#10005;</div>
+      <div class="comp-row comp-no">&#10005;</div>
+      <div class="comp-row">Nafs tracking (Sabr, Tawakkul, Kibr, Shukr)</div>
+      <div class="comp-row comp-yes">&#10003;</div>
+      <div class="comp-row comp-no">&#10005;</div>
+      <div class="comp-row comp-no">&#10005;</div>
+      <div class="comp-row">Friday muhasabah review</div>
+      <div class="comp-row comp-yes">&#10003;</div>
+      <div class="comp-row comp-no">&#10005;</div>
+      <div class="comp-row comp-no">&#10005;</div>
+      <div class="comp-row">Quality Score per trade</div>
+      <div class="comp-row comp-yes">&#10003;</div>
+      <div class="comp-row comp-partial">~</div>
+      <div class="comp-row comp-no">&#10005;</div>
+      <div class="comp-row">Equity curve &amp; drawdown</div>
+      <div class="comp-row comp-yes">&#10003;</div>
+      <div class="comp-row comp-yes">&#10003;</div>
+      <div class="comp-row comp-partial">DIY</div>
+      <div class="comp-row">Risk-of-Ruin Monte Carlo</div>
+      <div class="comp-row comp-yes">&#10003;</div>
+      <div class="comp-row comp-no">&#10005;</div>
+      <div class="comp-row comp-no">&#10005;</div>
+      <div class="comp-row">Zakat calculator (Hijri)</div>
+      <div class="comp-row comp-yes">&#10003;</div>
+      <div class="comp-row comp-no">&#10005;</div>
+      <div class="comp-row comp-no">&#10005;</div>
+      <div class="comp-row">Price</div>
+      <div class="comp-row comp-cell-us">From $19/mo</div>
+      <div class="comp-row" style="color:var(--ink-3);">$49/mo</div>
+      <div class="comp-row" style="color:var(--ink-3);">Free</div>
+    </div>
+    <div class="comp-foot">TradeZella is an excellent analytics tool. Niyyah is built for the trader who knows the problem isn't the chart — it's what happens between the ears.</div>
+  </div>
+
   <!-- FOUNDER NOTE -->
   <div class="reveal" style="max-width:720px;margin:0 auto 80px;padding:0 40px;">
     <div style="background:linear-gradient(145deg,#1e1b12,#0f0d09);border:1px solid rgba(218,180,98,0.2);border-radius:20px;padding:36px 40px;position:relative;overflow:hidden;">
@@ -1389,7 +1457,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
       </details>
       <details class="faq-item" style="background:linear-gradient(145deg,#1a1810,#0f0d09);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 22px;cursor:pointer;transition:border-color 0.2s;">
         <summary style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;">Do I keep my data if I cancel?<span class="faq-plus" style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.3rem;">+</span></summary>
-        <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.75;font-weight:300;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);">Yes. Export your full journal to JSON anytime from Settings. If you cancel, your data is preserved on the account; resubscribe at any time and pick up where you left off.</div>
+        <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.75;font-weight:300;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);">Yes. Export your full journal to JSON or CSV anytime from Settings. If you cancel, your data is preserved on the account; resubscribe at any time and pick up where you left off.</div>
       </details>
     </div>
   </div>
@@ -1400,8 +1468,8 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <!-- Shared monthly / annual toggle. setPlan() updates BOTH cards. -->
     <div style="display:flex;justify-content:center;margin-bottom:28px;">
       <div class="plan-toggle" role="tablist" aria-label="Choose billing period">
-        <button type="button" class="plan-toggle-btn active" id="plan-toggle-monthly" role="tab" aria-selected="true" onclick="setPlan('monthly')">Monthly</button>
-        <button type="button" class="plan-toggle-btn" id="plan-toggle-annual" role="tab" aria-selected="false" onclick="setPlan('annual')">Annual <span class="plan-toggle-save">· save up to $156</span></button>
+        <button type="button" class="plan-toggle-btn" id="plan-toggle-monthly" role="tab" aria-selected="false" onclick="setPlan('monthly')">Monthly</button>
+        <button type="button" class="plan-toggle-btn active" id="plan-toggle-annual" role="tab" aria-selected="true" onclick="setPlan('annual')">Annual <span class="plan-toggle-save">· save up to $156</span></button>
       </div>
     </div>
 
@@ -1409,8 +1477,8 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <!-- BASE TIER -->
       <div class="lprice-card lprice-base">
         <div class="lprice-tag">BASE · THE JOURNAL</div>
-        <div class="lprice-num" id="landing-base-num">$27<span>/mo</span></div>
-        <div id="landing-base-anchor" style="display:none;font-family:'JetBrains Mono',monospace;font-size:0.66rem;letter-spacing:0.12em;color:var(--ink-4);margin-top:2px;"><s style="opacity:0.55;">$324/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$230/yr</strong></div>
+        <div class="lprice-num" id="landing-base-num">$230<span>/yr</span></div>
+        <div id="landing-base-anchor" style="font-family:'JetBrains Mono',monospace;font-size:0.66rem;letter-spacing:0.12em;color:var(--ink-4);margin-top:2px;"><s style="opacity:0.55;">$324/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$230/yr</strong></div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-top:6px;margin-bottom:4px;" id="landing-base-fine">Cancel anytime · 7-day full refund</div>
         <ul class="lprice-list">
           <li>Full trade journal — entry, close, lesson</li>
@@ -1435,8 +1503,8 @@ body:not(.legal-visitor) .legal-back{display:none;}
         <div class="lprice-ribbon">Most popular · for traders ready to scale</div>
         <div class="lprice-glow"></div>
         <div class="lprice-tag" style="color:var(--gold-2);">SIRAT · THE PATH</div>
-        <div class="lprice-num" id="landing-sirat-num">$38<span>/mo</span></div>
-        <div id="landing-sirat-anchor" style="display:none;font-family:'JetBrains Mono',monospace;font-size:0.66rem;letter-spacing:0.12em;color:var(--ink-4);margin-top:2px;"><s style="opacity:0.55;">$456/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$300/yr</strong></div>
+        <div class="lprice-num" id="landing-sirat-num">$300<span>/yr</span></div>
+        <div id="landing-sirat-anchor" style="font-family:'JetBrains Mono',monospace;font-size:0.66rem;letter-spacing:0.12em;color:var(--ink-4);margin-top:2px;"><s style="opacity:0.55;">$456/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$300/yr</strong></div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-top:6px;margin-bottom:4px;" id="landing-sirat-fine">Everything in Base, plus the profitability engine</div>
         <ul class="lprice-list">
           <li><strong style="color:var(--ink);">Sirat</strong> — staged path to profitability, calibrated to your data</li>
@@ -1471,10 +1539,10 @@ body:not(.legal-visitor) .legal-back{display:none;}
     </div>
   </div>
 
-  <!-- MOBILE STICKY CTA — only visible on small screens once user scrolls past hero -->
-  <div id="mobile-sticky-cta" style="display:none;position:sticky;bottom:0;left:0;right:0;z-index:800;background:linear-gradient(to top,rgba(10,9,6,0.97) 80%,rgba(10,9,6,0));padding:14px 20px 20px;backdrop-filter:blur(10px);border-top:1px solid rgba(218,180,98,0.12);">
-    <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="width:100%;justify-content:center;font-size:0.92rem;padding:13px 24px;">Begin — Bismillah →</button>
-    <div style="text-align:center;margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-4);">$27/mo · 7-day full refund</div>
+  <!-- MOBILE STICKY CTA — visible on small screens once user scrolls past hero, hides at pricing -->
+  <div class="sticky-cta" id="sticky-cta">
+    <button class="btn btn-gold btn-lg" onclick="showAuth('signup')">Begin — Bismillah →</button>
+    <div class="sticky-cta-sub">FROM $19/MO · 7-DAY FULL REFUND</div>
   </div>
 
 </div>
@@ -1531,8 +1599,8 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <!-- Shared monthly / annual toggle. setPlan() updates both tier cards. -->
     <div style="display:flex;justify-content:center;margin:14px 0 6px;">
       <div class="plan-toggle" role="tablist" aria-label="Choose billing period">
-        <button type="button" class="plan-toggle-btn active" id="pw-plan-monthly" role="tab" aria-selected="true" onclick="setPlan('monthly')">Monthly</button>
-        <button type="button" class="plan-toggle-btn" id="pw-plan-annual" role="tab" aria-selected="false" onclick="setPlan('annual')">Annual <span class="plan-toggle-save">· save up to $156</span></button>
+        <button type="button" class="plan-toggle-btn" id="pw-plan-monthly" role="tab" aria-selected="false" onclick="setPlan('monthly')">Monthly</button>
+        <button type="button" class="plan-toggle-btn active" id="pw-plan-annual" role="tab" aria-selected="true" onclick="setPlan('annual')">Annual <span class="plan-toggle-save">· save up to $156</span></button>
       </div>
     </div>
 
@@ -1542,8 +1610,8 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <!-- BASE TIER -->
       <div class="pw-tier pw-tier-base" id="pw-tier-base" onclick="setTier('base')">
         <div class="pw-tier-label">BASE · THE JOURNAL</div>
-        <div class="pw-tier-price" id="pw-base-num">$27<span>/mo</span></div>
-        <div class="pw-tier-anchor" id="pw-base-anchor" style="display:none;"><s style="opacity:0.55;">$324/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$230/yr</strong></div>
+        <div class="pw-tier-price" id="pw-base-num">$230<span>/yr</span></div>
+        <div class="pw-tier-anchor" id="pw-base-anchor"><s style="opacity:0.55;">$324/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$230/yr</strong></div>
         <ul class="pw-tier-list">
           <li>Full journal · pre-trade gate · Quality Score</li>
           <li>Prayer-to-P&amp;L radar · nafs check</li>
@@ -1557,8 +1625,8 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <div class="pw-tier pw-tier-sirat" id="pw-tier-sirat" onclick="setTier('sirat')">
         <div class="pw-tier-ribbon">MOST POPULAR</div>
         <div class="pw-tier-label" style="color:var(--gold-2);">SIRAT · THE PATH</div>
-        <div class="pw-tier-price" id="pw-sirat-num">$38<span>/mo</span></div>
-        <div class="pw-tier-anchor" id="pw-sirat-anchor" style="display:none;"><s style="opacity:0.55;">$456/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$300/yr</strong></div>
+        <div class="pw-tier-price" id="pw-sirat-num">$300<span>/yr</span></div>
+        <div class="pw-tier-anchor" id="pw-sirat-anchor"><s style="opacity:0.55;">$456/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$300/yr</strong></div>
         <ul class="pw-tier-list">
           <li><strong>Sirat</strong> — staged path to profitability</li>
           <li><strong>Mizan</strong> — live verdict on every trade</li>
@@ -2025,7 +2093,8 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <div class="field"><label>Display Name</label><input type="text" id="s-name" placeholder="e.g. Abe"></div>
   <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:4px;">
     <button class="btn btn-gold" onclick="saveSettings()">Save</button>
-    <button class="btn btn-outline" onclick="exportData()">&#8595; Export Data</button>
+    <button class="btn btn-outline" onclick="exportData()">&#8595; Export JSON</button>
+    <button class="btn btn-outline" onclick="exportCSV()">&#8595; Export CSV</button>
     <button class="btn btn-outline" onclick="replayOnboarding()">&#8635; Replay Intro</button>
     <button class="btn btn-danger" onclick="confirmResetAll()">Reset All Data</button>
     <button class="btn btn-outline" onclick="doSignOut()" style="margin-left:auto;">Sign Out</button>
@@ -2386,6 +2455,16 @@ body:not(.legal-visitor) .legal-back{display:none;}
 </script>
 <script>
 'use strict';
+
+// ── GLOBAL ERROR BOUNDARY ──────────────────────────────────────────────────
+window.onerror = function(msg, src, line, col, err) {
+  console.error('Uncaught error:', msg, src, line, err);
+  try { if (typeof toast === 'function') toast('Something went wrong. Try refreshing.', 'e'); } catch(e) {}
+};
+window.addEventListener('unhandledrejection', function(event) {
+  console.error('Unhandled promise rejection:', event.reason);
+  try { if (typeof toast === 'function') toast('A background operation failed. Try again.', 'e'); } catch(e) {}
+});
 
 // ── FIREBASE CONFIG ────────────────────────────────────────────────────────
 // The Firebase web SDK API key is a public project identifier — it is meant
@@ -3044,7 +3123,7 @@ var PRICES = {
   base:  { monthly: 27, annual: 230, monthlyAnchor: 324 },
   sirat: { monthly: 38, annual: 300, monthlyAnchor: 456 }
 };
-var SELECTED_PLAN = 'monthly';
+var SELECTED_PLAN = 'annual';
 var SELECTED_TIER = 'base';
 
 function _fmtPrice(tier, plan){
@@ -3737,7 +3816,7 @@ function go(page,navEl){
   var sb=el('sidebar');if(sb)sb.classList.remove('open');
   var sbo=el('sb-overlay');if(sbo)sbo.classList.remove('show');
   window.scrollTo(0,0);
-  if(PAGE_FNS[page])try{PAGE_FNS[page]();}catch(err){console.error('Page error:',page,err);}
+  if(PAGE_FNS[page])try{PAGE_FNS[page]();}catch(err){console.error('Page error:',page,err);toast('Something went wrong loading this page','e');}
   _push('/' + page);
 }
 function toggleSB(){
@@ -6609,6 +6688,17 @@ function deleteAccount(){
 }
 function exportData(){var d={trades:S.trades,journals:S.journals,morning:S.morning,challenge:S.challenge,goal:S.goal,settings:S.settings,dailyPrayers:S.dailyPrayers,playbook:S.playbook,nafs:S.nafs,dhikr:S.dhikr,exportedAt:new Date().toISOString()};var b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download='niyyah-'+localDate()+'.json';a.click();URL.revokeObjectURL(u);toast('\u2713 Exported','s');}
 
+function exportCSV(){
+  if(!S.trades.length){toast('No trades to export','e');return;}
+  var cols=['date','time','instrument','direction','setup','status','entryPrice','stopPrice','targetPrice','exitPrice','pnl','emotion','exitEmotion','quality','lesson'];
+  var csvEsc=function(v){var s=String(v==null?'':v);return s.indexOf(',')>-1||s.indexOf('"')>-1||s.indexOf('\n')>-1?'"'+s.replace(/"/g,'""')+'"':s;};
+  var rows=[cols.join(',')];
+  S.trades.forEach(function(t){rows.push(cols.map(function(c){return csvEsc(t[c]);}).join(','));});
+  var b=new Blob([rows.join('\n')],{type:'text/csv;charset=utf-8'});
+  var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download='niyyah-trades-'+localDate()+'.csv';a.click();URL.revokeObjectURL(u);
+  toast('✓ Exported '+S.trades.length+' trades as CSV','s');
+}
+
 // ── INIT ──────────────────────────────────────────────────────────────────────
 // initScrollReveal replaced by initReveal below
 
@@ -7776,24 +7866,26 @@ function initReveal(){
   });
 }
 
-// Mobile sticky CTA — show after user scrolls 400px past the hero on small screens
+// Mobile sticky CTA — IntersectionObserver: show after hero scrolls out, hide at pricing
 (function(){
-  var shown = false;
-  function checkSticky(){
-    var lg = document.getElementById('landing');
-    var cta = document.getElementById('mobile-sticky-cta');
-    if(!cta||!lg)return;
-    if(window.innerWidth > 600){cta.classList.remove('active');return;}
-    if(lg.scrollTop > 400){
-      if(!shown){cta.classList.add('active');shown=true;}
-    } else {
-      cta.classList.remove('active');shown=false;
-    }
-  }
   document.addEventListener('DOMContentLoaded',function(){
-    var lg=document.getElementById('landing');
-    if(lg) lg.addEventListener('scroll',checkSticky,{passive:true});
-    window.addEventListener('resize',checkSticky,{passive:true});
+    var hero=document.querySelector('.lhero');
+    var sticky=document.getElementById('sticky-cta');
+    var pricing=document.getElementById('pricing-section');
+    if(!hero||!sticky)return;
+    var stickyObs=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.target===hero){
+          if(!e.isIntersecting) sticky.classList.add('show');
+          else sticky.classList.remove('show');
+        }
+        if(e.target===pricing){
+          if(e.isIntersecting) sticky.classList.remove('show');
+        }
+      });
+    },{threshold:0.1});
+    stickyObs.observe(hero);
+    if(pricing) stickyObs.observe(pricing);
   });
 })();
 

@@ -142,8 +142,8 @@ exports.createCheckoutSession = functions
     // project (Vercel domain + localhost for dev). Add others if you ship
     // additional domains.
     const ALLOWED_ORIGINS = [
-      'https://niyyahtrader.app',
-      'https://www.niyyahtrader.app',
+      'https://niyyahtrader.com',
+      'https://www.niyyahtrader.com',
       'http://localhost:5173',
       'http://localhost:3000'
     ];
@@ -184,7 +184,16 @@ exports.createPortalSession = functions
     const uid = context.auth.uid;
     const origin = (data && typeof data.origin === 'string')
       ? data.origin.replace(/\/+$/, '')
-      : 'https://niyyahtrader.app';
+      : null;
+
+    // Reject open redirects — same allowlist as createCheckoutSession
+    const ALLOWED_ORIGINS = [
+      'https://niyyahtrader.com',
+      'https://www.niyyahtrader.com',
+      'http://localhost:5173',
+      'http://localhost:3000'
+    ];
+    const safeOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
 
     const snap = await db.collection('users').doc(uid).get();
     const customerId = snap.exists ? snap.data().stripeCustomerId : null;
@@ -194,7 +203,7 @@ exports.createPortalSession = functions
 
     const session = await stripe().billingPortal.sessions.create({
       customer: customerId,
-      return_url: `${origin}/`
+      return_url: `${safeOrigin}/`
     });
     return { url: session.url };
   });
