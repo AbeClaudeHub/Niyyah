@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Niyyah — The trading journal for Muslim traders</title>
-<meta name="description" content="The accountability system for traders whose strategy already works — but whose nafs keeps getting in the way. Pre-trade gate, prayer-to-P&L radar, Friday muhasabah. From $19/mo, 7-day refund.">
+<meta name="description" content="The accountability system for traders whose strategy already works — but whose nafs keeps getting in the way. Pre-trade gate, prayer-to-P&L radar, Friday muhasabah. Free demo — try it now.">
 <link rel="canonical" href="https://niyyahtrader.com/">
 <meta name="theme-color" content="#0a0906">
 <meta name="robots" content="index,follow,max-image-preview:large">
@@ -37,10 +37,7 @@
   "applicationCategory":"FinanceApplication",
   "operatingSystem":"Web, iOS, Android (PWA)",
   "url":"https://niyyahtrader.com/",
-  "offers":[
-    {"@type":"Offer","name":"Base","price":"27","priceCurrency":"USD","priceSpecification":{"@type":"UnitPriceSpecification","price":"27","priceCurrency":"USD","unitText":"MONTH"}},
-    {"@type":"Offer","name":"Sirat","price":"38","priceCurrency":"USD","priceSpecification":{"@type":"UnitPriceSpecification","price":"38","priceCurrency":"USD","unitText":"MONTH"}}
-  ],
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock","description":"Free demo"},
   "creator":{"@type":"Person","name":"Abe"},
   "audience":{"@type":"Audience","audienceType":"Muslim traders"}
 }</script>
@@ -1122,9 +1119,8 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <div class="lnav-name">Niyyah</div>
     </div>
     <div class="lnav-btns">
-      <a onclick="document.getElementById('pricing-section').scrollIntoView({behavior:'smooth'})" style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);cursor:pointer;text-decoration:none;padding:9px 12px;transition:color 0.18s;">Pricing</a>
       <button class="lnav-signin" onclick="showAuth('signin')">Sign In</button>
-      <button class="lnav-cta" onclick="showAuth('signup')">Begin — Bismillah →</button>
+      <button class="lnav-cta" onclick="showAuth('signup')">Try Free →</button>
     </div>
   </nav>
 
@@ -1137,12 +1133,11 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <p class="lhero-sub"><strong>Niyyah ends the loop.</strong> The accountability system for traders whose strategy works — but whose nafs doesn't.</p>
     <div class="lhero-clarifier"><strong>Nafs</strong> · the lower self that whispers <em>"just one more trade"</em> after a loss — and turns a $200 stop into a $1,800 disaster.</div>
     <div class="lhero-btns" style="margin-top:24px;">
-      <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 32px;">Begin — Bismillah →</button>
-      <button class="btn btn-outline btn-lg" onclick="startDemo()" style="backdrop-filter:blur(8px);">Try Demo — No sign-up</button>
+      <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 32px;">Start Free — Bismillah →</button>
+      <button class="btn btn-outline btn-lg" onclick="startDemo()" style="backdrop-filter:blur(8px);">Preview with sample data</button>
     </div>
     <div class="lhero-clarifier"><strong>A trading journal built on Islamic psychology.</strong> Pre-trade gate · prayer-to-P&amp;L radar · nafs tracking · Friday muhasabah · playbook · equity curve · risk calculator.</div>
-    <div class="lhero-price">From $19/mo (billed annually) · 7-day full refund · no card to try the demo</div>
-    <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-4);">annual saves up to $156 &nbsp;·&nbsp; <a href="#pricing-section" onclick="setTimeout(function(){setPlan('annual');},200)" style="color:var(--gold-deep);text-decoration:none;border-bottom:1px solid rgba(218,180,98,0.3);cursor:pointer;">see plans →</a></div>
+    <div class="lhero-price">Free demo · all features unlocked · no card required</div>
     <div style="margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0.45;cursor:pointer;animation:scrollBounce 2s ease-in-out infinite;" onclick="scrollToFeatures()">
       <div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-3);">SCROLL</div>
       <div style="width:1px;height:32px;background:linear-gradient(to bottom,var(--gold),transparent);"></div>
@@ -1230,8 +1225,8 @@ body:not(.legal-visitor) .legal-back{display:none;}
 
   <!-- TRUST BAR -->
   <div class="trust-bar reveal">
-    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Stripe-secured payment</div>
-    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>7-day full refund · email <a href="mailto:support@niyyahtrader.com" style="color:var(--gold-deep);text-decoration:none;">support@niyyahtrader.com</a></div>
+    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Your data stays yours</div>
+    <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>All features unlocked · no card required</div>
   </div>
 
   <!-- HOW IT WORKS — concrete scenarios showing features in action.
@@ -1391,7 +1386,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <div class="comp-row comp-no">&#10005;</div>
       <div class="comp-row comp-no">&#10005;</div>
       <div class="comp-row">Price</div>
-      <div class="comp-row comp-cell-us">From $19/mo</div>
+      <div class="comp-row comp-cell-us">Free demo</div>
       <div class="comp-row" style="color:var(--ink-3);">$49/mo</div>
       <div class="comp-row" style="color:var(--ink-3);">Free</div>
     </div>
@@ -1448,84 +1443,28 @@ body:not(.legal-visitor) .legal-back{display:none;}
         <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.75;font-weight:300;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);">Only you. Your trades, prayers, journal entries and nafs ratings are stored in Firebase (Google) under server-side rules that lock every record to your account. We never sell data, never share it, and there is no team dashboard, no employer view, no public profile. You can export everything from Settings and delete your account permanently at any time.</div>
       </details>
       <details class="faq-item" style="background:linear-gradient(145deg,#1a1810,#0f0d09);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 22px;cursor:pointer;transition:border-color 0.2s;">
-        <summary style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;">I'm down on the year — is $27/mo really worth it right now?<span class="faq-plus" style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.3rem;">+</span></summary>
-        <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.75;font-weight:300;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);">If Niyyah saves you from one revenge trade that would have been one futures contract — it has already paid for the year. The honest answer is: if you've been unprofitable for more than 3 months, the leak is not your strategy, it's behavioral. And no journal you've tried so far has fixed that. Try it for seven days. If it does not surface a leak you didn't know about, email <a href="mailto:support@niyyahtrader.com" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.com</a> and we refund every penny.</div>
+        <summary style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;">Is this really free? What's the catch?<span class="faq-plus" style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.3rem;">+</span></summary>
+        <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.75;font-weight:300;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);">No catch. Niyyah is in its demo phase and we want real traders to use it, break it, and tell us what works. Every feature is unlocked. No card required. In exchange, we just ask for honest feedback — what helped, what's missing, what felt off. That's it.</div>
       </details>
       <details class="faq-item" style="background:linear-gradient(145deg,#1a1810,#0f0d09);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 22px;cursor:pointer;transition:border-color 0.2s;">
         <summary style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;">How long until I see results?<span class="faq-plus" style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.3rem;">+</span></summary>
         <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.75;font-weight:300;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);">Pattern detection unlocks after 5 closed trades. The prayer radar needs about 10 trades across mixed prayer days. Most users find their first real behavioral leak in week one and see P&amp;L impact in week two — not because the app is magic, but because you finally see in your own data what you've been ignoring.</div>
       </details>
       <details class="faq-item" style="background:linear-gradient(145deg,#1a1810,#0f0d09);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 22px;cursor:pointer;transition:border-color 0.2s;">
-        <summary style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;">Do I keep my data if I cancel?<span class="faq-plus" style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.3rem;">+</span></summary>
-        <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.75;font-weight:300;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);">Yes. Export your full journal to JSON or CSV anytime from Settings. If you cancel, your data is preserved on the account; resubscribe at any time and pick up where you left off.</div>
+        <summary style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;">Do I keep my data?<span class="faq-plus" style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.3rem;">+</span></summary>
+        <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.75;font-weight:300;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);">Always. Your data is yours. Export your full journal to JSON or CSV anytime from Settings. Everything is stored securely on your account and you can pick up where you left off.</div>
       </details>
     </div>
   </div>
 
-  <!-- PRICING -->
-  <div class="lprice-section reveal" id="pricing-section">
+  <!-- DEMO CTA -->
+  <div class="lprice-section reveal" id="pricing-section" style="padding:60px 40px;text-align:center;">
 
-    <!-- Shared monthly / annual toggle. setPlan() updates BOTH cards. -->
-    <div style="display:flex;justify-content:center;margin-bottom:28px;">
-      <div class="plan-toggle" role="tablist" aria-label="Choose billing period">
-        <button type="button" class="plan-toggle-btn" id="plan-toggle-monthly" role="tab" aria-selected="false" onclick="setPlan('monthly')">Monthly</button>
-        <button type="button" class="plan-toggle-btn active" id="plan-toggle-annual" role="tab" aria-selected="true" onclick="setPlan('annual')">Annual <span class="plan-toggle-save">· save up to $156</span></button>
-      </div>
-    </div>
-
-    <div class="lprice-grid">
-      <!-- BASE TIER -->
-      <div class="lprice-card lprice-base">
-        <div class="lprice-tag">BASE · THE JOURNAL</div>
-        <div class="lprice-num" id="landing-base-num">$230<span>/yr</span></div>
-        <div id="landing-base-anchor" style="font-family:'JetBrains Mono',monospace;font-size:0.66rem;letter-spacing:0.12em;color:var(--ink-4);margin-top:2px;"><s style="opacity:0.55;">$324/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$230/yr</strong></div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-top:6px;margin-bottom:4px;" id="landing-base-fine">Cancel anytime · 7-day full refund</div>
-        <ul class="lprice-list">
-          <li>Full trade journal — entry, close, lesson</li>
-          <li>Prayer-to-performance analytics</li>
-          <li>Monthly calendar heatmap</li>
-          <li>Equity curve and drawdown chart</li>
-          <li>Playbook with auto-tracked win rates</li>
-          <li>Risk calculator for futures, forex and stocks</li>
-          <li>Nafs check — Sabr, Tawakkul, Kibr, Shukr</li>
-          <li>Friday muhasabah review</li>
-          <li>Quality Score for every trade</li>
-          <li>Zakat-on-gains calculator · Hijri date</li>
-        </ul>
-        <div style="margin-top:auto;">
-          <button class="btn btn-outline btn-lg" onclick="pickTierAndSignup('base')" style="width:100%;justify-content:center;font-size:0.92rem;">Begin Base →</button>
-          <div class="lprice-fine" style="margin-top:10px;">Secure checkout via Stripe · cancel from Settings</div>
-        </div>
-      </div>
-
-      <!-- SIRAT TIER -->
-      <div class="lprice-card lprice-sirat">
-        <div class="lprice-ribbon">Most popular · for traders ready to scale</div>
-        <div class="lprice-glow"></div>
-        <div class="lprice-tag" style="color:var(--gold-2);">SIRAT · THE PATH</div>
-        <div class="lprice-num" id="landing-sirat-num">$300<span>/yr</span></div>
-        <div id="landing-sirat-anchor" style="font-family:'JetBrains Mono',monospace;font-size:0.66rem;letter-spacing:0.12em;color:var(--ink-4);margin-top:2px;"><s style="opacity:0.55;">$456/yr</s> &nbsp;→&nbsp; <strong style="color:var(--gold-2);">$300/yr</strong></div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-top:6px;margin-bottom:4px;" id="landing-sirat-fine">Everything in Base, plus the profitability engine</div>
-        <ul class="lprice-list">
-          <li><strong style="color:var(--ink);">Sirat</strong> — staged path to profitability, calibrated to your data</li>
-          <li><strong style="color:var(--ink);">Mizan</strong> — live verdict on every trade you propose</li>
-          <li>Monthly <strong style="color:var(--ink);">Edge Audit</strong> — auto-generated shareable report</li>
-          <li><strong style="color:var(--ink);">Risk-of-Ruin</strong> — Monte Carlo on your actual data</li>
-          <li><strong style="color:var(--ink);">Disaster Brake</strong> — one-tap lock-out when you're tilting</li>
-          <li><strong style="color:var(--ink);">Witness Mode</strong> — weekly summary to a trusted person <span style="font-family:'JetBrains Mono',monospace;font-size:0.65em;color:var(--ink-4);letter-spacing:0.08em;">(rolling out)</span></li>
-          <li>Everything in Base, included</li>
-        </ul>
-        <div style="margin-top:auto;">
-          <button class="btn btn-gold btn-lg" onclick="pickTierAndSignup('sirat')" style="width:100%;justify-content:center;font-size:0.95rem;">Begin Sirat — Bismillah →</button>
-          <div class="lprice-fine" style="margin-top:10px;">Secure checkout via Stripe · cancel from Settings</div>
-        </div>
-      </div>
-    </div>
-
-    <div style="max-width:680px;margin:22px auto 0;padding:12px 14px;background:rgba(218,180,98,0.05);border:1px solid rgba(218,180,98,0.12);border-radius:10px;font-size:0.78rem;color:var(--ink-3);text-align:left;line-height:1.7;">
-      <div style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;">REFUND POLICY</div>
-      Your first 7 days come with a full refund — no questions. Email <a href="mailto:support@niyyahtrader.com" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.com</a> and we'll process within 2 business days. <a onclick="showLegalPage('refund')" style="color:var(--gold);text-decoration:underline;cursor:pointer;">Read the full policy →</a>
-    </div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">FREE DEMO</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:500;color:var(--ink);line-height:1.15;letter-spacing:-0.025em;margin-bottom:16px;">Every feature. <em style="color:var(--gold);font-style:italic;">Unlocked.</em></h2>
+    <p style="font-size:0.92rem;color:var(--ink-2);max-width:480px;margin:0 auto 28px;line-height:1.7;">Sign up and get instant access to the full Niyyah experience — journal, analytics, Sirat path, Mizan, and everything else. No card, no trial countdown.</p>
+    <button class="btn btn-gold btn-lg" onclick="showAuth('signup')" style="font-size:0.95rem;padding:14px 40px;">Start Free — Bismillah →</button>
+    <div style="margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-4);">We'll ask for feedback after a few days</div>
   </div>
 
   <!-- FOOTER -->
@@ -1534,15 +1473,14 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;">
       <a onclick="showLegalPage('privacy')" style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-4);cursor:pointer;text-decoration:none;">Privacy Policy</a>
       <a onclick="showLegalPage('terms')" style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-4);cursor:pointer;text-decoration:none;">Terms of Service</a>
-      <a onclick="showLegalPage('refund')" style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-4);cursor:pointer;text-decoration:none;">Refund Policy</a>
       <div class="lfooter-note">Disciplined trading aligned with values.</div>
     </div>
   </div>
 
   <!-- MOBILE STICKY CTA — visible on small screens once user scrolls past hero, hides at pricing -->
   <div class="sticky-cta" id="sticky-cta">
-    <button class="btn btn-gold btn-lg" onclick="showAuth('signup')">Begin — Bismillah →</button>
-    <div class="sticky-cta-sub">FROM $19/MO · 7-DAY FULL REFUND</div>
+    <button class="btn btn-gold btn-lg" onclick="showAuth('signup')">Start Free — Bismillah →</button>
+    <div class="sticky-cta-sub">ALL FEATURES UNLOCKED · NO CARD REQUIRED</div>
   </div>
 
 </div>
@@ -2101,11 +2039,10 @@ body:not(.legal-visitor) .legal-back{display:none;}
   </div>
   <div style="font-size:0.72rem;color:var(--ink-4);margin-top:10px;line-height:1.55;">Reset All Data permanently deletes all trades, journals, and prayer history. Your account remains active.</div>
 
-  <!-- ── SUBSCRIPTION STATUS ──────────────────────────────────────────── -->
+  <!-- ── ACCOUNT STATUS ──────────────────────────────────────────── -->
   <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2);">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;">SUBSCRIPTION</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;">ACCOUNT</div>
     <div id="s-sub-status" style="font-size:0.84rem;color:var(--ink-2);margin-bottom:10px;"></div>
-    <button class="btn btn-outline btn-sm" onclick="manageSubscription()">Manage / Cancel Plan →</button>
   </div>
 
   <!-- ── PASSWORD ─────────────────────────────────────────────────────── -->
@@ -2222,11 +2159,10 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <p style="margin-bottom:8px;">→ Past performance shown in your journal does not guarantee future results</p>
       <p style="margin-bottom:16px;">→ You are solely responsible for your trading decisions</p>
 
-      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">3. Subscription &amp; Billing</div>
-      <p style="margin-bottom:8px;">→ Niyyah costs <strong style="color:var(--ink);">$27/month</strong></p>
-      <p style="margin-bottom:8px;">→ You can cancel at any time — your access continues until the end of the billing period</p>
-      <p style="margin-bottom:8px;">→ <strong style="color:var(--ink);">7-day full refund</strong> from your initial subscription date. Email <a href="mailto:support@niyyahtrader.com" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.com</a> within 7 days for a full refund — no questions asked. See our <a onclick="go('refund',null)" style="color:var(--gold);text-decoration:none;cursor:pointer;">Refund Policy</a> for details.</p>
-      <p style="margin-bottom:16px;">→ We reserve the right to change pricing with 30 days notice</p>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">3. Demo Access</div>
+      <p style="margin-bottom:8px;">→ Niyyah is currently available as a <strong style="color:var(--ink);">free demo</strong></p>
+      <p style="margin-bottom:8px;">→ No payment information is required</p>
+      <p style="margin-bottom:16px;">→ All features are unlocked during the demo period</p>
 
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">4. Your Account</div>
       <p style="margin-bottom:8px;">→ You are responsible for keeping your account secure</p>
@@ -3057,56 +2993,23 @@ function _doSignOut(){
 // Populated by checkSubscription() on auth state change. Treat as read-only
 // outside of checkSubscription. (S itself is declared further down — guard
 // access at call time, not script-parse time.)
-function isSirat(){ return !!(S && S._sub && S._sub.status === 'active' && S._sub.tier === 'sirat'); }
+function isSirat(){ return true; /* Demo mode — all features unlocked */ }
 
 var _subListener = null; // Firestore onSnapshot unsubscribe handle
 
 function checkSubscription(){
-  if(window._demoMode) return; // demo mode handles its own sub state
-  // Cancel any previous listener before starting a new one (e.g. on re-login)
-  if(_subListener){ _subListener(); _subListener=null; }
-
-  var _initialized = false; // only call init() once per session
-
-  _subListener = DB.collection('users').doc(UID).onSnapshot(function(doc){
+  if(window._demoMode) return;
+  // Demo mode — bypass paywall, grant full access to all features
+  S._sub = { status: 'active', tier: 'sirat' };
+  var pw = el('paywall-screen'); if(pw) pw.classList.remove('show');
+  DB.collection('users').doc(UID).get().then(function(doc){
     var data = doc.exists ? doc.data() : {};
-    var sub  = data.subscription || {};
-    var status = sub.status;
     var onboarded = data.onboarded === true;
-    // Keep the cached sub state current so isSirat() always reflects live data.
-    S._sub = { status: status || null, tier: sub.tier || 'base' };
-
-    var pw = el('paywall-screen');
-    var sb = el('sub-status-bar');
-
-    if(status === 'active'){
-      if(pw) pw.classList.remove('show');
-      if(sb) sb.classList.remove('show');
-      if(!_initialized){
-        _initialized = true;
-        init();
-        if(!onboarded) setTimeout(showOB, 600);
-      }
-    }else{
-      if(_showingLegalPage) return;
-      if(!onboarded){
-        window._prePaywallMode = true;
-        S.obStep = 0;
-        var ob = el('onboard'); if(ob) ob.classList.add('show');
-        renderOB();
-      }else{
-        if(pw) pw.classList.add('show');
-        if(status === 'past_due' && sb){
-          sb.textContent = 'Your last payment failed. Please update your payment method below.';
-          sb.classList.add('show');
-        }
-      }
-    }
-  }, function(e){
-    console.error('Subscription check failed:',e);
-    if(_showingLegalPage) return;
-    var pw = el('paywall-screen');
-    if(pw) pw.classList.add('show');
+    init();
+    if(!onboarded) setTimeout(showOB, 600);
+  }).catch(function(){
+    init();
+    setTimeout(showOB, 600);
   });
 }
 
@@ -3189,49 +3092,13 @@ function pickTierAndSignup(tier){
   showAuth('signup');
 }
 
-function subscribe(){
-  var btn = el('subscribe-btn');
-  var originalHTML = btn ? btn.innerHTML : '';
-  if(btn){
-    btn.disabled = true;
-    btn.classList.add('is-loading');
-    btn.innerHTML = '<span class="spinner"></span>Opening secure checkout…';
-  }
-  var createCheckout = FUNCTIONS.httpsCallable('createCheckoutSession');
-  createCheckout({origin: window.location.origin, plan: SELECTED_PLAN, tier: SELECTED_TIER}).then(function(result){
-    if(result && result.data && result.data.url){
-      window.location.href = result.data.url;
-    } else {
-      throw new Error('Invalid response');
-    }
-  }).catch(function(e){
-    if(btn){btn.disabled = false;btn.classList.remove('is-loading');btn.innerHTML = originalHTML || 'Begin — Bismillah';refreshSubscribeBtn();}
-    // Show friendly message when Stripe/Functions not yet configured
-    var pwCard = btn ? btn.closest('.paywall-card') : null;
-    var existing = pwCard ? pwCard.querySelector('.stripe-pending') : null;
-    if(pwCard && !existing){
-      var notice = document.createElement('div');
-      notice.className = 'stripe-pending';
-      notice.style.cssText = 'margin-top:14px;padding:13px 16px;background:rgba(218,180,98,0.07);border:1px solid rgba(218,180,98,0.2);border-radius:10px;font-size:0.8rem;color:var(--ink-2);text-align:center;line-height:1.65;';
-      notice.innerHTML = '<strong style="color:var(--gold);">Payment setup in progress.</strong><br>We\'re finalizing secure checkout. Email <strong style="color:var(--ink);">support@niyyahtrader.com</strong> to get early access.';
-      btn.insertAdjacentElement('afterend', notice);
-    }
-  });
-}
+function subscribe(){ /* Demo mode — no payment required */ }
+function manageSubscription(){ toast('This is a free demo — no subscription to manage.', 'i'); }
 
-function manageSubscription(){
-  var createPortal = FUNCTIONS.httpsCallable('createPortalSession');
-  createPortal({origin: window.location.origin}).then(function(result){
-    window.location.href = result.data.url;
-  }).catch(function(e){
-    toast('No active subscription found', 'e');
-  });
-}
-
-// Handle Stripe redirect back to site
+// Handle URL params (email verification, etc.)
 (function(){
   var params = new URLSearchParams(window.location.search);
-  if(params.get('success') === 'true'){
+  if(false && params.get('success') === 'true'){
     history.replaceState({}, '', window.location.pathname);
     // Webhook may take a moment — poll up to 10s
     var attempts = 0;
@@ -3779,10 +3646,6 @@ function obSkip(){ S.obStep=OB.length; obFinish(); }
 function obFinish(){
   var ob=el('onboard');if(ob)ob.classList.remove('show');
   sv('onboarded',true);
-  if(window._prePaywallMode){
-    window._prePaywallMode = false;
-    var pw=el('paywall-screen');if(pw)pw.classList.add('show');
-  }
 }
 // Manually re-open the 4-step intro from Settings. Doesn't reset `onboarded`
 // — they've already paid — but lets them re-read the loop / re-pick their leak.
@@ -5810,10 +5673,7 @@ function _siratUpsell(){
 }
 
 // Re-open the paywall pre-selected to Sirat so the user can upgrade.
-function upgradeToSirat(){
-  try{ setTier('sirat'); }catch(_){}
-  var pw = el('paywall-screen'); if(pw) pw.classList.add('show');
-}
+function upgradeToSirat(){ /* Demo mode — all features already unlocked */ }
 
 // ══════════════════════════════════════════════════════════════════════════
 // MIZAN — pre-trade live validator
@@ -6428,13 +6288,7 @@ function renderSettings(){
     // Show subscription status
     var subEl=el('s-sub-status');
     if(subEl){
-      var tier=(S._sub&&S._sub.tier)||'base';
-      var status=(S._sub&&S._sub.status)||'inactive';
-      if(status==='active'||status==='trialing'){
-        subEl.innerHTML='<span style="color:var(--green);">\u2713 Active</span> \u00b7 <strong>'+( tier==='sirat'?'Sirat ($38/mo)':'Base ($27/mo)')+'</strong>';
-      } else {
-        subEl.innerHTML='No active subscription. <a onclick="upgradeToSirat()" style="color:var(--gold);cursor:pointer;">View plans \u2192</a>';
-      }
+      subEl.innerHTML='<span style="color:var(--green);">\u2713 Active</span> \u00b7 <strong>Free Demo \u2014 All Features</strong>';
     }
     // Show password change only for email/password users (not Google/OAuth)
     var isEmailUser=user.providerData&&user.providerData.some(function(p){return p.providerId==='password';});
@@ -7705,7 +7559,7 @@ function init(){
     var user=AUTH.currentUser;
     if(S.settings.name){setText('sf-av',S.settings.name[0].toUpperCase());setText('sf-name',S.settings.name);}
     else if(user&&user.displayName){setText('sf-av',user.displayName[0].toUpperCase());setText('sf-name',user.displayName);}
-    if(user&&user.email){setText('sf-plan-label',user.email);}
+    if(user&&user.email){setText('sf-plan-label','Free Demo');}
     if(S.openTradeId){var found=S.trades.find(function(t){return t.id===S.openTradeId&&t.status==='open';});if(!found){S.openTradeId=null;sv('openTradeId',null);}}
     // Increment session counter — drives PWA-install nudge timing
     S.sessionCount = (S.sessionCount||0) + 1;
