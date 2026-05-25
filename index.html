@@ -2728,6 +2728,17 @@ function authGoogle(){
   var gBtn = document.querySelector('.auth-google');
   if(gBtn){ gBtn.disabled=true; gBtn.style.opacity='0.6'; gBtn.textContent='Signing in…'; }
 
+  // iOS Safari, iPad, and in-app browsers (Instagram, FB, X) can't use popups
+  // reliably — go straight to redirect to avoid a visible failure then fallback.
+  if(_needsRedirectAuth()){
+    try{ AUTH.signInWithRedirect(provider); }catch(re){
+      if(gBtn){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML=_googleSvg; }
+      var err = el('auth-error');
+      if(err){ err.style.color='var(--red)'; err.textContent = re.code ? friendlyAuthError(re.code) : 'Google sign-in unavailable. Use email/password.'; }
+    }
+    return;
+  }
+
   AUTH.signInWithPopup(provider).then(function(result){
     var ref = window._pendingReferral;
     var isNew = result && result.additionalUserInfo && result.additionalUserInfo.isNewUser;
@@ -2740,13 +2751,16 @@ function authGoogle(){
     // Success handled by onAuthStateChanged
   }).catch(function(e){
     if(gBtn){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML=_googleSvg; }
-    // Popup blocked or failed — fall back to redirect so the user isn't stuck.
-    if(e.code === 'auth/popup-blocked' || e.code === 'auth/popup-closed-by-user'){
-      var err = el('auth-error');
-      if(err){ err.style.color='var(--red)'; err.textContent = friendlyAuthError(e.code); }
+    if(e.code === 'auth/popup-closed-by-user'){
+      // User dismissed the popup — silently reset, no error needed
       return;
     }
-    // Any other error (including auth/internal-error from old browsers): try redirect.
+    if(e.code === 'auth/popup-blocked'){
+      // Browser blocked the popup — auto-fall back to redirect
+      try{ AUTH.signInWithRedirect(provider); }catch(re){}
+      return;
+    }
+    // Any other error (e.g. auth/internal-error on old browsers): try redirect.
     try{ AUTH.signInWithRedirect(provider); }catch(re){
       var err = el('auth-error');
       if(err){ err.style.color='var(--red)'; err.textContent = re.code ? friendlyAuthError(re.code) : 'Google sign-in unavailable. Use email/password.'; }
@@ -2999,18 +3013,10 @@ var _subListener = null; // Firestore onSnapshot unsubscribe handle
 
 function checkSubscription(){
   if(window._demoMode) return;
-  // Demo mode — bypass paywall, grant full access to all features
   S._sub = { status: 'active', tier: 'sirat' };
   var pw = el('paywall-screen'); if(pw) pw.classList.remove('show');
-  DB.collection('users').doc(UID).get().then(function(doc){
-    var data = doc.exists ? doc.data() : {};
-    var onboarded = data.onboarded === true;
-    init();
-    if(!onboarded) setTimeout(showOB, 600);
-  }).catch(function(){
-    init();
-    setTimeout(showOB, 600);
-  });
+  // init() → loadAll() reads the user doc and handles the onboarded check internally
+  init();
 }
 
 // ── PLAN + TIER SELECTION ─────────────────────────────────────────────────
@@ -3152,6 +3158,7 @@ AUTH.onAuthStateChanged(function(user){
     }
     UID = user.uid;
     if(authScreen) authScreen.classList.remove('show');
+    var lg=el('landing');if(lg)lg.classList.add('hide');
     checkSubscription();
   }else{
     UID = null;
