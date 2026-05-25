@@ -1733,7 +1733,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
 <div class="page" id="page-trades">
   <div class="ph"><div class="ph-eye">TRADE LOG</div><div class="ph-title">All Your <em>Trades</em></div><div class="ph-sub">Complete history. Click any row to see full detail.</div></div>
   <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center;"><input type="text" id="trade-search" placeholder="Search instrument, setup, date..." oninput="renderTrades()" style="max-width:360px;flex:1;min-width:200px;"><button class="btn btn-outline btn-sm" onclick="openCsvModal()" style="white-space:nowrap;">↓ Import CSV</button></div>
-  <div class="panel"><div class="panel-head"><div class="panel-title">History</div><div class="toggle-group"><button class="tg-btn active" onclick="filterT('all',this)">All</button><button class="tg-btn" onclick="filterT('open',this)">Open</button><button class="tg-btn" onclick="filterT('wins',this)">Wins</button><button class="tg-btn" onclick="filterT('losses',this)">Losses</button></div></div><div id="trade-table-wrap"></div></div>
+  <div class="panel"><div class="panel-head"><div class="panel-title">History</div><div class="toggle-group"><button class="tg-btn active" onclick="filterT('all',this)">All</button><button class="tg-btn" onclick="filterT('week',this)">7d</button><button class="tg-btn" onclick="filterT('month',this)">Month</button><button class="tg-btn" onclick="filterT('open',this)">Open</button><button class="tg-btn" onclick="filterT('wins',this)">Wins</button><button class="tg-btn" onclick="filterT('losses',this)">Losses</button></div></div><div id="trade-table-wrap"></div></div>
 </div>
 
 <div class="page" id="page-calendar">
@@ -5086,6 +5086,8 @@ function renderTrades(){
   if(S.tradeFilter==='open')t=t.filter(function(x){return x.status==='open';});
   else if(S.tradeFilter==='wins')t=t.filter(function(x){return x.status==='closed'&&x.pnl>0;});
   else if(S.tradeFilter==='losses')t=t.filter(function(x){return x.status==='closed'&&x.pnl<0;});
+  else if(S.tradeFilter==='week'){var w7=Date.now()-7*86400000;t=t.filter(function(x){return new Date(x.date+'T12:00:00').getTime()>=w7;});}
+  else if(S.tradeFilter==='month'){var now2=new Date(),ms=now2.getFullYear()+'-'+pad(now2.getMonth()+1);t=t.filter(function(x){return(x.date||'').startsWith(ms);});}
   var sq=el('trade-search')?el('trade-search').value.trim().toLowerCase():'';
   if(sq)t=t.filter(function(x){return(x.instrument||'').toLowerCase().includes(sq)||(x.setup||'').toLowerCase().includes(sq)||(x.date||'').includes(sq)||(x.emotion||'').toLowerCase().includes(sq);});
   t.sort(function(a,b){var av,bv;if(_tradeSortKey==='pnl'){av=a.status==='open'?-Infinity:(a.pnl||0);bv=b.status==='open'?-Infinity:(b.pnl||0);}else if(_tradeSortKey==='quality'){av=a.status==='open'?-1:(a.quality||0);bv=b.status==='open'?-1:(b.quality||0);}else{av=a.date||'';bv=b.date||'';}if(av<bv)return _tradeSortDir;if(av>bv)return -_tradeSortDir;return 0;});
