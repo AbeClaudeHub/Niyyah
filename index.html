@@ -2705,26 +2705,38 @@ function _needsRedirectAuth(){
   return iOS || inApp;
 }
 
+var _googleSvg = '<svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>Continue with Google';
+
 function authGoogle(){
   var provider = new firebase.auth.GoogleAuthProvider();
   provider.setCustomParameters({'prompt': 'select_account'});
   var gBtn = document.querySelector('.auth-google');
-  if(gBtn){ gBtn.disabled=true; gBtn.style.opacity='0.6'; gBtn.textContent='Redirecting to Google…'; }
+  if(gBtn){ gBtn.disabled=true; gBtn.style.opacity='0.6'; gBtn.textContent='Signing in…'; }
 
-  // signInWithPopup is unreliable in modern Chrome (third-party cookie
-  // deprecation blocks cross-origin postMessage between niyyahtrader.com and
-  // firebaseapp.com). Always use the redirect flow — the result is picked up
-  // on the next page load by getRedirectResult below.
-  try {
-    AUTH.signInWithRedirect(provider);
-  } catch(e){
-    if(gBtn){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML='<svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>Continue with Google'; }
-    var err = el('auth-error');
-    if(err){
-      err.style.color='var(--red)';
-      err.textContent = e.code ? friendlyAuthError(e.code) : (e.message || 'Could not reach Google. Check your connection.');
+  AUTH.signInWithPopup(provider).then(function(result){
+    var ref = window._pendingReferral;
+    var isNew = result && result.additionalUserInfo && result.additionalUserInfo.isNewUser;
+    if(isNew && ref && result.user){
+      DB.collection('users').doc(result.user.uid)
+        .set({ referredBy: ref }, { merge: true })
+        .catch(function(){});
+      try{ sessionStorage.removeItem('niyyah_ref'); }catch(_){}
     }
-  }
+    // Success handled by onAuthStateChanged
+  }).catch(function(e){
+    if(gBtn){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML=_googleSvg; }
+    // Popup blocked or failed — fall back to redirect so the user isn't stuck.
+    if(e.code === 'auth/popup-blocked' || e.code === 'auth/popup-closed-by-user'){
+      var err = el('auth-error');
+      if(err){ err.style.color='var(--red)'; err.textContent = friendlyAuthError(e.code); }
+      return;
+    }
+    // Any other error (including auth/internal-error from old browsers): try redirect.
+    try{ AUTH.signInWithRedirect(provider); }catch(re){
+      var err = el('auth-error');
+      if(err){ err.style.color='var(--red)'; err.textContent = re.code ? friendlyAuthError(re.code) : 'Google sign-in unavailable. Use email/password.'; }
+    }
+  });
 }
 
 // Handle the return from a signInWithRedirect flow. Fires once per page load
@@ -7798,7 +7810,12 @@ document.addEventListener('DOMContentLoaded',function(){
     _suppressHistory = true;
     try{ showLegalPage(initialPath); } finally { _suppressHistory = false; }
   }
-  // Email verification redirect: /?verified=1
+  // Email verification \u2014 two paths:
+  // 1. Legacy continueUrl redirect: /?verified=1
+  // 2. Custom action URL: /?mode=verifyEmail&oobCode=... (Firebase sends users
+  //    directly to niyyahtrader.com when the action URL is set in Firebase Console
+  //    \u2192 Authentication \u2192 Templates \u2192 Email Address Verification \u2192 Customize action URL
+  //    \u2192 https://niyyahtrader.com)
   var urlParams = new URLSearchParams(window.location.search);
   if(urlParams.get('verified')==='1'){
     history.replaceState({},document.title,window.location.pathname);
@@ -7807,6 +7824,22 @@ document.addEventListener('DOMContentLoaded',function(){
       var sb=el('auth-success-banner');
       if(sb){sb.style.display='';sb.innerHTML='\u2713 Email verified \u2014 sign in below to access your journal \u2193';}
     },300);
+  } else if(urlParams.get('mode')==='verifyEmail' && urlParams.get('oobCode')){
+    var oobCode = urlParams.get('oobCode');
+    history.replaceState({},document.title,window.location.pathname);
+    AUTH.applyActionCode(oobCode).then(function(){
+      setTimeout(function(){
+        showAuth('signin');
+        var sb=el('auth-success-banner');
+        if(sb){sb.style.display='';sb.innerHTML='\u2713 Email verified \u2014 sign in below to access your journal \u2193';}
+      },300);
+    }).catch(function(e){
+      setTimeout(function(){
+        showAuth('signin');
+        var err=el('auth-error');
+        if(err){err.style.color='var(--red)';err.textContent=e.code==='auth/invalid-action-code'?'This verification link has already been used or has expired. Sign in and we\'ll send a new one.':'Verification failed. Please try again or contact support@niyyahtrader.com.';}
+      },300);
+    });
   }
 });
 
