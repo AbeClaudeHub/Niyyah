@@ -2604,6 +2604,10 @@ function authSubmit(){
   if(card)card.classList.add('auth-loading');
   if(authMode==='signup'){
     var name = el('auth-name') ? el('auth-name').value.trim() : '';
+    // Set BEFORE createUserWithEmailAndPassword so onAuthStateChanged doesn't
+    // sign out the freshly-created (unverified) user before we can send the
+    // verification email.
+    _verificationMode = true;
     AUTH.createUserWithEmailAndPassword(email, password)
       .then(function(cred){
         var initSettings = {};
@@ -2619,7 +2623,6 @@ function authSubmit(){
             .set(docPatch, {merge:true})
             .catch(function(e){ console.error('signup doc save failed', e); });
         }
-        _verificationMode = true;
         var as=document.getElementById('auth-screen');
         if(as)as.classList.add('show');
         var lg=document.getElementById('landing');
@@ -2676,6 +2679,7 @@ function authSubmit(){
         });
       })
       .catch(function(e){
+        _verificationMode = false; // account creation failed — undo the pre-flag
         if(err)err.textContent = friendlyAuthError(e.code);
         if(card)card.classList.remove('auth-loading');
       });
@@ -2829,7 +2833,7 @@ function friendlyAuthError(code){
     'auth/popup-blocked':            'Your browser blocked the sign-in popup. Allow popups for this site or try again.',
     'auth/cancelled-popup-request':  'Sign-in cancelled.',
     'auth/network-request-failed':   'Network error. Check your connection and try again.',
-    'auth/internal-error':           'Sign-in temporarily unavailable. Try email/password, or try again in a moment.',
+    'auth/internal-error':           'Google sign-in failed — this domain may not be authorized in Firebase. Add it to Firebase Console → Authentication → Authorized Domains, or use email/password.',
     'auth/account-exists-with-different-credential': 'An account with this email already exists with a different sign-in method.',
     'auth/operation-not-allowed':    'This sign-in method is not enabled. Email support if this persists.',
     'auth/unauthorized-domain':      'This domain is not authorized. Email support@niyyahtrader.app.',
@@ -3199,6 +3203,9 @@ AUTH.onAuthStateChanged(function(user){
   var pwScreen   = el('paywall-screen');
   if(user){
     if(!user.emailVerified && user.providerData[0].providerId === 'password'){
+      // During signup, _verificationMode is set BEFORE createUserWithEmailAndPassword
+      // so we don't sign out the user before sendEmailVerification can run.
+      if(_verificationMode) return;
       var err = document.getElementById('auth-error');
       if(err){ err.style.color='var(--red)'; err.textContent='Please verify your email before signing in. Check your inbox.'; }
       if(authScreen) authScreen.classList.add('show');
