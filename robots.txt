@@ -12,4 +12,4 @@ Disallow: /blueprint
 Disallow: /settings
 Disallow: /intrade
 
-Sitemap: https://niyyahtrader.app/sitemap.xml
+Sitemap: https://niyyahtrader.com/sitemap.xml
