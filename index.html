@@ -1725,6 +1725,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="panel"><div class="panel-head"><div class="panel-title">The Reminder</div></div><div class="intrade-verse"><div class="intrade-ar">وَعَلَى اللَّهِ فَتَوَكَّلُوا إِن كُنتُم مُّؤْمِنِينَ</div><div class="intrade-en">"And upon Allah rely, if you should be believers."</div><div class="intrade-ref">Surah Al-Ma'idah · 5:23</div><div class="intrade-lesson">You entered with analysis. You set your stop and your target. Your job is done. The outcome belongs to Allah. Moving your stop, adding to the position, checking P&amp;L every 30 seconds — none of this changes what was written. Breathe.</div></div></div>
     <div class="panel"><div class="panel-head"><div class="panel-title">Dhikr While You Wait</div><span style="font-size:0.76rem;color:var(--ink-3);">Tap to count. Let your tongue be in remembrance.</span></div><div class="dhikr-grid"><button class="dhikr-btn" onclick="cDhikr('sub')"><span class="dhikr-ar">سُبْحَانَ اللَّه</span><span class="dhikr-count" id="dhikr-sub">0</span><span class="dhikr-word">SubhanAllah</span></button><button class="dhikr-btn" onclick="cDhikr('alh')"><span class="dhikr-ar">الحمد لله</span><span class="dhikr-count" id="dhikr-alh">0</span><span class="dhikr-word">Alhamdulillah</span></button><button class="dhikr-btn" onclick="cDhikr('akb')"><span class="dhikr-ar">اللَّهُ أَكْبَر</span><span class="dhikr-count" id="dhikr-akb">0</span><span class="dhikr-word">Allahu Akbar</span></button></div><div style="margin-top:8px;"><button class="btn btn-ghost btn-sm" onclick="resetDhikr()">Reset counter</button></div></div>
     <div class="panel"><div class="panel-head"><div class="panel-title">Do Not Deviate</div></div><div class="rule-item">Your stop was set with a clear mind before entering. It stays there.</div><div class="rule-item">Do not add to this position. One plan, one outcome.</div><div class="rule-item">P&amp;L fluctuation is not information. The trade is not over until it's over.</div><div class="rule-item red">If you hit your stop — that is the outcome Allah chose. Accept it. Log it. Move on.</div></div>
+    <div class="panel" style="border-color:rgba(214,132,132,0.2);background:linear-gradient(145deg,rgba(214,132,132,0.04),var(--surface));"><div class="panel-head"><div class="panel-title" style="color:var(--red);">Stop Movement Check</div><span style="font-size:0.72rem;color:var(--ink-3);">If you're thinking about moving your stop</span></div><p style="font-size:0.84rem;color:var(--ink-2);line-height:1.65;margin-bottom:14px;">Your stop was placed when your mind was clear. <strong style="color:var(--ink);">That version of you knew better than this version.</strong></p><button class="btn btn-danger" onclick="stopMoveCheck()" style="width:100%;">⚠ I'm about to move my stop</button></div>
   </div>
   <div style="display:flex;justify-content:center;gap:12px;margin-top:16px;flex-wrap:wrap;"><button class="btn btn-gold btn-lg" onclick="openExitModal()" id="close-trade-btn" style="display:none;">Close This Trade →</button><button class="btn btn-outline" onclick="openEntryModal()">+ Enter a Trade</button></div>
 </div>
@@ -5033,6 +5034,28 @@ function renderInTrade(){
   if(de)de.innerHTML='<div class="panel" style="border-color:rgba(218,180,98,0.3);background:linear-gradient(135deg,rgba(218,180,98,0.07),transparent),var(--surface);position:relative;overflow:hidden;"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);"></div><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;"><div><div class="open-badge" style="margin-bottom:11px;">LIVE POSITION</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:2rem;font-weight:600;color:var(--ink);letter-spacing:-0.02em;margin-bottom:9px;">'+esc(t.instrument)+' <span style="color:'+(t.direction==='LONG'?'var(--green)':'var(--red)')+';">'+esc(t.direction)+'</span></div><div style="display:flex;gap:16px;font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;color:var(--ink-3);flex-wrap:wrap;line-height:2;">'+(t.entryPrice?'<span>Entry\u00a0<strong style="color:var(--ink);">'+esc(t.entryPrice)+'</strong></span>':'')+(t.stopPrice?'<span>Stop\u00a0<strong style="color:var(--red);">'+esc(t.stopPrice)+'</strong></span>':'')+(t.targetPrice?'<span>Target\u00a0<strong style="color:var(--green);">'+esc(t.targetPrice)+'</strong></span>':'')+(t.setup?'<span>Setup\u00a0<strong style="color:var(--gold);">'+esc(t.setup)+'</strong></span>':'')+'</div></div><div style="text-align:right;flex-shrink:0;"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px;">QUALITY</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:2rem;font-weight:600;color:var(--gold);">'+(t.quality||'\u2014')+'</div></div></div></div>';
 }
 
+function stopMoveCheck(){
+  var questions=[
+    'Is the market structure broken, or just uncomfortable?',
+    'Are you moving it out of fear, or out of new information?',
+    'If you hadn\'t seen the P&L, would you still move it?',
+    'Would you make this decision without a live position open?',
+    'Your stop was set with a calm mind before entering. That version of you knew better.'
+  ];
+  var q=questions[Math.floor(Math.random()*questions.length)];
+  confirmModal({
+    title:'Before you touch that stop…',
+    text:q+'\n\nMoving your stop to avoid a loss is not risk management — it\'s the nafs taking over.',
+    okText:'I\'ll leave it. Tawakkul.',
+    cancelText:'I have a real reason',
+    danger:false,
+    icon:'⚠'
+  }).then(function(kept){
+    if(kept){toast('Barakallahu feek. Trust your plan.','s');}
+    else{toast('Log your reason in the trade lesson when you close.','i');}
+  });
+}
+
 // ── TRADES ─────────────────────────────────────────────────────────────────
 var _tradeSortKey='date',_tradeSortDir=-1;
 function sortT(key){if(_tradeSortKey===key){_tradeSortDir*=-1;}else{_tradeSortKey=key;_tradeSortDir=-1;}renderTrades();}
@@ -6570,12 +6593,12 @@ function runFridayMuhasabah(){
   if(!e){e=el('muhasabah-wrap');}
   if(!e)return;
 
-  // Only show on Friday (day 5) or Saturday morning
+  // Show on Friday afternoon through Saturday evening (catch-up window)
   var day=new Date().getDay();
   var hour=new Date().getHours();
   var isFridayEvening=(day===5&&hour>=14);
-  var isSaturdayMorning=(day===6&&hour<12);
-  if(!isFridayEvening&&!isSaturdayMorning){
+  var isSaturdayReview=(day===6&&hour<20);
+  if(!isFridayEvening&&!isSaturdayReview){
     var fw=el('friday-wrap');if(fw){
       // Render a quiet teaser so the user anticipates Friday muhasabah.
       // Only shown to users with at least one trade so it doesn't crowd day 1.
