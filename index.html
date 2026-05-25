@@ -4257,8 +4257,12 @@ function onScreenshotPick(evt,which){
     // images total. Honest ceiling > silent write failure two months in.
     var existing=S.trades.reduce(function(s,t){return s+((t.screenshot&&t.screenshot.length)||0)+((t.exitScreenshot&&t.exitScreenshot.length)||0);},0);
     if(existing + dataUrl.length > 800*1024){
-      toast('Attached chart limit reached. Remove an old screenshot first.','e');
+      toast('Chart storage limit reached (≈800KB total). Remove an old screenshot from a past trade to add this one.','e');
       return;
+    }
+    // Warn when approaching 70% of the limit so users aren't surprised later
+    if(existing + dataUrl.length > 560*1024 && existing <= 560*1024){
+      toast('Heads up: chart storage is getting full. You have room for ~1-2 more screenshots.','i');
     }
     if(which==='entry'){
       S.entryScreenshot=dataUrl;
