@@ -1784,7 +1784,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="j-section" style="border-top:1px solid var(--line-2);padding-top:16px;margin-top:4px;"><div class="j-title">Nafs <em>Check</em> <span style="font-size:0.68rem;font-family:'JetBrains Mono',monospace;color:var(--ink-3);font-weight:400;">(OPTIONAL · SAVED WITH ENTRY)</span></div><p style="font-size:0.76rem;color:var(--ink-3);margin-bottom:13px;">Rate yourself 1–5 this week.</p><div class="nafs-grid"><div class="nafs-card"><div class="nafs-ar">صَبْر</div><div class="nafs-name">Sabr</div><div class="nafs-desc">Did you wait for your setups?</div><div class="nafs-dots" id="nd-sabr"></div></div><div class="nafs-card"><div class="nafs-ar">تَوَكُّل</div><div class="nafs-name">Tawakkul</div><div class="nafs-desc">Did you release outcomes?</div><div class="nafs-dots" id="nd-tawakkul"></div></div><div class="nafs-card"><div class="nafs-ar">كِبْر</div><div class="nafs-name">Kibr</div><div class="nafs-desc">Did arrogance appear after wins?</div><div class="nafs-dots" id="nd-kibr"></div></div><div class="nafs-card"><div class="nafs-ar">شُكْر</div><div class="nafs-name">Shukr</div><div class="nafs-desc">Gratitude every session?</div><div class="nafs-dots" id="nd-shukr"></div></div></div></div>
     <div style="display:flex;justify-content:flex-end;gap:8px;"><button class="btn btn-outline" onclick="clearJournal()">Clear</button><button class="btn btn-gold btn-lg" onclick="saveJournal()">Save Entry</button></div>
   </div>
-  <div class="panel"><div class="panel-head"><div class="panel-title">Past Entries</div></div><div id="journal-list"></div></div>
+  <div class="panel"><div class="panel-head"><div class="panel-title">Past Entries</div></div><input type="search" id="journal-search" placeholder="Search entries…" oninput="renderJournalList()" style="width:100%;background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);padding:9px 12px;color:var(--ink);font-family:Inter,sans-serif;font-size:0.84rem;margin-bottom:12px;"><div id="journal-list"></div></div>
 </div>
 
 <div class="page" id="page-playbook">
@@ -2286,6 +2286,12 @@ body:not(.legal-visitor) .legal-back{display:none;}
     </div>
    </div>
    <div class="field"><label>Lesson from this trade <span id="x-lesson-count" style="color:var(--ink-3);font-weight:400;">(0/20 min)</span></label><textarea id="x-lesson" rows="2" placeholder="What did this trade teach you?" oninput="var n=this.value.length,el=document.getElementById('x-lesson-count');if(el){el.textContent='('+n+'/20 min)';el.style.color=n>=20?'var(--green)':'var(--ink-3)';}"></textarea></div>
+   <div class="fs-label">Exit Chart <span style="font-family:'Inter',sans-serif;font-size:0.7rem;letter-spacing:0;text-transform:none;color:var(--ink-4);font-weight:400;">(optional · where you actually closed)</span></div>
+   <input type="file" id="x-screenshot-input" accept="image/png,image/jpeg,image/webp" style="display:none;" onchange="onScreenshotPick(event,'exit')">
+   <div id="x-screenshot-zone" class="screenshot-zone" onclick="el('x-screenshot-input').click()">
+     <div class="screenshot-zone-label">+ Attach exit chart</div>
+     <div class="screenshot-zone-hint">PNG / JPEG · auto-compressed · stored privately on your account</div>
+   </div>
   </div>
   <div class="modal-foot"><button class="btn btn-outline" onclick="closeExit()">Cancel</button><button class="btn btn-gold" id="save-exit-btn" onclick="saveExit()">Close Trade ✓</button></div>
  </div>
@@ -4049,6 +4055,7 @@ function openExitModal(){
   var hint=el('x-pnl-hint');if(hint){hint.textContent='';hint.style.display='none';}
   var xp=el('x-pnl');if(xp){xp.value='';xp._userEdited=false;if(!xp._changeListenerAdded){xp.addEventListener('input',function(){xp._userEdited=true;});xp._changeListenerAdded=true;}}
   var xe=el('x-exit');if(xe)xe.value='';
+  S.exitScreenshot=null;resetScreenshotZone('x-screenshot-zone','exit');
 }
 var TICK_VALUES={
   'ES':50,'MES':5,
@@ -4134,6 +4141,7 @@ function saveExit(){
   t.outcome=el('x-outcome')?el('x-outcome').value:'loss';
   t.exitEmotion=S.selExEmotion||'calm';
   t.lesson=el('x-lesson')?el('x-lesson').value:'';
+  t.exitScreenshot=S.exitScreenshot||null;
   t.closedAt=new Date().toISOString();
   t.quality=calcQ(t);
   S.openTradeId=null;
@@ -4178,7 +4186,8 @@ function openTD(id){
     '</div></div><div class="td-section"><div class="td-label">Psychology</div><div class="td-row">'+mkTDItem('Entry State',esc(t.emotion)||'\u2014')+mkTDItem('Exit State',esc(t.exitEmotion)||'\u2014')+'</div>'+
     (t.lesson?'<div style="margin-top:10px;padding:11px 13px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);font-size:0.84rem;color:var(--ink-2);line-height:1.6;"><strong style="color:var(--gold);">Lesson:</strong> '+esc(t.lesson)+'</div>':'')+'</div>'+
     (t.gateAnswers&&Object.keys(t.gateAnswers).length?'<div class="td-section"><div class="td-label">Pre-Trade Gate</div><div style="font-size:0.82rem;color:var(--ink-2);line-height:1.9;">'+Object.entries(t.gateAnswers).map(function(kv){return'<span style="color:'+(kv[1]==='yes'?'var(--green)':'var(--red)')+'">'+esc(String(kv[1]).toUpperCase())+'</span> \u2014 '+esc(kv[0]);}).join('<br>')+'</div></div>':'')+
-    (t.screenshot?'<div class="td-section"><div class="td-label">Chart Screenshot</div><div class="td-screenshot" onclick="openImageZoom('+t.id+')"><img id="td-shot-'+t.id+'" src="'+esc(t.screenshot)+'" alt="Trade chart"></div></div>':'');
+    (t.screenshot?'<div class="td-section"><div class="td-label">Entry Chart</div><div class="td-screenshot" onclick="openImageZoom('+t.id+',\'entry\')"><img id="td-shot-'+t.id+'" src="'+esc(t.screenshot)+'" alt="Entry chart"></div></div>':'')+
+    (t.exitScreenshot?'<div class="td-section"><div class="td-label">Exit Chart</div><div class="td-screenshot" onclick="openImageZoom('+t.id+',\'exit\')"><img src="'+esc(t.exitScreenshot)+'" alt="Exit chart"></div></div>':'');
   var title=el('td-title');if(title)title.innerHTML=esc(t.instrument)+' <em>Detail</em>';
   var eb=el('td-edit-btn');if(eb)eb.style.display=t.status==='closed'?'':'none';
   var db=el('td-delete-btn');if(db)db.style.display=t.status==='open'?'':'none';
@@ -4200,12 +4209,14 @@ function deleteOpenTrade(id){
 }
 
 // ── IMAGE ZOOM ─────────────────────────────────────────────────────────────
-function openImageZoom(tradeId){
+function openImageZoom(tradeId,which){
   var t=S.trades.find(function(x){return x.id==tradeId;}); // loose == — id may arrive as number or string
-  if(!t||!t.screenshot)return;
+  if(!t)return;
+  var src=which==='exit'?t.exitScreenshot:t.screenshot;
+  if(!src)return;
   var z=el('image-zoom'),img=el('image-zoom-img');
   if(!z||!img)return;
-  img.src=t.screenshot;
+  img.src=src;
   z.classList.add('show');
 }
 function closeImageZoom(){var z=el('image-zoom');if(z)z.classList.remove('show');}
@@ -4223,7 +4234,7 @@ function onScreenshotPick(evt,which){
     // Firestore caps each document at ~1MB. Screenshots live inside the user
     // doc today, so we reject anything that would push the user past ~800KB of
     // images total. Honest ceiling > silent write failure two months in.
-    var existing=S.trades.reduce(function(s,t){return s+((t.screenshot&&t.screenshot.length)||0);},0);
+    var existing=S.trades.reduce(function(s,t){return s+((t.screenshot&&t.screenshot.length)||0)+((t.exitScreenshot&&t.exitScreenshot.length)||0);},0);
     if(existing + dataUrl.length > 800*1024){
       toast('Attached chart limit reached. Remove an old screenshot first.','e');
       return;
@@ -4231,6 +4242,9 @@ function onScreenshotPick(evt,which){
     if(which==='entry'){
       S.entryScreenshot=dataUrl;
       paintScreenshotPreview('e-screenshot-zone',dataUrl,'entry');
+    } else if(which==='exit'){
+      S.exitScreenshot=dataUrl;
+      paintScreenshotPreview('x-screenshot-zone',dataUrl,'exit');
     }
   }).catch(function(){toast('Could not read that image','e');});
   evt.target.value=''; // allow re-picking the same file later
@@ -4266,12 +4280,16 @@ function resetScreenshotZone(zoneId,which){
   var z=el(zoneId);if(!z)return;
   z.classList.remove('has-image');
   z.innerHTML='<div class="screenshot-zone-label">+ Attach chart</div><div class="screenshot-zone-hint">PNG / JPEG · auto-compressed · stored privately on your account</div>';
-  z.onclick=function(){var inp=el(which==='entry'?'e-screenshot-input':null);if(inp)inp.click();};
+  var inputId=which==='entry'?'e-screenshot-input':which==='exit'?'x-screenshot-input':null;
+  z.onclick=function(){var inp=el(inputId);if(inp)inp.click();};
 }
 function removeScreenshot(which){
   if(which==='entry'){
     S.entryScreenshot=null;
     resetScreenshotZone('e-screenshot-zone','entry');
+  } else if(which==='exit'){
+    S.exitScreenshot=null;
+    resetScreenshotZone('x-screenshot-zone','exit');
   }
 }
 
@@ -5175,7 +5193,12 @@ function clearJournal(){['j-int','j-what','j-fix','j-shukr'].forEach(function(id
 function renderJournalList(){
   var e=el('journal-list');if(!e)return;
   if(!S.journals.length){e.innerHTML='<div class="empty"><div class="empty-icon">\ud83d\udcd3</div><div class="empty-title">No entries yet</div><div class="empty-text">Use the form above to log your first reflection.</div></div>';return;}
-  e.innerHTML=S.journals.slice(0,8).map(function(j){return'<div style="padding:12px 0;border-bottom:1px solid var(--line-2);"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.56rem;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px;">'+fmtDate(j.date)+'</div>'+(j.fix?'<div style="font-size:0.8rem;color:var(--ink-2);margin-bottom:4px;line-height:1.55;"><strong style="color:var(--ink);">Tomorrow:</strong> '+esc(j.fix)+'</div>':'')+(j.shukr?'<div style="font-size:0.8rem;color:var(--ink-2);line-height:1.55;"><strong style="color:var(--gold);">Shukr:</strong> '+esc(j.shukr)+'</div>':'')+'</div>';}).join('');
+  var sq=(el('journal-search')?el('journal-search').value:'').trim().toLowerCase();
+  var list=S.journals;
+  if(sq){list=list.filter(function(j){return(j.date||'').includes(sq)||(j.fix||'').toLowerCase().includes(sq)||(j.what||'').toLowerCase().includes(sq)||(j.shukr||'').toLowerCase().includes(sq)||(j.intention||'').toLowerCase().includes(sq);});}
+  var show=sq?list:list.slice(0,10);
+  if(!show.length){e.innerHTML='<div class="empty"><div class="empty-icon">\ud83d\udd0d</div><div class="empty-title">No entries match</div></div>';return;}
+  e.innerHTML=show.map(function(j){return'<div style="padding:12px 0;border-bottom:1px solid var(--line-2);"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.56rem;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px;">'+fmtDate(j.date)+'</div>'+(j.fix?'<div style="font-size:0.8rem;color:var(--ink-2);margin-bottom:4px;line-height:1.55;"><strong style="color:var(--ink);">Tomorrow:</strong> '+esc(j.fix)+'</div>':'')+(j.shukr?'<div style="font-size:0.8rem;color:var(--ink-2);line-height:1.55;"><strong style="color:var(--gold);">Shukr:</strong> '+esc(j.shukr)+'</div>':'')+'</div>';}).join('')+(!sq&&S.journals.length>10?'<div style="font-size:0.76rem;color:var(--ink-3);text-align:center;padding:12px 0;">Showing 10 of '+S.journals.length+' \u2014 search to find older entries</div>':'');
 }
 
 // ── PLAYBOOK ──────────────────────────────────────────────────────────────────
