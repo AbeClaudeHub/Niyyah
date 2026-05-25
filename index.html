@@ -2709,10 +2709,11 @@ function authGoogle(){
       try{ AUTH.signInWithRedirect(provider); }catch(re){}
       return;
     }
-    // Any other error (e.g. auth/internal-error on old browsers): try redirect.
+    // Any other error: show raw code for debugging, then try redirect.
+    var errEl = el('auth-error');
+    if(errEl){ errEl.style.color='var(--red)'; errEl.textContent = '[popup] ' + (e.code||'unknown') + ': ' + (e.message||''); }
     try{ AUTH.signInWithRedirect(provider); }catch(re){
-      var err = el('auth-error');
-      if(err){ err.style.color='var(--red)'; err.textContent = re.code ? friendlyAuthError(re.code) : 'Google sign-in unavailable. Use email/password.'; }
+      if(errEl){ errEl.style.color='var(--red)'; errEl.textContent = '[redirect] ' + (re.code||'unknown') + ': ' + (re.message||''); }
     }
   });
 }
@@ -2741,7 +2742,7 @@ AUTH.getRedirectResult().then(function(result){
   var err = el('auth-error');
   if(err){
     err.style.color='var(--red)';
-    err.textContent = e.code ? friendlyAuthError(e.code) : e.message;
+    err.textContent = '[getRedirectResult] ' + (e.code||'unknown') + ': ' + (e.message||'');
   }
 });
 
