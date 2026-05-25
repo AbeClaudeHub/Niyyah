@@ -7813,8 +7813,8 @@ document.addEventListener('DOMContentLoaded',function(){
     history.replaceState({},document.title,window.location.pathname);
     setTimeout(function(){
       showAuth('signin');
-      var err=el('auth-error');
-      if(err){err.style.color='var(--green)';err.textContent='\u2713 Email verified! Sign in to access your journal.';}
+      var sb=el('auth-success-banner');
+      if(sb){sb.style.display='';sb.innerHTML='\u2713 Email verified \u2014 sign in below to access your journal \u2193';}
     },300);
   }
 });
