@@ -2709,12 +2709,10 @@ function authGoogle(){
       try{ AUTH.signInWithRedirect(provider); }catch(re){}
       return;
     }
-    // Any other error: show raw code for debugging, then try redirect.
+    // Any other error — show it, do NOT fall back to redirect (redirect leaves
+    // broken state in browser storage when authDomain doesn't match hosting).
     var errEl = el('auth-error');
-    if(errEl){ errEl.style.color='var(--red)'; errEl.textContent = '[popup] ' + (e.code||'unknown') + ': ' + (e.message||''); }
-    try{ AUTH.signInWithRedirect(provider); }catch(re){
-      if(errEl){ errEl.style.color='var(--red)'; errEl.textContent = '[redirect] ' + (re.code||'unknown') + ': ' + (re.message||''); }
-    }
+    if(errEl){ errEl.style.color='var(--red)'; errEl.textContent = friendlyAuthError(e.code); }
   });
 }
 
@@ -2739,11 +2737,9 @@ AUTH.getRedirectResult().then(function(result){
     try{ sessionStorage.removeItem('niyyah_ref'); }catch(_){}
   }
 }).catch(function(e){
-  var err = el('auth-error');
-  if(err){
-    err.style.color='var(--red)';
-    err.textContent = '[getRedirectResult] ' + (e.code||'unknown') + ': ' + (e.message||'');
-  }
+  // getRedirectResult errors are usually stale broken redirect state from a
+  // previous failed attempt — don't surface them in the UI, just log them.
+  console.warn('getRedirectResult error:', e.code, e.message);
 });
 
 
