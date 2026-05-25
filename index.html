@@ -7337,10 +7337,11 @@ function renderDailyMission(){
 // ── 30-DAY HABIT CHAIN ──────────────────────────────────────────────────
 function renderHabitChain(){
   var e = el('habit-chain-wrap'); if(!e) return;
-  // Only show once the user has any data to chain
-  if(!S.trades.length && !Object.keys(S.dailyPrayers||{}).length){
-    e.innerHTML=''; return;
-  }
+  // Only show the chain once the user has 3+ active days — one active cell
+  // surrounded by 29 grey circles just discourages new users.
+  var _activeDays=0;
+  for(var _i=0;_i<30;_i++){var _d=new Date();_d.setDate(_d.getDate()-_i);var _k=localDate(_d);var _tr=S.trades.filter(function(t){return t.date===_k;});var _pr=((S.dailyPrayers||{})[_k])?Object.values(S.dailyPrayers[_k]).filter(Boolean).length:0;if(_tr.length||_pr>=1)_activeDays++;}
+  if(_activeDays<3){e.innerHTML='';return;}
   var todayKey = localDate();
   var cells = [];
   var loggedDays = 0;
