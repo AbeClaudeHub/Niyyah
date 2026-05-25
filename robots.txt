@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /trades
+Disallow: /calendar
+Disallow: /analytics
+Disallow: /journal
+Disallow: /playbook
+Disallow: /risk
+Disallow: /goals
+Disallow: /blueprint
+Disallow: /settings
+Disallow: /intrade
+
+Sitemap: https://niyyahtrader.app/sitemap.xml
