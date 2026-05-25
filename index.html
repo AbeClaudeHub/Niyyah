@@ -1498,7 +1498,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
     </div>
     <div class="field" style="margin-bottom:18px;">
       <label>Password</label>
-      <input type="password" id="auth-password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')authSubmit()"><div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--ink-4);margin-top:4px;letter-spacing:0.06em;">Minimum 6 characters</div>
+      <input type="password" id="auth-password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')authSubmit()" oninput="pwStrengthMeter(this.value)"><div id="pw-strength-wrap" style="display:none;margin-top:6px;"><div style="height:4px;background:var(--surface-2);border-radius:2px;overflow:hidden;margin-bottom:4px;"><div id="pw-strength-bar" style="height:100%;width:0;border-radius:2px;transition:width 0.3s,background 0.3s;"></div></div><div id="pw-strength-label" style="font-family:'JetBrains Mono',monospace;font-size:0.48rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-4);"></div></div><div id="pw-hint" style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--ink-4);margin-top:4px;letter-spacing:0.06em;">Minimum 6 characters</div>
     </div>
     <button class="btn btn-gold btn-lg" id="auth-submit-btn" onclick="authSubmit()" style="width:100%;justify-content:center;">Sign In</button>
     <div class="auth-divider">or</div>
@@ -2462,6 +2462,23 @@ function _captureCurrentView(){
   if(ap) return 'page:' + ap.id.replace('page-','');
   return 'landing';
 }
+function pwStrengthMeter(pw){
+  var wrap=el('pw-strength-wrap'),bar=el('pw-strength-bar'),lbl=el('pw-strength-label'),hint=el('pw-hint');
+  if(!wrap)return;
+  if(authMode!=='signup'||!pw){wrap.style.display='none';if(hint)hint.style.display='';return;}
+  wrap.style.display='';if(hint)hint.style.display='none';
+  var score=0;
+  if(pw.length>=8)score++;if(pw.length>=12)score++;
+  if(/[A-Z]/.test(pw))score++;if(/[0-9]/.test(pw))score++;if(/[^A-Za-z0-9]/.test(pw))score++;
+  var levels=[{w:'20%',c:'var(--red)',l:'Too short'},
+              {w:'40%',c:'#c87941',l:'Weak'},
+              {w:'60%',c:'var(--gold)',l:'Fair'},
+              {w:'80%',c:'#7bbe91',l:'Good'},
+              {w:'100%',c:'var(--green)',l:'Strong'}];
+  var idx=Math.min(score,4);
+  bar.style.width=levels[idx].w;bar.style.background=levels[idx].c;
+  lbl.style.color=levels[idx].c;lbl.textContent=levels[idx].l;
+}
 function showAuth(mode){
   _showingLegalPage = false;
   _legalReturnTo = null;
@@ -2564,6 +2581,7 @@ function authToggle(){
     if(nw)  nw.style.display='';
     if(pw)  pw.setAttribute('autocomplete','new-password');
     var fg=el('auth-forgot');if(fg)fg.style.display='none';
+    var hint=el('pw-hint');if(hint)hint.style.display='';
   }else{
     if(lbl) lbl.textContent='Sign in to your account';
     if(btn) btn.textContent='Sign In';
@@ -2571,6 +2589,8 @@ function authToggle(){
     if(nw)  nw.style.display='none';
     if(pw)  pw.setAttribute('autocomplete','current-password');
     var fg=el('auth-forgot');if(fg)fg.style.display='';
+    var swrap=el('pw-strength-wrap');if(swrap)swrap.style.display='none';
+    var hint=el('pw-hint');if(hint)hint.style.display='';
   }
 }
 
