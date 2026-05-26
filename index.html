@@ -2456,6 +2456,13 @@ function showAuth(mode){
   var landing=el('landing');if(landing)landing.classList.add('hide');
   authMode=mode||'signin';
   if(as) as.classList.add('show');
+  // Always reset any loading state left over from a previous auth attempt \u2014
+  // auth-loading sets pointer-events:none which silently blocks all clicks.
+  var authCard = as ? as.querySelector('.auth-card') : null;
+  if(authCard) authCard.classList.remove('auth-loading');
+  // Reset Google button in case it was left disabled from a prior attempt.
+  var gBtn = as ? as.querySelector('.auth-google') : null;
+  if(gBtn && typeof _googleSvg !== 'undefined'){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML=_googleSvg; }
   if(mode==='signup'){
     var lbl=el('auth-mode-label'),btn=el('auth-submit-btn'),sw=el('auth-switch'),nw=el('auth-name-wrap');
     if(lbl)lbl.textContent='Create your account';
@@ -2742,9 +2749,18 @@ AUTH.getRedirectResult().then(function(result){
     try{ sessionStorage.removeItem('niyyah_ref'); }catch(_){}
   }
 }).catch(function(e){
-  // getRedirectResult errors are usually stale broken redirect state from a
-  // previous failed attempt — don't surface them in the UI, just log them.
   console.warn('getRedirectResult error:', e.code, e.message);
+  // Stale broken state from a prior failed attempt is the most common case —
+  // but if it's a real actionable error, surface it so the user isn't stranded.
+  var actionable = e.code && e.code !== 'auth/no-auth-event' && e.code !== 'auth/redirect-cancelled-by-user';
+  if(actionable){
+    var lg2 = el('landing'); if(lg2) lg2.classList.add('hide');
+    var as2 = el('auth-screen'); if(as2) as2.classList.add('show');
+    var authCard4 = as2 ? as2.querySelector('.auth-card') : null;
+    if(authCard4) authCard4.classList.remove('auth-loading');
+    var errEl2 = el('auth-error');
+    if(errEl2){ errEl2.style.color='var(--red)'; errEl2.textContent = friendlyAuthError(e.code); }
+  }
 });
 
 
@@ -3106,6 +3122,12 @@ AUTH.onAuthStateChanged(function(user){
       var err = document.getElementById('auth-error');
       if(err){ err.style.color='var(--red)'; err.textContent='Please verify your email before signing in. Check your inbox.'; }
       if(authScreen) authScreen.classList.add('show');
+      // Remove loading state so the card is interactive again after signout.
+      var authCard2 = authScreen ? authScreen.querySelector('.auth-card') : null;
+      if(authCard2) authCard2.classList.remove('auth-loading');
+      // Set verificationMode so the signout that follows keeps the auth screen
+      // visible instead of bouncing the user back to the landing page.
+      _verificationMode = true;
       AUTH.signOut();
       return;
     }
@@ -3119,6 +3141,9 @@ AUTH.onAuthStateChanged(function(user){
       // Just sent verification email — stay on auth screen, don't go to landing
       _verificationMode = false;
       if(authScreen) authScreen.classList.add('show');
+      // Clear loading state so the sign-in form is interactive.
+      var authCard3 = authScreen ? authScreen.querySelector('.auth-card') : null;
+      if(authCard3) authCard3.classList.remove('auth-loading');
       return;
     }
     if(authScreen) authScreen.classList.remove('show');
