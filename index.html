@@ -2680,11 +2680,11 @@ function authGoogle(){
   // iOS Safari, iPad, and in-app browsers (Instagram, FB, X) can't use popups
   // reliably — go straight to redirect to avoid a visible failure then fallback.
   if(_needsRedirectAuth()){
-    try{ AUTH.signInWithRedirect(provider); }catch(re){
+    AUTH.signInWithRedirect(provider).catch(function(re){
       if(gBtn){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML=_googleSvg; }
       var err = el('auth-error');
       if(err){ err.style.color='var(--red)'; err.textContent = re.code ? friendlyAuthError(re.code) : 'Google sign-in unavailable. Use email/password.'; }
-    }
+    });
     return;
   }
 
@@ -2700,13 +2700,18 @@ function authGoogle(){
     // Success handled by onAuthStateChanged
   }).catch(function(e){
     if(gBtn){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML=_googleSvg; }
-    if(e.code === 'auth/popup-closed-by-user'){
+    if(e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request'){
       // User dismissed the popup — silently reset, no error needed
       return;
     }
     if(e.code === 'auth/popup-blocked'){
-      // Browser blocked the popup — auto-fall back to redirect
-      try{ AUTH.signInWithRedirect(provider); }catch(re){}
+      // Browser blocked the popup — inform the user, then fall back to redirect.
+      var errEl = el('auth-error');
+      if(errEl){ errEl.style.color='var(--gold)'; errEl.textContent = 'Popup blocked — redirecting to Google…'; }
+      AUTH.signInWithRedirect(provider).catch(function(re){
+        if(gBtn){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML=_googleSvg; }
+        if(errEl){ errEl.style.color='var(--red)'; errEl.textContent = re.code ? friendlyAuthError(re.code) : 'Google sign-in unavailable. Use email/password.'; }
+      });
       return;
     }
     // Any other error — show it, do NOT fall back to redirect (redirect leaves
