@@ -2367,6 +2367,16 @@ var S={trades:[],journals:[],morning:{},challenge:null,goal:null,settings:{},
        editPBId:null,_sub:{status:null,tier:'base'}};
 var C={};
 
+// authDomain must be the Firebase subdomain, NOT the custom Vercel domain.
+// Firebase hosts the OAuth callback handler at
+//   https://sunnahtrader-f71f1.firebaseapp.com/__/auth/handler
+// Popup auth (signInWithPopup) redirects through this endpoint before
+// posting the credential back to the opener — it never touches Vercel.
+//
+// REQUIRED Firebase Console step (one-time, not in code):
+//   Authentication → Settings → Authorized Domains
+//   → Add "niyyahtrader.com"
+// Without this, Google sign-in returns auth/unauthorized-domain on production.
 var firebaseConfig = {
   apiKey:            "AIzaSyDHRFYq_vJIaUpih1LjbfTGP9G1guFQ5J4",
   authDomain:        "sunnahtrader-f71f1.firebaseapp.com",
@@ -2663,17 +2673,16 @@ function authSubmit(){
   }
 }
 
-// True on any iOS device (iPhone / iPad) or in-app browser variants — these
-// are the runtimes where signInWithPopup breaks because of ITP / third-party
-// cookie blocking. On these, we use signInWithRedirect instead.
-function _needsRedirectAuth(){
+// Detect embedded in-app browsers (Instagram, FB, X/Twitter) where the OS
+// popup mechanism is completely blocked. iOS Safari and modern Android browsers
+// handle signInWithPopup fine; only these webviews do not.
+// signInWithRedirect is NOT used — it relies on Firebase Hosting's
+// /__/auth/handler endpoint which is not served by Vercel. All Google auth
+// goes through signInWithPopup; in-app browser users are instructed to open
+// the real browser instead.
+function _isInAppBrowser(){
   var ua = navigator.userAgent || '';
-  // iOS Safari / iPad: real iPad with iPadOS reports as Macintosh + has touch.
-  var iOS = /iPhone|iPod|iPad/.test(ua) ||
-            (navigator.platform === 'MacIntel' && (navigator.maxTouchPoints || 0) > 1);
-  // Common in-app browsers (Instagram, FB, X) where popups also flake out.
-  var inApp = /FBAN|FBAV|Instagram|Twitter/.test(ua);
-  return iOS || inApp;
+  return /FBAN|FBAV|Instagram|Twitter/.test(ua);
 }
 
 var _googleSvg = '<svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>Continue with Google';
@@ -2682,16 +2691,15 @@ function authGoogle(){
   var provider = new firebase.auth.GoogleAuthProvider();
   provider.setCustomParameters({'prompt': 'select_account'});
   var gBtn = document.querySelector('.auth-google');
+  var errEl = el('auth-error');
   if(gBtn){ gBtn.disabled=true; gBtn.style.opacity='0.6'; gBtn.textContent='Signing in…'; }
 
-  // iOS Safari, iPad, and in-app browsers (Instagram, FB, X) can't use popups
-  // reliably — go straight to redirect to avoid a visible failure then fallback.
-  if(_needsRedirectAuth()){
-    AUTH.signInWithRedirect(provider).catch(function(re){
-      if(gBtn){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML=_googleSvg; }
-      var err = el('auth-error');
-      if(err){ err.style.color='var(--red)'; err.textContent = re.code ? friendlyAuthError(re.code) : 'Google sign-in unavailable. Use email/password.'; }
-    });
+  // Embedded webviews (Instagram, FB, X) block all popup windows at the OS
+  // level — there is no reliable auth path in these environments. Direct the
+  // user to open the real browser rather than showing a cryptic failure.
+  if(_isInAppBrowser()){
+    if(gBtn){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML=_googleSvg; }
+    if(errEl){ errEl.style.color='var(--gold)'; errEl.textContent='Open niyyahtrader.com in Safari or Chrome to sign in with Google.'; }
     return;
   }
 
@@ -2708,60 +2716,34 @@ function authGoogle(){
   }).catch(function(e){
     if(gBtn){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML=_googleSvg; }
     if(e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request'){
-      // User dismissed the popup — silently reset, no error needed
-      return;
+      return; // user dismissed — silent reset, no error shown
     }
     if(e.code === 'auth/popup-blocked'){
-      // Browser blocked the popup — inform the user, then fall back to redirect.
-      var errEl = el('auth-error');
-      if(errEl){ errEl.style.color='var(--gold)'; errEl.textContent = 'Popup blocked — redirecting to Google…'; }
-      AUTH.signInWithRedirect(provider).catch(function(re){
-        if(gBtn){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML=_googleSvg; }
-        if(errEl){ errEl.style.color='var(--red)'; errEl.textContent = re.code ? friendlyAuthError(re.code) : 'Google sign-in unavailable. Use email/password.'; }
-      });
+      // Browser blocked the popup (rare on desktop; happens with aggressive
+      // ad-blockers). Do NOT fall back to redirect — it doesn't work on Vercel
+      // because /__/auth/handler is not hosted there.
+      if(errEl){ errEl.style.color='var(--gold)'; errEl.textContent='Popup blocked — allow popups for this site and try again.'; }
       return;
     }
-    // Any other error — show it, do NOT fall back to redirect (redirect leaves
-    // broken state in browser storage when authDomain doesn't match hosting).
-    var errEl = el('auth-error');
     if(errEl){ errEl.style.color='var(--red)'; errEl.textContent = friendlyAuthError(e.code); }
   });
 }
 
-// Handle the return from a signInWithRedirect flow. Fires once per page load
-// — if the user just came back from Google, this resolves with the user and
-// onAuthStateChanged takes over from there. If they didn't sign in via
-// redirect, result.user is null and we silently no-op.
+// Drain any stale redirect token left in browser storage from a previous
+// session that used signInWithRedirect (now removed). If a result exists,
+// let onAuthStateChanged handle the signed-in user as normal.
+// No UI is shown here — the landing → auth → app flow handles presentation.
 AUTH.getRedirectResult().then(function(result){
   if(!result || !result.user) return;
-  // Coming back from a Google redirect — hide the landing page immediately so
-  // the user doesn't see it flash while onAuthStateChanged resolves.
-  var lg = el('landing'); if(lg) lg.classList.add('hide');
-  var as = el('auth-screen'); if(as) as.classList.add('show');
-  var sb = el('auth-success-banner');
-  if(sb){ sb.style.display=''; sb.innerHTML='Signing you in with Google…'; }
   var ref = window._pendingReferral;
   var isNew = result.additionalUserInfo && result.additionalUserInfo.isNewUser;
-  if(isNew && ref){
+  if(isNew && ref && result.user){
     DB.collection('users').doc(result.user.uid)
       .set({ referredBy: ref }, { merge: true })
       .catch(function(){});
     try{ sessionStorage.removeItem('niyyah_ref'); }catch(_){}
   }
-}).catch(function(e){
-  console.warn('getRedirectResult error:', e.code, e.message);
-  // Stale broken state from a prior failed attempt is the most common case —
-  // but if it's a real actionable error, surface it so the user isn't stranded.
-  var actionable = e.code && e.code !== 'auth/no-auth-event' && e.code !== 'auth/redirect-cancelled-by-user';
-  if(actionable){
-    var lg2 = el('landing'); if(lg2) lg2.classList.add('hide');
-    var as2 = el('auth-screen'); if(as2) as2.classList.add('show');
-    var authCard4 = as2 ? as2.querySelector('.auth-card') : null;
-    if(authCard4) authCard4.classList.remove('auth-loading');
-    var errEl2 = el('auth-error');
-    if(errEl2){ errEl2.style.color='var(--red)'; errEl2.textContent = friendlyAuthError(e.code); }
-  }
-});
+}).catch(function(){ /* stale or empty redirect state — discard silently */ });
 
 
 // ── PASSWORD RESET ──────────────────────────────────────────────────────────
@@ -2783,30 +2765,44 @@ function authForgot(){
 }
 
 function authResendVerification(){
-  var email = window._pendingVerifEmail || (el('auth-email') ? el('auth-email').value.trim() : '');
-  var err = el('auth-error');
+  var email    = window._pendingVerifEmail || (el('auth-email')    ? el('auth-email').value.trim() : '');
+  var password = el('auth-password') ? el('auth-password').value : '';
+  var err      = el('auth-error');
   if(!email){
     if(err){err.style.color='var(--red)';err.textContent='Enter your email above, then try again.';}
     return;
   }
-  AUTH.signInWithEmailAndPassword(email, '_niyyah_probe_')
-    .catch(function(e){
-      if(e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential'){
-        if(err){err.style.color='var(--red)';err.textContent='Enter your password to resend the verification email.';}
+  if(!password){
+    if(err){err.style.color='var(--red)';err.textContent='Enter your password below to resend the verification email.';}
+    return;
+  }
+  // Sign in with the real password, send verification, sign back out.
+  // _verificationMode prevents onAuthStateChanged from bouncing the user to
+  // the landing page during this transient signed-in state.
+  _verificationMode = true;
+  AUTH.signInWithEmailAndPassword(email, password)
+    .then(function(cred){
+      var user = cred.user;
+      if(user.emailVerified){
+        // Already verified — onAuthStateChanged will complete the login.
+        if(err){err.style.color='var(--green)';err.textContent='Email already verified — signing you in!';}
         return;
       }
-      if(AUTH.currentUser){
-        AUTH.currentUser.sendEmailVerification()
-          .then(function(){
-            if(err){err.style.color='var(--green)';err.textContent='Verification email resent — check your inbox and spam folder.';}
-          })
-          .catch(function(){
-            if(err){err.style.color='var(--red)';err.textContent='Could not resend — try again in a minute.';}
-          });
-        AUTH.signOut();
-      } else {
-        if(err){err.style.color='var(--red)';err.textContent='Sign in with your password to resend.';}
-      }
+      return user.sendEmailVerification({url: window.location.origin + '/?verified=1'})
+        .catch(function(ve){
+          if(ve && /unauthorized-continue-uri|invalid-continue-uri/.test(ve.code||'')){
+            return user.sendEmailVerification();
+          }
+          throw ve;
+        })
+        .then(function(){
+          AUTH.signOut();
+          if(err){err.style.color='var(--green)';err.textContent='Verification email resent — check your inbox and spam folder.';}
+        });
+    })
+    .catch(function(e){
+      _verificationMode = false;
+      if(err){err.style.color='var(--red)';err.textContent=friendlyAuthError(e.code);}
     });
 }
 
@@ -3117,7 +3113,10 @@ AUTH.onAuthStateChanged(function(user){
   var authScreen = el('auth-screen');
   var pwScreen   = el('paywall-screen');
   if(user){
-    if(!user.emailVerified && user.providerData[0].providerId === 'password'){
+    // Guard against empty providerData — it should never be empty for a real
+    // signed-in user, but a defensive check prevents a hard crash.
+    var _provider = user.providerData && user.providerData[0] && user.providerData[0].providerId;
+    if(!user.emailVerified && _provider === 'password'){
       // During signup, _verificationMode is set BEFORE createUserWithEmailAndPassword
       // so we don't sign out the user before sendEmailVerification can run.
       if(_verificationMode) return;
