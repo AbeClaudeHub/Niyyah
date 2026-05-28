@@ -49,9 +49,12 @@ function webpush(){
 // Decide whether the user needs a nudge today, and what to say. Returns
 // { title, body, url } or null if no nudge is warranted. Read-only — does
 // not mutate anything.
-function decideNudge(userDoc, tradesSnap, prayersSnap){
+//
+// All data lives in the top-level user document (trades array, dailyPrayers
+// map) — NOT in subcollections. The function reads directly from userDoc.
+function decideNudge(userDoc){
   const today = new Date().toISOString().slice(0,10);
-  const trades = tradesSnap.docs.map(d => d.data());
+  const trades = Array.isArray(userDoc.trades) ? userDoc.trades : [];
   const closed = trades.filter(t => t.status === 'closed');
 
   // 1. Post-loss reflection: today already saw a loss, no nudge yet.
@@ -68,7 +71,9 @@ function decideNudge(userDoc, tradesSnap, prayersSnap){
   // 2. Streak at risk: user has a multi-day discipline streak but today is
   //    blank (no closed trade and no prayer logged).
   const streak = (userDoc.streak || 0);
-  const todayPrayed = !!(prayersSnap.data() && prayersSnap.data()[today]);
+  const dailyPrayers = userDoc.dailyPrayers || {};
+  const todayPrayers = dailyPrayers[today] || {};
+  const todayPrayed  = Object.values(todayPrayers).some(Boolean);
   if(streak >= 3 && !todaysClosed.length && !todayPrayed){
     return {
       title: 'Niyyah · streak at risk',
@@ -108,11 +113,9 @@ exports.sendDailyNudge = functions
       // De-dupe: one nudge per UTC day per user.
       if(data.lastNudgeAt === today){ skipped++; continue; }
       try{
-        const [tradesSnap, prayersSnap] = await Promise.all([
-          db.collection('users').doc(uid).collection('trades').get(),
-          db.collection('users').doc(uid).collection('meta').doc('dailyPrayers').get()
-        ]);
-        const nudge = decideNudge(data, tradesSnap, prayersSnap);
+        // All trade and prayer data lives in the user document itself (not
+        // subcollections), so we already have everything we need in `data`.
+        const nudge = decideNudge(data);
         if(!nudge){ skipped++; continue; }
         const sub = data.settings.pushSubscription;
         await webpush().sendNotification(sub, JSON.stringify(nudge));

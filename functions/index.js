@@ -106,6 +106,15 @@ function priceId(plan, tier) {
   return cfg.price_id;
 }
 
+// Allowed redirect origins for Stripe checkout / portal flows.
+// Listed here once so both callables stay in sync automatically.
+const ALLOWED_ORIGINS = [
+  'https://niyyahtrader.com',
+  'https://www.niyyahtrader.com',
+  'http://localhost:5173',
+  'http://localhost:3000'
+];
+
 // Returns the existing Stripe customer id for this uid, or creates one
 // and persists it back to Firestore so we never duplicate customers.
 async function getOrCreateCustomer(uid, email) {
@@ -138,15 +147,8 @@ exports.createCheckoutSession = functions
     const plan   = (data && data.plan === 'annual') ? 'annual' : 'monthly';
     const tier   = (data && data.tier === 'sirat')  ? 'sirat'  : 'base';
 
-    // Reject open redirects — only allow the origin tied to this Firebase
-    // project (Vercel domain + localhost for dev). Add others if you ship
-    // additional domains.
-    const ALLOWED_ORIGINS = [
-      'https://niyyahtrader.com',
-      'https://www.niyyahtrader.com',
-      'http://localhost:5173',
-      'http://localhost:3000'
-    ];
+    // Reject open redirects — only origins in the module-level ALLOWED_ORIGINS
+    // allowlist are accepted; anything else falls back to the primary domain.
     const safeOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
 
     const customerId = await getOrCreateCustomer(uid, email);
@@ -186,13 +188,7 @@ exports.createPortalSession = functions
       ? data.origin.replace(/\/+$/, '')
       : null;
 
-    // Reject open redirects — same allowlist as createCheckoutSession
-    const ALLOWED_ORIGINS = [
-      'https://niyyahtrader.com',
-      'https://www.niyyahtrader.com',
-      'http://localhost:5173',
-      'http://localhost:3000'
-    ];
+    // Reject open redirects — same module-level allowlist as createCheckoutSession.
     const safeOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
 
     const snap = await db.collection('users').doc(uid).get();
@@ -270,13 +266,10 @@ exports.stripeWebhook = functions
               updatedAt: admin.firestore.FieldValue.serverTimestamp()
             }
           }, { merge: true });
-          // TODO(deploy): once the referral function is wired (see
-          // functions/redeemReferral.js), uncomment to credit on first paid
-          // checkout:
-          //   try {
-          //     const { creditReferralLogic } = require('./redeemReferral');
-          //     await creditReferralLogic(uid, db, stripe());
-          //   } catch (e) { console.error('Referral credit failed:', e); }
+          try {
+            const { creditReferralLogic } = require('./redeemReferral');
+            await creditReferralLogic(uid, db, stripe());
+          } catch (e) { console.error('Referral credit failed:', e); }
           break;
         }
 
@@ -341,3 +334,10 @@ async function uidFromCustomer(customerId) {
   if (snap.empty) return null;
   return snap.docs[0].id;
 }
+
+// ── AUXILIARY / SCHEDULED FUNCTIONS ────────────────────────────────────────
+// These deploy harmlessly even before their optional deps are installed.
+// Each file has a TODO(deploy) block with the exact steps needed to activate.
+exports.sendDailyNudge    = require('./dailyNudge').sendDailyNudge;
+exports.sendWitnessReport = require('./sendWitnessReport').sendWitnessReport;
+exports.creditReferral    = require('./redeemReferral').creditReferral;
