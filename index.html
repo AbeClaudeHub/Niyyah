@@ -3683,6 +3683,7 @@ function toggleSalah(p){
   if(!S.dailyPrayers[k])S.dailyPrayers[k]={fajr:false,dhuhr:false,asr:false,maghrib:false,isha:false};
   S.dailyPrayers[k][p]=!S.dailyPrayers[k][p];
   sv('dailyPrayers',S.dailyPrayers);
+  sv('streak',calcStreak());
   renderSalah();
   // Update compact Today View pills
   var pill=el('tp-'+p);
@@ -4104,6 +4105,7 @@ function saveExit(){
       updateNav();
       // Quality toast for every close; milestone celebrations layered on top.
       toast('\u2713 Trade closed \u00b7 Quality '+t.quality+'/100','s');
+      sv('streak',calcStreak());
       var closedCount=S.trades.filter(function(x){return x.status==='closed';}).length;
       if(closedCount===1||closedCount===5||closedCount===20||closedCount===50||closedCount===100){
         setTimeout(function(){showMilestone(closedCount,t);},400);
@@ -4402,6 +4404,7 @@ function confirmCsvImport(){
     _csvPending=null;
     closeCsvModal();
     updateNav();
+    sv('streak',calcStreak());
     if(el('page-trades')&&el('page-trades').classList.contains('active'))renderTrades();
     if(el('page-dashboard')&&el('page-dashboard').classList.contains('active'))renderDash();
     toast('✓ Imported '+n+' trade'+(n===1?'':'s'),'s');
