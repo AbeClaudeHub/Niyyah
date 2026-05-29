@@ -12,7 +12,7 @@
           firebase functions:config:set \
             push.vapid_public="..." \
             push.vapid_private="..." \
-            push.vapid_subject="mailto:support@niyyahtrader.app"
+            push.vapid_subject="mailto:support@niyyahtrader.com"
      3. Wire this export at the bottom of functions/index.js:
           exports.sendDailyNudge = require('./dailyNudge').sendDailyNudge;
      4. Paste the same vapid_public into index.html PUSH_VAPID_PUBLIC
@@ -39,7 +39,7 @@ function webpush(){
       'VAPID keys not configured. Run firebase functions:config:set push.vapid_public="..." push.vapid_private="..." push.vapid_subject="mailto:..."');
   }
   _webpush.setVapidDetails(
-    cfg.vapid_subject || 'mailto:support@niyyahtrader.app',
+    cfg.vapid_subject || 'mailto:support@niyyahtrader.com',
     cfg.vapid_public,
     cfg.vapid_private
   );

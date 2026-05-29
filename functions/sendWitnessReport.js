@@ -53,7 +53,7 @@ function buildEmailHTML(user, weekStats){
         <tr><td style="padding:10px 0;border-bottom:1px solid rgba(218,180,98,0.18);color:#beb29a;">Current Sirat stage</td><td style="text-align:right;color:#dab462;font-weight:600;text-transform:capitalize;">${stage}</td></tr>
       </table>
       <p style="color:#8a7e67;font-size:0.85rem;line-height:1.65;margin-top:24px;">Witness mode is something they opted into. They can turn it off anytime in Settings. You can reply to this email if they ever want to talk.</p>
-      <p style="color:#8a7e67;font-size:0.75rem;margin-top:32px;letter-spacing:0.1em;text-transform:uppercase;">niyyahtrader.app · trade with intention</p>
+      <p style="color:#8a7e67;font-size:0.75rem;margin-top:32px;letter-spacing:0.1em;text-transform:uppercase;">niyyahtrader.com · trade with intention</p>
     </div>
   `;
 }
@@ -126,7 +126,7 @@ exports.sendWitnessReport = functions
         //   sg.setApiKey(functions.config().sendgrid.key);
         //   await sg.send({
         //     to: w.email,
-        //     from: 'witness@niyyahtrader.app',
+        //     from: 'witness@niyyahtrader.com',
         //     subject: 'Niyyah · weekly witness report',
         //     html: html
         //   });

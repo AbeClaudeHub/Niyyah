@@ -329,7 +329,10 @@ label{display:block;font-family:'Inter',sans-serif;font-size:0.74rem;font-weight
 .emotion-btn{padding:10px 5px;border:1.5px solid var(--line-2);background:var(--bg-2);border-radius:8px;cursor:pointer;text-align:center;transition:var(--t);font-size:0.69rem;font-weight:500;color:var(--ink-2);font-family:'Inter',sans-serif;}
 .emotion-btn:hover{border-color:rgba(218,180,98,0.28);}
 .emotion-btn.on{background:linear-gradient(135deg,var(--gold-soft),transparent);border-color:var(--gold);color:var(--gold);}
-.emotion-btn .ei{display:block;font-size:1.2rem;margin-bottom:3px;}
+.emotion-btn .ei{display:block;width:7px;height:7px;border-radius:50%;margin:0 auto 7px;background:var(--ink-4);transition:var(--t);}
+.emotion-btn[data-e="calm"] .ei,.emotion-btn[data-e="patient"] .ei,.emotion-btn[data-e="focused"] .ei,.emotion-btn[data-e="relieved"] .ei,.emotion-btn[data-e="grateful"] .ei,.emotion-btn[data-e="peace"] .ei{background:var(--green);}
+.emotion-btn[data-e="urgency"] .ei,.emotion-btn[data-e="fomo"] .ei,.emotion-btn[data-e="revenge"] .ei,.emotion-btn[data-e="overconf"] .ei,.emotion-btn[data-e="anxious"] .ei,.emotion-btn[data-e="frustrated"] .ei,.emotion-btn[data-e="regret"] .ei{background:var(--red);}
+.emotion-btn.on .ei{transform:scale(1.35);}
 .modal-bg{position:fixed;inset:0;background:rgba(4,3,2,0.92);display:none;align-items:flex-start;justify-content:center;z-index:200;padding:22px 16px;overflow-y:auto;backdrop-filter:blur(14px);}
 .modal-bg.show{display:flex;animation:fadeIn 0.18s ease;}
 .modal{background:linear-gradient(160deg,rgba(28,24,15,1),rgba(12,10,7,1));border:1px solid rgba(218,180,98,0.15);border-radius:var(--r-xl);width:100%;max-width:620px;margin:auto;box-shadow:0 40px 100px rgba(0,0,0,0.85),0 0 0 1px rgba(218,180,98,0.05);position:relative;animation:scaleIn 0.32s cubic-bezier(0.16,1,0.3,1);display:flex;flex-direction:column;max-height:calc(100vh - 44px);}
@@ -626,7 +629,9 @@ body:not(.legal-visitor) .legal-back{display:none;}
 .lmock-kpi-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;line-height:1;}
 .lmock-prayers{display:flex;gap:6px;margin-bottom:14px;}
 .lmock-prayer{flex:1;padding:8px 4px;border:1.5px solid rgba(255,255,255,0.06);border-radius:7px;text-align:center;font-size:0.58rem;color:var(--ink-4);}
+.lmock-prayer .lmp-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:currentColor;opacity:0.4;margin-bottom:4px;}
 .lmock-prayer.done{border-color:var(--green);color:var(--green);background:rgba(112,184,142,0.08);}
+.lmock-prayer.done .lmp-dot{opacity:1;}
 .lmock-chart-bar{height:60px;background:linear-gradient(180deg,#1a1710,#0f0d09);border:1px solid rgba(255,255,255,0.06);border-radius:8px;display:flex;align-items:flex-end;padding:8px;gap:3px;overflow:hidden;}
 .lmock-bar{border-radius:2px 2px 0 0;width:100%;}
 /* Features */
@@ -1135,7 +1140,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="lhero-clarifier"><strong>A trading journal built on Islamic psychology.</strong> Pre-trade gate · prayer-to-P&amp;L radar · nafs tracking · Friday muhasabah · playbook · equity curve · risk calculator.</div>
     <div class="lhero-price">Free during early access · no credit card needed</div>
     <div style="margin-top:14px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);">
-      <span>🔒 No email required</span>
+      <span>No email required</span>
       <span>· Your data stays private &amp; encrypted</span>
       <span>· Export or delete anytime</span>
     </div>
@@ -1181,11 +1186,11 @@ body:not(.legal-visitor) .legal-back{display:none;}
           <!-- Salah row -->
           <div style="font-family:'JetBrains Mono',monospace;font-size:0.44rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Today's Salah</div>
           <div class="lmock-prayers" style="margin-bottom:10px;">
-            <div class="lmock-prayer done">🌙<br>Fajr</div>
-            <div class="lmock-prayer done">☀️<br>Dhuhr</div>
-            <div class="lmock-prayer done">🌤<br>Asr</div>
-            <div class="lmock-prayer">🌅<br>Maghrib</div>
-            <div class="lmock-prayer">⭐<br>Isha</div>
+            <div class="lmock-prayer done"><span class="lmp-dot"></span><br>Fajr</div>
+            <div class="lmock-prayer done"><span class="lmp-dot"></span><br>Dhuhr</div>
+            <div class="lmock-prayer done"><span class="lmp-dot"></span><br>Asr</div>
+            <div class="lmock-prayer"><span class="lmp-dot"></span><br>Maghrib</div>
+            <div class="lmock-prayer"><span class="lmp-dot"></span><br>Isha</div>
           </div>
           <!-- Pre-trade gate snippet -->
           <div style="font-family:'JetBrains Mono',monospace;font-size:0.44rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;">Pre-Trade Gate</div>
@@ -1582,7 +1587,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <strong style="color:var(--ink);">Free during early access.</strong> Every feature is unlocked, no card required. We're gathering feedback from early traders — if Niyyah doesn't surface a behavioral pattern you didn't already know about yourself, email <a href="mailto:support@niyyahtrader.com" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.com</a> and tell us.
     </div>
 
-    <button class="btn btn-gold btn-lg" id="subscribe-btn" onclick="subscribe()" style="width:100%;justify-content:center;font-size:0.95rem;">Begin — Bismillah · $27/mo</button>
+    <button class="btn btn-gold btn-lg" id="subscribe-btn" onclick="subscribe()" style="width:100%;justify-content:center;font-size:0.95rem;">Begin Base — Bismillah · $230/yr</button>
     <div class="paywall-secure">&#128274; Secure payment via Stripe</div>
     <div class="paywall-manage"><a onclick="manageSubscription()">Already subscribed? Manage your plan &#8594;</a></div>
     <div style="display:flex;justify-content:center;gap:24px;margin-top:10px;flex-wrap:wrap;">
@@ -1896,7 +1901,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <!-- ISLAMIC CRITERIA -->
   <div class="panel">
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
-      <div style="width:42px;height:42px;border-radius:10px;background:var(--gold-soft);border:1px solid rgba(218,180,98,0.22);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">🤲</div>
+      <div style="width:42px;height:42px;border-radius:10px;background:var(--gold-soft);border:1px solid rgba(218,180,98,0.22);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">☪</div>
       <div><div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--ink);">Islamic Pre-Trade Criteria</div><div style="font-size:0.78rem;color:var(--ink-3);margin-top:2px;">Four principles. Tap each to confirm before entering.</div></div>
     </div>
     <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.85;">
@@ -1910,7 +1915,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <!-- DAILY SALAH -->
   <div class="panel">
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
-      <div style="width:42px;height:42px;border-radius:10px;background:var(--green-soft);border:1px solid rgba(112,184,142,0.22);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">🌙</div>
+      <div style="width:42px;height:42px;border-radius:10px;background:var(--green-soft);border:1px solid rgba(112,184,142,0.22);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">☽</div>
       <div><div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--ink);">Daily Salah Tracking</div><div style="font-size:0.78rem;color:var(--ink-3);margin-top:2px;">Track once per day, not per trade.</div></div>
     </div>
     <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.85;">
@@ -2087,7 +2092,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <!-- ── REFERRAL ─────────────────────────────────────────────────────── -->
   <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2);">
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">REFER A BROTHER</div>
-    <div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;margin-bottom:14px;">Share Niyyah with another Muslim trader. When they subscribe with your link, you both get 1 month free. <em>(Credit applies after their first successful payment — runs on a Cloud Function that you'll deploy from <code>functions/redeemReferral.js</code>.)</em></div>
+    <div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;margin-bottom:14px;">Share Niyyah with another Muslim trader. When they subscribe with your link, you both get 1 month free. <em>Credit is applied automatically after their first successful payment.</em></div>
     <div id="referral-row"></div>
   </div>
 
@@ -2218,7 +2223,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <p style="margin-bottom:16px;">When you cancel, access continues until the end of the period you've already paid for. Your journal data is preserved on your account whether you stay subscribed or not.</p>
 
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">4. Annual Plans</div>
-      <p style="margin-bottom:16px;">If we offer annual plans in the future, the same 7-day refund window applies from the first payment date.</p>
+      <p style="margin-bottom:16px;">Annual plans carry the same <strong style="color:var(--ink);">7-day full refund window</strong> from the first payment date. After the window, you keep access for the remainder of the 12-month term you've paid for, and can turn off renewal anytime from Settings.</p>
 
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">5. Disputes</div>
       <p style="margin-bottom:16px;">Please reach out to us before filing a chargeback with your bank. We respond quickly and would much rather resolve any issue directly.</p>
@@ -2245,14 +2250,14 @@ body:not(.legal-visitor) .legal-back{display:none;}
    </div>
    <div class="fs-label">Emotional State at Entry</div>
    <div class="emotion-grid">
-    <button class="emotion-btn" data-e="calm" onclick="selEm(this)"><span class="ei">🧘</span>Calm</button>
-    <button class="emotion-btn" data-e="patient" onclick="selEm(this)"><span class="ei">⏳</span>Patient</button>
-    <button class="emotion-btn" data-e="focused" onclick="selEm(this)"><span class="ei">🎯</span>Focused</button>
-    <button class="emotion-btn" data-e="urgency" onclick="selEm(this)"><span class="ei">⚡</span>Urgent</button>
-    <button class="emotion-btn" data-e="fomo" onclick="selEm(this)"><span class="ei">😰</span>FOMO</button>
-    <button class="emotion-btn" data-e="revenge" onclick="selEm(this)"><span class="ei">😡</span>Revenge</button>
-    <button class="emotion-btn" data-e="overconf" onclick="selEm(this)"><span class="ei">😎</span>Cocky</button>
-    <button class="emotion-btn" data-e="anxious" onclick="selEm(this)"><span class="ei">😬</span>Anxious</button>
+    <button class="emotion-btn" data-e="calm" onclick="selEm(this)"><span class="ei"></span>Calm</button>
+    <button class="emotion-btn" data-e="patient" onclick="selEm(this)"><span class="ei"></span>Patient</button>
+    <button class="emotion-btn" data-e="focused" onclick="selEm(this)"><span class="ei"></span>Focused</button>
+    <button class="emotion-btn" data-e="urgency" onclick="selEm(this)"><span class="ei"></span>Urgent</button>
+    <button class="emotion-btn" data-e="fomo" onclick="selEm(this)"><span class="ei"></span>FOMO</button>
+    <button class="emotion-btn" data-e="revenge" onclick="selEm(this)"><span class="ei"></span>Revenge</button>
+    <button class="emotion-btn" data-e="overconf" onclick="selEm(this)"><span class="ei"></span>Cocky</button>
+    <button class="emotion-btn" data-e="anxious" onclick="selEm(this)"><span class="ei"></span>Anxious</button>
    </div>
    <div class="fs-label">Trade Details</div>
    <div class="field-row c3"><div class="field"><label>Date</label><input type="date" id="e-date"></div><div class="field"><label>Time</label><input type="time" id="e-time"></div><div class="field"><label>Instrument</label><input type="text" id="e-inst" placeholder="ES, NQ, MGC…"></div></div>
@@ -2298,14 +2303,14 @@ body:not(.legal-visitor) .legal-back{display:none;}
    <div class="field"><label>Outcome</label><select id="x-outcome"><option value="win">Win — followed all rules</option><option value="win-broke">Win — but broke a rule</option><option value="loss">Loss — followed all rules</option><option value="loss-broke">Loss — broke a rule</option><option value="be">Break even</option></select></div>
    <div class="field"><label>Emotion at exit</label>
     <div class="emotion-grid">
-     <button class="emotion-btn" data-e="calm" onclick="selExEm(this)"><span class="ei">🧘</span>Calm</button>
-     <button class="emotion-btn" data-e="relieved" onclick="selExEm(this)"><span class="ei">😮‍💨</span>Relieved</button>
-     <button class="emotion-btn" data-e="grateful" onclick="selExEm(this)"><span class="ei">🤲</span>Grateful</button>
-     <button class="emotion-btn" data-e="peace" onclick="selExEm(this)"><span class="ei">☮</span>At peace</button>
-     <button class="emotion-btn" data-e="frustrated" onclick="selExEm(this)"><span class="ei">😤</span>Frustrated</button>
-     <button class="emotion-btn" data-e="regret" onclick="selExEm(this)"><span class="ei">😞</span>Regret</button>
-     <button class="emotion-btn" data-e="overconf" onclick="selExEm(this)"><span class="ei">😎</span>Overconf</button>
-     <button class="emotion-btn" data-e="focused" onclick="selExEm(this)"><span class="ei">🎯</span>Focused</button>
+     <button class="emotion-btn" data-e="calm" onclick="selExEm(this)"><span class="ei"></span>Calm</button>
+     <button class="emotion-btn" data-e="relieved" onclick="selExEm(this)"><span class="ei"></span>Relieved</button>
+     <button class="emotion-btn" data-e="grateful" onclick="selExEm(this)"><span class="ei"></span>Grateful</button>
+     <button class="emotion-btn" data-e="peace" onclick="selExEm(this)"><span class="ei"></span>At peace</button>
+     <button class="emotion-btn" data-e="frustrated" onclick="selExEm(this)"><span class="ei"></span>Frustrated</button>
+     <button class="emotion-btn" data-e="regret" onclick="selExEm(this)"><span class="ei"></span>Regret</button>
+     <button class="emotion-btn" data-e="overconf" onclick="selExEm(this)"><span class="ei"></span>Overconf</button>
+     <button class="emotion-btn" data-e="focused" onclick="selExEm(this)"><span class="ei"></span>Focused</button>
     </div>
    </div>
    <div class="field"><label>Lesson from this trade <span id="x-lesson-count" style="color:var(--ink-3);font-weight:400;">(0/20 min)</span></label><textarea id="x-lesson" rows="2" placeholder="What did this trade teach you?" oninput="var n=this.value.length,el=document.getElementById('x-lesson-count');if(el){el.textContent='('+n+'/20 min)';el.style.color=n>=20?'var(--green)':'var(--ink-3)';}"></textarea></div>
@@ -2693,6 +2698,12 @@ function authSubmit(){
           }
           if(err)err.textContent = friendlyAuthError(e.code);
         });
+    }).catch(function(e){
+      // WebCrypto (crypto.subtle) is unavailable on insecure origins — surface
+      // it instead of leaving the card stuck in the loading state forever.
+      if(card)card.classList.remove('auth-loading');
+      console.error('recovery hash failed', e);
+      if(err)err.textContent='Your browser blocked secure key generation. Make sure the page is loaded over https:// and try again.';
     });
   }else{
     var loginCode = el('auth-code') ? el('auth-code').value.trim() : '';
@@ -2968,7 +2979,7 @@ function saveEditPnl(){
 }
 
 function doSignOut(){
-  confirmModal({title:'Sign out?',text:'You can sign back in anytime — your data stays safe.',okText:'Sign out',icon:'👋'}).then(function(ok){if(ok)_doSignOut();});
+  confirmModal({title:'Sign out?',text:'You can sign back in anytime — your data stays safe.',okText:'Sign out',icon:'☽'}).then(function(ok){if(ok)_doSignOut();});
 }
 function _doSignOut(){
   if(_subListener){ _subListener(); _subListener=null; }
@@ -3174,21 +3185,21 @@ function startDemo(){
   S.icChecked    = {bismillah:false,prayer:false,setup:false,stop:false};
 
   S.trades = [
-    {id:101,date:d(0), time:'09:45',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5320',stopLoss:'5310',target:'5340',status:'closed',pnl:150, exitPrice:'5340',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Setup played out perfectly. Waited for the full ORB breakout and executed clean.',quality:88},
-    {id:102,date:d(1), time:'10:15',instrument:'NQ', direction:'SHORT',setup:'VWAP',  entryPrice:'18240',stopLoss:'18280',target:'18180',status:'closed',pnl:-80, exitPrice:'18260',outcome:'loss',emotion:'fomo',     exitEmotion:'frustrated', lesson:'Chased a VWAP short that was already extended. Did not wait for the retest.',quality:42},
-    {id:103,date:d(2), time:'09:32',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5298',stopLoss:'5290',target:'5318',status:'closed',pnl:200, exitPrice:'5318',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Clean ORB setup. Prayed all 5 today. Executed with no hesitation.',quality:92},
-    {id:104,date:d(3), time:'11:05',instrument:'MGC',direction:'LONG', setup:'BPB',   entryPrice:'2031',stopLoss:'2026',target:'2041',status:'closed',pnl:-50, exitPrice:'2028',outcome:'loss',emotion:'revenge',  exitEmotion:'frustrated', lesson:'Took this to recover from yesterday. Classic revenge — setup was marginal.',quality:28},
-    {id:105,date:d(4), time:'09:50',instrument:'ES', direction:'SHORT',setup:'VWAP',  entryPrice:'5310',stopLoss:'5318',target:'5294',status:'closed',pnl:320, exitPrice:'5294',outcome:'win', emotion:'focused',  exitEmotion:'content',    lesson:'Best trade of the week. Clear VWAP short, respected my stop, let it run to target.',quality:94},
-    {id:106,date:d(5), time:'10:30',instrument:'NQ', direction:'LONG', setup:'ORB',   entryPrice:'18190',stopLoss:'18170',target:'18230',status:'closed',pnl:-60, exitPrice:'18178',outcome:'loss',emotion:'calm',     exitEmotion:'calm',       lesson:'Setup was valid, just did not move. Stopped out at plan. No regrets.',quality:82},
-    {id:107,date:d(6), time:'09:38',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5285',stopLoss:'5276',target:'5305',status:'closed',pnl:190, exitPrice:'5304',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Pre-market prep paid off. Knew the level, waited, took it.',quality:90},
-    {id:108,date:d(8), time:'10:55',instrument:'MGC',direction:'SHORT',setup:'BPB',   entryPrice:'2018',stopLoss:'2023',target:'2008',status:'closed',pnl:-50, exitPrice:'2021',outcome:'loss',emotion:'anxious',  exitEmotion:'frustrated', lesson:'Did not feel clear. Missed Fajr and Dhuhr today. Should not have traded.',quality:35},
-    {id:109,date:d(9), time:'09:45',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5271',stopLoss:'5263',target:'5291',status:'closed',pnl:200, exitPrice:'5291',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Full prayer day, calm session. Executed perfectly.',quality:91},
-    {id:110,date:d(10),time:'10:22',instrument:'NQ', direction:'LONG', setup:'Breakout',entryPrice:'18085',stopLoss:'18065',target:'18125',status:'closed',pnl:400, exitPrice:'18125',outcome:'win', emotion:'focused',  exitEmotion:'content',    lesson:'Breakout from consolidation. Held through the pullback and got full target.',quality:89},
-    {id:111,date:d(11),time:'11:40',instrument:'ES', direction:'SHORT',setup:'VWAP',  entryPrice:'5280',stopLoss:'5288',target:'5264',status:'closed',pnl:-80, exitPrice:'5286',outcome:'loss',emotion:'revenge',  exitEmotion:'frustrated', lesson:'Revenge trade after the morning stop. Knew it as I was taking it.',quality:22},
-    {id:112,date:d(12),time:'09:48',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5265',stopLoss:'5258',target:'5283',status:'closed',pnl:180, exitPrice:'5283',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Routine ORB. Waited for the open, got the breakout, executed.',quality:88},
-    {id:113,date:d(13),time:'10:15',instrument:'MGC',direction:'LONG', setup:'BPB',   entryPrice:'2015',stopLoss:'2010',target:'2025',status:'closed',pnl:100, exitPrice:'2025',outcome:'win', emotion:'patient',  exitEmotion:'content',    lesson:'Gold BPB plays beautifully when dollar is weak. Patient entry.',quality:85},
-    {id:114,date:d(15),time:'09:33',instrument:'NQ', direction:'SHORT',setup:'VWAP',  entryPrice:'18020',stopLoss:'18050',target:'17980',status:'closed',pnl:-90, exitPrice:'18044',outcome:'loss',emotion:'fomo',     exitEmotion:'frustrated', lesson:'Chased the short too early. VWAP rejection was not confirmed.',quality:38},
-    {id:115,date:d(16),time:'09:52',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5250',stopLoss:'5242',target:'5270',status:'closed',pnl:200, exitPrice:'5270',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Clean week opener. Good prep, all prayers done, clean entry.',quality:93}
+    {id:101,date:d(0), time:'09:45',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5320',stopPrice:'5310',targetPrice:'5340',status:'closed',pnl:150, exitPrice:'5340',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Setup played out perfectly. Waited for the full ORB breakout and executed clean.',quality:88},
+    {id:102,date:d(1), time:'10:15',instrument:'NQ', direction:'SHORT',setup:'VWAP',  entryPrice:'18240',stopPrice:'18280',targetPrice:'18180',status:'closed',pnl:-80, exitPrice:'18260',outcome:'loss',emotion:'fomo',     exitEmotion:'frustrated', lesson:'Chased a VWAP short that was already extended. Did not wait for the retest.',quality:42},
+    {id:103,date:d(2), time:'09:32',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5298',stopPrice:'5290',targetPrice:'5318',status:'closed',pnl:200, exitPrice:'5318',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Clean ORB setup. Prayed all 5 today. Executed with no hesitation.',quality:92},
+    {id:104,date:d(3), time:'11:05',instrument:'MGC',direction:'LONG', setup:'BPB',   entryPrice:'2031',stopPrice:'2026',targetPrice:'2041',status:'closed',pnl:-50, exitPrice:'2028',outcome:'loss',emotion:'revenge',  exitEmotion:'frustrated', lesson:'Took this to recover from yesterday. Classic revenge — setup was marginal.',quality:28},
+    {id:105,date:d(4), time:'09:50',instrument:'ES', direction:'SHORT',setup:'VWAP',  entryPrice:'5310',stopPrice:'5318',targetPrice:'5294',status:'closed',pnl:320, exitPrice:'5294',outcome:'win', emotion:'focused',  exitEmotion:'content',    lesson:'Best trade of the week. Clear VWAP short, respected my stop, let it run to target.',quality:94},
+    {id:106,date:d(5), time:'10:30',instrument:'NQ', direction:'LONG', setup:'ORB',   entryPrice:'18190',stopPrice:'18170',targetPrice:'18230',status:'closed',pnl:-60, exitPrice:'18178',outcome:'loss',emotion:'calm',     exitEmotion:'calm',       lesson:'Setup was valid, just did not move. Stopped out at plan. No regrets.',quality:82},
+    {id:107,date:d(6), time:'09:38',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5285',stopPrice:'5276',targetPrice:'5305',status:'closed',pnl:190, exitPrice:'5304',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Pre-market prep paid off. Knew the level, waited, took it.',quality:90},
+    {id:108,date:d(8), time:'10:55',instrument:'MGC',direction:'SHORT',setup:'BPB',   entryPrice:'2018',stopPrice:'2023',targetPrice:'2008',status:'closed',pnl:-50, exitPrice:'2021',outcome:'loss',emotion:'anxious',  exitEmotion:'frustrated', lesson:'Did not feel clear. Missed Fajr and Dhuhr today. Should not have traded.',quality:35},
+    {id:109,date:d(9), time:'09:45',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5271',stopPrice:'5263',targetPrice:'5291',status:'closed',pnl:200, exitPrice:'5291',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Full prayer day, calm session. Executed perfectly.',quality:91},
+    {id:110,date:d(10),time:'10:22',instrument:'NQ', direction:'LONG', setup:'Breakout',entryPrice:'18085',stopPrice:'18065',targetPrice:'18125',status:'closed',pnl:400, exitPrice:'18125',outcome:'win', emotion:'focused',  exitEmotion:'content',    lesson:'Breakout from consolidation. Held through the pullback and got full target.',quality:89},
+    {id:111,date:d(11),time:'11:40',instrument:'ES', direction:'SHORT',setup:'VWAP',  entryPrice:'5280',stopPrice:'5288',targetPrice:'5264',status:'closed',pnl:-80, exitPrice:'5286',outcome:'loss',emotion:'revenge',  exitEmotion:'frustrated', lesson:'Revenge trade after the morning stop. Knew it as I was taking it.',quality:22},
+    {id:112,date:d(12),time:'09:48',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5265',stopPrice:'5258',targetPrice:'5283',status:'closed',pnl:180, exitPrice:'5283',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Routine ORB. Waited for the open, got the breakout, executed.',quality:88},
+    {id:113,date:d(13),time:'10:15',instrument:'MGC',direction:'LONG', setup:'BPB',   entryPrice:'2015',stopPrice:'2010',targetPrice:'2025',status:'closed',pnl:100, exitPrice:'2025',outcome:'win', emotion:'patient',  exitEmotion:'content',    lesson:'Gold BPB plays beautifully when dollar is weak. Patient entry.',quality:85},
+    {id:114,date:d(15),time:'09:33',instrument:'NQ', direction:'SHORT',setup:'VWAP',  entryPrice:'18020',stopPrice:'18050',targetPrice:'17980',status:'closed',pnl:-90, exitPrice:'18044',outcome:'loss',emotion:'fomo',     exitEmotion:'frustrated', lesson:'Chased the short too early. VWAP rejection was not confirmed.',quality:38},
+    {id:115,date:d(16),time:'09:52',instrument:'ES', direction:'LONG', setup:'ORB',   entryPrice:'5250',stopPrice:'5242',targetPrice:'5270',status:'closed',pnl:200, exitPrice:'5270',outcome:'win', emotion:'calm',     exitEmotion:'content',    lesson:'Clean week opener. Good prep, all prayers done, clean entry.',quality:93}
   ];
 
   // Build 21 days of prayer data — mirrors the trade days
@@ -3322,11 +3333,11 @@ function loadAll(){
     if(d.icChecked)                     S.icChecked   = Object.assign({bismillah:false,prayer:false,setup:false,stop:false}, d.icChecked);
     if(d.tradeFilter)                   S.tradeFilter = d.tradeFilter;
     if(typeof d.obStep === 'number')    S.obStep      = d.obStep;
-    // Track last seen for re-engagement emails
-    var user = AUTH.currentUser;
+    // Lightweight, non-identifying activity metadata. We deliberately do NOT
+    // persist the synthetic account email here — the product promise is "no
+    // email", and the account code already lives in its own field.
     DB.collection('users').doc(UID).set({
       lastSeen: new Date().toISOString(),
-      email: user ? user.email : null,
       tradeCount: (d.trades||[]).length
     },{merge:true}).catch(function(){});
     return d.onboarded === true;
@@ -4650,7 +4661,7 @@ function renderDash(){
       if(subEl)subEl.textContent='Pre-market. Set your intention before opening any chart.';
       if(actEl)actEl.innerHTML='<button class="btn btn-gold" onclick="openEntryModal()">+ Enter Trade</button><button class="btn btn-outline" onclick="go(\'journal\',document.querySelector(\'[data-page=journal]\'))">Morning Journal</button>';
     } else if(todayClosed.length>0){
-      var pnlStr=(todayPnl>=0?'+':'')+fmt(Math.abs(todayPnl),true);
+      var pnlStr=fmt(todayPnl,true);
       if(subEl)subEl.textContent=todayClosed.length+' trade'+(todayClosed.length>1?'s':'')+' today \u00b7 '+pnlStr+'.';
       if(actEl)actEl.innerHTML='<button class="btn btn-gold" onclick="openEntryModal()">+ Another Trade</button><button class="btn btn-outline" onclick="go(\'journal\',document.querySelector(\'[data-page=journal]\'))">Evening Reflection</button>';
     } else {
@@ -5253,7 +5264,7 @@ function savePBSetup(){
 }
 function clearPBForm(){['pb-name','pb-condition','pb-desc','pb-rr','pb-inst','pb-hold','pb-entry','pb-exit','pb-avoid'].forEach(function(id){var e=el(id);if(e)e.value='';});S.editPBId=null;var ft=el('pb-form-title');if(ft)ft.textContent='Add New Setup';}
 function deletePB(id){
-  confirmModal({title:'Delete this setup?',text:'The setup will be removed from your playbook.',okText:'Delete',danger:true,icon:'🗑'})
+  confirmModal({title:'Delete this setup?',text:'The setup will be removed from your playbook.',okText:'Delete',danger:true,icon:'⚠'})
     .then(function(ok){
       if(!ok)return;
       S.playbook=S.playbook.filter(function(p){return p.id!==id;});
@@ -6851,7 +6862,7 @@ function runMuhasabah(){
   if(contradictions.length>0){
     var inst=contradictions[0].instrument;
     var pnlResult=contradictions[0].pnl>=0?'won':'lost';
-    insights.warn='You entered the '+inst+' trade marking yourself as calm. You exited '+contradictions[0].exitEmotion+'. You '+pnlResult+' <strong>'+fmt(Math.abs(contradictions[0].pnl),true)+'</strong>. Watch for the gap between how you present and how you actually feel.';
+    insights.warn='You entered the '+inst+' trade marking yourself as calm. You exited '+contradictions[0].exitEmotion+'. You '+pnlResult+' <strong>'+fmt(Math.abs(contradictions[0].pnl))+'</strong>. Watch for the gap between how you present and how you actually feel.';
   }
 
   // ── WARNING: Revenge sequence ──────────────────────────────────────────
@@ -7292,7 +7303,7 @@ function pickDailyMission(){
       fomo:     { icon:'⏱', eye:'LEAK · FOMO',       text:'Today\'s rule: wait <em>10 minutes</em> after spotting a setup before entering.' },
       rules:    { icon:'❑', eye:'LEAK · BROKEN RULES', text:'Today\'s rule: write each rule down <em>before</em> the first chart.' },
       overconf: { icon:'☽', eye:'LEAK · KIBR',       text:'After any win today: <em>reduce</em> next size by one contract. Same rules, always.' },
-      missing:  { icon:'🤲', eye:'LEAK · SALAH',      text:'Today\'s rule: no chart until <em>this prayer</em> is done.' },
+      missing:  { icon:'☽', eye:'LEAK · SALAH',      text:'Today\'s rule: no chart until <em>this prayer</em> is done.' },
       boredom:  { icon:'✦', eye:'LEAK · BOREDOM',    text:'Today\'s rule: zero trades is a <em>winning session</em> if nothing qualifies.' }
     };
     var lm = leakMissions[leak];
@@ -7455,7 +7466,7 @@ function renderNotifPrompt(){
   if(!anyTrade && !anyPrayer){ e.innerHTML=''; return; }
   e.innerHTML =
     '<div class="notif-prompt">' +
-      '<div class="np-icon">🔔</div>' +
+      '<div class="np-icon">☽</div>' +
       '<div class="np-body">' +
         '<div class="np-title">Reminders for Friday muhasabah &amp; streak guard?</div>' +
         '<div class="np-sub">One ping at the moments that matter. No marketing, ever.</div>' +
@@ -7519,7 +7530,7 @@ function renderPwaNudge(){
   if((S.sessionCount||0) < 3){ e.innerHTML=''; return; }
   e.innerHTML =
     '<div class="pwa-nudge">' +
-      '<span>📲</span>' +
+      '<span style="color:var(--gold);font-size:1.1rem;flex-shrink:0;line-height:1;">↓</span>' +
       '<div><strong>Install Niyyah</strong> — open it as fast as your trading app, and reminders fire even when the browser is closed.</div>' +
       '<button class="btn btn-gold btn-sm" onclick="installPwaPrompt()">Install</button>' +
       '<button class="pwa-dismiss" onclick="dismissPwaNudge()" aria-label="Dismiss">×</button>' +
