@@ -1785,7 +1785,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <div class="panel">
     <div class="j-section"><div class="j-title">Morning <em>Intention</em></div><div class="field"><label>Today I will…</label><textarea id="j-int" rows="2" placeholder="Today I intend to trade with patience. My max risk is $__. Max __ trades."></textarea></div><div class="field-row c3"><div class="field"><label>Loss Limit ($)</label><input type="number" inputmode="decimal" id="j-ll" placeholder="400"></div><div class="field"><label>Max Trades</label><input type="number" inputmode="numeric" id="j-mt" value="3"></div><div class="field"><label>Key Level</label><input type="text" inputmode="decimal" id="j-kl" placeholder="PDH / round no."></div></div><div id="chk-wrap"></div></div>
     <div class="j-section" style="border-top:1px solid var(--line-2);padding-top:16px;margin-top:4px;"><div class="j-title">Evening <em>Reflection</em></div><div class="field"><label>Did you follow your rules today?</label><select id="j-rules"><option value="">Select…</option><option value="yes">Yes — every rule</option><option value="mostly">Mostly</option><option value="partial">Partially</option><option value="no">No</option><option value="nt">Did not trade today</option></select></div><div class="field"><label>What happened?</label><textarea id="j-what" rows="3"></textarea></div><div class="field"><label>One fix for tomorrow</label><textarea id="j-fix" rows="2"></textarea></div><div class="field"><label>Shukr — what are you grateful for?</label><textarea id="j-shukr" rows="2"></textarea></div></div>
-    <div class="j-section" style="border-top:1px solid var(--line-2);padding-top:16px;margin-top:4px;"><div class="j-title">Nafs <em>Check</em> <span style="font-size:0.68rem;font-family:'JetBrains Mono',monospace;color:var(--ink-3);font-weight:400;">(OPTIONAL · SAVED WITH ENTRY)</span></div><p style="font-size:0.76rem;color:var(--ink-3);margin-bottom:13px;">Rate yourself 1–5 this week.</p><div class="nafs-grid"><div class="nafs-card"><div class="nafs-ar">صَبْر</div><div class="nafs-name">Sabr</div><div class="nafs-desc">Did you wait for your setups?</div><div class="nafs-dots" id="nd-sabr"></div></div><div class="nafs-card"><div class="nafs-ar">تَوَكُّل</div><div class="nafs-name">Tawakkul</div><div class="nafs-desc">Did you release outcomes?</div><div class="nafs-dots" id="nd-tawakkul"></div></div><div class="nafs-card"><div class="nafs-ar">كِبْر</div><div class="nafs-name">Kibr Guard</div><div class="nafs-desc">Did you stay humble after wins?</div><div class="nafs-dots" id="nd-kibr"></div></div><div class="nafs-card"><div class="nafs-ar">شُكْر</div><div class="nafs-name">Shukr</div><div class="nafs-desc">Gratitude every session?</div><div class="nafs-dots" id="nd-shukr"></div></div></div></div>
+    <div class="j-section" style="border-top:1px solid var(--line-2);padding-top:16px;margin-top:4px;"><div class="j-title">Nafs <em>Check</em> <span style="font-size:0.68rem;font-family:'JetBrains Mono',monospace;color:var(--ink-3);font-weight:400;">(OPTIONAL · SAVED WITH ENTRY)</span></div><p style="font-size:0.76rem;color:var(--ink-3);margin-bottom:13px;">Rate yourself 1–5 this week. A low score quietly surfaces as a reminder in your pre-trade gate.</p><div class="nafs-grid"><div class="nafs-card"><div class="nafs-ar">صَبْر</div><div class="nafs-name">Sabr</div><div class="nafs-desc">Did you wait for your setups?</div><div class="nafs-dots" id="nd-sabr"></div></div><div class="nafs-card"><div class="nafs-ar">تَوَكُّل</div><div class="nafs-name">Tawakkul</div><div class="nafs-desc">Did you release outcomes?</div><div class="nafs-dots" id="nd-tawakkul"></div></div><div class="nafs-card"><div class="nafs-ar">كِبْر</div><div class="nafs-name">Kibr Guard</div><div class="nafs-desc">Did you stay humble after wins?</div><div class="nafs-dots" id="nd-kibr"></div></div><div class="nafs-card"><div class="nafs-ar">شُكْر</div><div class="nafs-name">Shukr</div><div class="nafs-desc">Gratitude every session?</div><div class="nafs-dots" id="nd-shukr"></div></div></div></div>
     <div style="display:flex;justify-content:flex-end;gap:8px;"><button class="btn btn-outline" onclick="clearJournal()">Clear</button><button class="btn btn-gold btn-lg" onclick="saveJournal()">Save Entry</button></div>
   </div>
   <div class="panel"><div class="panel-head"><div class="panel-title">Past Entries</div></div><input type="search" id="journal-search" placeholder="Search entries…" oninput="renderJournalList()" style="width:100%;background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);padding:9px 12px;color:var(--ink);font-family:Inter,sans-serif;font-size:0.84rem;margin-bottom:12px;"><div id="journal-list"></div></div>
@@ -2238,20 +2238,6 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="gate-q"><div class="gate-q-text">Are you in a calm, clear state of mind?</div><div class="gate-q-btns"><button class="gqb yes" onclick="gAns('calm','yes',this)">Yes</button><button class="gqb no" onclick="gAns('calm','no',this)">No</button></div></div>
     <div class="gate-warn" id="gate-warn"></div>
    </div>
-   <div class="fs-label">Trade Details</div>
-   <div class="field-row c3"><div class="field"><label>Date</label><input type="date" id="e-date"></div><div class="field"><label>Time</label><input type="time" id="e-time"></div><div class="field"><label>Instrument</label><input type="text" id="e-inst" placeholder="ES, NQ, MGC…"></div></div>
-   <div class="field-row c3" id="e-setup-row"><div class="field"><label>Direction</label><select id="e-dir"><option value="LONG">Long</option><option value="SHORT">Short</option></select></div><div class="field" id="e-setup-sel-field"><label>Playbook Setup</label><select id="e-setup-sel"><option value="">— Select or type below —</option></select></div><div class="field"><label id="e-setup-label">Setup name</label><input type="text" id="e-setup" placeholder="ORB, VWAP, BPB…"></div></div>
-   <div class="field-row c4"><div class="field"><label>Entry Price</label><input type="text" inputmode="decimal" autocomplete="off" id="e-entry" placeholder="21,050"></div><div class="field"><label>Stop Loss</label><input type="text" inputmode="decimal" autocomplete="off" id="e-stop" placeholder="21,000"></div><div class="field"><label>Target</label><input type="text" inputmode="decimal" autocomplete="off" id="e-target" placeholder="21,150"></div><div class="field"><label>Qty / Contracts</label><input type="number" inputmode="decimal" id="e-qty" placeholder="1" min="0.01" step="any"></div></div>
-   <div id="e-rr-warn" style="display:none;margin:-4px 0 12px;font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;color:var(--gold);background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.18);padding:8px 12px;border-radius:8px;"></div>
-   <!-- MIZAN — Sirat-only live verdict, populated by refreshMizan() -->
-   <div id="mizan-panel" style="display:none;margin:0 0 14px;"></div>
-   <div class="fs-label">Islamic Pre-Trade Check</div>
-   <div class="ic-grid">
-    <div class="ic-item" id="ic-bismillah" onclick="toggleIC('bismillah')"><div class="ic-circle" id="icc-bismillah">✓</div><div><span class="ic-arabic">بِسْمِ اللَّه</span><span class="ic-text">Said Bismillah?</span></div></div>
-    <div class="ic-item" id="ic-prayer" onclick="toggleIC('prayer')"><div class="ic-circle" id="icc-prayer">✓</div><div><span class="ic-arabic">صَلَاة</span><span class="ic-text">Prayed before this session?</span></div></div>
-    <div class="ic-item" id="ic-setup2" onclick="toggleIC('setup')"><div class="ic-circle" id="icc-setup">✓</div><div><span class="ic-arabic">لَيْسَ مَيْسِر</span><span class="ic-text">Clear setup, not a gamble?</span></div></div>
-    <div class="ic-item" id="ic-stop" onclick="toggleIC('stop')"><div class="ic-circle" id="icc-stop">✓</div><div><span class="ic-arabic">وَقَايَة</span><span class="ic-text">Stop loss set before entering?</span></div></div>
-   </div>
    <div class="fs-label">Emotional State at Entry</div>
    <div class="emotion-grid">
     <button class="emotion-btn" data-e="calm" onclick="selEm(this)"><span class="ei">🧘</span>Calm</button>
@@ -2263,12 +2249,30 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <button class="emotion-btn" data-e="overconf" onclick="selEm(this)"><span class="ei">😎</span>Cocky</button>
     <button class="emotion-btn" data-e="anxious" onclick="selEm(this)"><span class="ei">😬</span>Anxious</button>
    </div>
-   <div class="fs-label">Chart Screenshot <span style="font-family:'Inter',sans-serif;font-size:0.7rem;letter-spacing:0;text-transform:none;color:var(--ink-4);font-weight:400;">(optional · helps you review the setup later)</span></div>
+   <div class="fs-label">Trade Details</div>
+   <div class="field-row c3"><div class="field"><label>Date</label><input type="date" id="e-date"></div><div class="field"><label>Time</label><input type="time" id="e-time"></div><div class="field"><label>Instrument</label><input type="text" id="e-inst" placeholder="ES, NQ, MGC…"></div></div>
+   <div class="field-row c3" id="e-setup-row"><div class="field"><label>Direction</label><select id="e-dir"><option value="LONG">Long</option><option value="SHORT">Short</option></select></div><div class="field" id="e-setup-sel-field"><label>Playbook Setup</label><select id="e-setup-sel"><option value="">— Select or type below —</option></select></div><div class="field"><label id="e-setup-label">Setup name</label><input type="text" id="e-setup" placeholder="ORB, VWAP, BPB…"></div></div>
+   <div class="field-row c4"><div class="field"><label>Entry Price</label><input type="text" inputmode="decimal" autocomplete="off" id="e-entry" placeholder="21,050"></div><div class="field"><label>Stop Loss</label><input type="text" inputmode="decimal" autocomplete="off" id="e-stop" placeholder="21,000"></div><div class="field"><label>Target</label><input type="text" inputmode="decimal" autocomplete="off" id="e-target" placeholder="21,150"></div><div class="field"><label>Qty / Contracts</label><input type="number" inputmode="decimal" id="e-qty" placeholder="1" min="0.01" step="any"></div></div>
+   <div id="e-rr-warn" style="display:none;margin:-4px 0 12px;font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;color:var(--gold);background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.18);padding:8px 12px;border-radius:8px;"></div>
+   <!-- MIZAN — Sirat-only live verdict, populated by refreshMizan() -->
+   <div id="mizan-panel" style="display:none;margin:0 0 14px;"></div>
+   <details style="margin:6px 0 14px;border:1px solid var(--line-2);border-radius:var(--r);padding:0 12px;">
+    <summary style="cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);padding:11px 0;list-style:none;">Islamic Pre-Trade Check <span style="color:var(--ink-4);">— optional</span></summary>
+    <div class="ic-grid" style="margin-bottom:12px;">
+     <div class="ic-item" id="ic-bismillah" onclick="toggleIC('bismillah')"><div class="ic-circle" id="icc-bismillah">✓</div><div><span class="ic-arabic">بِسْمِ اللَّه</span><span class="ic-text">Said Bismillah?</span></div></div>
+     <div class="ic-item" id="ic-prayer" onclick="toggleIC('prayer')"><div class="ic-circle" id="icc-prayer">✓</div><div><span class="ic-arabic">صَلَاة</span><span class="ic-text">Prayed before this session?</span></div></div>
+     <div class="ic-item" id="ic-setup2" onclick="toggleIC('setup')"><div class="ic-circle" id="icc-setup">✓</div><div><span class="ic-arabic">لَيْسَ مَيْسِر</span><span class="ic-text">Clear setup, not a gamble?</span></div></div>
+     <div class="ic-item" id="ic-stop" onclick="toggleIC('stop')"><div class="ic-circle" id="icc-stop">✓</div><div><span class="ic-arabic">وَقَايَة</span><span class="ic-text">Stop loss set before entering?</span></div></div>
+    </div>
+   </details>
    <input type="file" id="e-screenshot-input" accept="image/png,image/jpeg,image/webp" style="display:none;" onchange="onScreenshotPick(event,'entry')">
-   <div id="e-screenshot-zone" class="screenshot-zone" onclick="el('e-screenshot-input').click()">
-     <div class="screenshot-zone-label">+ Attach chart</div>
-     <div class="screenshot-zone-hint">PNG / JPEG · auto-compressed · stored privately on your account</div>
-   </div>
+   <details style="margin:6px 0 4px;border:1px solid var(--line-2);border-radius:var(--r);padding:0 12px;">
+     <summary style="cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);padding:11px 0;list-style:none;">Chart Screenshot <span style="color:var(--ink-4);">— optional</span></summary>
+     <div id="e-screenshot-zone" class="screenshot-zone" style="margin-bottom:12px;" onclick="el('e-screenshot-input').click()">
+       <div class="screenshot-zone-label">+ Attach chart</div>
+       <div class="screenshot-zone-hint">PNG / JPEG · auto-compressed · stored privately on your account</div>
+     </div>
+   </details>
   </div>
   <div class="modal-foot"><button class="btn btn-outline" onclick="closeEntry()">Cancel</button><button class="btn btn-gold" id="save-entry-btn" onclick="saveEntry()">Enter Trade →</button></div>
  </div>
@@ -2282,6 +2286,10 @@ body:not(.legal-visitor) .legal-back{display:none;}
    <div class="field-row c2"><div class="field"><label>Exit Price</label><input type="text" inputmode="decimal" autocomplete="off" id="x-exit" placeholder="21,095" oninput="autoCalcExitHint()"></div><div class="field"><label>P&amp;L ($)</label><input type="number" inputmode="decimal" id="x-pnl" placeholder="225 or -120"></div></div>
    <div id="x-pnl-hint" style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.06em;margin:-8px 0 10px;padding:6px 10px;border-radius:6px;background:rgba(255,255,255,0.03);display:none;"></div>
    <div class="field"><label>Commissions / fees ($) <span style="color:var(--ink-4);font-weight:300;">— round-turn, optional · subtracted to get your net result</span></label><input type="number" inputmode="decimal" id="x-fees" placeholder="0" oninput="autoCalcExitHint()"></div>
+   <details style="margin-bottom:12px;border:1px solid var(--line-2);border-radius:var(--r);padding:0 12px;">
+     <summary style="cursor:pointer;font-size:0.78rem;color:var(--ink-3);padding:11px 0;list-style:none;">Trade extremes <span style="color:var(--ink-4);font-weight:300;">— optional · powers your "let winners run / cut losers" stats</span></summary>
+     <div class="field-row c2" style="margin-bottom:4px;"><div class="field"><label>Best price reached <span style="color:var(--ink-4);font-weight:300;">(MFE)</span></label><input type="text" inputmode="decimal" autocomplete="off" id="x-mfe" placeholder="best in your favor"></div><div class="field"><label>Worst price reached <span style="color:var(--ink-4);font-weight:300;">(MAE)</span></label><input type="text" inputmode="decimal" autocomplete="off" id="x-mae" placeholder="worst against you"></div></div>
+   </details>
    <div class="field"><label>Outcome</label><select id="x-outcome"><option value="win">Win — followed all rules</option><option value="win-broke">Win — but broke a rule</option><option value="loss">Loss — followed all rules</option><option value="loss-broke">Loss — broke a rule</option><option value="be">Break even</option></select></div>
    <div class="field"><label>Emotion at exit</label>
     <div class="emotion-grid">
@@ -3744,6 +3752,17 @@ function checkGate(){
     }
   }
 
+  // Wire the weekly Nafs Check into the gate so a low self-rating becomes a
+  // live reminder at the decision point — otherwise the tracker is just a diary.
+  if(S.nafs){
+    if(S.nafs.sabr && S.nafs.sabr<=2)
+      insights.push('You rated your <strong>Sabr</strong> low this week. Patience is the setup — is this a trade you’d take on your most disciplined day?');
+    else if(S.nafs.tawakkul && S.nafs.tawakkul<=2)
+      insights.push('You rated your <strong>Tawakkul</strong> low this week. Set your stop, set your target, then release the outcome.');
+    else if(S.nafs.kibr && S.nafs.kibr<=2)
+      insights.push('Your <strong>kibr guard</strong> was low this week. After wins the nafs whispers "I’ve figured it out." Same size, same rules.');
+  }
+
   if(!anyNo&&insights.length===0){w.classList.remove('show');return;}
 
   var a=S.gateAns,recent=S.trades.slice(0,20),lb=[],wt='';
@@ -4079,6 +4098,17 @@ function saveExit(){
   var priorStatus=t.status,priorPnl=t.pnl,priorOpenId=S.openTradeId;
   t.status='closed';t.pnl=pnl;t.grossPnl=grossPnl;t.fees=fees;
   t.exitPrice=el('x-exit')?el('x-exit').value:'';
+  // Optional MFE/MAE: store favorable/adverse excursions in $ (magnitudes).
+  (function(){
+    var entry=parseFloat(String(t.entryPrice||'').replace(/[^\d.\-]/g,''));
+    var tv=TICK_VALUES[_normaliseInst(t.instrument||'')]; var q=parseFloat(t.qty)||1;
+    var mfeP=parseFloat(String(el('x-mfe')?el('x-mfe').value:'').replace(/[^\d.\-]/g,''));
+    var maeP=parseFloat(String(el('x-mae')?el('x-mae').value:'').replace(/[^\d.\-]/g,''));
+    if(isNaN(entry)||!tv){t.mfe=null;t.mae=null;return;}
+    var isLong=t.direction==='LONG';
+    if(!isNaN(mfeP)) t.mfe=Math.max(0,Math.round((isLong?(mfeP-entry):(entry-mfeP))*tv*q*100)/100); else t.mfe=null;
+    if(!isNaN(maeP)) t.mae=Math.max(0,Math.round((isLong?(entry-maeP):(maeP-entry))*tv*q*100)/100); else t.mae=null;
+  })();
   t.outcome=el('x-outcome')?el('x-outcome').value:'loss';
   t.exitEmotion=S.selExEmotion||'calm';
   t.lesson=el('x-lesson')?el('x-lesson').value:'';
@@ -4090,7 +4120,7 @@ function saveExit(){
   svMulti({trades:S.trades, openTradeId:null})
     .then(function(){
       closeExit();
-      ['x-exit','x-pnl','x-fees','x-lesson'].forEach(function(id){var e=el(id);if(e)e.value='';});
+      ['x-exit','x-pnl','x-fees','x-mfe','x-mae','x-lesson'].forEach(function(id){var e=el(id);if(e)e.value='';});
       updateNav();
       // Quality toast for every close; milestone celebrations layered on top.
       toast('\u2713 Trade closed \u00b7 Quality '+t.quality+'/100','s');
@@ -4125,6 +4155,8 @@ function openTD(id){
     mkTDItem('P&L','<span class="t-pnl '+(t.pnl>=0?'pos':'neg')+'">'+fmt(t.pnl,true)+'</span>')+
     (function(){var r=_tradeR(t);return r!=null?mkTDItem('R-multiple',(r>=0?'+':'')+r+'R'):'';})()+
     (t.fees?mkTDItem('Fees','-'+fmt(Math.abs(t.fees))):'')+
+    (t.mfe!=null?mkTDItem('Best (MFE)','+'+fmt(t.mfe)+(t.mfe>0&&t.pnl>0?' \u00b7 kept '+Math.min(100,Math.round(t.pnl/t.mfe*100))+'%':'')):'')+
+    (t.mae!=null?mkTDItem('Worst (MAE)','-'+fmt(t.mae)):'')+
     mkTDItem('Quality',(t.quality||0)+'/100')+mkTDItem('Outcome',esc(t.outcome)||'\u2014')+mkTDItem('Islamic',icScore+'/4 \u2713')+
     '</div></div><div class="td-section"><div class="td-label">Psychology</div><div class="td-row">'+mkTDItem('Entry State',esc(t.emotion)||'\u2014')+mkTDItem('Exit State',esc(t.exitEmotion)||'\u2014')+'</div>'+
     (t.lesson?'<div style="margin-top:10px;padding:11px 13px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);font-size:0.84rem;color:var(--ink-2);line-height:1.6;"><strong style="color:var(--gold);">Lesson:</strong> '+esc(t.lesson)+'</div>':'')+'</div>'+
