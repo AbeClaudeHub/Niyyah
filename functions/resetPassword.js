@@ -47,28 +47,50 @@ exports.resetPasswordWithCode = functions
 
     const auth = admin.auth();
     const db   = admin.firestore();
+    const sanitized = String(code).toLowerCase().replace(/[^a-z0-9]/g, '');
 
-    // Resolve the account code to a Firebase user.
+    // Rate limit BEFORE we do anything else, keyed on the account code, so a
+    // brute-force / enumeration attempt is throttled regardless of whether the
+    // account exists. rateLimits/* is server-only (clients can't touch it).
+    const WINDOW_MS = 15 * 60 * 1000;
+    const MAX_ATTEMPTS = 6;
+    const rlRef = db.collection('rateLimits').doc('reset_' + sanitized);
+    await db.runTransaction(async (tx) => {
+      const snap = await tx.get(rlRef);
+      const now = Date.now();
+      let d = snap.exists ? snap.data() : null;
+      if (!d || (now - (d.windowStart || 0)) > WINDOW_MS) d = { windowStart: now, count: 0 };
+      if (d.count >= MAX_ATTEMPTS) {
+        throw new functions.https.HttpsError('resource-exhausted', 'Too many reset attempts. Please wait 15 minutes and try again.');
+      }
+      d.count += 1;
+      tx.set(rlRef, d);
+    });
+
+    // Uniform failure response for every "couldn't verify" case below, so the
+    // function can't be used to discover which account codes exist.
+    const INVALID = new functions.https.HttpsError('permission-denied', 'Invalid account code or recovery code.');
+
     let userRecord;
     try {
       userRecord = await auth.getUserByEmail(codeToEmail(code));
     } catch (e) {
-      throw new functions.https.HttpsError('not-found', 'No account found for that code.');
+      throw INVALID;
     }
     const uid = userRecord.uid;
 
-    // Verify the recovery code against the stored hash (constant-time compare).
     const snap   = await db.collection('users').doc(uid).get();
     const stored = snap.exists ? snap.data().recoveryHash : null;
-    if (!stored) {
-      throw new functions.https.HttpsError('failed-precondition', 'This account has no recovery code set.');
-    }
+    if (!stored) throw INVALID;
+
     const provided = Buffer.from(sha256Hex(recoveryCode));
     const expected = Buffer.from(String(stored));
     if (provided.length !== expected.length || !crypto.timingSafeEqual(provided, expected)) {
-      throw new functions.https.HttpsError('permission-denied', 'That recovery code doesn’t match.');
+      throw INVALID;
     }
 
     await auth.updateUser(uid, { password: newPassword });
+    // Clear the rate-limit counter on success.
+    await rlRef.delete().catch(function () {});
     return { ok: true };
   });

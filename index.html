@@ -53,7 +53,7 @@
   --line:rgba(218,180,98,0.1);--line-2:rgba(255,255,255,0.055);--line-3:rgba(255,255,255,0.11);
   --gold:#dab462;--gold-2:#ecc878;--gold-3:#f8e4a8;--gold-deep:#9a7820;
   --gold-soft:rgba(218,180,98,0.08);--gold-glow:rgba(218,180,98,0.18);
-  --ink:#f2ead6;--ink-2:#c4b89e;--ink-3:#8a7e67;--ink-4:#4e4739;
+  --ink:#f2ead6;--ink-2:#c4b89e;--ink-3:#b0a282;--ink-4:#7d7359;
   --green:#70b88e;--green-soft:rgba(112,184,142,0.1);
   --red:#d68484;--red-soft:rgba(214,132,132,0.1);
   --shadow:0 8px 40px rgba(0,0,0,0.55);--shadow-lg:0 28px 72px rgba(0,0,0,0.75);
@@ -2801,9 +2801,8 @@ function submitRecover(){
     if(btn){ btn.disabled = false; btn.textContent = 'Reset password'; }
     var msg = 'Could not reset — check your codes and try again.';
     if(e){
-      if(e.code === 'not-found')        msg = 'No account found for that code.';
-      else if(e.code === 'permission-denied') msg = 'That recovery code doesn’t match.';
-      else if(e.message)                msg = e.message;
+      if(e.code === 'permission-denied') msg = 'Invalid account code or recovery code.';
+      else if(e.message)                 msg = e.message;
     }
     if(err){ err.style.color='var(--red)'; err.textContent = msg; }
   });
@@ -4113,6 +4112,8 @@ function openTD(id){
     '</div></div><div class="td-section"><div class="td-label">Prices</div><div class="td-row">'+mkTDItem('Entry',esc(t.entryPrice)||'\u2014')+mkTDItem('Stop',esc(t.stopPrice)||'\u2014')+mkTDItem('Target',esc(t.targetPrice)||'\u2014')+mkTDItem('Exit',esc(t.exitPrice)||'\u2014')+'</div></div>'+
     '<div class="td-section"><div class="td-label">Result</div><div class="td-row">'+
     mkTDItem('P&L','<span class="t-pnl '+(t.pnl>=0?'pos':'neg')+'">'+fmt(t.pnl,true)+'</span>')+
+    (function(){var r=_tradeR(t);return r!=null?mkTDItem('R-multiple',(r>=0?'+':'')+r+'R'):'';})()+
+    (t.fees?mkTDItem('Fees','-'+fmt(Math.abs(t.fees))):'')+
     mkTDItem('Quality',(t.quality||0)+'/100')+mkTDItem('Outcome',esc(t.outcome)||'\u2014')+mkTDItem('Islamic',icScore+'/4 \u2713')+
     '</div></div><div class="td-section"><div class="td-label">Psychology</div><div class="td-row">'+mkTDItem('Entry State',esc(t.emotion)||'\u2014')+mkTDItem('Exit State',esc(t.exitEmotion)||'\u2014')+'</div>'+
     (t.lesson?'<div style="margin-top:10px;padding:11px 13px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);font-size:0.84rem;color:var(--ink-2);line-height:1.6;"><strong style="color:var(--gold);">Lesson:</strong> '+esc(t.lesson)+'</div>':'')+'</div>'+
@@ -4916,6 +4917,21 @@ function _chronoClosed(){
       var kb=(b.closedAt||((b.date||'')+'T'+(b.time||'00:00')))+'#'+(b.id||0);
       return ka<kb?-1:ka>kb?1:0;
     });
+}
+// R-multiple of a closed trade = net P&L ÷ initial risk ($). Initial risk is
+// |entry − stop| × $/point × contracts. Returns null when the inputs needed
+// aren't present (no stop, unknown instrument, etc.). Computed on demand so it
+// works for trades logged before this existed.
+function _tradeR(t){
+  if(!t || t.pnl==null) return null;
+  var e=parseFloat(String(t.entryPrice||'').replace(/[^\d.\-]/g,''));
+  var s=parseFloat(String(t.stopPrice||t.stopLoss||'').replace(/[^\d.\-]/g,''));
+  var tv=TICK_VALUES[_normaliseInst(t.instrument||'')];
+  var q=parseFloat(t.qty)||1;
+  if(isNaN(e)||isNaN(s)||!tv||Math.abs(e-s)<=0) return null;
+  var risk=Math.abs(e-s)*tv*q;
+  if(risk<=0) return null;
+  return Math.round((t.pnl/risk)*100)/100;
 }
 function renderStatsStrip(){
   var e=el('stats-strip');if(!e)return;
@@ -7733,6 +7749,27 @@ function initReveal(){
     obs.observe(el);
   });
 }
+
+// Accessibility pass: programmatically associate each .field label with its
+// control (screen readers couldn't announce them — labels were siblings with
+// no for/id), and tag Arabic text with lang/dir so it isn't mispronounced.
+(function(){
+  function run(){
+    var n=0;
+    document.querySelectorAll('.field').forEach(function(field){
+      var label=field.querySelector('label');
+      var ctrl=field.querySelector('input,select,textarea');
+      if(!label||!ctrl) return;
+      if(!ctrl.id) ctrl.id='f_auto_'+(n++);
+      if(!label.htmlFor) label.htmlFor=ctrl.id;
+    });
+    document.querySelectorAll('.dhikr-ar,.nafs-ar,.ldeen-ar,.gate-ar,[data-arabic]').forEach(function(s){
+      s.setAttribute('lang','ar'); s.setAttribute('dir','rtl');
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run);
+  else run();
+})();
 
 // Mobile sticky CTA — IntersectionObserver: show after hero scrolls out, hide at pricing
 (function(){

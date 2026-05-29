@@ -49,8 +49,9 @@ service cloud.firestore {
         && request.auth.uid == userId;
     }
 
-    // Reserved for future server-side rate limiting. Clients cannot read
-    // or write — only Admin SDK from a Cloud Function may touch this.
+    // Server-side rate limiting (e.g. resetPasswordWithCode throttling).
+    // Clients cannot read or write — only the Admin SDK from a Cloud Function
+    // may touch this.
     match /rateLimits/{userId} {
       allow read, write: if false;
     }
