@@ -329,6 +329,12 @@ exports.stripeWebhook = functions
     }
   });
 
+// ── 4. PASSWORD RECOVERY ─────────────────────────────────────────────────
+// Resets a forgotten password using the user's account code + the recovery
+// code they saved at signup. Server-side because the client can't change a
+// password for an account it isn't signed into. See functions/resetPassword.js.
+exports.resetPasswordWithCode = require('./resetPassword').resetPasswordWithCode;
+
 // Reverse lookup: given a Stripe customer id, find the Firestore uid.
 // We store stripeCustomerId on the user doc, so a single-field query is
 // enough at any reasonable scale. Add an index in firestore.indexes.json

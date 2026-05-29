@@ -1445,34 +1445,85 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="auth-error" id="auth-error"></div>
     <div class="field" id="auth-name-wrap" style="display:none;">
       <label>Your Name</label>
-      <input type="text" id="auth-name" placeholder="e.g. Abe" autocomplete="name">
+      <input type="text" id="auth-name" placeholder="e.g. Abe" autocomplete="name" onkeydown="if(event.key==='Enter')authSubmit()">
     </div>
-    <div class="field">
-      <label>Email</label>
-      <input type="email" id="auth-email" placeholder="you@example.com" autocomplete="email" onkeydown="if(event.key==='Enter')authSubmit()">
+    <div class="field" id="auth-code-wrap">
+      <label>Account Code</label>
+      <input type="text" id="auth-code" placeholder="niyyah-XXXXXX" autocomplete="username" spellcheck="false" autocapitalize="characters" onkeydown="if(event.key==='Enter')authSubmit()">
     </div>
     <div class="field" style="margin-bottom:18px;">
       <label>Password</label>
       <input type="password" id="auth-password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')authSubmit()" oninput="pwStrengthMeter(this.value)"><div id="pw-strength-wrap" style="display:none;margin-top:6px;"><div style="height:4px;background:var(--surface-2);border-radius:2px;overflow:hidden;margin-bottom:4px;"><div id="pw-strength-bar" style="height:100%;width:0;border-radius:2px;transition:width 0.3s,background 0.3s;"></div></div><div id="pw-strength-label" style="font-family:'JetBrains Mono',monospace;font-size:0.48rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-4);"></div></div><div id="pw-hint" style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--ink-4);margin-top:4px;letter-spacing:0.06em;">Minimum 6 characters</div>
     </div>
     <button class="btn btn-gold btn-lg" id="auth-submit-btn" onclick="authSubmit()" style="width:100%;justify-content:center;">Sign In</button>
-    <div class="auth-divider">or</div>
-    <button class="auth-google" onclick="authGoogle()">
-      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
-      Continue with Google
-    </button>
     <div class="auth-switch" id="auth-switch">
       Don't have an account? <a onclick="authToggle()">Create one →</a>
     </div>
     <div id="auth-forgot" style="text-align:center;margin-top:10px;">
-      <a onclick="authForgot()" style="font-size:0.75rem;color:var(--ink-3);cursor:pointer;text-decoration:none;">Forgot password?</a>
-    </div>
-    <div id="auth-resend-wrap" style="display:none;text-align:center;margin-top:12px;padding:10px 14px;background:rgba(112,184,142,0.08);border:1px solid rgba(112,184,142,0.2);border-radius:8px;">
-      <div style="font-size:0.75rem;color:var(--ink-3);margin-bottom:8px;line-height:1.5;">Didn't receive the email? Check your spam folder, or resend below.</div>
-      <a onclick="authResendVerification()" style="font-size:0.75rem;color:var(--green);cursor:pointer;text-decoration:underline;font-weight:500;">Resend verification email</a>
+      <a onclick="openRecover()" style="font-size:0.75rem;color:var(--ink-3);cursor:pointer;text-decoration:none;">Forgot password?</a>
     </div>
     <div id="auth-back-landing" style="text-align:center;margin-top:14px;">
       <a onclick="backToLanding()" style="font-size:0.7rem;color:var(--ink-4);cursor:pointer;text-decoration:none;letter-spacing:0.04em;">← Back to home</a>
+    </div>
+  </div>
+</div>
+
+<!-- Credential reveal — shown once, right after signup. No email = these codes
+     are the ONLY way back in, so we make the user save them before continuing. -->
+<div class="auth-screen" id="cred-screen">
+  <div class="auth-card">
+    <div class="auth-logo">☽</div>
+    <div class="auth-mode-label" id="cred-title">Save your account details</div>
+    <div style="font-size:0.82rem;color:var(--ink-3);text-align:center;line-height:1.6;margin-bottom:18px;">
+      There's no email on your account, so <strong style="color:var(--ink-2);">these are the only way to sign back in.</strong> Write them down or screenshot this screen now.
+    </div>
+    <div class="field">
+      <label>Your account code — use this to sign in</label>
+      <div style="display:flex;gap:8px;align-items:stretch;">
+        <div id="cred-code" style="flex:1;font-family:'JetBrains Mono',monospace;font-size:1.05rem;letter-spacing:0.08em;color:var(--gold);background:var(--surface-2);border:1px solid rgba(218,180,98,0.25);border-radius:8px;padding:12px 14px;user-select:all;word-break:break-all;"></div>
+        <button class="btn btn-outline btn-sm" onclick="credCopy('code')" style="white-space:nowrap;">Copy</button>
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:18px;">
+      <label>Recovery code — use this if you forget your password</label>
+      <div style="display:flex;gap:8px;align-items:stretch;">
+        <div id="cred-recovery" style="flex:1;font-family:'JetBrains Mono',monospace;font-size:1.05rem;letter-spacing:0.08em;color:var(--ink);background:var(--surface-2);border:1px solid var(--line-2);border-radius:8px;padding:12px 14px;user-select:all;word-break:break-all;"></div>
+        <button class="btn btn-outline btn-sm" onclick="credCopy('recovery')" style="white-space:nowrap;">Copy</button>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--ink-4);margin-top:6px;letter-spacing:0.06em;">KEEP THIS PRIVATE · IT CAN RESET YOUR PASSWORD</div>
+    </div>
+    <label style="display:flex;align-items:center;gap:9px;font-size:0.78rem;color:var(--ink-2);margin-bottom:16px;cursor:pointer;">
+      <input type="checkbox" id="cred-confirm" onchange="el('cred-continue').disabled=!this.checked;el('cred-continue').style.opacity=this.checked?'':'0.5';" style="width:16px;height:16px;flex-shrink:0;">
+      I've saved my account code and recovery code somewhere safe.
+    </label>
+    <button class="btn btn-gold btn-lg" id="cred-continue" onclick="credContinue()" disabled style="width:100%;justify-content:center;opacity:0.5;">Enter Niyyah</button>
+  </div>
+</div>
+
+<!-- Password recovery — account code + recovery code → set a new password. -->
+<div class="auth-screen" id="recover-screen">
+  <div class="auth-card">
+    <div class="auth-logo">☽</div>
+    <div class="auth-mode-label">Reset your password</div>
+    <div style="font-size:0.82rem;color:var(--ink-3);text-align:center;line-height:1.6;margin-bottom:16px;">
+      Enter your account code and the recovery code you saved at signup to set a new password.
+    </div>
+    <div class="auth-error" id="recover-error"></div>
+    <div class="field">
+      <label>Account Code</label>
+      <input type="text" id="recover-code" placeholder="niyyah-XXXXXX" autocomplete="username" spellcheck="false" autocapitalize="characters">
+    </div>
+    <div class="field">
+      <label>Recovery Code</label>
+      <input type="text" id="recover-recovery" placeholder="XXXX-XXXX-XXXX" spellcheck="false" autocapitalize="characters">
+    </div>
+    <div class="field" style="margin-bottom:18px;">
+      <label>New Password</label>
+      <input type="password" id="recover-newpw" placeholder="min 6 characters" autocomplete="new-password">
+    </div>
+    <button class="btn btn-gold btn-lg" id="recover-submit" onclick="submitRecover()" style="width:100%;justify-content:center;">Reset password</button>
+    <div style="text-align:center;margin-top:14px;">
+      <a onclick="closeRecover()" style="font-size:0.75rem;color:var(--ink-3);cursor:pointer;text-decoration:none;">← Back to sign in</a>
     </div>
   </div>
 </div>
@@ -2454,22 +2505,12 @@ function showAuth(mode){
   // home." Browser back from auth should always land on the landing page.
   var wasOnAuth = as && as.classList.contains('show');
   var landing=el('landing');if(landing)landing.classList.add('hide');
-  authMode=mode||'signin';
   if(as) as.classList.add('show');
   // Always reset any loading state left over from a previous auth attempt \u2014
   // auth-loading sets pointer-events:none which silently blocks all clicks.
   var authCard = as ? as.querySelector('.auth-card') : null;
   if(authCard) authCard.classList.remove('auth-loading');
-  // Reset Google button in case it was left disabled from a prior attempt.
-  var gBtn = as ? as.querySelector('.auth-google') : null;
-  if(gBtn && typeof _googleSvg !== 'undefined'){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML=_googleSvg; }
-  if(mode==='signup'){
-    var lbl=el('auth-mode-label'),btn=el('auth-submit-btn'),sw=el('auth-switch'),nw=el('auth-name-wrap');
-    if(lbl)lbl.textContent='Create your account';
-    if(btn)btn.textContent='Create Account';
-    if(sw)sw.innerHTML='Already have an account? <a onclick="authToggle()">Sign in \u2192</a>';
-    if(nw)nw.style.display='';
-  }
+  _applyAuthMode(mode||'signin');
   if(wasOnAuth) _replace('/' + authMode);
   else _push('/' + authMode);
 }
@@ -2533,129 +2574,110 @@ function scrollToFeatures(){
 
 
 var authMode = 'signin';
-var _verificationMode = false; // true while showing 'check your email' message
 
-function authToggle(){
-  authMode = authMode === 'signin' ? 'signup' : 'signin';
-  var lbl  = el('auth-mode-label');
-  var btn  = el('auth-submit-btn');
-  var sw   = el('auth-switch');
-  var nw   = el('auth-name-wrap');
-  var pw   = el('auth-password');
-  var err  = el('auth-error');
-  if(err)err.textContent='';
-  var sb=el('auth-success-banner');if(sb){sb.style.display='none';sb.innerHTML='';}
+// Account / recovery codes are generated client-side. We avoid ambiguous
+// characters (0/O, 1/I/L) so they're easy to copy off a screenshot by hand.
+function _randChars(n){
+  var alpha='ABCDEFGHJKMNPQRSTUVWXYZ23456789', out='', r=new Uint32Array(n);
+  crypto.getRandomValues(r);
+  for(var i=0;i<n;i++) out+=alpha[r[i]%alpha.length];
+  return out;
+}
+// The account code is the user's login id (shown to them as such).
+function _genAccountCode(){ return 'niyyah-'+_randChars(6); }
+// The recovery code is a SEPARATE secret, used only to reset a lost password.
+function _genRecoveryCode(){ return _randChars(4)+'-'+_randChars(4)+'-'+_randChars(4); }
+// Deterministic map from an account code to its synthetic Firebase email.
+// Case/format-insensitive so "niyyah-7F3K9Q" and "NIYYAH7F3K9Q" resolve to the
+// same account. There is no real inbox at this address — it exists only so
+// Firebase Auth's email/password provider has something to key on.
+function _codeToEmail(code){
+  return String(code||'').toLowerCase().replace(/[^a-z0-9]/g,'')+'@niyyah.app';
+}
+// SHA-256 hex — we store only a hash of the recovery code, never the code.
+function _sha256Hex(str){
+  return crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)).then(function(buf){
+    return Array.prototype.map.call(new Uint8Array(buf), function(b){ return ('0'+b.toString(16)).slice(-2); }).join('');
+  });
+}
+
+// Single source of truth for the sign-in vs create-account form layout.
+// Signup collects a name (code is auto-generated); sign-in collects the code.
+function _applyAuthMode(mode){
+  authMode = (mode==='signup') ? 'signup' : 'signin';
+  var lbl=el('auth-mode-label'), btn=el('auth-submit-btn'), sw=el('auth-switch'),
+      nw=el('auth-name-wrap'), cw=el('auth-code-wrap'), pw=el('auth-password'),
+      fg=el('auth-forgot'), err=el('auth-error'), sb=el('auth-success-banner'),
+      hint=el('pw-hint'), swrap=el('pw-strength-wrap');
+  if(err){err.style.color='';err.textContent='';}
+  if(sb){sb.style.display='none';sb.innerHTML='';}
   if(authMode==='signup'){
     if(lbl) lbl.textContent='Create your account';
     if(btn) btn.textContent='Create Account';
     if(sw)  sw.innerHTML='Already have an account? <a onclick="authToggle()">Sign in →</a>';
-    if(nw)  nw.style.display='';
+    if(nw)  nw.style.display='';      // name shown
+    if(cw)  cw.style.display='none';  // code hidden — it's generated for them
     if(pw)  pw.setAttribute('autocomplete','new-password');
-    var fg=el('auth-forgot');if(fg)fg.style.display='none';
-    var hint=el('pw-hint');if(hint)hint.style.display='';
+    if(fg)  fg.style.display='none';
+    if(hint)hint.style.display='';
   }else{
     if(lbl) lbl.textContent='Sign in to your account';
     if(btn) btn.textContent='Sign In';
-    if(sw)  sw.innerHTML="Don't have an account? <a onclick=\"authToggle()\">Create one \u2192</a>";
+    if(sw)  sw.innerHTML="Don't have an account? <a onclick=\"authToggle()\">Create one →</a>";
     if(nw)  nw.style.display='none';
+    if(cw)  cw.style.display='';      // code shown
     if(pw)  pw.setAttribute('autocomplete','current-password');
-    var fg=el('auth-forgot');if(fg)fg.style.display='';
-    var swrap=el('pw-strength-wrap');if(swrap)swrap.style.display='none';
-    var hint=el('pw-hint');if(hint)hint.style.display='';
+    if(fg)  fg.style.display='';
+    if(swrap)swrap.style.display='none';
+    if(hint)hint.style.display='';
   }
 }
+
+function authToggle(){ _applyAuthMode(authMode==='signin' ? 'signup' : 'signin'); }
 
 function authSubmit(){
-  var email    = (el('auth-email')    ? el('auth-email').value.trim()    : '');
-  var password = (el('auth-password') ? el('auth-password').value        : '');
-  var err      = el('auth-error');
-  var btn      = el('auth-submit-btn');
-  var card     = btn ? btn.closest('.auth-card') : null;
-  if(!email||!password){if(err)err.textContent='Please fill in all fields.';return;}
-  if(card)card.classList.add('auth-loading');
+  var err  = el('auth-error');
+  var btn  = el('auth-submit-btn');
+  var card = btn ? btn.closest('.auth-card') : null;
+  var password = el('auth-password') ? el('auth-password').value : '';
+  if(err){err.style.color='';err.textContent='';}
+
   if(authMode==='signup'){
     var name = el('auth-name') ? el('auth-name').value.trim() : '';
-    // Set BEFORE createUserWithEmailAndPassword so onAuthStateChanged doesn't
-    // sign out the freshly-created (unverified) user before we can send the
-    // verification email.
-    _verificationMode = true;
-    AUTH.createUserWithEmailAndPassword(email, password)
-      .then(function(cred){
-        var initSettings = {};
-        if(name) initSettings.name = name;
-        var ref = window._pendingReferral || null;
-        var docPatch = Object.keys(initSettings).length ? { settings: initSettings } : {};
-        if(ref){
-          docPatch.referredBy = ref;
-          try{ sessionStorage.removeItem('niyyah_ref'); }catch(_){}
-        }
-        if(Object.keys(docPatch).length){
-          DB.collection('users').doc(cred.user.uid)
-            .set(docPatch, {merge:true})
-            .catch(function(e){ console.error('signup doc save failed', e); });
-        }
-        var as=document.getElementById('auth-screen');
-        if(as)as.classList.add('show');
-        var lg=document.getElementById('landing');
-        if(lg)lg.classList.add('hide');
-        // Send the verification email. Try with a continue-URL pointing at
-        // the current origin so the user lands back on the site after
-        // clicking the email link — but only if it's an authorized domain.
-        // If Firebase rejects the URL (auth/unauthorized-continue-uri),
-        // fall back to a no-URL send so the email STILL gets delivered.
-        var verifySend = cred.user.sendEmailVerification({url: window.location.origin + '/?verified=1'})
-          .catch(function(verifyErr){
-            if(verifyErr && /unauthorized-continue-uri|invalid-continue-uri/.test(verifyErr.code||'')){
-              return cred.user.sendEmailVerification(); // retry without URL
-            }
-            throw verifyErr;
-          });
-        verifySend.then(function(){
-          AUTH.signOut();
+    if(!name){ if(err)err.textContent='Please enter your name.'; return; }
+    if(!password || password.length < 6){ if(err)err.textContent='Password must be at least 6 characters.'; return; }
+    if(card)card.classList.add('auth-loading');
+    var code     = _genAccountCode();
+    var recovery = _genRecoveryCode();
+    // Hash the recovery code before it ever touches the network — Firestore
+    // only ever stores the hash, so a leaked DB can't reset anyone's password.
+    _sha256Hex(recovery).then(function(recHash){
+      AUTH.createUserWithEmailAndPassword(_codeToEmail(code), password)
+        .then(function(cred){
+          S.accountCode = code; // reflect immediately, before loadAll re-reads
+          var doc = { accountCode: code, recoveryHash: recHash, settings: { name: name } };
+          var ref = window._pendingReferral || null;
+          if(ref){ doc.referredBy = ref; try{ sessionStorage.removeItem('niyyah_ref'); }catch(_){ } }
+          return DB.collection('users').doc(cred.user.uid).set(doc, {merge:true})
+            .catch(function(e){ console.error('signup doc save failed', e); })
+            .then(function(){ _showCredentials(code, recovery); });
+        })
+        .catch(function(e){
           if(card)card.classList.remove('auth-loading');
-          if(err){err.style.color='';err.textContent='';}
-          var sb=document.getElementById('auth-success-banner');
-          if(sb){sb.style.display='';sb.innerHTML='Account created — check your inbox (and spam) for the verification link. Once verified, sign in below ↓';}
-          var btn=document.getElementById('auth-submit-btn');
-          if(btn)btn.textContent='Sign In';
-          var nw=document.getElementById('auth-name-wrap');
-          if(nw)nw.style.display='none';
-          var lbl=document.getElementById('auth-mode-label');
-          if(lbl)lbl.textContent='Now sign in to your account';
-          var sw=document.getElementById('auth-switch');
-          if(sw)sw.innerHTML='Already have an account? <a onclick="authToggle()">Sign in →</a>';
-          var fg=document.getElementById('auth-forgot');
-          if(fg)fg.style.display='';
-          var rw=document.getElementById('auth-resend-wrap');
-          if(rw){rw.style.display='';window._pendingVerifEmail=email;}
-          authMode='signin';
-        }).catch(function(e){
-          // Verification email failed — but account was created
-          AUTH.signOut();
-          if(card)card.classList.remove('auth-loading');
-          if(err){err.style.color='';err.textContent='';}
-          var sb=document.getElementById('auth-success-banner');
-          if(sb){sb.style.display='';sb.innerHTML='Account created — a verification email will arrive shortly. Sign in below once verified ↓';}
-          var btn=document.getElementById('auth-submit-btn');
-          if(btn)btn.textContent='Sign In';
-          var nw=document.getElementById('auth-name-wrap');
-          if(nw)nw.style.display='none';
-          var lbl=document.getElementById('auth-mode-label');
-          if(lbl)lbl.textContent='Now sign in to your account';
-          var sw=document.getElementById('auth-switch');
-          if(sw)sw.innerHTML='Already have an account? <a onclick="authToggle()">Sign in →</a>';
-          var fg=document.getElementById('auth-forgot');
-          if(fg)fg.style.display='';
-          authMode='signin';
+          // A collision on a 6-char code is astronomically unlikely, but if it
+          // ever happens the user just taps again to get a fresh one.
+          if(e && e.code === 'auth/email-already-in-use'){
+            if(err)err.textContent='Hiccup generating your code — please tap Create Account again.';
+            return;
+          }
+          if(err)err.textContent = friendlyAuthError(e.code);
         });
-      })
-      .catch(function(e){
-        _verificationMode = false; // account creation failed — undo the pre-flag
-        if(err)err.textContent = friendlyAuthError(e.code);
-        if(card)card.classList.remove('auth-loading');
-      });
+    });
   }else{
-    AUTH.signInWithEmailAndPassword(email, password)
+    var loginCode = el('auth-code') ? el('auth-code').value.trim() : '';
+    if(!loginCode || !password){ if(err)err.textContent='Enter your account code and password.'; return; }
+    if(card)card.classList.add('auth-loading');
+    AUTH.signInWithEmailAndPassword(_codeToEmail(loginCode), password)
       .catch(function(e){
         if(err)err.textContent = friendlyAuthError(e.code);
         if(card)card.classList.remove('auth-loading');
@@ -2663,174 +2685,85 @@ function authSubmit(){
   }
 }
 
-// True on any iOS device (iPhone / iPad) or in-app browser variants — these
-// are the runtimes where signInWithPopup breaks because of ITP / third-party
-// cookie blocking. On these, we use signInWithRedirect instead.
-function _needsRedirectAuth(){
-  var ua = navigator.userAgent || '';
-  // iOS Safari / iPad: real iPad with iPadOS reports as Macintosh + has touch.
-  var iOS = /iPhone|iPod|iPad/.test(ua) ||
-            (navigator.platform === 'MacIntel' && (navigator.maxTouchPoints || 0) > 1);
-  // Common in-app browsers (Instagram, FB, X) where popups also flake out.
-  var inApp = /FBAN|FBAV|Instagram|Twitter/.test(ua);
-  return iOS || inApp;
+// ── CREDENTIAL REVEAL (post-signup) ─────────────────────────────────────────
+// onAuthStateChanged signs the new user straight in and boots the app behind
+// this overlay; the user can't proceed until they confirm they saved the codes.
+function _showCredentials(code, recovery){
+  var card = document.querySelector('#auth-screen .auth-card');
+  if(card) card.classList.remove('auth-loading');
+  var cc = el('cred-code');     if(cc) cc.textContent = code;
+  var rc = el('cred-recovery'); if(rc) rc.textContent = recovery;
+  var chk = el('cred-confirm'); if(chk) chk.checked = false;
+  var cont = el('cred-continue'); if(cont){ cont.disabled = true; cont.style.opacity = '0.5'; }
+  var scr = el('cred-screen');  if(scr) scr.classList.add('show');
 }
-
-var _googleSvg = '<svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>Continue with Google';
-
-function authGoogle(){
-  var provider = new firebase.auth.GoogleAuthProvider();
-  provider.setCustomParameters({'prompt': 'select_account'});
-  var gBtn = document.querySelector('.auth-google');
-  if(gBtn){ gBtn.disabled=true; gBtn.style.opacity='0.6'; gBtn.textContent='Signing in…'; }
-
-  // iOS Safari, iPad, and in-app browsers (Instagram, FB, X) can't use popups
-  // reliably — go straight to redirect to avoid a visible failure then fallback.
-  if(_needsRedirectAuth()){
-    AUTH.signInWithRedirect(provider).catch(function(re){
-      if(gBtn){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML=_googleSvg; }
-      var err = el('auth-error');
-      if(err){ err.style.color='var(--red)'; err.textContent = re.code ? friendlyAuthError(re.code) : 'Google sign-in unavailable. Use email/password.'; }
-    });
-    return;
-  }
-
-  AUTH.signInWithPopup(provider).then(function(result){
-    var ref = window._pendingReferral;
-    var isNew = result && result.additionalUserInfo && result.additionalUserInfo.isNewUser;
-    if(isNew && ref && result.user){
-      DB.collection('users').doc(result.user.uid)
-        .set({ referredBy: ref }, { merge: true })
-        .catch(function(){});
-      try{ sessionStorage.removeItem('niyyah_ref'); }catch(_){}
-    }
-    // Success handled by onAuthStateChanged
-  }).catch(function(e){
-    if(gBtn){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML=_googleSvg; }
-    if(e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request'){
-      // User dismissed the popup — silently reset, no error needed
-      return;
-    }
-    if(e.code === 'auth/popup-blocked'){
-      // Browser blocked the popup — inform the user, then fall back to redirect.
-      var errEl = el('auth-error');
-      if(errEl){ errEl.style.color='var(--gold)'; errEl.textContent = 'Popup blocked — redirecting to Google…'; }
-      AUTH.signInWithRedirect(provider).catch(function(re){
-        if(gBtn){ gBtn.disabled=false; gBtn.style.opacity=''; gBtn.innerHTML=_googleSvg; }
-        if(errEl){ errEl.style.color='var(--red)'; errEl.textContent = re.code ? friendlyAuthError(re.code) : 'Google sign-in unavailable. Use email/password.'; }
-      });
-      return;
-    }
-    // Any other error — show it, do NOT fall back to redirect (redirect leaves
-    // broken state in browser storage when authDomain doesn't match hosting).
-    var errEl = el('auth-error');
-    if(errEl){ errEl.style.color='var(--red)'; errEl.textContent = friendlyAuthError(e.code); }
-  });
-}
-
-// Handle the return from a signInWithRedirect flow. Fires once per page load
-// — if the user just came back from Google, this resolves with the user and
-// onAuthStateChanged takes over from there. If they didn't sign in via
-// redirect, result.user is null and we silently no-op.
-AUTH.getRedirectResult().then(function(result){
-  if(!result || !result.user) return;
-  // Coming back from a Google redirect — hide the landing page immediately so
-  // the user doesn't see it flash while onAuthStateChanged resolves.
-  var lg = el('landing'); if(lg) lg.classList.add('hide');
-  var as = el('auth-screen'); if(as) as.classList.add('show');
-  var sb = el('auth-success-banner');
-  if(sb){ sb.style.display=''; sb.innerHTML='Signing you in with Google…'; }
-  var ref = window._pendingReferral;
-  var isNew = result.additionalUserInfo && result.additionalUserInfo.isNewUser;
-  if(isNew && ref){
-    DB.collection('users').doc(result.user.uid)
-      .set({ referredBy: ref }, { merge: true })
+function credCopy(which){
+  var node = (which==='recovery') ? el('cred-recovery') : el('cred-code');
+  var text = node ? node.textContent : '';
+  if(text && navigator.clipboard){
+    navigator.clipboard.writeText(text)
+      .then(function(){ if(typeof toast==='function') toast('✓ Copied','s'); })
       .catch(function(){});
-    try{ sessionStorage.removeItem('niyyah_ref'); }catch(_){}
   }
-}).catch(function(e){
-  console.warn('getRedirectResult error:', e.code, e.message);
-  // Stale broken state from a prior failed attempt is the most common case —
-  // but if it's a real actionable error, surface it so the user isn't stranded.
-  var actionable = e.code && e.code !== 'auth/no-auth-event' && e.code !== 'auth/redirect-cancelled-by-user';
-  if(actionable){
-    var lg2 = el('landing'); if(lg2) lg2.classList.add('hide');
-    var as2 = el('auth-screen'); if(as2) as2.classList.add('show');
-    var authCard4 = as2 ? as2.querySelector('.auth-card') : null;
-    if(authCard4) authCard4.classList.remove('auth-loading');
-    var errEl2 = el('auth-error');
-    if(errEl2){ errEl2.style.color='var(--red)'; errEl2.textContent = friendlyAuthError(e.code); }
-  }
-});
-
-
-// ── PASSWORD RESET ──────────────────────────────────────────────────────────
-function authForgot(){
-  var email = el('auth-email') ? el('auth-email').value.trim() : '';
-  var err = el('auth-error');
-  if(!email){
-    if(err)err.textContent = 'Enter your email address above first.';
-    return;
-  }
-  AUTH.sendPasswordResetEmail(email)
-    .then(function(){
-      if(err){err.style.color='var(--green)';err.textContent='Reset email sent — check your inbox.';}
-      var fg = el('auth-forgot'); if(fg) fg.style.display='none';
-    })
-    .catch(function(e){
-      if(err){err.style.color='var(--red)';err.textContent=friendlyAuthError(e.code);}
-    });
+}
+function credContinue(){
+  var scr = el('cred-screen');  if(scr) scr.classList.remove('show');
+  var as  = el('auth-screen');  if(as)  as.classList.remove('show');
+  // The app was already initialised by onAuthStateChanged → checkSubscription;
+  // closing the overlays reveals it (onboarding or dashboard).
 }
 
-function authResendVerification(){
-  var email = window._pendingVerifEmail || (el('auth-email') ? el('auth-email').value.trim() : '');
-  var err = el('auth-error');
-  if(!email){
-    if(err){err.style.color='var(--red)';err.textContent='Enter your email above, then try again.';}
-    return;
-  }
-  AUTH.signInWithEmailAndPassword(email, '_niyyah_probe_')
-    .catch(function(e){
-      if(e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential'){
-        if(err){err.style.color='var(--red)';err.textContent='Enter your password to resend the verification email.';}
-        return;
-      }
-      if(AUTH.currentUser){
-        AUTH.currentUser.sendEmailVerification()
-          .then(function(){
-            if(err){err.style.color='var(--green)';err.textContent='Verification email resent — check your inbox and spam folder.';}
-          })
-          .catch(function(){
-            if(err){err.style.color='var(--red)';err.textContent='Could not resend — try again in a minute.';}
-          });
-        AUTH.signOut();
-      } else {
-        if(err){err.style.color='var(--red)';err.textContent='Sign in with your password to resend.';}
-      }
-    });
+// ── PASSWORD RECOVERY (account code + recovery code → new password) ──────────
+function openRecover(){
+  var scr = el('recover-screen'); if(scr) scr.classList.add('show');
+  var err = el('recover-error');  if(err){ err.style.color=''; err.textContent=''; }
+  var typed = el('auth-code') ? el('auth-code').value.trim() : '';
+  var rc = el('recover-code'); if(rc && typed) rc.value = typed;
+}
+function closeRecover(){ var scr = el('recover-screen'); if(scr) scr.classList.remove('show'); }
+function submitRecover(){
+  var code  = el('recover-code')     ? el('recover-code').value.trim()     : '';
+  var rcode = el('recover-recovery') ? el('recover-recovery').value.trim() : '';
+  var npw   = el('recover-newpw')    ? el('recover-newpw').value           : '';
+  var err   = el('recover-error');
+  if(err){ err.style.color=''; err.textContent=''; }
+  if(!code || !rcode || !npw){ if(err){err.style.color='var(--red)';err.textContent='Fill in all three fields.';} return; }
+  if(npw.length < 6){ if(err){err.style.color='var(--red)';err.textContent='New password must be at least 6 characters.';} return; }
+  var btn = el('recover-submit');
+  if(btn){ btn.disabled = true; btn.textContent = 'Resetting…'; }
+  // The actual password change happens server-side (Admin SDK) — the client
+  // can't reset a password it isn't signed into. See functions/resetPassword.js.
+  var fn = FUNCTIONS.httpsCallable('resetPasswordWithCode');
+  fn({ code: code, recoveryCode: rcode, newPassword: npw }).then(function(){
+    return AUTH.signInWithEmailAndPassword(_codeToEmail(code), npw);
+  }).then(function(){
+    closeRecover();
+  }).catch(function(e){
+    if(btn){ btn.disabled = false; btn.textContent = 'Reset password'; }
+    var msg = 'Could not reset — check your codes and try again.';
+    if(e){
+      if(e.code === 'not-found')        msg = 'No account found for that code.';
+      else if(e.code === 'permission-denied') msg = 'That recovery code doesn’t match.';
+      else if(e.message)                msg = e.message;
+    }
+    if(err){ err.style.color='var(--red)'; err.textContent = msg; }
+  });
 }
 
 function friendlyAuthError(code){
   var msgs = {
-    'auth/user-not-found':           'Incorrect email or password.',
-    'auth/wrong-password':           'Incorrect email or password.',
-    'auth/invalid-credential':       'Incorrect email or password.',
-    'auth/email-already-in-use':     'This email is already registered. Try signing in instead.',
+    'auth/user-not-found':           'Incorrect account code or password.',
+    'auth/wrong-password':           'Incorrect account code or password.',
+    'auth/invalid-credential':       'Incorrect account code or password.',
+    'auth/email-already-in-use':     'That account code is already taken — please try again.',
     'auth/weak-password':            'Password must be at least 6 characters.',
-    'auth/invalid-email':            'Please enter a valid email address.',
     'auth/too-many-requests':        'Too many attempts. Please try again in a few minutes.',
-    'auth/popup-closed-by-user':     'Sign-in cancelled.',
-    'auth/popup-blocked':            'Your browser blocked the sign-in popup. Allow popups for this site or try again.',
-    'auth/cancelled-popup-request':  'Sign-in cancelled.',
     'auth/network-request-failed':   'Network error. Check your connection and try again.',
-    'auth/internal-error':           'Google sign-in failed — this domain may not be authorized in Firebase. Add it to Firebase Console → Authentication → Authorized Domains, or use email/password.',
-    'auth/account-exists-with-different-credential': 'An account with this email already exists with a different sign-in method.',
-    'auth/operation-not-allowed':    'This sign-in method is not enabled. Email support if this persists.',
-    'auth/unauthorized-domain':      'This domain is not authorized. Email support@niyyahtrader.com.',
+    'auth/operation-not-allowed':    'Sign-in is temporarily unavailable. Email support@niyyahtrader.com if this persists.',
     'auth/user-disabled':            'This account has been disabled. Email support@niyyahtrader.com.',
     'auth/requires-recent-login':    'For security, please sign in again to continue.'
   };
-  return msgs[code] || ('Sign-in error (' + code + '). Try again, or use email/password.');
+  return msgs[code] || ('Sign-in error (' + code + '). Please try again.');
 }
 
 // ── STREAK ──────────────────────────────────────────────────────────────────
@@ -3117,37 +3050,15 @@ AUTH.onAuthStateChanged(function(user){
   var authScreen = el('auth-screen');
   var pwScreen   = el('paywall-screen');
   if(user){
-    if(!user.emailVerified && user.providerData[0].providerId === 'password'){
-      // During signup, _verificationMode is set BEFORE createUserWithEmailAndPassword
-      // so we don't sign out the user before sendEmailVerification can run.
-      if(_verificationMode) return;
-      var err = document.getElementById('auth-error');
-      if(err){ err.style.color='var(--red)'; err.textContent='Please verify your email before signing in. Check your inbox.'; }
-      if(authScreen) authScreen.classList.add('show');
-      // Remove loading state so the card is interactive again after signout.
-      var authCard2 = authScreen ? authScreen.querySelector('.auth-card') : null;
-      if(authCard2) authCard2.classList.remove('auth-loading');
-      // Set verificationMode so the signout that follows keeps the auth screen
-      // visible instead of bouncing the user back to the landing page.
-      _verificationMode = true;
-      AUTH.signOut();
-      return;
-    }
+    // No email verification: account-code/password users are signed in the
+    // moment Firebase confirms them. (Their synthetic email is never verified
+    // and never needs to be.)
     UID = user.uid;
     if(authScreen) authScreen.classList.remove('show');
     var lg=el('landing');if(lg)lg.classList.add('hide');
     checkSubscription();
   }else{
     UID = null;
-    if(_verificationMode){
-      // Just sent verification email — stay on auth screen, don't go to landing
-      _verificationMode = false;
-      if(authScreen) authScreen.classList.add('show');
-      // Clear loading state so the sign-in form is interactive.
-      var authCard3 = authScreen ? authScreen.querySelector('.auth-card') : null;
-      if(authCard3) authCard3.classList.remove('auth-loading');
-      return;
-    }
     if(authScreen) authScreen.classList.remove('show');
     if(pwScreen)   pwScreen.classList.remove('show');
     // Clear state when signed out (always — separate from view routing below).
@@ -3329,6 +3240,7 @@ function loadAll(){
     S.dailyPrayers = d.dailyPrayers  || {};
     S.playbook     = d.playbook      || [];
     S.openTradeId  = d.openTradeId   || null;
+    S.accountCode  = d.accountCode   || null;
     // Restore in-progress state so a refresh doesn't wipe taps mid-session
     if(d.gateAns)                       S.gateAns     = d.gateAns;
     if(d.dhikr)                         S.dhikr       = Object.assign({sub:0,alh:0,akb:0}, d.dhikr);
@@ -6269,9 +6181,9 @@ function renderSettings(){
   var sn=el('s-name');if(sn&&S.settings.name)sn.value=S.settings.name;
   var user=AUTH.currentUser;
   if(user){
-    var emailEl=el('s-email');if(emailEl)emailEl.textContent=user.email;
-    var dispEl=el('s-display-name');if(dispEl)dispEl.textContent=S.settings.name||user.displayName||user.email.split('@')[0];
-    var avEl=el('s-avatar');if(avEl)avEl.textContent=(S.settings.name||user.displayName||user.email)[0].toUpperCase();
+    var emailEl=el('s-email');if(emailEl)emailEl.textContent=S.accountCode?('Account code: '+S.accountCode):'';
+    var dispEl=el('s-display-name');if(dispEl)dispEl.textContent=S.settings.name||S.accountCode||'Your Account';
+    var avEl=el('s-avatar');if(avEl)avEl.textContent=(S.settings.name||'A').charAt(0).toUpperCase();
     // Show subscription status
     var subEl=el('s-sub-status');
     if(subEl){
