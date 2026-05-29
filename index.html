@@ -3095,7 +3095,18 @@ function manageSubscription(){ toast('This is a free demo — no subscription to
 
 // Auth state observer — runs when page loads and when auth changes
 AUTH.onAuthStateChanged(function(user){
-  if(window._demoMode) return; // demo mode owns its own state — ignore Firebase events
+  // A real sign-in supersedes the "sample data" preview. Without this, signing
+  // in while the demo is active leaves the fake demo trades (e.g. the +$150
+  // today) sitting in state, masquerading as the new account's data.
+  if(user && window._demoMode){
+    window._demoMode = false;
+    var demoBanner=el('demo-banner'); if(demoBanner) demoBanner.style.display='none';
+    document.body.style.paddingTop='';
+    S.trades=[];S.journals=[];S.morning={};S.challenge=null;S.goal=null;
+    S.settings={};S.dailyPrayers={};S.playbook=[];S.openTradeId=null;
+    S._sub={status:null,tier:'base'};
+  }
+  if(window._demoMode) return; // signed out + demo active: demo owns its own state
   var authScreen = el('auth-screen');
   var pwScreen   = el('paywall-screen');
   if(user){
