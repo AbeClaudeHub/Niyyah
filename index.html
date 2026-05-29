@@ -15,12 +15,12 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://niyyahtrader.com/">
 <meta property="og:site_name" content="Niyyah">
-<!-- TODO(og): export a 1200×630 PNG of the hero (headline + dashboard mock) and drop it at /public/og.png. Until then this points at a placeholder. -->
 <meta property="og:image" content="https://niyyahtrader.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Niyyah — Trade with intention. The trading journal for Muslim traders.">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image:alt" content="Niyyah — Trade with intention. The trading journal for Muslim traders.">
 <meta name="twitter:title" content="Niyyah — Trade with intention">
 <meta name="twitter:description" content="The accountability system for Muslim traders whose nafs keeps getting in the way.">
 <meta name="twitter:image" content="https://niyyahtrader.com/og.png">
@@ -531,10 +531,6 @@ body{font-size:15px;}
 .auth-mode-label{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--ink-2);margin-bottom:20px;text-align:center;font-weight:400;}
 .auth-error{font-size:0.78rem;color:var(--red);min-height:20px;text-align:center;margin-bottom:8px;line-height:1.5;}
 .auth-success{font-size:0.78rem;color:var(--green)!important;}
-.auth-divider{display:flex;align-items:center;gap:11px;margin:14px 0;font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-4);}
-.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--line-2);}
-.auth-google{width:100%;padding:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);border-radius:9px;color:var(--ink-2);cursor:pointer;font-size:0.85rem;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.18s;}
-.auth-google:hover{border-color:rgba(218,180,98,0.35);background:var(--gold-soft);color:var(--ink);}
 .auth-switch{text-align:center;margin-top:16px;font-size:0.8rem;color:var(--ink-3);}
 .auth-switch a{color:var(--gold);cursor:pointer;text-decoration:none;}
 .auth-switch a:hover{text-decoration:underline;}
@@ -1238,7 +1234,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="testi-grid">
       <div class="testi-card">
         <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:12px;">SCENARIO 1</div>
-        <div class="testi-quote" style="font-style:normal;">You're about to add to a losing NQ position. The pre-trade gate pulls up the last four times you did exactly this — all losses. You see the pattern. You close instead of doubling down. <strong style="color:var(--ink);">One decision. One year of subscription paid for.</strong></div>
+        <div class="testi-quote" style="font-style:normal;">You're about to add to a losing NQ position. The pre-trade gate pulls up the last four times you did exactly this — all losses. You see the pattern. You close instead of doubling down. <strong style="color:var(--ink);">One decision. The exact decision this whole journal exists to help you make.</strong></div>
         <div style="margin-top:auto;padding-top:14px;font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);">Feature: Pre-trade gate</div>
       </div>
       <div class="testi-card">
@@ -1338,7 +1334,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
         <div style="font-size:0.82rem;color:var(--ink-3);line-height:1.7;font-weight:300;">A weekly review of what your nafs actually did this week — not what you'll tell yourself it did.</div>
       </div>
     </div>
-    <div style="text-align:center;margin-top:26px;font-size:0.82rem;color:var(--ink-4);font-style:italic;font-family:'Cormorant Garamond',serif;">If week one doesn't surface a pattern you didn't know about, we'll refund every penny.</div>
+    <div style="text-align:center;margin-top:26px;font-size:0.82rem;color:var(--ink-4);font-style:italic;font-family:'Cormorant Garamond',serif;">Free during early access — no card, no risk. If week one doesn't surface a pattern you didn't know about, tell us.</div>
   </div>
 
 
@@ -1397,7 +1393,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
       </details>
       <details class="faq-item" style="background:linear-gradient(145deg,#1a1810,#0f0d09);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 22px;cursor:pointer;transition:border-color 0.2s;">
         <summary style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;">How long until I see results?<span class="faq-plus" style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.3rem;">+</span></summary>
-        <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.75;font-weight:300;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);">Pattern detection unlocks after 5 closed trades. The prayer radar needs about 10 trades across mixed prayer days. Most users find their first real behavioral leak in week one and see P&amp;L impact in week two — not because the app is magic, but because you finally see in your own data what you've been ignoring.</div>
+        <div style="font-size:0.86rem;color:var(--ink-2);line-height:1.75;font-weight:300;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);">Pattern detection unlocks after 5 closed trades. The prayer radar needs about 10 trades across mixed prayer days. Many traders find their first real behavioral leak within the first week and see it reflected in their P&amp;L soon after — not because the app is magic, but because you finally see in your own data what you've been ignoring.</div>
       </details>
       <details class="faq-item" style="background:linear-gradient(145deg,#1a1810,#0f0d09);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 22px;cursor:pointer;transition:border-color 0.2s;">
         <summary style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;">Do I keep my data?<span class="faq-plus" style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.3rem;">+</span></summary>
@@ -1492,10 +1488,11 @@ body:not(.legal-visitor) .legal-back{display:none;}
       </div>
       <div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--ink-4);margin-top:6px;letter-spacing:0.06em;">KEEP THIS PRIVATE · IT CAN RESET YOUR PASSWORD</div>
     </div>
-    <label style="display:flex;align-items:center;gap:9px;font-size:0.78rem;color:var(--ink-2);margin-bottom:16px;cursor:pointer;">
-      <input type="checkbox" id="cred-confirm" onchange="el('cred-continue').disabled=!this.checked;el('cred-continue').style.opacity=this.checked?'':'0.5';" style="width:16px;height:16px;flex-shrink:0;">
+    <label style="display:flex;align-items:center;gap:9px;font-size:0.78rem;color:var(--ink-2);margin-bottom:10px;cursor:pointer;">
+      <input type="checkbox" id="cred-confirm" onchange="_updateCredContinue()" style="width:16px;height:16px;flex-shrink:0;">
       I've saved my account code and recovery code somewhere safe.
     </label>
+    <div id="cred-status" style="font-size:0.72rem;text-align:center;margin-bottom:12px;min-height:1em;line-height:1.5;"></div>
     <button class="btn btn-gold btn-lg" id="cred-continue" onclick="credContinue()" disabled style="width:100%;justify-content:center;opacity:0.5;">Enter Niyyah</button>
   </div>
 </div>
@@ -1577,7 +1574,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
     </div>
 
     <div style="margin:14px 0;padding:12px 14px;background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.15);border-radius:10px;font-size:0.8rem;color:var(--ink-3);line-height:1.7;text-align:left;">
-      <strong style="color:var(--ink);">Try it for 7 days.</strong> If Niyyah doesn't surface a behavioral pattern you didn't already know about yourself, email <a href="mailto:support@niyyahtrader.com" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.com</a> for a full refund. No forms, no friction.
+      <strong style="color:var(--ink);">Free during early access.</strong> Every feature is unlocked, no card required. We're gathering feedback from early traders — if Niyyah doesn't surface a behavioral pattern you didn't already know about yourself, email <a href="mailto:support@niyyahtrader.com" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.com</a> and tell us.
     </div>
 
     <button class="btn btn-gold btn-lg" id="subscribe-btn" onclick="subscribe()" style="width:100%;justify-content:center;font-size:0.95rem;">Begin — Bismillah · $27/mo</button>
@@ -1729,7 +1726,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <div id="open-trade-detail"></div>
   <div id="intrade-active-panels" style="display:none;">
     <div class="panel"><div class="panel-head"><div class="panel-title">The Reminder</div></div><div class="intrade-verse"><div class="intrade-ar">وَعَلَى اللَّهِ فَتَوَكَّلُوا إِن كُنتُم مُّؤْمِنِينَ</div><div class="intrade-en">"And upon Allah rely, if you should be believers."</div><div class="intrade-ref">Surah Al-Ma'idah · 5:23</div><div class="intrade-lesson">You entered with analysis. You set your stop and your target. Your job is done. The outcome belongs to Allah. Moving your stop, adding to the position, checking P&amp;L every 30 seconds — none of this changes what was written. Breathe.</div></div></div>
-    <div class="panel"><div class="panel-head"><div class="panel-title">Dhikr While You Wait</div><span style="font-size:0.76rem;color:var(--ink-3);">Tap to count. Let your tongue be in remembrance.</span></div><div class="dhikr-grid"><button class="dhikr-btn" onclick="cDhikr('sub')"><span class="dhikr-ar">سُبْحَانَ اللَّه</span><span class="dhikr-count" id="dhikr-sub">0</span><span class="dhikr-word">SubhanAllah</span></button><button class="dhikr-btn" onclick="cDhikr('alh')"><span class="dhikr-ar">الحمد لله</span><span class="dhikr-count" id="dhikr-alh">0</span><span class="dhikr-word">Alhamdulillah</span></button><button class="dhikr-btn" onclick="cDhikr('akb')"><span class="dhikr-ar">اللَّهُ أَكْبَر</span><span class="dhikr-count" id="dhikr-akb">0</span><span class="dhikr-word">Allahu Akbar</span></button></div><div style="margin-top:8px;"><button class="btn btn-ghost btn-sm" onclick="resetDhikr()">Reset counter</button></div></div>
+    <div class="panel"><div class="panel-head"><div class="panel-title">Dhikr While You Wait</div><span style="font-size:0.76rem;color:var(--ink-3);">Tap to count. Let your tongue be in remembrance.</span></div><div class="dhikr-grid"><button class="dhikr-btn" onclick="cDhikr('sub')"><span class="dhikr-ar">سُبْحَانَ ٱللّٰهِ</span><span class="dhikr-count" id="dhikr-sub">0</span><span class="dhikr-word">SubhanAllah</span></button><button class="dhikr-btn" onclick="cDhikr('alh')"><span class="dhikr-ar">ٱلْحَمْدُ لِلّٰهِ</span><span class="dhikr-count" id="dhikr-alh">0</span><span class="dhikr-word">Alhamdulillah</span></button><button class="dhikr-btn" onclick="cDhikr('akb')"><span class="dhikr-ar">ٱللّٰهُ أَكْبَرُ</span><span class="dhikr-count" id="dhikr-akb">0</span><span class="dhikr-word">Allahu Akbar</span></button></div><div style="margin-top:8px;"><button class="btn btn-ghost btn-sm" onclick="resetDhikr()">Reset counter</button></div></div>
     <div class="panel"><div class="panel-head"><div class="panel-title">Do Not Deviate</div></div><div class="rule-item">Your stop was set with a clear mind before entering. It stays there.</div><div class="rule-item">Do not add to this position. One plan, one outcome.</div><div class="rule-item">P&amp;L fluctuation is not information. The trade is not over until it's over.</div><div class="rule-item red">If you hit your stop — that is the outcome Allah chose. Accept it. Log it. Move on.</div></div>
     <div class="panel" style="border-color:rgba(214,132,132,0.2);background:linear-gradient(145deg,rgba(214,132,132,0.04),var(--surface));"><div class="panel-head"><div class="panel-title" style="color:var(--red);">Stop Movement Check</div><span style="font-size:0.72rem;color:var(--ink-3);">If you're thinking about moving your stop</span></div><p style="font-size:0.84rem;color:var(--ink-2);line-height:1.65;margin-bottom:14px;">Your stop was placed when your mind was clear. <strong style="color:var(--ink);">That version of you knew better than this version.</strong></p><button class="btn btn-danger" onclick="stopMoveCheck()" style="width:100%;">⚠ I'm about to move my stop</button></div>
   </div>
@@ -1788,7 +1785,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <div class="panel">
     <div class="j-section"><div class="j-title">Morning <em>Intention</em></div><div class="field"><label>Today I will…</label><textarea id="j-int" rows="2" placeholder="Today I intend to trade with patience. My max risk is $__. Max __ trades."></textarea></div><div class="field-row c3"><div class="field"><label>Loss Limit ($)</label><input type="number" inputmode="decimal" id="j-ll" placeholder="400"></div><div class="field"><label>Max Trades</label><input type="number" inputmode="numeric" id="j-mt" value="3"></div><div class="field"><label>Key Level</label><input type="text" inputmode="decimal" id="j-kl" placeholder="PDH / round no."></div></div><div id="chk-wrap"></div></div>
     <div class="j-section" style="border-top:1px solid var(--line-2);padding-top:16px;margin-top:4px;"><div class="j-title">Evening <em>Reflection</em></div><div class="field"><label>Did you follow your rules today?</label><select id="j-rules"><option value="">Select…</option><option value="yes">Yes — every rule</option><option value="mostly">Mostly</option><option value="partial">Partially</option><option value="no">No</option><option value="nt">Did not trade today</option></select></div><div class="field"><label>What happened?</label><textarea id="j-what" rows="3"></textarea></div><div class="field"><label>One fix for tomorrow</label><textarea id="j-fix" rows="2"></textarea></div><div class="field"><label>Shukr — what are you grateful for?</label><textarea id="j-shukr" rows="2"></textarea></div></div>
-    <div class="j-section" style="border-top:1px solid var(--line-2);padding-top:16px;margin-top:4px;"><div class="j-title">Nafs <em>Check</em> <span style="font-size:0.68rem;font-family:'JetBrains Mono',monospace;color:var(--ink-3);font-weight:400;">(OPTIONAL · SAVED WITH ENTRY)</span></div><p style="font-size:0.76rem;color:var(--ink-3);margin-bottom:13px;">Rate yourself 1–5 this week.</p><div class="nafs-grid"><div class="nafs-card"><div class="nafs-ar">صَبْر</div><div class="nafs-name">Sabr</div><div class="nafs-desc">Did you wait for your setups?</div><div class="nafs-dots" id="nd-sabr"></div></div><div class="nafs-card"><div class="nafs-ar">تَوَكُّل</div><div class="nafs-name">Tawakkul</div><div class="nafs-desc">Did you release outcomes?</div><div class="nafs-dots" id="nd-tawakkul"></div></div><div class="nafs-card"><div class="nafs-ar">كِبْر</div><div class="nafs-name">Kibr</div><div class="nafs-desc">Did arrogance appear after wins?</div><div class="nafs-dots" id="nd-kibr"></div></div><div class="nafs-card"><div class="nafs-ar">شُكْر</div><div class="nafs-name">Shukr</div><div class="nafs-desc">Gratitude every session?</div><div class="nafs-dots" id="nd-shukr"></div></div></div></div>
+    <div class="j-section" style="border-top:1px solid var(--line-2);padding-top:16px;margin-top:4px;"><div class="j-title">Nafs <em>Check</em> <span style="font-size:0.68rem;font-family:'JetBrains Mono',monospace;color:var(--ink-3);font-weight:400;">(OPTIONAL · SAVED WITH ENTRY)</span></div><p style="font-size:0.76rem;color:var(--ink-3);margin-bottom:13px;">Rate yourself 1–5 this week.</p><div class="nafs-grid"><div class="nafs-card"><div class="nafs-ar">صَبْر</div><div class="nafs-name">Sabr</div><div class="nafs-desc">Did you wait for your setups?</div><div class="nafs-dots" id="nd-sabr"></div></div><div class="nafs-card"><div class="nafs-ar">تَوَكُّل</div><div class="nafs-name">Tawakkul</div><div class="nafs-desc">Did you release outcomes?</div><div class="nafs-dots" id="nd-tawakkul"></div></div><div class="nafs-card"><div class="nafs-ar">كِبْر</div><div class="nafs-name">Kibr Guard</div><div class="nafs-desc">Did you stay humble after wins?</div><div class="nafs-dots" id="nd-kibr"></div></div><div class="nafs-card"><div class="nafs-ar">شُكْر</div><div class="nafs-name">Shukr</div><div class="nafs-desc">Gratitude every session?</div><div class="nafs-dots" id="nd-shukr"></div></div></div></div>
     <div style="display:flex;justify-content:flex-end;gap:8px;"><button class="btn btn-outline" onclick="clearJournal()">Clear</button><button class="btn btn-gold btn-lg" onclick="saveJournal()">Save Entry</button></div>
   </div>
   <div class="panel"><div class="panel-head"><div class="panel-title">Past Entries</div></div><input type="search" id="journal-search" placeholder="Search entries…" oninput="renderJournalList()" style="width:100%;background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);padding:9px 12px;color:var(--ink);font-family:Inter,sans-serif;font-size:0.84rem;margin-bottom:12px;"><div id="journal-list"></div></div>
@@ -1818,7 +1815,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
       <div class="field"><label>Risk Per Trade (%)</label><input type="number" inputmode="decimal" id="rc-risk-pct" placeholder="1" step="0.25" value="1" oninput="calcRisk()"></div>
       <div class="field"><label>Entry Price</label><input type="number" inputmode="decimal" id="rc-entry" placeholder="21050" oninput="calcRisk()"></div>
       <div class="field"><label>Stop Loss Price</label><input type="number" inputmode="decimal" id="rc-stop" placeholder="21000" oninput="calcRisk()"></div>
-      <div class="field"><label>Instrument Type</label><select id="rc-type" onchange="calcRisk()"><option value="futures-micro">Micro Futures (MNQ/MES/MGC) — $2/pt</option><option value="futures-mini">Mini Futures (NQ/ES/GC) — $20/pt</option><option value="forex">Forex (per 0.01 lot)</option><option value="stock">Stock / shares</option></select></div>
+      <div class="field"><label>Instrument</label><select id="rc-type" onchange="calcRisk()"><optgroup label="Mini / Full Futures"><option value="ES">ES — S&amp;P 500 ($50/pt)</option><option value="NQ">NQ — Nasdaq ($20/pt)</option><option value="YM">YM — Dow ($5/pt)</option><option value="RTY">RTY — Russell ($50/pt)</option><option value="GC">GC — Gold ($100/pt)</option><option value="CL">CL — Crude ($1000/pt)</option></optgroup><optgroup label="Micro Futures"><option value="MES">MES — Micro S&amp;P ($5/pt)</option><option value="MNQ" selected>MNQ — Micro Nasdaq ($2/pt)</option><option value="MYM">MYM — Micro Dow ($0.50/pt)</option><option value="M2K">M2K — Micro Russell ($5/pt)</option><option value="MGC">MGC — Micro Gold ($10/pt)</option><option value="MCL">MCL — Micro Crude ($100/pt)</option></optgroup><option value="forex">Forex (per 0.01 lot)</option><option value="stock">Stock / shares</option></select></div>
       <div id="risk-result"></div>
     </div>
     <div class="panel">
@@ -1834,7 +1831,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
 </div>
 
 <div class="page" id="page-zakat">
-  <div class="ph"><div class="ph-eye">DEEN · WEALTH</div><div class="ph-title"><em>Zakat</em> on Trading Gains</div><div class="ph-sub">Zakat is 2.5% of qualifying wealth held above nisab for a full lunar year (hawl). Niyyah estimates your due based on your realized P&amp;L and a hawl start date you set. This is a planning tool — confirm the final figure with a knowledgeable scholar before paying.</div></div>
+  <div class="ph"><div class="ph-eye">DEEN · WEALTH</div><div class="ph-title"><em>Zakat</em> on Trading Gains</div><div class="ph-sub">Zakat is 2.5% of qualifying wealth held above nisab for a full lunar year (hawl). Niyyah estimates your due on the <strong>total trading wealth you hold</strong> (account balance + other zakatable assets) once your hawl completes — not on your P&amp;L. Your realized P&amp;L is shown for context only. This is a planning tool — confirm the final figure with a knowledgeable scholar before paying.</div></div>
   <div class="grid-2">
     <div class="panel">
       <div class="panel-title" style="margin-bottom:16px;">Calculate Zakat Due</div>
@@ -1848,8 +1845,8 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="panel">
       <div class="panel-title" style="margin-bottom:13px;">How Niyyah Calculates It</div>
       <div style="font-size:0.85rem;color:var(--ink-2);line-height:1.95;">
-        <p style="margin-bottom:11px;"><strong style="color:var(--gold);">→ Hawl (lunar year).</strong> Zakat is due once your wealth has stayed above nisab for one full lunar year (~354 days). Niyyah counts from the date you set.</p>
-        <p style="margin-bottom:11px;"><strong style="color:var(--gold);">→ Realized gains only.</strong> The unrealized P&amp;L of an open position is not zakatable until closed. Niyyah pulls your closed-trade P&amp;L from your journal automatically.</p>
+        <p style="margin-bottom:11px;"><strong style="color:var(--gold);">→ Hawl (lunar year).</strong> Zakat is due once your wealth has stayed above nisab for one full lunar year (~354 days, approximate). Niyyah counts from the date you set. Note: by the majority view, if your wealth drops <em>below</em> nisab at any point during the year, the hawl restarts — Niyyah can't see that, so confirm continuity yourself.</p>
+        <p style="margin-bottom:11px;"><strong style="color:var(--gold);">→ Wealth held, not gains.</strong> Zakat is assessed on the trading wealth you hold at hawl-end (account balance + other zakatable assets), not on your P&amp;L. Unrealized P&amp;L of an open position isn't counted. Your realized P&amp;L is pulled from your journal for context only.</p>
         <p style="margin-bottom:11px;"><strong style="color:var(--gold);">→ Above nisab.</strong> Below the nisab threshold no zakat is due. The silver basis is broader (more zakat owed) — most contemporary scholars recommend it.</p>
         <p><strong style="color:var(--gold);">→ Niyyah is not a fatwa.</strong> Madhhab rulings differ on day-trading capital, leverage, and futures. Verify your specific situation with a qualified scholar — the FAQ on the landing page links to resources.</p>
       </div>
@@ -2049,7 +2046,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <div id="s-password-section" style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2);display:none;">
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;">CHANGE PASSWORD</div>
     <div class="field-row c2" style="margin-bottom:8px;">
-      <div class="field"><label>New Password</label><input type="password" id="s-new-pw" placeholder="min 8 characters" minlength="8"></div>
+      <div class="field"><label>New Password</label><input type="password" id="s-new-pw" placeholder="min 6 characters" minlength="6"></div>
       <div class="field"><label>Confirm</label><input type="password" id="s-conf-pw" placeholder="repeat password"></div>
     </div>
     <button class="btn btn-gold btn-sm" onclick="changePassword()">Update Password</button>
@@ -2071,8 +2068,15 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <!-- ── PRAYER-TIME ALERTS ───────────────────────────────────────────── -->
   <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2);">
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">PRAYER-AWARE IN-TRADE PILL</div>
-    <div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;margin-bottom:14px;">When enabled, the <em>In Trade</em> page shows a soft pill if a prayer is within 30 min — "Maghrib in 12 min". Approximate (Muslim World League convention). Always verify in your dedicated adhan app.</div>
+    <div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;margin-bottom:14px;">When enabled, the <em>In Trade</em> page shows a soft pill if a prayer is within 30 min — "Maghrib in 12 min". Approximate (Muslim World League convention, Asr per the madhab you choose below). Always verify in your dedicated adhan app.</div>
     <div id="prayer-loc-row" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;"></div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px;font-size:0.78rem;color:var(--ink-3);">
+      <span>Asr calculation:</span>
+      <select id="asr-madhab" onchange="setAsrMadhab(this.value)" style="background:var(--surface-2);border:1px solid var(--line-2);border-radius:8px;color:var(--ink);padding:6px 10px;font-size:0.78rem;">
+        <option value="standard">Standard — Shafi'i / Maliki / Hanbali (earlier)</option>
+        <option value="hanafi">Hanafi (later)</option>
+      </select>
+    </div>
   </div>
 
   <!-- ── REFERRAL ─────────────────────────────────────────────────────── -->
@@ -2107,15 +2111,13 @@ body:not(.legal-visitor) .legal-back{display:none;}
 
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">1. What We Collect</div>
       <p style="margin-bottom:12px;">We collect only what is necessary to provide the service:</p>
-      <p style="margin-bottom:8px;">→ <strong style="color:var(--ink);">Account information</strong> — your email address when you sign up.</p>
+      <p style="margin-bottom:8px;">→ <strong style="color:var(--ink);">Account information</strong> — an account code generated when you sign up. <strong style="color:var(--ink);">We do not collect your email address or any personal contact information.</strong></p>
       <p style="margin-bottom:8px;">→ <strong style="color:var(--ink);">Trade journal data</strong> — trades, emotions, notes, and prayer tracking that you enter yourself.</p>
-      <p style="margin-bottom:8px;">→ <strong style="color:var(--ink);">Payment information</strong> — handled entirely by Stripe. We never see or store your card details.</p>
       <p style="margin-bottom:16px;">→ <strong style="color:var(--ink);">Usage data</strong> — basic analytics to improve the product (page visits, feature usage).</p>
 
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">2. How We Use Your Data</div>
       <p style="margin-bottom:8px;">→ To provide and improve Niyyah</p>
-      <p style="margin-bottom:8px;">→ To process your subscription via Stripe</p>
-      <p style="margin-bottom:8px;">→ To send transactional emails (receipts, password resets)</p>
+      <p style="margin-bottom:8px;">→ To authenticate you and keep your journal data tied to your account</p>
       <p style="margin-bottom:16px;">→ We do <strong style="color:var(--ink);">not</strong> sell your data. Ever.</p>
 
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">3. Data Storage</div>
@@ -2195,14 +2197,15 @@ body:not(.legal-visitor) .legal-back{display:none;}
   <div class="panel" style="max-width:720px;">
     <div style="font-size:0.87rem;color:var(--ink-2);line-height:2;">
 
+      <p style="margin-bottom:16px;color:var(--gold);font-weight:500;">Niyyah is currently free during early access — there is nothing to pay and nothing to refund. The policy below applies if and when paid plans launch.</p>
       <p style="margin-bottom:16px;color:var(--ink-3);font-style:italic;">We want you to be confident that Niyyah will work for you. If it doesn't, we'll refund you in full.</p>
 
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">1. 7-Day Full Refund</div>
       <p style="margin-bottom:16px;">Every new subscription comes with a <strong style="color:var(--ink);">7-day full refund window</strong> from the date of your first payment. If Niyyah isn't right for you for any reason within that window, you get your money back in full.</p>
 
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">2. How To Request a Refund</div>
-      <p style="margin-bottom:8px;">→ Email <a href="mailto:support@niyyahtrader.com?subject=Refund%20request" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.com</a> from the address on your account</p>
-      <p style="margin-bottom:8px;">→ Include the email tied to your subscription</p>
+      <p style="margin-bottom:8px;">→ Email <a href="mailto:support@niyyahtrader.com?subject=Refund%20request" style="color:var(--gold);text-decoration:none;">support@niyyahtrader.com</a></p>
+      <p style="margin-bottom:8px;">→ Include your account code so we can locate your account</p>
       <p style="margin-bottom:16px;">→ We'll process it within 2 business days. No forms. No questions asked. No friction.</p>
 
       <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin:20px 0 8px;">3. After the 7-Day Window</div>
@@ -2278,6 +2281,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
    <div id="exit-ref" style="background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);padding:12px 14px;margin-bottom:14px;font-size:0.84rem;color:var(--ink-2);"></div>
    <div class="field-row c2"><div class="field"><label>Exit Price</label><input type="text" inputmode="decimal" autocomplete="off" id="x-exit" placeholder="21,095" oninput="autoCalcExitHint()"></div><div class="field"><label>P&amp;L ($)</label><input type="number" inputmode="decimal" id="x-pnl" placeholder="225 or -120"></div></div>
    <div id="x-pnl-hint" style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.06em;margin:-8px 0 10px;padding:6px 10px;border-radius:6px;background:rgba(255,255,255,0.03);display:none;"></div>
+   <div class="field"><label>Commissions / fees ($) <span style="color:var(--ink-4);font-weight:300;">— round-turn, optional · subtracted to get your net result</span></label><input type="number" inputmode="decimal" id="x-fees" placeholder="0" oninput="autoCalcExitHint()"></div>
    <div class="field"><label>Outcome</label><select id="x-outcome"><option value="win">Win — followed all rules</option><option value="win-broke">Win — but broke a rule</option><option value="loss">Loss — followed all rules</option><option value="loss-broke">Loss — broke a rule</option><option value="be">Break even</option></select></div>
    <div class="field"><label>Emotion at exit</label>
     <div class="emotion-grid">
@@ -2655,12 +2659,16 @@ function authSubmit(){
       AUTH.createUserWithEmailAndPassword(_codeToEmail(code), password)
         .then(function(cred){
           S.accountCode = code; // reflect immediately, before loadAll re-reads
-          var doc = { accountCode: code, recoveryHash: recHash, settings: { name: name } };
+          // Show the codes RIGHT NOW — before (and independent of) the Firestore
+          // write — so a tab close mid-write can never hide them. The Continue
+          // button stays locked until the recoveryHash write is confirmed.
+          _showCredentials(code, recovery);
+          var doc = { accountCode: code, recoveryHash: recHash, settings: { name: name }, credsAcknowledged: false };
           var ref = window._pendingReferral || null;
           if(ref){ doc.referredBy = ref; try{ sessionStorage.removeItem('niyyah_ref'); }catch(_){ } }
-          return DB.collection('users').doc(cred.user.uid).set(doc, {merge:true})
-            .catch(function(e){ console.error('signup doc save failed', e); })
-            .then(function(){ _showCredentials(code, recovery); });
+          DB.collection('users').doc(cred.user.uid).set(doc, {merge:true})
+            .then(_credWriteOk)
+            .catch(function(e){ console.error('signup doc save failed', e); _credWriteFailed(); });
         })
         .catch(function(e){
           if(card)card.classList.remove('auth-loading');
@@ -2688,14 +2696,47 @@ function authSubmit(){
 // ── CREDENTIAL REVEAL (post-signup) ─────────────────────────────────────────
 // onAuthStateChanged signs the new user straight in and boots the app behind
 // this overlay; the user can't proceed until they confirm they saved the codes.
+// True once the recoveryHash write for the codes currently on screen has
+// landed in Firestore. The "Enter Niyyah" button stays locked until then, so
+// a user can never proceed believing recovery works when the hash never saved.
+var _credWriteConfirmed = false;
 function _showCredentials(code, recovery){
+  _credWriteConfirmed = false;
   var card = document.querySelector('#auth-screen .auth-card');
   if(card) card.classList.remove('auth-loading');
   var cc = el('cred-code');     if(cc) cc.textContent = code;
   var rc = el('cred-recovery'); if(rc) rc.textContent = recovery;
   var chk = el('cred-confirm'); if(chk) chk.checked = false;
-  var cont = el('cred-continue'); if(cont){ cont.disabled = true; cont.style.opacity = '0.5'; }
+  _setCredStatus('saving');
+  _updateCredContinue();
   var scr = el('cred-screen');  if(scr) scr.classList.add('show');
+}
+function _setCredStatus(state){
+  var s = el('cred-status'); if(!s) return;
+  if(state==='saving'){ s.style.color='var(--ink-3)'; s.textContent='Securing your account…'; }
+  else if(state==='ok'){ s.style.color='var(--green)'; s.textContent='✓ Account secured — you can sign back in with these.'; }
+  else if(state==='fail'){ s.innerHTML='<span style="color:var(--red);">Couldn’t finish securing your account (connection?). </span><a onclick="_retryCredWrite()" style="color:var(--gold);cursor:pointer;text-decoration:underline;">Retry</a>'; }
+}
+// Continue is allowed only when the user has ticked "I saved them" AND the
+// recoveryHash write is confirmed.
+function _updateCredContinue(){
+  var chk = el('cred-confirm'); var cont = el('cred-continue');
+  if(!cont) return;
+  var ready = !!(chk && chk.checked) && _credWriteConfirmed;
+  cont.disabled = !ready;
+  cont.style.opacity = ready ? '' : '0.5';
+}
+function _credWriteOk(){ _credWriteConfirmed = true; _setCredStatus('ok'); _updateCredContinue(); }
+function _credWriteFailed(){ _credWriteConfirmed = false; _setCredStatus('fail'); _updateCredContinue(); }
+// Re-attempt the recoveryHash write if it failed (offline at signup, etc.).
+function _retryCredWrite(){
+  if(!UID || !DB){ return; }
+  var recovery = el('cred-recovery') ? el('cred-recovery').textContent : '';
+  if(!recovery) return;
+  _setCredStatus('saving');
+  _sha256Hex(recovery).then(function(recHash){
+    return DB.collection('users').doc(UID).set({ accountCode: S.accountCode, recoveryHash: recHash, credsAcknowledged:false }, {merge:true});
+  }).then(_credWriteOk).catch(_credWriteFailed);
 }
 function credCopy(which){
   var node = (which==='recovery') ? el('cred-recovery') : el('cred-code');
@@ -2707,10 +2748,28 @@ function credCopy(which){
   }
 }
 function credContinue(){
+  if(!_credWriteConfirmed) return; // belt-and-suspenders; button is also disabled
+  // Stamp acknowledgement so a returning user isn't re-prompted to save codes.
+  if(UID && DB){ DB.collection('users').doc(UID).set({ credsAcknowledged:true }, {merge:true}).catch(function(){}); }
+  S.credsAcknowledged = true;
   var scr = el('cred-screen');  if(scr) scr.classList.remove('show');
   var as  = el('auth-screen');  if(as)  as.classList.remove('show');
   // The app was already initialised by onAuthStateChanged → checkSubscription;
   // closing the overlays reveals it (onboarding or dashboard).
+}
+// Shown on a later visit if the user created an account but never confirmed
+// they saved their codes (e.g. closed the tab during signup). The account code
+// is re-displayable (it's just a login id); the recovery code can't be —
+// only its hash was stored — so we mint and persist a fresh one.
+function _resumeCredentials(){
+  if(!S.accountCode || !UID || !DB) return;
+  if(el('cred-screen') && el('cred-screen').classList.contains('show')) return;
+  var recovery = _genRecoveryCode();
+  _sha256Hex(recovery).then(function(recHash){
+    _showCredentials(S.accountCode, recovery);
+    DB.collection('users').doc(UID).set({ accountCode: S.accountCode, recoveryHash: recHash, credsAcknowledged:false }, {merge:true})
+      .then(_credWriteOk).catch(_credWriteFailed);
+  });
 }
 
 // ── PASSWORD RECOVERY (account code + recovery code → new password) ──────────
@@ -3033,15 +3092,6 @@ function manageSubscription(){ toast('This is a free demo — no subscription to
   if(params.get('cancelled') === 'true'){
     history.replaceState({}, '', window.location.pathname);
   }
-  if(params.get('verified') === '1'){
-    history.replaceState({}, '', window.location.pathname);
-    var authScreen = document.getElementById('auth-screen');
-    if(authScreen) authScreen.classList.add('show');
-    var sb = document.getElementById('auth-success-banner');
-    if(sb){sb.style.display='';sb.innerHTML='Your email is verified — sign in below to access Niyyah ↓';}
-    var lbl = document.getElementById('auth-mode-label');
-    if(lbl) lbl.textContent = 'Welcome back — sign in';
-  }
 })();
 
 // Auth state observer — runs when page loads and when auth changes
@@ -3241,6 +3291,7 @@ function loadAll(){
     S.playbook     = d.playbook      || [];
     S.openTradeId  = d.openTradeId   || null;
     S.accountCode  = d.accountCode   || null;
+    S.credsAcknowledged = d.credsAcknowledged === true;
     // Restore in-progress state so a refresh doesn't wipe taps mid-session
     if(d.gateAns)                       S.gateAns     = d.gateAns;
     if(d.dhikr)                         S.dhikr       = Object.assign({sub:0,alh:0,akb:0}, d.dhikr);
@@ -3621,12 +3672,13 @@ function checkGate(){
   var closed=S.trades.filter(function(t){return t.status==='closed';});
   var insights=[];
 
-  // Adaptive: consecutive win pattern
+  // Adaptive: consecutive win pattern (chronological — not array order)
   if(closed.length>=4){
+    var chronoG=_chronoClosed(); // oldest first
     var recentWins=0;
-    for(var i=0;i<Math.min(4,closed.length);i++){if(closed[i].pnl>0)recentWins++;else break;}
+    for(var i=chronoG.length-1;i>=0;i--){if(chronoG[i].pnl>0)recentWins++;else break;}
     if(recentWins>=2){
-      var postWinEmotional=closed.filter(function(t,idx){return idx>0&&closed[idx-1].pnl>0&&['overconf','revenge'].includes(t.emotion||'');});
+      var postWinEmotional=chronoG.filter(function(t,idx){return idx>0&&chronoG[idx-1].pnl>0&&['overconf','revenge'].includes(t.emotion||'');});
       if(postWinEmotional.length>=2){
         insights.push('You are on a '+recentWins+'-win streak. Your data shows discipline slipping after wins. Kibr guard — same rules, always.');
       }
@@ -3667,6 +3719,19 @@ function checkGate(){
   // of silently letting both stand.
   if(S.gateAns.calm==='yes' && EMOTION_CHARGED[S.selEmotion]){
     insights.push('You answered <strong>calm</strong> in the gate but tagged your state as <strong>'+S.selEmotion+'</strong>. One of these is the truth — the mirror only works when they agree.');
+  }
+
+  // The signature mirror: when the trader tags a charged emotion, surface their
+  // OWN track record trading on that exact emotion — at the decision moment.
+  // This is the promise onboarding makes; it must fire from the emotion tag,
+  // not only from the Yes/No gate answers.
+  if(EMOTION_CHARGED[S.selEmotion]){
+    var sameEmo=closed.filter(function(t){return t.emotion===S.selEmotion;});
+    if(sameEmo.length>=3){
+      var eWR=Math.round(sameEmo.filter(function(t){return t.pnl>0;}).length/sameEmo.length*100);
+      var eTot=sameEmo.reduce(function(acc,t){return acc+(t.pnl||0);},0);
+      insights.push('Your last <strong>'+sameEmo.length+'</strong> trades tagged <strong>'+S.selEmotion+'</strong>: <strong>'+eWR+'%</strong> win rate, <strong>'+(eTot>=0?'+':'-')+fmt(Math.abs(eTot))+'</strong> total. This is the moment that decides it.');
+    }
   }
 
   if(!anyNo&&insights.length===0){w.classList.remove('show');return;}
@@ -3957,11 +4022,14 @@ function autoCalcExitHint(){
   var tickVal=TICK_VALUES[norm];
   var qty=parseFloat(t.qty)||1;
   var pnlEl=el('x-pnl');
+  var fees=Math.abs(parseFloat(el('x-fees')?el('x-fees').value:0)||0);
   if(tickVal&&!isNaN(diff)){
     var dollarPnl=Math.round(pricePnl*tickVal*qty*100)/100;
+    var netPnl=Math.round((dollarPnl-fees)*100)/100;
     hint.textContent='Auto-calculated: '+(dollarPnl>=0?'$+':'$')+dollarPnl.toLocaleString()
-      +' ('+qty+' contract'+(qty!==1?'s':'')+' \u00d7 $'+tickVal+'/pt)';
-    hint.style.color=dollarPnl===0?'var(--ink-3)':dollarPnl>0?'var(--green)':'var(--red)';
+      +' ('+qty+' contract'+(qty!==1?'s':'')+' \u00d7 $'+tickVal+'/pt)'
+      +(fees>0?(' \u2212 $'+fees.toLocaleString()+' fees = '+(netPnl>=0?'$+':'$')+netPnl.toLocaleString()+' net'):'');
+    hint.style.color=netPnl===0?'var(--ink-3)':netPnl>0?'var(--green)':'var(--red)';
     hint.style.display='';
     if(pnlEl&&!pnlEl._userEdited){
       pnlEl.value=dollarPnl;
@@ -3981,7 +4049,9 @@ function autoCalcExitHint(){
 }
 function closeExit(){var m=el('exit-modal');if(m)m.classList.remove('show');document.body.style.overflow='';}
 function saveExit(){
-  var pnl=parseFloat(el('x-pnl')?el('x-pnl').value:0)||0;
+  var grossPnl=parseFloat(el('x-pnl')?el('x-pnl').value:0)||0;
+  var fees=Math.abs(parseFloat(el('x-fees')?el('x-fees').value:0)||0);
+  var pnl=Math.round((grossPnl-fees)*100)/100; // store NET as the trade result
   var t=S.trades.find(function(x){return x.id===S.openTradeId&&x.status==='open';});
   if(!t){toast('No open trade to close','e');return;}
   // Lesson is required on close. The whole product premise is reflection —
@@ -3997,7 +4067,7 @@ function saveExit(){
   if(btn){btn.disabled=true;btn.classList.add('is-loading');btn.innerHTML='<span class="spinner"></span>Closing\u2026';}
   // Snapshot the prior state so we can revert if save fails
   var priorStatus=t.status,priorPnl=t.pnl,priorOpenId=S.openTradeId;
-  t.status='closed';t.pnl=pnl;
+  t.status='closed';t.pnl=pnl;t.grossPnl=grossPnl;t.fees=fees;
   t.exitPrice=el('x-exit')?el('x-exit').value:'';
   t.outcome=el('x-outcome')?el('x-outcome').value:'loss';
   t.exitEmotion=S.selExEmotion||'calm';
@@ -4010,7 +4080,7 @@ function saveExit(){
   svMulti({trades:S.trades, openTradeId:null})
     .then(function(){
       closeExit();
-      ['x-exit','x-pnl','x-lesson'].forEach(function(id){var e=el(id);if(e)e.value='';});
+      ['x-exit','x-pnl','x-fees','x-lesson'].forEach(function(id){var e=el(id);if(e)e.value='';});
       updateNav();
       // Quality toast for every close; milestone celebrations layered on top.
       toast('\u2713 Trade closed \u00b7 Quality '+t.quality+'/100','s');
@@ -4833,21 +4903,41 @@ function renderInsights(){
   e.innerHTML=ins.slice(0,3).map(function(x){return'<div class="insight '+x.t+'"><div class="insight-ico">'+x.i+'</div><div><div class="insight-title">'+x.title+'</div><div class="insight-desc">'+x.desc+'</div></div></div>';}).join('');
 }
 
+// Closed trades in chronological order (oldest first). Array insertion order
+// (S.trades.unshift = newest *entered* first) is NOT reliable chronological
+// order once a trade entered earlier is closed later, or a date is edited \u2014 so
+// any sequential metric (streaks, equity curve, drawdown) must sort explicitly.
+function _chronoClosed(){
+  return S.trades.filter(function(t){return t.status==='closed';})
+    .slice()
+    .sort(function(a,b){
+      // Prefer the real close timestamp; fall back to trade date + entry time.
+      var ka=(a.closedAt||((a.date||'')+'T'+(a.time||'00:00')))+'#'+(a.id||0);
+      var kb=(b.closedAt||((b.date||'')+'T'+(b.time||'00:00')))+'#'+(b.id||0);
+      return ka<kb?-1:ka>kb?1:0;
+    });
+}
 function renderStatsStrip(){
   var e=el('stats-strip');if(!e)return;
   var closed=S.trades.filter(function(t){return t.status==='closed';});if(!closed.length){e.innerHTML='';return;}
   var wins=closed.filter(function(t){return t.pnl>0;});var losses=closed.filter(function(t){return t.pnl<0;});
   var avgW=wins.length?wins.reduce(function(s,t){return s+t.pnl;},0)/wins.length:0;
   var avgL=losses.length?Math.abs(losses.reduce(function(s,t){return s+t.pnl;},0)/losses.length):0;
-  var wr=closed.length?wins.length/closed.length:0;var exp=wr*avgW-(1-wr)*avgL;
-  var pf=losses.length&&avgL>0?(wins.reduce(function(s,t){return s+t.pnl;},0)/Math.abs(losses.reduce(function(s,t){return s+t.pnl;},0))):null;
+  var grossW=wins.reduce(function(s,t){return s+t.pnl;},0);
+  var grossL=Math.abs(losses.reduce(function(s,t){return s+t.pnl;},0));
+  // Expectancy = average net P&L per trade. Summing all pnl \u00f7 N counts
+  // breakevens correctly (as 0) \u2014 the old wr*avgW-(1-wr)*avgL formula lumped
+  // breakevens in with losers and understated it.
+  var exp=closed.reduce(function(s,t){return s+(t.pnl||0);},0)/closed.length;
+  var pf=grossL>0?(grossW/grossL):(grossW>0?Infinity:null);
   var cw=0,cl=0;
-  for(var i=0;i<closed.length;i++){if(closed[i].pnl>0)cw++;else break;}
-  for(var j=0;j<closed.length;j++){if(closed[j].pnl<0)cl++;else break;}
+  var chrono=_chronoClosed(); // oldest first \u2192 iterate from the end for "most recent"
+  for(var i=chrono.length-1;i>=0;i--){if(chrono[i].pnl>0)cw++;else break;}
+  for(var j=chrono.length-1;j>=0;j--){if(chrono[j].pnl<0)cl++;else break;}
   var streak=cw>0?'+'+cw+' wins':cl>0?'-'+cl+' losses':'\u2014';
   var sc=cw>0?'var(--green)':cl>0?'var(--red)':'var(--ink)';
   function stat(lbl,val,col){return'<div class="metric-card"><div class="metric-label">'+lbl+'</div><div class="metric-val" style="color:'+(col||'var(--gold)')+'">'+val+'</div></div>';}
-  e.innerHTML=stat('EXPECTANCY',fmt(exp,true),exp>=0?'var(--green)':'var(--red)')+stat('PROFIT FACTOR',pf?pf.toFixed(2):'\u2014',pf&&pf>=1?'var(--green)':'var(--red)')+stat('AVG W / AVG L',avgW?(fmt(avgW)+' / '+fmt(avgL)):'\u2014','var(--ink)')+stat('CURRENT STREAK',streak,sc);
+  e.innerHTML=stat('EXPECTANCY',fmt(exp,true),exp>=0?'var(--green)':'var(--red)')+stat('PROFIT FACTOR',pf===Infinity?'\u221e':(pf?pf.toFixed(2):'\u2014'),(pf&&pf>=1)?'var(--green)':'var(--red)')+stat('AVG W / AVG L',avgW?(fmt(avgW)+' / '+fmt(avgL)):'\u2014','var(--ink)')+stat('CURRENT STREAK',streak,sc);
 }
 
 function renderEquity(){
@@ -4860,7 +4950,7 @@ function renderEquity(){
   }
   var c=el('eq-chart');if(!c)return;
   if(C.eq){try{C.eq.destroy();}catch(e){}}
-  var trades=S.trades.filter(function(t){return t.status==='closed';}).slice().reverse();
+  var trades=_chronoClosed();
   if(S.eqRange==='30'){var co30=Date.now()-2592000000;trades=trades.filter(function(t){return new Date(t.date+'T12:00:00').getTime()>=co30;});}
   else if(S.eqRange==='7'){var co7=Date.now()-604800000;trades=trades.filter(function(t){return new Date(t.date+'T12:00:00').getTime()>=co7;});}
   if(!trades.length){c.parentElement.innerHTML='<div class="empty" style="padding:50px;"><div class="empty-icon">\ud83d\udcc8</div><div class="empty-title">Equity curve appears here</div></div>';return;}
@@ -5164,8 +5254,10 @@ function computePrayerTimes(){
   var fajrA=_ptT(18, loc.lat, pos.decl, noon);
   var ishaA=_ptT(17, loc.lat, pos.decl, noon);
   var sunset=_ptT(0.833, loc.lat, pos.decl, noon);
-  // Asr (Shafi convention): shadow-factor 1 plus noon shadow.
-  var asrAngle = -_ptRad2Deg(Math.atan(1/(1 + Math.tan(_ptDeg2Rad(Math.abs(loc.lat-pos.decl))))));
+  // Asr shadow factor: Shafi'i/Maliki/Hanbali = 1, Hanafi = 2 (later Asr).
+  // User-selectable in Settings; defaults to the majority (factor 1).
+  var asrFactor = (S.settings && S.settings.asrMadhab === 'hanafi') ? 2 : 1;
+  var asrAngle = -_ptRad2Deg(Math.atan(1/(asrFactor + Math.tan(_ptDeg2Rad(Math.abs(loc.lat-pos.decl))))));
   var asrA = _ptT(-asrAngle, loc.lat, pos.decl, noon);
   if(fajrA===null||sunset===null||asrA===null||ishaA===null) return null;
   return {
@@ -5317,7 +5409,7 @@ function computeUserStage(s){
   // Crude max-drawdown estimate: equity-curve peak-to-trough using the closed
   // trades in chronological order.
   var equity = 0, peak = 0, maxDD = 0;
-  closed.slice().reverse().forEach(function(t){
+  _chronoClosed().forEach(function(t){
     equity += (t.pnl||0);
     if(equity > peak) peak = equity;
     var dd = peak - equity;
@@ -6156,11 +6248,16 @@ function renderZakat(){
 }
 
 function calcRisk(){
-  var acc=parseFloat(el('rc-account')?el('rc-account').value:0)||0;var riskPct=parseFloat(el('rc-risk-pct')?el('rc-risk-pct').value:1)||1;var entry=parseFloat(el('rc-entry')?el('rc-entry').value:0)||0;var stop=parseFloat(el('rc-stop')?el('rc-stop').value:0)||0;var type=el('rc-type')?el('rc-type').value:'futures-micro';
+  var acc=parseFloat(el('rc-account')?el('rc-account').value:0)||0;var riskPct=parseFloat(el('rc-risk-pct')?el('rc-risk-pct').value:1)||1;var entry=parseFloat(el('rc-entry')?el('rc-entry').value:0)||0;var stop=parseFloat(el('rc-stop')?el('rc-stop').value:0)||0;var type=el('rc-type')?el('rc-type').value:'MNQ';
   var rr=el('risk-result');if(!rr)return;if(!acc||!entry||!stop){rr.innerHTML='';return;}
   var riskAmt=acc*(riskPct/100);var pts=Math.abs(entry-stop);if(pts<0.001){rr.innerHTML='';return;}
-  var ptVal=type==='futures-mini'?20:type==='futures-micro'?2:type==='forex'?10:1;var contracts=Math.floor(riskAmt/(pts*ptVal));var actualRisk=contracts*pts*ptVal;var target2=entry+(entry>stop?1:-1)*pts*2;
-  rr.innerHTML='<div class="risk-result"><div class="risk-result-num">'+contracts+'</div><div class="risk-result-label">'+(type.includes('futures')?'CONTRACTS':type==='forex'?'LOTS':'SHARES')+'</div><div style="margin-top:16px;display:flex;gap:18px;justify-content:center;flex-wrap:wrap;font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;color:var(--ink-3);"><span>Risk: <strong style="color:var(--red);">'+fmt(actualRisk)+'</strong></span><span>2:1 Target: <strong style="color:var(--ink);">'+target2.toFixed(1)+'</strong></span><span>Pct: <strong style="color:var(--gold);">'+riskPct+'% of account</strong></span></div></div>';
+  // Per-instrument $/point comes from the same TICK_VALUES table the trade
+  // auto-calc uses — so ES is $50/pt, gold $100/pt, etc. (was hardcoded to
+  // NQ's $20/$2 for ALL futures, which over-sized ES/GC positions 2.5–5x).
+  var isFutures=!(type==='forex'||type==='stock');
+  var ptVal=type==='forex'?10:type==='stock'?1:(TICK_VALUES[type]||1);
+  var contracts=Math.floor(riskAmt/(pts*ptVal));var actualRisk=contracts*pts*ptVal;var target2=entry+(entry>stop?1:-1)*pts*2;
+  rr.innerHTML='<div class="risk-result"><div class="risk-result-num">'+contracts+'</div><div class="risk-result-label">'+(isFutures?'CONTRACTS':type==='forex'?'LOTS':'SHARES')+'</div><div style="margin-top:16px;display:flex;gap:18px;justify-content:center;flex-wrap:wrap;font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;color:var(--ink-3);"><span>Risk: <strong style="color:var(--red);">'+fmt(actualRisk)+'</strong></span><span>2:1 Target: <strong style="color:var(--ink);">'+target2.toFixed(1)+'</strong></span><span>Pct: <strong style="color:var(--gold);">'+riskPct+'% of account</strong></span></div></div>';
 }
 function renderRisk(){calcRisk();}
 
@@ -6202,7 +6299,7 @@ function renderSettings(){
 function changePassword(){
   var np=(el('s-new-pw')&&el('s-new-pw').value)||'';
   var cp=(el('s-conf-pw')&&el('s-conf-pw').value)||'';
-  if(np.length<8){toast('Password must be at least 8 characters','e');return;}
+  if(np.length<6){toast('Password must be at least 6 characters','e');return;}
   if(np!==cp){toast('Passwords do not match','e');return;}
   var user=AUTH.currentUser;
   if(!user){toast('Not signed in','e');return;}
@@ -6214,7 +6311,7 @@ function changePassword(){
     if(e.code==='auth/requires-recent-login'){
       toast('For security, please sign out and sign back in before changing your password.','e');
     } else {
-      toast(friendlyAuthError(e),'e');
+      toast(friendlyAuthError(e&&e.code),'e');
     }
   });
 }
@@ -6233,6 +6330,14 @@ function renderPrayerLocRow(){
       '<div style="flex:1;font-size:0.82rem;color:var(--ink-3);">Off. Enable to see prayer-time pills while you trade.</div>' +
       '<button class="btn btn-gold btn-sm" onclick="setPrayerLoc()">Enable & use my location</button>';
   }
+  var am = el('asr-madhab');
+  if(am) am.value = (S.settings && S.settings.asrMadhab === 'hanafi') ? 'hanafi' : 'standard';
+}
+function setAsrMadhab(v){
+  S.settings.asrMadhab = (v === 'hanafi') ? 'hanafi' : 'standard';
+  sv('settings', S.settings);
+  if(typeof renderPrayerPill === 'function'){ try{ renderPrayerPill(); }catch(e){} }
+  toast('✓ Asr calculation updated','s');
 }
 function setPrayerLoc(){
   if(!navigator.geolocation){ toast('Geolocation not supported in this browser','e'); return; }
@@ -6424,8 +6529,13 @@ function deleteAccount(){
     if(!ok)return;
     var user = AUTH.currentUser;
     if(!user){toast('Not signed in','e');return;}
-    DB.collection('users').doc(UID).delete()
-      .then(function(){return user.delete();})
+    var uid = UID;
+    // Delete the AUTH account FIRST. It's the operation that can fail with
+    // requires-recent-login — and if it does, we must NOT have already wiped
+    // the user's data (and recoveryHash). Only once auth deletion succeeds do
+    // we remove the Firestore doc.
+    user.delete()
+      .then(function(){ return DB.collection('users').doc(uid).delete().catch(function(){}); })
       .then(function(){
         toast('✓ Account deleted','s');
         setTimeout(function(){location.reload();},900);
@@ -7456,6 +7566,11 @@ function init(){
   }
   loadAll().then(function(ob){
     var user=AUTH.currentUser;
+    // Recover from an interrupted signup: account exists but the user never
+    // confirmed they saved their codes. Re-show them (with a fresh recovery
+    // code) so they can never be permanently locked out. Skipped if the
+    // credential screen is already up (i.e. this load IS the fresh signup).
+    if(!window._demoMode && S.accountCode && S.credsAcknowledged !== true) _resumeCredentials();
     if(S.settings.name){setText('sf-av',S.settings.name[0].toUpperCase());setText('sf-name',S.settings.name);}
     else if(user&&user.displayName){setText('sf-av',user.displayName[0].toUpperCase());setText('sf-name',user.displayName);}
     if(user&&user.email){setText('sf-plan-label','Free Demo');}
@@ -7655,37 +7770,7 @@ document.addEventListener('DOMContentLoaded',function(){
     _suppressHistory = true;
     try{ showLegalPage(initialPath); } finally { _suppressHistory = false; }
   }
-  // Email verification \u2014 two paths:
-  // 1. Legacy continueUrl redirect: /?verified=1
-  // 2. Custom action URL: /?mode=verifyEmail&oobCode=... (Firebase sends users
-  //    directly to niyyahtrader.com when the action URL is set in Firebase Console
-  //    \u2192 Authentication \u2192 Templates \u2192 Email Address Verification \u2192 Customize action URL
-  //    \u2192 https://niyyahtrader.com)
-  var urlParams = new URLSearchParams(window.location.search);
-  if(urlParams.get('verified')==='1'){
-    history.replaceState({},document.title,window.location.pathname);
-    setTimeout(function(){
-      showAuth('signin');
-      var sb=el('auth-success-banner');
-      if(sb){sb.style.display='';sb.innerHTML='\u2713 Email verified \u2014 sign in below to access your journal \u2193';}
-    },300);
-  } else if(urlParams.get('mode')==='verifyEmail' && urlParams.get('oobCode')){
-    var oobCode = urlParams.get('oobCode');
-    history.replaceState({},document.title,window.location.pathname);
-    AUTH.applyActionCode(oobCode).then(function(){
-      setTimeout(function(){
-        showAuth('signin');
-        var sb=el('auth-success-banner');
-        if(sb){sb.style.display='';sb.innerHTML='\u2713 Email verified \u2014 sign in below to access your journal \u2193';}
-      },300);
-    }).catch(function(e){
-      setTimeout(function(){
-        showAuth('signin');
-        var err=el('auth-error');
-        if(err){err.style.color='var(--red)';err.textContent=e.code==='auth/invalid-action-code'?'This verification link has already been used or has expired. Sign in and we\'ll send a new one.':'Verification failed. Please try again or contact support@niyyahtrader.com.';}
-      },300);
-    });
-  }
+  // (Email-verification URL handlers removed \u2014 accounts no longer use email.)
 });
 
 // ── MODAL KEYBOARD SUPPORT + GLOBAL SHORTCUTS ─────────────────────────────
