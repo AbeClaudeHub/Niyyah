@@ -81,7 +81,10 @@ async function creditReferralLogic(payingUid, db, stripe){
   // Apply coupons. Either side may have no active subscription yet (referrer
   // could be on free trial / canceled / never paid) — skip those.
   try{
-    if(pay.stripeSubscriptionId || (pay.subscription && pay.subscription.stripeSubscriptionId)){
+    // The Stripe webhook (index.js) stores the id at subscription.stripeSubscriptionId
+    // — there is no top-level field. Guard before dereferencing so a doc without
+    // a subscription object can't throw.
+    if(pay.subscription && pay.subscription.stripeSubscriptionId){
       await applyCouponToSubscription(stripe, pay.subscription.stripeSubscriptionId, cfg.coupon);
     }
     if(ref.subscription && ref.subscription.stripeSubscriptionId){

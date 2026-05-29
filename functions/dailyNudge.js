@@ -46,15 +46,42 @@ function webpush(){
   return _webpush;
 }
 
-// Decide whether the user needs a nudge today, and what to say. Returns
-// { title, body, url } or null if no nudge is warranted. Read-only — does
-// not mutate anything.
-function decideNudge(userDoc, tradesSnap, prayersSnap){
-  const today = new Date().toISOString().slice(0,10);
-  const trades = tradesSnap.docs.map(d => d.data());
-  const closed = trades.filter(t => t.status === 'closed');
+// Streak length, computed the same way the client does (see calcStreak in
+// index.html): a "streak day" is any day with >=1 closed trade OR >=1 prayer
+// tapped, counting back from today/yesterday. Note the client uses LOCAL dates
+// while this scheduled job uses UTC — acceptable drift for a once-daily nudge.
+function calcStreakFromData(trades, prayers, today){
+  const tradeDays = {};
+  (Array.isArray(trades) ? trades : [])
+    .filter(t => t.status === 'closed')
+    .forEach(t => { if(t.date) tradeDays[t.date] = true; });
+  const prayerDays = {};
+  Object.keys(prayers || {}).forEach(d => {
+    if(Object.values(prayers[d] || {}).some(Boolean)) prayerDays[d] = true;
+  });
+  const allDays = Object.keys(Object.assign({}, tradeDays, prayerDays));
+  if(!allDays.length) return 0;
+  allDays.sort().reverse();
+  const yest = new Date(Date.now() - 86400000).toISOString().slice(0,10);
+  if(allDays[0] !== today && allDays[0] !== yest) return 0;
+  let streak = 1;
+  for(let i = 1; i < allDays.length; i++){
+    const a = new Date(allDays[i-1] + 'T12:00:00Z');
+    const b = new Date(allDays[i]   + 'T12:00:00Z');
+    if((a - b) / 86400000 === 1) streak++; else break;
+  }
+  return streak;
+}
 
-  // 1. Post-loss reflection: today already saw a loss, no nudge yet.
+// Decide whether the user needs a nudge today, and what to say. Returns
+// { title, body, url } or null if no nudge is warranted. Read-only — reads
+// trades and dailyPrayers as FIELDS on the user doc (the live storage shape).
+function decideNudge(data, today){
+  const trades  = Array.isArray(data.trades) ? data.trades : [];
+  const prayers = data.dailyPrayers || {};
+  const closed  = trades.filter(t => t.status === 'closed');
+
+  // 1. Post-loss reflection: today already saw a loss.
   const todaysClosed = closed.filter(t => t.date === today);
   const todaysLoss   = todaysClosed.some(t => (t.pnl||0) < 0);
   if(todaysLoss){
@@ -65,10 +92,9 @@ function decideNudge(userDoc, tradesSnap, prayersSnap){
     };
   }
 
-  // 2. Streak at risk: user has a multi-day discipline streak but today is
-  //    blank (no closed trade and no prayer logged).
-  const streak = (userDoc.streak || 0);
-  const todayPrayed = !!(prayersSnap.data() && prayersSnap.data()[today]);
+  // 2. Streak at risk: a multi-day streak exists but today is still blank.
+  const streak = calcStreakFromData(trades, prayers, today);
+  const todayPrayed = !!(prayers[today] && Object.values(prayers[today]).some(Boolean));
   if(streak >= 3 && !todaysClosed.length && !todayPrayed){
     return {
       title: 'Niyyah · streak at risk',
@@ -77,10 +103,8 @@ function decideNudge(userDoc, tradesSnap, prayersSnap){
     };
   }
 
-  // 3. Friday muhasabah window: Friday 17:00 UTC, user has >=2 closed trades
-  //    this week.
-  const dow = new Date().getDay(); // 5 = Friday
-  if(dow === 5){
+  // 3. Friday muhasabah window: Friday (UTC), 17:00 run.
+  if(new Date().getUTCDay() === 5){
     return {
       title: 'Niyyah · Friday muhasabah',
       body: 'Open the weekly mirror. Five minutes — see what this week actually was.',
@@ -107,14 +131,12 @@ exports.sendDailyNudge = functions
       const data = u.data();
       // De-dupe: one nudge per UTC day per user.
       if(data.lastNudgeAt === today){ skipped++; continue; }
+      const sub = data.settings && data.settings.pushSubscription;
+      if(!sub){ skipped++; continue; }
       try{
-        const [tradesSnap, prayersSnap] = await Promise.all([
-          db.collection('users').doc(uid).collection('trades').get(),
-          db.collection('users').doc(uid).collection('meta').doc('dailyPrayers').get()
-        ]);
-        const nudge = decideNudge(data, tradesSnap, prayersSnap);
+        // trades and dailyPrayers are fields on the user doc, not subcollections.
+        const nudge = decideNudge(data, today);
         if(!nudge){ skipped++; continue; }
-        const sub = data.settings.pushSubscription;
         await webpush().sendNotification(sub, JSON.stringify(nudge));
         await db.collection('users').doc(uid).update({ lastNudgeAt: today });
         sent++;

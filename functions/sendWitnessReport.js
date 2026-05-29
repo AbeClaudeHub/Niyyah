@@ -97,11 +97,13 @@ exports.sendWitnessReport = functions
   .timeZone('UTC')
   .onRun(async () => {
     const db = admin.firestore();
-    // Find every Sirat-tier user with witness on. We can't compose-query
-    // across .tier AND .email easily, so we narrow on tier and filter in
-    // memory — fine until thousands of premium users, then refactor.
+    // Find every user who has Witness Mode enabled (a witness email saved under
+    // settings.witness.email). During early access every account has full
+    // access, so we gate on the feature being turned on rather than on a paid
+    // tier — otherwise this would match no one. We still re-check the email per
+    // doc below.
     const snap = await db.collection('users')
-      .where('subscription.tier', '==', 'sirat')
+      .where('settings.witness.email', '!=', null)
       .get();
 
     let sent = 0, skipped = 0, failed = 0;
