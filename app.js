@@ -1256,6 +1256,17 @@ function go(page,navEl){
   var pg=el('page-'+page);if(pg)pg.classList.add('active');
   if(navEl)navEl.classList.add('active');
   else{var ne=document.querySelector('[data-page="'+page+'"]');if(ne)ne.classList.add('active');}
+  // If the active item lives inside a collapsed nav group, reveal the group
+  // so the highlighted page is visible (e.g. deep-linking straight to /risk).
+  var actNav=document.querySelector('.nav-item.active');
+  if(actNav){
+    var grpBody=actNav.closest('.nav-group-body');
+    if(grpBody && !grpBody.classList.contains('open')){
+      grpBody.classList.add('open');
+      var tog=grpBody.previousElementSibling;
+      if(tog && tog.classList.contains('nav-sect-toggle')){ tog.classList.add('open'); tog.setAttribute('aria-expanded','true'); }
+    }
+  }
   var tt=el('topbar-title');if(tt)tt.innerHTML=PAGE_TITLES[page]||page;
   closeDP();
   var sb=el('sidebar');if(sb)sb.classList.remove('open');
@@ -1268,6 +1279,29 @@ function toggleSB(){
   var sb=el('sidebar');if(sb)sb.classList.toggle('open');
   var sbo=el('sb-overlay');if(sbo)sbo.classList.toggle('show');
 }
+// Collapsible secondary nav groups (Tools, More) — keep the daily-loop pages
+// always visible and tuck advanced tools behind a header. State persists.
+function toggleNavGroup(key,btn){
+  var body=el('navgrp-'+key); if(!body) return;
+  var open=body.classList.toggle('open');
+  if(btn){ btn.classList.toggle('open',open); btn.setAttribute('aria-expanded',open?'true':'false'); }
+  try{ localStorage.setItem('niyyah_nav_'+key, open?'1':'0'); }catch(e){}
+}
+(function restoreNavGroups(){
+  function apply(){
+    ['tools','more'].forEach(function(key){
+      var saved; try{ saved=localStorage.getItem('niyyah_nav_'+key); }catch(e){}
+      if(saved==='1'){
+        var body=el('navgrp-'+key); if(body){ body.classList.add('open');
+          var tog=body.previousElementSibling;
+          if(tog && tog.classList.contains('nav-sect-toggle')){ tog.classList.add('open'); tog.setAttribute('aria-expanded','true'); }
+        }
+      }
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply);
+  else apply();
+})();
 
 // ── SALAH ──────────────────────────────────────────────────────────────────
 function getTodayPrayers(){var k=localDate();return S.dailyPrayers[k]||{fajr:false,dhuhr:false,asr:false,maghrib:false,isha:false};}
@@ -5675,6 +5709,8 @@ var __H = {
   'h43': function(event){ this.style.color='var(--gold)';this.style.background='var(--surface-2)'; },
   'h44': function(event){ this.style.color='var(--ink-3)';this.style.background='transparent'; },
   'h45': function(event){ go('settings',null) },
+  'hgrpTools': function(event){ toggleNavGroup('tools',this) },
+  'hgrpMore': function(event){ toggleNavGroup('more',this) },
   'h46': function(event){ exitDemo() },
   'h47': function(event){ openDisasterBrake() },
   'h48': function(event){ toggleSalah('fajr') },
