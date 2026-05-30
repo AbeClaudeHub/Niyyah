@@ -2525,7 +2525,7 @@ function renderInsights(){
     if(tf.length>=3&&tp.length>=3){
       var fwr=Math.round(tf.filter(function(t){return t.pnl>0;}).length/tf.length*100);
       var pw=Math.round(tp.filter(function(t){return t.pnl>0;}).length/tp.length*100);
-      if(fwr>pw+8)ins.push({t:'g',i:'\ud83e\udd32',title:'Full salah days outperform',desc:'Full-prayer days: <span class="p">'+fwr+'%</span> vs <span class="p">'+pw+'%</span>. The same discipline. Different arenas.'});
+      if(fwr>pw+8)ins.push({t:'g',i:'✓',title:'Full salah days outperform',desc:'Full-prayer days: <span class="p">'+fwr+'%</span> vs <span class="p">'+pw+'%</span>. The same discipline. Different arenas.'});
     }
   }
 
@@ -2534,7 +2534,7 @@ function renderInsights(){
   if(broke.length>=3){
     var lp=Math.round(broke.filter(function(t){return t.pnl<0;}).length/broke.length*100);
     var brokePnl=broke.reduce(function(s,t){return s+t.pnl;},0);
-    ins.push({t:'w',i:'\u26d4',title:'Rule breaks are expensive',desc:'<span class="p">'+lp+'%</span> of rule breaks lose money. Total cost: <strong>'+fmt(brokePnl,true)+'</strong>.'});
+    ins.push({t:'w',i:'⚠',title:'Rule breaks are expensive',desc:'<span class="p">'+lp+'%</span> of rule breaks lose money. Total cost: <strong>'+fmt(brokePnl,true)+'</strong>.'});
   }
 
   // Quality score improvement
