@@ -23,6 +23,7 @@ var S={trades:[],journals:[],morning:{},challenge:null,goal:null,settings:{},
        selEmotion:null,selExEmotion:null,gateAns:{},
        icChecked:{bismillah:false,prayer:false,setup:false,stop:false},
        eqRange:'all',calMonth:new Date(),tradeFilter:'all',obStep:1,
+       sahib:{commitment:null,history:[]},
        editPBId:null,_sub:{status:null,tier:'base'}};
 var C={};
 
@@ -920,6 +921,7 @@ function loadAll(){
     if(d.gateAns)                       S.gateAns     = d.gateAns;
     if(d.dhikr)                         S.dhikr       = Object.assign({sub:0,alh:0,akb:0}, d.dhikr);
     if(d.nafs)                          S.nafs        = Object.assign({sabr:0,tawakkul:0,kibr:0,shukr:0}, d.nafs);
+    if(d.sahib && typeof d.sahib==='object') S.sahib  = Object.assign({commitment:null,history:[]}, d.sahib);
     if(d.icChecked)                     S.icChecked   = Object.assign({bismillah:false,prayer:false,setup:false,stop:false}, d.icChecked);
     if(d.tradeFilter)                   S.tradeFilter = d.tradeFilter;
     if(typeof d.obStep === 'number')    S.obStep      = d.obStep;
@@ -2346,6 +2348,9 @@ function renderDash(){
   // ── SIRAT PATH TEASER (Sirat subscribers) ─────────────────────────────
   renderSiratTeaser();
 
+  // ── SAHIB · the daily companion (diagnosis + weekly commitment) ────────
+  try{ renderSahib(); }catch(e){ console.error('sahib:',e); }
+
   // ── SINGLE BEHAVIORAL INSIGHT ──────────────────────────────────────────
   renderTodayInsight();
 
@@ -2649,6 +2654,288 @@ function _tradeR(t){
   if(risk<=0) return null;
   return Math.round((t.pnl/risk)*100)/100;
 }
+
+// ══════════════════════════════════════════════════════════════════════════
+// SAHIB (صاحب · "the companion") — the daily guide.
+// Reads the user's own closed trades, names the single highest-cost
+// behavioural leak, turns it into one weekly commitment, then measures
+// whether they actually improved week over week. Fully deterministic — no
+// AI, no data leaves the account. Diagnosis is stage-aware: it reads the
+// Sirat stage and weights which leaks matter for where the trader is.
+// ══════════════════════════════════════════════════════════════════════════
+
+var SAHIB_MIN_TRADES = 6;
+// Which leaks Sahib prioritises per Sirat stage. Same engine, different
+// companion: survival-stage traders are pushed toward risk control;
+// consistent traders toward squeezing the edge. Default weight is 1.
+var SAHIB_STAGE_WEIGHTS = {
+  tahaarah: { hard_stops:2.2, fixed_size:1.9, no_revenge:1.9, max_trades:1.5 },
+  sabr:     { has_setup:1.8, pray_before:1.4, max_trades:1.3, time_window:1.4, no_revenge:1.3 },
+  yaqeen:   { has_setup:1.5, capture:1.4, pray_before:1.3, time_window:1.2 },
+  tawakkul: { capture:1.9, fixed_size:1.4, time_window:1.2 },
+  ihsan:    { capture:2.0, fixed_size:1.3 }
+};
+
+function _sahibNum(v){ var n=parseFloat(String(v==null?'':v).replace(/[^\d.\-]/g,'')); return isNaN(n)?null:n; }
+function _median(a){ if(!a.length)return 0; var s=a.slice().sort(function(x,y){return x-y;}); var m=Math.floor(s.length/2); return s.length%2?s[m]:(s[m-1]+s[m])/2; }
+function _daysSince(dateStr){ var a=new Date(dateStr+'T00:00:00'), b=new Date(localDate()+'T00:00:00'); return Math.max(0,Math.round((b-a)/86400000)); }
+function _fmtHour(h){ h=((h%24)+24)%24; var ap=h<12?'am':'pm'; var hh=h%12; if(hh===0)hh=12; return hh+ap; }
+function _plannedRisk(t){
+  var e=_sahibNum(t.entryPrice), s=_sahibNum(t.stopPrice!=null?t.stopPrice:t.stopLoss);
+  var tv=TICK_VALUES[_normaliseInst(t.instrument||'')]; var q=parseFloat(t.qty)||1;
+  if(e==null||s==null||!tv||Math.abs(e-s)<=0)return null;
+  return Math.abs(e-s)*tv*q;
+}
+// Non-sample closed trades in chronological order (oldest first).
+function _sahibChrono(){
+  return S.trades.filter(function(t){return t.status==='closed' && !t.sample;}).slice().sort(function(a,b){
+    var ka=(a.closedAt||((a.date||'')+'T'+(a.time||'00:00')))+'#'+(a.id||0);
+    var kb=(b.closedAt||((b.date||'')+'T'+(b.time||'00:00')))+'#'+(b.id||0);
+    return ka<kb?-1:ka>kb?1:0;
+  });
+}
+function _isRevengeTrade(t,prev){ return t.emotion==='revenge' || (prev && prev.pnl<0 && prev.date===t.date); }
+
+// ── Leak detectors. Each returns null or a leak object:
+//    { id, label, cost, freq, evidence, prescription, commitment, meta } ──
+function _sahibDetectRevenge(chrono){
+  var win=chrono.slice(-20), rev=[];
+  for(var i=0;i<win.length;i++){ if(_isRevengeTrade(win[i], i>0?win[i-1]:null)) rev.push(win[i]); }
+  if(rev.length<2) return null;
+  var sum=rev.reduce(function(s,t){return s+t.pnl;},0);
+  if(sum>=0) return null;
+  var wr=Math.round(rev.filter(function(t){return t.pnl>0;}).length/rev.length*100);
+  return { id:'no_revenge', label:'Revenge trading', cost:Math.abs(sum), freq:rev.length,
+    evidence: rev.length+' of your recent trades were taken on tilt or right after a loss — they\'re '+fmt(sum,true)+' at <strong>'+wr+'%</strong> win.',
+    prescription:'After any loss, step away for ten minutes before the next entry — or call it a day.',
+    commitment:'No revenge entries — after a loss, I step away before trading again.', meta:{} };
+}
+function _sahibDetectStopMoving(chrono){
+  var win=chrono.slice(-25);
+  var losers=win.filter(function(t){return t.pnl<0;}).map(function(t){return {t:t,r:_tradeR(t),pr:_plannedRisk(t)};}).filter(function(x){return x.r!=null&&x.pr!=null;});
+  if(losers.length<3) return null;
+  var blown=losers.filter(function(x){return x.r<=-1.15;});
+  if(blown.length<2) return null;
+  var extra=blown.reduce(function(s,x){return s+(Math.abs(x.t.pnl)-x.pr);},0);
+  if(extra<=0) return null;
+  return { id:'hard_stops', label:'Moving your stop', cost:extra, freq:blown.length,
+    evidence: '<strong>'+blown.length+' of your last '+losers.length+'</strong> losers blew past the stop you set — about '+fmt(extra)+' of avoidable damage.',
+    prescription:'Place the stop when your mind is clear, then never touch it. That version of you knew better.',
+    commitment:'Hard stops only — once it\'s placed, it does not move.', meta:{} };
+}
+function _sahibDetectCutWinners(chrono){
+  var win=chrono.slice(-25);
+  var winners=win.filter(function(t){return t.pnl>0 && t.mfe!=null && t.mfe>0;});
+  if(winners.length<4) return null;
+  var avgWin=winners.reduce(function(s,t){return s+t.pnl;},0)/winners.length;
+  var avgMfe=winners.reduce(function(s,t){return s+t.mfe;},0)/winners.length;
+  if(avgMfe < avgWin*1.35) return null;
+  return { id:'capture', label:'Cutting winners early', cost:(avgMfe-avgWin)*winners.length, freq:winners.length,
+    evidence: 'Your winners ran to '+fmt(avgMfe,true)+' on average but you booked '+fmt(avgWin,true)+' — leaving about <strong>'+Math.round((1-avgWin/avgMfe)*100)+'%</strong> on the table.',
+    prescription:'Move to breakeven at 1R and let a runner reach target instead of grabbing the first green.',
+    commitment:'Let winners run — hold a runner to target instead of booking early.', meta:{} };
+}
+function _sahibDetectOversizing(chrono){
+  var win=chrono.slice(-25);
+  var med=_median(win.map(function(t){return parseFloat(t.qty)||1;}));
+  if(med<=0) return null;
+  var big=[]; for(var i=1;i<win.length;i++){ if(win[i-1].pnl>0 && (parseFloat(win[i].qty)||1)>med*1.3) big.push(win[i]); }
+  if(big.length<2) return null;
+  var sum=big.reduce(function(s,t){return s+t.pnl;},0);
+  if(sum>=0) return null;
+  return { id:'fixed_size', label:'Sizing up after wins', cost:Math.abs(sum), freq:big.length,
+    evidence: 'After a win you size up — those bigger trades are '+fmt(sum,true)+'. Kibr sizes up; sabr stays consistent.',
+    prescription:'Risk the same fixed amount every trade, win or lose.',
+    commitment:'Same size every trade this week — fixed risk regardless of the last result.', meta:{med:med} };
+}
+function _sahibDetectNoEdge(chrono){
+  var win=chrono.slice(-25);
+  var noEdge=win.filter(function(t){ return (t.gateAnswers&&t.gateAnswers.waited==='no') || !((t.setup||'').trim()); });
+  if(noEdge.length<3) return null;
+  var sum=noEdge.reduce(function(s,t){return s+t.pnl;},0);
+  if(sum>=0) return null;
+  var wr=Math.round(noEdge.filter(function(t){return t.pnl>0;}).length/noEdge.length*100);
+  return { id:'has_setup', label:'Trading without a setup', cost:Math.abs(sum), freq:noEdge.length,
+    evidence: 'Trades you took without waiting for a named setup are '+fmt(sum,true)+' at <strong>'+wr+'%</strong> — improvising costs you.',
+    prescription:'If you can\'t name the setup from your playbook, it isn\'t a trade.',
+    commitment:'Only trades I can name from my playbook — no improvising.', meta:{} };
+}
+function _sahibDetectPrayerTilt(chrono){
+  if(chrono.length<8) return null;
+  var dp=S.dailyPrayers||{};
+  function full(d){ var p=dp[d]; return p && Object.keys(p).length>=5 && Object.values(p).every(Boolean); }
+  var fp=chrono.filter(function(t){return full(t.date);});
+  var pp=chrono.filter(function(t){return dp[t.date] && !full(t.date);});
+  if(fp.length<4||pp.length<3) return null;
+  var fpWR=Math.round(fp.filter(function(t){return t.pnl>0;}).length/fp.length*100);
+  var ppWR=Math.round(pp.filter(function(t){return t.pnl>0;}).length/pp.length*100);
+  if(fpWR<=ppWR+10) return null;
+  var sum=pp.reduce(function(s,t){return s+t.pnl;},0);
+  return { id:'pray_before', label:'Trading through missed prayers', cost:Math.max(Math.abs(sum),1)+ (fpWR-ppWR), freq:pp.length,
+    evidence: 'Full-prayer days: <strong>'+fpWR+'%</strong> win rate. Partial-prayer days: <strong>'+ppWR+'%</strong>. Your deen and your edge move together.',
+    prescription:'Pray before the session. Start with your deen intact.',
+    commitment:'Pray before every trading session this week — no exceptions.', meta:{} };
+}
+function _sahibDetectTimeOfDay(chrono){
+  var win=chrono.slice(-30), buckets={};
+  win.forEach(function(t){ if(!t.time)return; var h=parseInt(String(t.time).slice(0,2),10); if(isNaN(h))return; (buckets[h]=buckets[h]||[]).push(t); });
+  var worst=null;
+  Object.keys(buckets).forEach(function(h){ var ts=buckets[h]; if(ts.length<3)return; var pnl=ts.reduce(function(s,t){return s+t.pnl;},0); if(pnl<0 && (!worst||pnl<worst.pnl)) worst={h:parseInt(h,10),pnl:pnl,n:ts.length}; });
+  if(!worst) return null;
+  var cut=worst.h;
+  return { id:'time_window', label:'Trading past your edge window', cost:Math.abs(worst.pnl), freq:worst.n,
+    evidence: 'Your trades in the '+_fmtHour(worst.h)+'–'+_fmtHour(worst.h+1)+' hour are '+fmt(worst.pnl,true)+' across '+worst.n+' trades. That hour isn\'t your edge.',
+    prescription:'Stop trading after your edge window closes. Flat is a position.',
+    commitment:'No new trades after '+_fmtHour(cut)+' this week — protect the hours that aren\'t my edge.', meta:{cutHour:cut} };
+}
+function _sahibDetectOvertrading(chrono){
+  var win=chrono.slice(-40), byDay={};
+  win.forEach(function(t){ (byDay[t.date]=byDay[t.date]||[]).push(t); });
+  var hi=[],lo=[];
+  Object.keys(byDay).forEach(function(d){ var ts=byDay[d]; var pnl=ts.reduce(function(s,t){return s+t.pnl;},0); if(ts.length>=5)hi.push(pnl); else if(ts.length<=2)lo.push(pnl); });
+  if(hi.length<2) return null;
+  var hiAvg=hi.reduce(function(s,p){return s+p;},0)/hi.length;
+  var loAvg=lo.length?lo.reduce(function(s,p){return s+p;},0)/lo.length:0;
+  if(hiAvg>=loAvg) return null;
+  var cost=Math.abs(hi.filter(function(p){return p<0;}).reduce(function(s,p){return s+p;},0));
+  if(cost<=0) return null;
+  return { id:'max_trades', label:'Overtrading', cost:cost, freq:hi.length,
+    evidence: 'Days you take 5+ trades average '+fmt(Math.round(hiAvg),true)+'; your 1–2 trade days average '+fmt(Math.round(loAvg),true)+'. More clicks, less money.',
+    prescription:'Cap your trades. Fewer, better decisions.',
+    commitment:'Max 3 trades a day this week — quality over quantity.', meta:{target:3} };
+}
+var SAHIB_DETECTORS = [_sahibDetectRevenge,_sahibDetectStopMoving,_sahibDetectCutWinners,_sahibDetectOversizing,_sahibDetectNoEdge,_sahibDetectPrayerTilt,_sahibDetectTimeOfDay,_sahibDetectOvertrading];
+
+// Run every detector, weight by stage, return ranked leaks + the stage.
+function diagnoseSahib(){
+  var chrono=_sahibChrono();
+  var stage=(typeof computeUserStage==='function' ? (computeUserStage(S).stage||'tahaarah') : 'tahaarah');
+  if(chrono.length < SAHIB_MIN_TRADES) return { enough:false, stage:stage, need:SAHIB_MIN_TRADES-chrono.length, leaks:[] };
+  var leaks=[];
+  SAHIB_DETECTORS.forEach(function(fn){ try{ var r=fn(chrono); if(r && r.cost>0) leaks.push(r); }catch(e){} });
+  var w=SAHIB_STAGE_WEIGHTS[stage]||{};
+  leaks.forEach(function(l){ l.severity=l.cost*(w[l.id]||1); });
+  leaks.sort(function(a,b){ return b.severity-a.severity; });
+  return { enough:true, stage:stage, leaks:leaks };
+}
+
+// ── Commitment + measurement loop ──
+function _sahibSince(d){ return _sahibChrono().filter(function(t){return (t.date||'')>=d;}); }
+function _sahibBefore(d,n){ var b=_sahibChrono().filter(function(t){return (t.date||'')<d;}); return b.slice(-Math.max(n,8)); }
+
+// Measure how well the active commitment is being kept. Returns
+// { value, before, unit, better, hit, line } where `line` is human copy.
+function measureSahib(c){
+  var since=_sahibSince(c.startDate), before=_sahibBefore(c.startDate, since.length);
+  function pctRespectStop(arr){ var l=arr.filter(function(t){return t.pnl<0;}).map(_tradeR).filter(function(r){return r!=null;}); if(!l.length)return null; return Math.round(l.filter(function(r){return r>=-1.15;}).length/l.length*100); }
+  function revengeCount(arr){ var n=0; for(var i=0;i<arr.length;i++){ if(_isRevengeTrade(arr[i], i>0?arr[i-1]:null)) n++; } return n; }
+  function captureRatio(arr){ var w=arr.filter(function(t){return t.pnl>0&&t.mfe!=null&&t.mfe>0;}); if(w.length<2)return null; var aw=w.reduce(function(s,t){return s+t.pnl;},0)/w.length, am=w.reduce(function(s,t){return s+t.mfe;},0)/w.length; return am>0?Math.round(aw/am*100):null; }
+  function setupPct(arr){ if(!arr.length)return null; return Math.round(arr.filter(function(t){return (t.setup||'').trim() && !(t.gateAnswers&&t.gateAnswers.waited==='no');}).length/arr.length*100); }
+  function maxPerDay(arr){ var by={}; arr.forEach(function(t){by[t.date]=(by[t.date]||0)+1;}); var m=0; Object.keys(by).forEach(function(d){if(by[d]>m)m=by[d];}); return arr.length?m:null; }
+  function prayedDaysPct(arr){ var dp=S.dailyPrayers||{}; var days={}; arr.forEach(function(t){days[t.date]=1;}); var ks=Object.keys(days); if(!ks.length)return null; var ok=ks.filter(function(d){var p=dp[d];return p&&Object.values(p).filter(Boolean).length>=4;}).length; return Math.round(ok/ks.length*100); }
+  function afterCut(arr,h){ var late=arr.filter(function(t){ if(!t.time)return false; var hh=parseInt(String(t.time).slice(0,2),10); return !isNaN(hh)&&hh>=h; }); return late.length; }
+  var v,b,unit,better,hit,line;
+  switch(c.id){
+    case 'no_revenge': v=revengeCount(since); b=revengeCount(before); unit=''; better='lower'; hit=(v===0);
+      line=(v===0?'Zero revenge entries since you committed.':v+' slipped through'+(b>v?' — down from '+b:'')+'.'); break;
+    case 'hard_stops': v=pctRespectStop(since); b=pctRespectStop(before); unit='%'; better='higher'; hit=(v!=null&&v>=90);
+      line=(v==null?'No closed losers yet to measure.':v+'% of losers held the stop'+(b!=null?' (was '+b+'%)':'')+'.'); break;
+    case 'capture': v=captureRatio(since); b=captureRatio(before); unit='%'; better='higher'; hit=(v!=null&&v>=70);
+      line=(v==null?'Not enough winners with extremes logged yet.':'You captured '+v+'% of the move'+(b!=null?' (was '+b+'%)':'')+'.'); break;
+    case 'has_setup': v=setupPct(since); b=setupPct(before); unit='%'; better='higher'; hit=(v!=null&&v>=90);
+      line=(v==null?'No trades yet to measure.':v+'% were named setups'+(b!=null?' (was '+b+'%)':'')+'.'); break;
+    case 'fixed_size': var mvals=since.map(function(t){return parseFloat(t.qty)||1;}); var md=_median(mvals); var off=md>0?since.filter(function(t){return Math.abs((parseFloat(t.qty)||1)-md)>md*0.3;}).length:0; v=since.length?Math.round((since.length-off)/since.length*100):null; b=null; unit='%'; better='higher'; hit=(v!=null&&v>=90);
+      line=(v==null?'No trades yet to measure.':v+'% of trades stayed at your base size.'); break;
+    case 'pray_before': v=prayedDaysPct(since); b=prayedDaysPct(before); unit='%'; better='higher'; hit=(v!=null&&v>=80);
+      line=(v==null?'No prayer data logged on trading days yet.':v+'% of your trading days you prayed'+(b!=null?' (was '+b+'%)':'')+'.'); break;
+    case 'max_trades': var tgt=(c.meta&&c.meta.target)||3; v=maxPerDay(since); b=maxPerDay(before); unit=' max/day'; better='lower'; hit=(v!=null&&v<=tgt);
+      line=(v==null?'No trades yet to measure.':'Busiest day: '+v+' trades'+(b!=null?' (was '+b+')':'')+'. Cap is '+tgt+'.'); break;
+    case 'time_window': var h=(c.meta&&c.meta.cutHour)||12; v=afterCut(since,h); b=afterCut(before,h); unit=''; better='lower'; hit=(v===0);
+      line=(v===0?'No trades after '+_fmtHour(h)+' since you committed.':v+' trade'+(v===1?'':'s')+' slipped past '+_fmtHour(h)+(b>v?' — down from '+b:'')+'.'); break;
+    default: v=null;b=null;unit='';better='higher';hit=false;line='Tracking your commitment.';
+  }
+  return { value:v, before:b, unit:unit, better:better, hit:hit, line:line, days:_daysSince(c.startDate) };
+}
+
+function acceptSahibCommitment(){
+  var diag=diagnoseSahib(); if(!diag.enough||!diag.leaks.length) return;
+  var idx=window._sahibIdx||0; if(idx>=diag.leaks.length)idx=0;
+  var leak=diag.leaks[idx];
+  if(!S.sahib)S.sahib={commitment:null,history:[]};
+  S.sahib.commitment={ id:leak.id, text:leak.commitment, leakLabel:leak.label, meta:leak.meta||{}, startDate:localDate(), startedAt:new Date().toISOString() };
+  window._sahibIdx=0;
+  sv('sahib',S.sahib);
+  toast('Bismillah — this week\'s focus is set.','s');
+  renderSahib();
+}
+function swapSahibCommitment(){
+  var diag=diagnoseSahib(); if(!diag.enough||diag.leaks.length<2) return;
+  window._sahibIdx=((window._sahibIdx||0)+1)%diag.leaks.length;
+  renderSahib();
+}
+function lockInSahibWeek(){
+  var c=S.sahib&&S.sahib.commitment; if(!c) return;
+  var m=measureSahib(c);
+  S.sahib.history=S.sahib.history||[];
+  S.sahib.history.push({ week:c.startDate, id:c.id, text:c.text, value:m.value, before:m.before, hit:m.hit, line:m.line, closedAt:localDate() });
+  if(S.sahib.history.length>26) S.sahib.history=S.sahib.history.slice(-26);
+  S.sahib.commitment=null;
+  window._sahibIdx=0;
+  sv('sahib',S.sahib);
+  toast(m.hit?'Mashallah — locked in. New focus ready.':'Logged. A fresh focus this week, insha\'Allah.','s');
+  renderSahib();
+}
+
+// ── Sahib card (mounts into #sahib-card on the dashboard) ──
+function _sahibCard(eye,inner){
+  return '<div class="sahib-card"><div class="sahib-eye"><span class="sahib-eye-dot"></span>'+eye+'</div>'+inner+'</div>';
+}
+function renderSahib(){
+  var host=el('sahib-card'); if(!host) return;
+  var diag=diagnoseSahib();
+  if(!diag.enough){
+    host.innerHTML=_sahibCard('SAHIB · YOUR COMPANION',
+      '<div class="sahib-title">I\'m learning your game.</div>'+
+      '<div class="sahib-body">Log <strong>'+diag.need+' more closed trade'+(diag.need===1?'':'s')+'</strong> and I\'ll name the one habit costing you the most — then we fix it together, one week at a time.</div>');
+    return;
+  }
+  var c=S.sahib&&S.sahib.commitment;
+  if(!c && (!diag.leaks || !diag.leaks.length)){
+    var wins=(S.sahib&&S.sahib.history&&S.sahib.history.length)||0;
+    host.innerHTML=_sahibCard('SAHIB · STEADY',
+      '<div class="sahib-title">No leak worth chasing right now. <em>Alhamdulillah.</em></div>'+
+      '<div class="sahib-body">Your recent trades show no single habit bleeding you. Keep logging honestly — the moment something drifts, I\'ll flag it before it costs you.'+(wins?' You\'ve locked in <strong>'+wins+'</strong> weekly focus'+(wins===1?'':'es')+' so far.':'')+'</div>');
+    return;
+  }
+  if(c){
+    var m=measureSahib(c);
+    var arrow=(m.value!=null&&m.before!=null)?(m.value===m.before?'':(((m.better==='higher'&&m.value>m.before)||(m.better==='lower'&&m.value<m.before))?' ▲ improving':' ▼ slipping')):'';
+    if(m.days>=7){
+      host.innerHTML=_sahibCard('SAHIB · YOUR WEEK',
+        '<div class="sahib-title">'+(m.hit?'You held it. <em>Mashallah.</em>':'Honest look at the week.')+'</div>'+
+        '<div class="sahib-commit">“'+esc(c.text)+'”</div>'+
+        '<div class="sahib-body">'+m.line+'</div>'+
+        '<div class="sahib-actions"><button class="btn btn-gold btn-sm" data-hclick="hSahibLock">'+(m.hit?'Lock it in · next focus →':'Set a fresh focus →')+'</button></div>');
+    } else {
+      host.innerHTML=_sahibCard('SAHIB · THIS WEEK · DAY '+(m.days+1)+' OF 7',
+        '<div class="sahib-commit">“'+esc(c.text)+'”</div>'+
+        '<div class="sahib-body">'+m.line+'<span style="color:var(--gold);">'+arrow+'</span></div>'+
+        '<div class="sahib-foot">'+(7-m.days)+' day'+((7-m.days)===1?'':'s')+' left — I\'m watching.</div>');
+    }
+    return;
+  }
+  var idx=window._sahibIdx||0; if(idx>=diag.leaks.length)idx=0;
+  var leak=diag.leaks[idx];
+  var stageName=(SIRAT_STAGES[diag.stage]&&SIRAT_STAGES[diag.stage].name)||'';
+  host.innerHTML=_sahibCard('SAHIB · '+(stageName?stageName.toUpperCase()+' · ':'')+'YOUR BIGGEST LEAK',
+    '<div class="sahib-title">'+esc(leak.label)+'</div>'+
+    '<div class="sahib-body">'+leak.evidence+'</div>'+
+    '<div class="sahib-rx">'+leak.prescription+'</div>'+
+    '<div class="sahib-commit">This week: “'+esc(leak.commitment)+'”</div>'+
+    '<div class="sahib-actions"><button class="btn btn-gold btn-sm" data-hclick="hSahibAccept">Commit this week →</button>'+
+    (diag.leaks.length>1?'<button class="btn btn-ghost btn-sm" data-hclick="hSahibSwap">Show another</button>':'')+'</div>');
+}
+
 function renderStatsStrip(){
   var e=el('stats-strip');if(!e)return;
   var closed=S.trades.filter(function(t){return t.status==='closed';});if(!closed.length){e.innerHTML='';return;}
@@ -5809,6 +6096,9 @@ var __H = {
   'h119': function(event){ saveEntry() },
   'hEntryNext': function(event){ entryGoStep(2) },
   'hEntryBack': function(event){ entryGoStep(1) },
+  'hSahibAccept': function(event){ acceptSahibCommitment() },
+  'hSahibSwap': function(event){ swapSahibCommitment() },
+  'hSahibLock': function(event){ lockInSahibWeek() },
   'h120': function(event){ if(event.target===this)closeExit() },
   'h121': function(event){ closeExit() },
   'h122': function(event){ autoCalcExitHint() },

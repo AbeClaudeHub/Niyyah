@@ -208,6 +208,18 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .today-insight:hover{transform:translateX(4px);border-color:rgba(218,180,98,0.3);}
 .today-insight-label{font-family:'JetBrains Mono',monospace;font-size:0.48rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
 .today-insight-text{font-size:0.85rem;color:var(--ink-2);line-height:1.6;font-weight:300;}
+.sahib-card{background:linear-gradient(150deg,#201c12 0%,#100d08 100%);border:1px solid rgba(218,180,98,0.28);border-radius:var(--r-xl);padding:22px 24px;margin-bottom:16px;position:relative;overflow:hidden;box-shadow:var(--shadow);}
+.sahib-card::before{content:'';position:absolute;top:0;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,rgba(218,180,98,0.35),transparent);}
+.sahib-eye{font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:11px;display:flex;align-items:center;gap:7px;}
+.sahib-eye-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold-glow);}
+.sahib-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--ink);line-height:1.15;letter-spacing:-0.01em;margin-bottom:9px;}
+.sahib-title em{color:var(--gold);font-style:italic;}
+.sahib-body{font-size:0.88rem;color:var(--ink-2);line-height:1.65;font-weight:300;}
+.sahib-body strong{color:var(--ink);font-weight:600;}
+.sahib-rx{font-size:0.84rem;color:var(--ink-3);line-height:1.6;font-weight:300;margin-top:9px;padding-left:12px;border-left:2px solid rgba(218,180,98,0.3);font-style:italic;}
+.sahib-commit{margin-top:13px;background:rgba(218,180,98,0.07);border:1px solid rgba(218,180,98,0.18);border-radius:var(--r);padding:11px 14px;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--gold-2);line-height:1.4;}
+.sahib-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+.sahib-foot{margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-4);}
 .today-insight-text strong{color:var(--ink);font-weight:500;}
 .today-trade-active{background:linear-gradient(135deg,rgba(218,180,98,0.12),rgba(218,180,98,0.03)),linear-gradient(160deg,#1e1b12,#0f0d09);border:1.5px solid rgba(218,180,98,0.35);border-radius:var(--r-lg);padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:0 0 30px rgba(218,180,98,0.06);}
 .today-section-title{font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--ink-4);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.04);}
@@ -1617,6 +1629,9 @@ body:not(.legal-visitor) .legal-back{display:none;}
          and tonight is the night it'll break. Loss aversion is the highest-
          leverage retention trigger; do not bury it. -->
     <div id="streak-risk-wrap"></div>
+
+    <!-- SAHIB — the daily companion: diagnosis + weekly commitment loop -->
+    <div id="sahib-card"></div>
 
     <!-- PRIMARY STATE CARD -->
     <div class="today-state" id="today-state-card">
