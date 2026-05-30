@@ -441,7 +441,8 @@ label{display:block;font-family:'Inter',sans-serif;font-size:0.74rem;font-weight
 .s-bar{height:5px;border-radius:3px;background:var(--surface-3);overflow:hidden;width:64px;display:inline-block;vertical-align:middle;margin-right:6px;}
 .radar-wrap{position:relative;height:260px;}
 .empty{text-align:center;padding:48px 20px;}
-.empty-icon{font-size:2.4rem;margin-bottom:14px;opacity:0.25;filter:grayscale(0.5);}
+.empty-icon{font-size:2.4rem;margin-bottom:14px;opacity:0.4;color:var(--ink-3);}
+.empty-icon svg{width:38px;height:38px;}
 .empty-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--ink-2);font-weight:500;margin-bottom:6px;}
 .empty-text{font-size:0.8rem;color:var(--ink-3);font-weight:300;line-height:1.65;max-width:280px;margin:0 auto 12px;}
 /* ── DAILY REFLECTION ─────────────────────────────────────────────── */
@@ -1132,14 +1133,14 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="orb-3 landing-orb"></div>
     <div class="lhero-badge"><span class="lhero-badge-dot"></span>For Muslim Traders</div>
     <h1 class="lhero-h1">You don't have a strategy problem.<br>You have a <em>nafs</em> problem.</h1>
-    <p class="lhero-sub"><strong>Niyyah ends the loop.</strong> The accountability system for traders whose strategy works — but whose nafs doesn't.</p>
+    <p class="lhero-sub"><strong>A trading journal built on Islamic psychology.</strong> The accountability layer for traders whose strategy already works — but whose nafs keeps getting in the way.</p>
     <div class="lhero-clarifier"><strong>Nafs</strong> · the lower self that whispers <em>"just one more trade"</em> after a loss — and turns a $200 stop into a $1,800 disaster.</div>
     <div class="lhero-btns" style="margin-top:24px;">
       <button class="btn btn-gold btn-lg" data-hclick="h3" style="font-size:0.95rem;padding:14px 32px;">Start Free — Bismillah →</button>
       <button class="btn btn-outline btn-lg" data-hclick="h4" style="backdrop-filter:blur(8px);">Preview with sample data</button>
     </div>
-    <div class="lhero-clarifier"><strong>A trading journal built on Islamic psychology.</strong> Pre-trade gate · prayer-to-P&amp;L radar · nafs tracking · Friday muhasabah · playbook · equity curve · risk calculator.</div>
-    <div class="lhero-price">Free during early access · no credit card needed</div>
+    <div class="lhero-price" style="margin-top:18px;">Free during early access · no credit card needed</div>
+    <div style="margin-top:10px;font-size:0.74rem;color:var(--ink-3);font-weight:300;letter-spacing:0.01em;">Pre-trade gate · Prayer-to-P&amp;L radar · Nafs tracking · Friday muhasabah · Playbook · Risk calculator</div>
     <div style="margin-top:14px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);">
       <span>No email required</span>
       <span>· Your data stays private &amp; encrypted</span>
@@ -2260,7 +2261,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <button class="emotion-btn" data-e="overconf" data-hclick="h112"><span class="ei"></span>Cocky</button>
     <button class="emotion-btn" data-e="anxious" data-hclick="h112"><span class="ei"></span>Anxious</button>
    </div>
-   <div class="fs-label">Trade Details</div>
+   <div class="fs-label">Trade Details <span style="color:var(--ink-4);font-weight:400;text-transform:none;letter-spacing:0;">· only the instrument is required — add the rest if you have it</span></div>
    <div class="field-row c3"><div class="field"><label>Date</label><input type="date" id="e-date"></div><div class="field"><label>Time</label><input type="time" id="e-time"></div><div class="field"><label>Instrument</label><input type="text" id="e-inst" placeholder="ES, NQ, MGC…"></div></div>
    <div class="field-row c3" id="e-setup-row"><div class="field"><label>Direction</label><select id="e-dir"><option value="LONG">Long</option><option value="SHORT">Short</option></select></div><div class="field" id="e-setup-sel-field"><label>Playbook Setup</label><select id="e-setup-sel"><option value="">— Select or type below —</option></select></div><div class="field"><label id="e-setup-label">Setup name</label><input type="text" id="e-setup" placeholder="ORB, VWAP, BPB…"></div></div>
    <div class="field-row c4"><div class="field"><label>Entry Price</label><input type="text" inputmode="decimal" autocomplete="off" id="e-entry" placeholder="21,050"></div><div class="field"><label>Stop Loss</label><input type="text" inputmode="decimal" autocomplete="off" id="e-stop" placeholder="21,000"></div><div class="field"><label>Target</label><input type="text" inputmode="decimal" autocomplete="off" id="e-target" placeholder="21,150"></div><div class="field"><label>Qty / Contracts</label><input type="number" inputmode="decimal" id="e-qty" placeholder="1" min="0.01" step="any"></div></div>

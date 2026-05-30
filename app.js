@@ -2495,7 +2495,7 @@ function drawSpark(id,vals){
 function renderInsights(){
   var e=el('insights-wrap');if(!e)return;
   var closed=S.trades.filter(function(t){return t.status==='closed';});
-  if(closed.length<4){e.innerHTML='<div class="empty" style="padding:26px 8px;"><div class="empty-icon">\ud83c\udf19</div><div class="empty-title">Insights after 5 closed trades</div><div class="empty-text">Keep logging. The patterns will emerge.</div></div>';return;}
+  if(closed.length<4){e.innerHTML='<div class="empty" style="padding:26px 8px;"><div class="empty-icon"><svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.8A8.5 8.5 0 1 1 10.2 3.5 6.8 6.8 0 0 0 20.5 14.8z"/></svg></div><div class="empty-title">Insights after 5 closed trades</div><div class="empty-text">Keep logging. The patterns will emerge.</div></div>';return;}
   var ins=[];
 
   // Contradiction detection — calm entry, bad exit
@@ -2545,7 +2545,7 @@ function renderInsights(){
     if(rAvg>oAvg+12){ins.push({t:'g',i:'\u2191',title:'Discipline is compounding',desc:'Recent quality avg: <span class="p">'+Math.round(rAvg)+'/100</span> vs early avg: <span class="p">'+Math.round(oAvg)+'/100</span>. The process is working.'});}
   }
 
-  if(!ins.length){e.innerHTML='<div class="empty" style="padding:20px 8px;"><div class="empty-icon">\ud83c\udf31</div><div class="empty-title">Building your pattern profile</div><div class="empty-text">More trades logged = more precise insights.</div></div>';return;}
+  if(!ins.length){e.innerHTML='<div class="empty" style="padding:20px 8px;"><div class="empty-icon"><svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-8"/><path d="M12 13c0-3.3 2.7-6 6-6 0 3.3-2.7 6-6 6z"/><path d="M12 15c0-2.8-2.2-5-5-5 0 2.8 2.2 5 5 5z"/></svg></div><div class="empty-title">Building your pattern profile</div><div class="empty-text">More trades logged = more precise insights.</div></div>';return;}
   e.innerHTML=ins.slice(0,3).map(function(x){return'<div class="insight '+x.t+'"><div class="insight-ico">'+x.i+'</div><div><div class="insight-title">'+x.title+'</div><div class="insight-desc">'+x.desc+'</div></div></div>';}).join('');
 }
 
@@ -2605,7 +2605,7 @@ function renderEquity(){
   if(!window.Chart){
     // Chart.js is lazy-loaded — fetch it, then retry.
     if(typeof window.__ensureChart === 'function'){
-      window.__ensureChart().then(renderEquity).catch(function(){});
+      window.__ensureChart().then(renderEquity).catch(_chartFallback);
     }
     return;
   }
@@ -2614,7 +2614,7 @@ function renderEquity(){
   var trades=_chronoClosed();
   if(S.eqRange==='30'){var co30=Date.now()-2592000000;trades=trades.filter(function(t){return new Date(t.date+'T12:00:00').getTime()>=co30;});}
   else if(S.eqRange==='7'){var co7=Date.now()-604800000;trades=trades.filter(function(t){return new Date(t.date+'T12:00:00').getTime()>=co7;});}
-  if(!trades.length){c.parentElement.innerHTML='<div class="empty" style="padding:50px;"><div class="empty-icon">\ud83d\udcc8</div><div class="empty-title">Equity curve appears here</div></div>';return;}
+  if(!trades.length){c.parentElement.innerHTML='<div class="empty" style="padding:50px;"><div class="empty-icon"><svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16h16"/><path d="M7 14l4-5 3 3 4-6"/></svg></div><div class="empty-title">Equity curve appears here</div></div>';return;}
   var cum=0,peak=0,eq=[],dd=[];
   trades.forEach(function(t){cum+=t.pnl;if(cum>peak)peak=cum;eq.push(cum);dd.push(Math.min(0,cum-peak));});
   try{C.eq=new Chart(c,{type:'line',data:{labels:trades.map(function(_,i){return'T'+(i+1);}),datasets:[
@@ -2626,7 +2626,7 @@ function setEq(r,btn){S.eqRange=r;btn.parentElement.querySelectorAll('.tg-btn').
 
 function renderRecentTrades(){
   var e=el('recent-wrap');if(!e)return;var r=S.trades.slice(0,6);
-  if(!r.length){e.innerHTML='<div class="empty"><div class="empty-icon">\ud83d\udcc8</div><div class="empty-title">No trades yet</div><div class="empty-text">Log your first trade entry to start building your journal.</div><button class="btn btn-gold" data-hclick="h65" style="margin-top:18px;">+ Log your first trade</button></div>';return;}
+  if(!r.length){e.innerHTML='<div class="empty"><div class="empty-icon"><svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16h16"/><path d="M7 14l4-5 3 3 4-6"/></svg></div><div class="empty-title">No trades yet</div><div class="empty-text">Log your first trade entry to start building your journal.</div><button class="btn btn-gold" data-hclick="h65" style="margin-top:18px;">+ Log your first trade</button></div>';return;}
   e.innerHTML=r.map(function(t){return'<div style="display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid var(--line-2);cursor:pointer;" data-hclick="hOpenTD" data-hid="'+t.id+'" title="Click for full detail"><span class="t-side '+(t.direction==='LONG'?'long':'short')+'">'+esc(t.direction)+'</span><div style="flex:1;min-width:0;"><div style="font-size:0.88rem;font-weight:600;color:var(--ink);">'+esc(t.instrument)+'</div><div style="font-size:0.68rem;color:var(--ink-3);margin-top:2px;">'+fmtDate(t.date)+(t.setup?' \u00b7 '+esc(t.setup):'')+(t.emotion?' \u00b7 '+esc(t.emotion):'')+'</div></div>'+(t.status==='open'?'<span class="open-pill">OPEN</span><button class="btn btn-gold btn-sm" data-hclick="h149">Close</button>':'<div class="q-score"><div class="q-bar"><div class="q-fill" style="width:'+(t.quality||0)+'%;"></div></div>'+(t.quality||0)+'</div><div class="t-pnl '+(t.pnl>=0?'pos':'neg')+'">'+fmt(t.pnl,true)+'</div>')+'</div>';}).join('');
 }
 
@@ -2686,7 +2686,7 @@ function renderTrades(){
   var sq=el('trade-search')?el('trade-search').value.trim().toLowerCase():'';
   if(sq)t=t.filter(function(x){return(x.instrument||'').toLowerCase().includes(sq)||(x.setup||'').toLowerCase().includes(sq)||(x.date||'').includes(sq)||(x.emotion||'').toLowerCase().includes(sq);});
   t.sort(function(a,b){var av,bv;if(_tradeSortKey==='pnl'){av=a.status==='open'?-Infinity:(a.pnl||0);bv=b.status==='open'?-Infinity:(b.pnl||0);}else if(_tradeSortKey==='quality'){av=a.status==='open'?-1:(a.quality||0);bv=b.status==='open'?-1:(b.quality||0);}else{av=a.date||'';bv=b.date||'';}if(av<bv)return _tradeSortDir;if(av>bv)return -_tradeSortDir;return 0;});
-  if(!t.length){w.innerHTML='<div class="empty"><div class="empty-icon">\ud83d\udcca</div><div class="empty-title">No trades match this filter</div></div>';return;}
+  if(!t.length){w.innerHTML='<div class="empty"><div class="empty-icon"><svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M7 20v-6M12 20V8M17 20v-9"/></svg></div><div class="empty-title">No trades match this filter</div></div>';return;}
   function etag(e){if(['calm','patient','focused'].includes(e||''))return'g';if(['fomo','revenge','urgency','overconf','anxious'].includes(e||''))return'r';return'o';}
   function si(key){return _tradeSortKey===key?(_tradeSortDir===1?' \u2191':' \u2193'):'';}
   function th(lbl,key){return'<th style="cursor:pointer;user-select:none;" data-hclick="hSortT" data-hkey="'+key+'">'+lbl+si(key)+'</th>';}
@@ -2764,10 +2764,30 @@ function applyAnFilter(trades){
   return out;
 }
 
+// When Chart.js can't be fetched (offline / blocked), don't leave blank
+// canvases — overlay a clear message instead.
+function _chartFallback(){
+  ['eq-chart','dow-chart','tod-chart','wl-chart','prayer-radar'].forEach(function(id){
+    var c=el(id); if(!c||!c.parentElement) return; var wrap=c.parentElement;
+    if(wrap.querySelector('.chart-fallback')) return;
+    c.style.display='none';
+    var d=document.createElement('div'); d.className='chart-fallback';
+    d.style.cssText='display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;min-height:120px;text-align:center;gap:6px;padding:16px;';
+    d.innerHTML='<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);">Charts unavailable</div><div style="color:var(--ink-4);font-size:0.78rem;">Couldn’t load the chart library — check your connection and refresh.</div>';
+    wrap.appendChild(d);
+  });
+}
+function _clearChartFallback(){
+  document.querySelectorAll('.chart-fallback').forEach(function(d){
+    var wrap=d.parentElement; if(wrap){ var c=wrap.querySelector('canvas'); if(c) c.style.display=''; }
+    d.remove();
+  });
+}
+
 function renderAnalytics(){
   // Lazy-load Chart.js if not yet present, then continue.
   if(!window.Chart && typeof window.__ensureChart === 'function'){
-    window.__ensureChart().then(renderAnalytics).catch(function(){});
+    window.__ensureChart().then(renderAnalytics).catch(_chartFallback);
     return;
   }
   var closed=applyAnFilter(S.trades.filter(function(t){return t.status==='closed';}));
@@ -2788,14 +2808,15 @@ function renderAnalytics(){
     var pfNote=pf==='\u221e'?'no losing trades yet':null;
     pm.innerHTML=mc('PROFIT FACTOR',pf,pfColor,pfNote)+mc('PAYOFF RATIO',pr,pr==='\u221e'?'var(--green)':'var(--ink)')+mc('MAX CONSEC WINS',mxW,'var(--green)')+mc('MAX CONSEC LOSSES',mxL,'var(--red)');
   }else if(pm)pm.innerHTML='';
-  if(!window.Chart)return;
+  if(!window.Chart){ _chartFallback(); return; }
+  _clearChartFallback();
   var dc=el('dow-chart');if(dc){try{if(C.dow)C.dow.destroy();}catch(e){}try{var dows=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];var dd=dows.map(function(_,i){return closed.filter(function(t){return new Date(t.date+'T12:00:00').getDay()===i;}).reduce(function(s,t){return s+t.pnl;},0);});C.dow=new Chart(dc,mkBarCfg(dd,dows,false));}catch(e){}}
   var tc=el('tod-chart');if(tc){try{if(C.tod)C.tod.destroy();}catch(e){}try{var slots=['Pre-9:30','9:30-10','10-11','11-12','12-2','2-3','3-4','4+'];function gs(tm){if(!tm)return 7;var p=tm.split(':');var hh=+p[0],mm=+p[1],tt=hh*60+mm;if(tt<570)return 0;if(tt<600)return 1;if(tt<660)return 2;if(tt<720)return 3;if(tt<840)return 4;if(tt<900)return 5;if(tt<960)return 6;return 7;}var td=slots.map(function(_,i){return closed.filter(function(t){return gs(t.time)===i;}).reduce(function(s,t){return s+t.pnl;},0);});C.tod=new Chart(tc,mkBarCfg(td,slots,true));}catch(e){}}
   var wc=el('wl-chart');if(wc){try{if(C.wl)C.wl.destroy();}catch(e){}try{var w2=closed.filter(function(t){return t.pnl>0;}).length,l2=closed.filter(function(t){return t.pnl<0;}).length,be=closed.filter(function(t){return t.pnl===0;}).length;if(w2||l2||be)C.wl=new Chart(wc,{type:'doughnut',data:{labels:['Wins','Losses','BE'],datasets:[{data:[w2,l2,be],backgroundColor:['#6cb088','#d28282','#867c66'],borderColor:'#181510',borderWidth:3}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'right',labels:{color:'#beb29a',font:{family:'Inter',size:11},padding:12,boxWidth:8}}}}});}catch(e){}}
-  var pr=el('prayer-radar');if(pr){try{if(C.pr)C.pr.destroy();}catch(e){}try{var ps=['fajr','dhuhr','asr','maghrib','isha'],lbs=['Fajr','Dhuhr','Asr','Maghrib','Isha'];var dkeys=Object.keys(S.dailyPrayers);if(dkeys.length>=3){var vals=ps.map(function(p){var pd=dkeys.filter(function(d){return S.dailyPrayers[d][p];});var pt=closed.filter(function(t){return pd.indexOf(t.date)>-1;});return pt.length?Math.round(pt.filter(function(t){return t.pnl>0;}).length/pt.length*100):0;});C.pr=new Chart(pr,{type:'radar',data:{labels:lbs,datasets:[{data:vals,backgroundColor:'rgba(218,180,98,0.1)',borderColor:'rgba(218,180,98,0.6)',pointBackgroundColor:'#dab462',pointBorderColor:'#0b0a08',borderWidth:2,pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#181510',borderColor:'rgba(218,180,98,0.25)',borderWidth:1,titleColor:'#f0e8d4',bodyColor:'#beb29a',callbacks:{label:function(ctx){return'Win rate: '+ctx.parsed.r+'%';}}}},scales:{r:{backgroundColor:'transparent',grid:{color:'rgba(255,255,255,0.055)'},angleLines:{color:'rgba(218,180,98,0.1)'},pointLabels:{color:'#beb29a',font:{family:'JetBrains Mono',size:10}},ticks:{color:'#4a4538',backdropColor:'transparent',stepSize:25},min:0,max:100}}}});}else{pr.parentElement.innerHTML='<div class="empty" style="padding:44px;"><div class="empty-icon">\ud83e\udd32</div><div class="empty-title">Track prayers for 3+ days</div><div class="empty-text">The prayer radar needs at least 3 days of data to show meaningful correlation.</div></div>';}
+  var pr=el('prayer-radar');if(pr){try{if(C.pr)C.pr.destroy();}catch(e){}try{var ps=['fajr','dhuhr','asr','maghrib','isha'],lbs=['Fajr','Dhuhr','Asr','Maghrib','Isha'];var dkeys=Object.keys(S.dailyPrayers);if(dkeys.length>=3){var vals=ps.map(function(p){var pd=dkeys.filter(function(d){return S.dailyPrayers[d][p];});var pt=closed.filter(function(t){return pd.indexOf(t.date)>-1;});return pt.length?Math.round(pt.filter(function(t){return t.pnl>0;}).length/pt.length*100):0;});C.pr=new Chart(pr,{type:'radar',data:{labels:lbs,datasets:[{data:vals,backgroundColor:'rgba(218,180,98,0.1)',borderColor:'rgba(218,180,98,0.6)',pointBackgroundColor:'#dab462',pointBorderColor:'#0b0a08',borderWidth:2,pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#181510',borderColor:'rgba(218,180,98,0.25)',borderWidth:1,titleColor:'#f0e8d4',bodyColor:'#beb29a',callbacks:{label:function(ctx){return'Win rate: '+ctx.parsed.r+'%';}}}},scales:{r:{backgroundColor:'transparent',grid:{color:'rgba(255,255,255,0.055)'},angleLines:{color:'rgba(218,180,98,0.1)'},pointLabels:{color:'#beb29a',font:{family:'JetBrains Mono',size:10}},ticks:{color:'#4a4538',backdropColor:'transparent',stepSize:25},min:0,max:100}}}});}else{pr.parentElement.innerHTML='<div class="empty" style="padding:44px;"><div class="empty-icon"><svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.8A8.5 8.5 0 1 1 10.2 3.5 6.8 6.8 0 0 0 20.5 14.8z"/></svg></div><div class="empty-title">Track prayers for 3+ days</div><div class="empty-text">The prayer radar needs at least 3 days of data to show meaningful correlation.</div></div>';}
   }catch(e){}}
-  var st=el('setup-wrap');if(st){var setups=[];closed.forEach(function(t){if(t.setup&&setups.indexOf(t.setup)<0)setups.push(t.setup);});if(!setups.length){st.innerHTML='<div class="empty"><div class="empty-icon">\u2699</div><div class="empty-title">Tag setups when logging trades</div></div>';}else{var sd=setups.map(function(s){var ts=closed.filter(function(t){return t.setup===s;});var w=ts.filter(function(t){return t.pnl>0;}).length;var pnl=ts.reduce(function(a,t){return a+t.pnl;},0);var wr=Math.round(w/ts.length*100);return{s:s,n:ts.length,wr:wr,pnl:pnl,avg:pnl/ts.length};}).sort(function(a,b){return b.pnl-a.pnl;});st.innerHTML='<div class="table-wrap"><table class="s-table"><thead><tr><th>Setup</th><th>Trades</th><th>Win Rate</th><th>Total P&L</th><th>Avg P&L</th></tr></thead><tbody>'+sd.map(function(d){return'<tr><td style="color:var(--ink);font-weight:500;">'+esc(d.s)+'</td><td style="font-family:\'JetBrains Mono\',monospace;font-size:0.74rem;">'+d.n+'</td><td><div class="s-bar"><div class="s-bar-fill" style="width:'+d.wr+'%;background:'+(d.wr>=50?'var(--green)':'var(--red)')+';height:100%;border-radius:3px;"></div></div><span style="font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;">'+d.wr+'%</span></td><td class="t-pnl '+(d.pnl>=0?'pos':'neg')+'">'+fmt(d.pnl,true)+'</td><td class="t-pnl '+(d.avg>=0?'pos':'neg')+'">'+fmt(d.avg,true)+'</td></tr>';}).join('')+'</tbody></table></div>';}}
-  var da=el('deen-wrap');if(da){var dDays=Object.keys(S.dailyPrayers);if(dDays.length<5){da.innerHTML='<div class="empty"><div class="empty-icon">\ud83e\udd32</div><div class="empty-title">Track prayers daily for 5+ days</div><div class="empty-text">5+ days builds a pattern. 20+ days builds a conviction. Keep going.</div></div>';}else{var pN={fajr:'Fajr \ud83c\udf19',dhuhr:'Dhuhr \u2600\ufe0f',asr:'Asr \ud83c\udf24',maghrib:'Maghrib \ud83c\udf05',isha:'Isha \u2b50'};var rows=['fajr','dhuhr','asr','maghrib','isha'].map(function(p){var yD=dDays.filter(function(d){return S.dailyPrayers[d][p];}),nD=dDays.filter(function(d){return!S.dailyPrayers[d][p];});var yT=closed.filter(function(t){return yD.indexOf(t.date)>-1;}),nT=closed.filter(function(t){return nD.indexOf(t.date)>-1;});var yWR=yT.length?Math.round(yT.filter(function(t){return t.pnl>0;}).length/yT.length*100):0,nWR=nT.length?Math.round(nT.filter(function(t){return t.pnl>0;}).length/nT.length*100):0;var yP=yT.reduce(function(s,t){return s+t.pnl;},0),nP=nT.reduce(function(s,t){return s+t.pnl;},0);return{name:pN[p],yN:yT.length,nN:nT.length,yWR:yWR,nWR:nWR,yP:yP,nP:nP,diff:yWR-nWR};});da.innerHTML='<div style="overflow-x:auto"><table class="s-table"><thead><tr><th>Prayer</th><th>Days prayed</th><th>Win %</th><th>P&L</th><th>Days missed</th><th>Win %</th><th>P&L</th><th>Edge</th><th>Confidence</th></tr></thead><tbody>'+rows.map(function(r){
+  var st=el('setup-wrap');if(st){var setups=[];closed.forEach(function(t){if(t.setup&&setups.indexOf(t.setup)<0)setups.push(t.setup);});if(!setups.length){st.innerHTML='<div class="empty"><div class="empty-icon"><svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.6v2.8M12 18.6v2.8M21.4 12h-2.8M5.4 12H2.6M18.6 5.4l-2 2M7.4 16.6l-2 2M18.6 18.6l-2-2M7.4 7.4l-2-2"/></svg></div><div class="empty-title">Tag setups when logging trades</div></div>';}else{var sd=setups.map(function(s){var ts=closed.filter(function(t){return t.setup===s;});var w=ts.filter(function(t){return t.pnl>0;}).length;var pnl=ts.reduce(function(a,t){return a+t.pnl;},0);var wr=Math.round(w/ts.length*100);return{s:s,n:ts.length,wr:wr,pnl:pnl,avg:pnl/ts.length};}).sort(function(a,b){return b.pnl-a.pnl;});st.innerHTML='<div class="table-wrap"><table class="s-table"><thead><tr><th>Setup</th><th>Trades</th><th>Win Rate</th><th>Total P&L</th><th>Avg P&L</th></tr></thead><tbody>'+sd.map(function(d){return'<tr><td style="color:var(--ink);font-weight:500;">'+esc(d.s)+'</td><td style="font-family:\'JetBrains Mono\',monospace;font-size:0.74rem;">'+d.n+'</td><td><div class="s-bar"><div class="s-bar-fill" style="width:'+d.wr+'%;background:'+(d.wr>=50?'var(--green)':'var(--red)')+';height:100%;border-radius:3px;"></div></div><span style="font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;">'+d.wr+'%</span></td><td class="t-pnl '+(d.pnl>=0?'pos':'neg')+'">'+fmt(d.pnl,true)+'</td><td class="t-pnl '+(d.avg>=0?'pos':'neg')+'">'+fmt(d.avg,true)+'</td></tr>';}).join('')+'</tbody></table></div>';}}
+  var da=el('deen-wrap');if(da){var dDays=Object.keys(S.dailyPrayers);if(dDays.length<5){da.innerHTML='<div class="empty"><div class="empty-icon"><svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.8A8.5 8.5 0 1 1 10.2 3.5 6.8 6.8 0 0 0 20.5 14.8z"/></svg></div><div class="empty-title">Track prayers daily for 5+ days</div><div class="empty-text">5+ days builds a pattern. 20+ days builds a conviction. Keep going.</div></div>';}else{var pN={fajr:'Fajr',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha'};var rows=['fajr','dhuhr','asr','maghrib','isha'].map(function(p){var yD=dDays.filter(function(d){return S.dailyPrayers[d][p];}),nD=dDays.filter(function(d){return!S.dailyPrayers[d][p];});var yT=closed.filter(function(t){return yD.indexOf(t.date)>-1;}),nT=closed.filter(function(t){return nD.indexOf(t.date)>-1;});var yWR=yT.length?Math.round(yT.filter(function(t){return t.pnl>0;}).length/yT.length*100):0,nWR=nT.length?Math.round(nT.filter(function(t){return t.pnl>0;}).length/nT.length*100):0;var yP=yT.reduce(function(s,t){return s+t.pnl;},0),nP=nT.reduce(function(s,t){return s+t.pnl;},0);return{name:pN[p],yN:yT.length,nN:nT.length,yWR:yWR,nWR:nWR,yP:yP,nP:nP,diff:yWR-nWR};});da.innerHTML='<div style="overflow-x:auto"><table class="s-table"><thead><tr><th>Prayer</th><th>Days prayed</th><th>Win %</th><th>P&L</th><th>Days missed</th><th>Win %</th><th>P&L</th><th>Edge</th><th>Confidence</th></tr></thead><tbody>'+rows.map(function(r){
   var conf=r.yN<3||r.nN<3?'low':r.yN<8||r.nN<8?'mid':'high';
   var confLabel=conf==='low'?'Insufficient data':conf==='mid'?'Pattern emerging':'High confidence';
   return'<tr><td style="color:var(--ink);font-weight:500;">'+r.name+'</td><td style="font-family:\'JetBrains Mono\',monospace;font-size:0.72rem;">'+r.yN+'</td><td style="color:var(--green);font-family:\'JetBrains Mono\',monospace;font-size:0.72rem;">'+r.yWR+'%</td><td class="t-pnl '+(r.yP>=0?'pos':'neg')+'">'+fmt(r.yP,true)+'</td><td style="font-family:\'JetBrains Mono\',monospace;font-size:0.72rem;">'+r.nN+'</td><td style="color:var(--red);font-family:\'JetBrains Mono\',monospace;font-size:0.72rem;">'+r.nWR+'%</td><td class="t-pnl '+(r.nP>=0?'pos':'neg')+'">'+fmt(r.nP,true)+'</td><td style="font-family:\'JetBrains Mono\',monospace;font-size:0.72rem;color:'+(r.diff>0?'var(--green)':'var(--red)')+';">'+(r.diff>0?'+':'')+r.diff+'%</td><td><span class="muh-confidence '+conf+'">'+confLabel+'</span></td></tr>';
@@ -2832,12 +2853,12 @@ function saveJournal(){
 function clearJournal(){['j-int','j-what','j-fix','j-shukr'].forEach(function(id){var e=el(id);if(e)e.value='';});var jr=el('j-rules');if(jr)jr.value='';S.nafs={sabr:0,tawakkul:0,kibr:0,shukr:0};NK.forEach(function(k){renderNafsDots(k);});}
 function renderJournalList(){
   var e=el('journal-list');if(!e)return;
-  if(!S.journals.length){e.innerHTML='<div class="empty"><div class="empty-icon">\ud83d\udcd3</div><div class="empty-title">No entries yet</div><div class="empty-text">Use the form above to log your first reflection.</div></div>';return;}
+  if(!S.journals.length){e.innerHTML='<div class="empty"><div class="empty-icon"><svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H18v15H7a2 2 0 0 0-2 2V4.5z"/><path d="M9 8h6M9 11.5h6"/></svg></div><div class="empty-title">No entries yet</div><div class="empty-text">Use the form above to log your first reflection.</div></div>';return;}
   var sq=(el('journal-search')?el('journal-search').value:'').trim().toLowerCase();
   var list=S.journals;
   if(sq){list=list.filter(function(j){return(j.date||'').includes(sq)||(j.fix||'').toLowerCase().includes(sq)||(j.what||'').toLowerCase().includes(sq)||(j.shukr||'').toLowerCase().includes(sq)||(j.intention||'').toLowerCase().includes(sq);});}
   var show=sq?list:list.slice(0,10);
-  if(!show.length){e.innerHTML='<div class="empty"><div class="empty-icon">\ud83d\udd0d</div><div class="empty-title">No entries match</div></div>';return;}
+  if(!show.length){e.innerHTML='<div class="empty"><div class="empty-icon"><svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg></div><div class="empty-title">No entries match</div></div>';return;}
   e.innerHTML=show.map(function(j){return'<div style="padding:12px 0;border-bottom:1px solid var(--line-2);"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.56rem;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px;">'+fmtDate(j.date)+'</div>'+(j.fix?'<div style="font-size:0.8rem;color:var(--ink-2);margin-bottom:4px;line-height:1.55;"><strong style="color:var(--ink);">Tomorrow:</strong> '+esc(j.fix)+'</div>':'')+(j.shukr?'<div style="font-size:0.8rem;color:var(--ink-2);line-height:1.55;"><strong style="color:var(--gold);">Shukr:</strong> '+esc(j.shukr)+'</div>':'')+'</div>';}).join('')+(!sq&&S.journals.length>10?'<div style="font-size:0.76rem;color:var(--ink-3);text-align:center;padding:12px 0;">Showing 10 of '+S.journals.length+' \u2014 search to find older entries</div>':'');
 }
 
@@ -4984,18 +5005,18 @@ function renderHabitChain(){
   e.innerHTML =
     '<div class="habit-chain">' +
       '<div class="hc-head">' +
-        '<div class="hc-title">30-Day Chain</div>' +
+        '<div class="hc-title">30-Day Chain <span style="font-family:Inter,sans-serif;font-weight:300;font-size:0.66rem;letter-spacing:0;text-transform:none;color:var(--ink-4);">· each square is a day — hover for detail</span></div>' +
         '<div class="hc-summary"><strong>' + loggedDays + '</strong> of 30 days active</div>' +
       '</div>' +
       '<div class="hc-grid">' + cells.join('') + '</div>' +
-      '<div class="hc-legend">Quiet ' +
+      '<div class="hc-legend"><span>Quiet day</span> ' +
         '<div class="hc-legend-dots">' +
           '<div class="hc-legend-dot"></div>' +
           '<div class="hc-legend-dot l1"></div>' +
           '<div class="hc-legend-dot l2"></div>' +
           '<div class="hc-legend-dot l3"></div>' +
           '<div class="hc-legend-dot l4"></div>' +
-        '</div> Logged + prayed</div>' +
+        '</div> <span>Traded &amp; prayed</span></div>' +
     '</div>';
 }
 
