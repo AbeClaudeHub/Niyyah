@@ -35,13 +35,17 @@ var firebaseConfig = {
   appId:             "1:233039236996:web:ca9b435aa6ac8122a997d1"
 };
 
-var AUTH, DB, FUNCTIONS;
+var AUTH, DB, FUNCTIONS, STORAGE;
 try {
   if(typeof firebase === 'undefined') throw new Error('Firebase SDK not loaded');
   firebase.initializeApp(firebaseConfig);
   AUTH      = firebase.auth();
   DB        = firebase.firestore();
   FUNCTIONS = firebase.functions();
+  // Storage is optional — used to keep trade screenshots out of the 1MB
+  // Firestore document. If the SDK/bucket isn't available, screenshot
+  // handling falls back to inline data URLs (see resolveScreenshotRef).
+  try { STORAGE = firebase.storage(); } catch(e){ STORAGE = null; }
   try { DB.enablePersistence({synchronizeTabs:true}).catch(function(){}); } catch(e){}
 } catch(fbErr) {
   console.warn('Firebase unavailable:', fbErr.message);
@@ -1627,9 +1631,13 @@ function saveEntry(){
   t.quality=calcQ(t);
   // Snapshot prior state so we can revert if the write fails.
   var priorTrades=S.trades.slice(), priorOpenId=S.openTradeId;
-  S.trades.unshift(t); S.openTradeId=t.id;
-  // Single atomic write: both fields land together or neither does.
-  svMulti({trades:S.trades, openTradeId:S.openTradeId})
+  // Upload the screenshot to Storage (or keep inline) before the doc write.
+  resolveScreenshotRef(t.screenshot, t.id, 'entry').then(function(ref){
+    t.screenshot=ref;
+    S.trades.unshift(t); S.openTradeId=t.id;
+    // Single atomic write: both fields land together or neither does.
+    return svMulti({trades:S.trades, openTradeId:S.openTradeId});
+  })
     .then(function(){
       closeEntry(true);
       ['e-inst','e-setup','e-entry','e-stop','e-target'].forEach(function(id){var e=el(id);if(e)e.value='';});
@@ -1764,8 +1772,12 @@ function saveExit(){
   t.closedAt=new Date().toISOString();
   t.quality=calcQ(t);
   S.openTradeId=null;
-  // Single atomic write so the trade-close and openTradeId-clear can't desync.
-  svMulti({trades:S.trades, openTradeId:null})
+  // Upload the exit screenshot to Storage (or keep inline) before the write.
+  resolveScreenshotRef(t.exitScreenshot, t.id, 'exit').then(function(ref){
+    t.exitScreenshot=ref;
+    // Single atomic write so the trade-close and openTradeId-clear can't desync.
+    return svMulti({trades:S.trades, openTradeId:null});
+  })
     .then(function(){
       closeExit();
       ['x-exit','x-pnl','x-fees','x-mfe','x-mae','x-lesson'].forEach(function(id){var e=el(id);if(e)e.value='';});
@@ -1821,6 +1833,8 @@ function closeTD(){var m=el('td-modal');if(m)m.classList.remove('show');document
 function deleteOpenTrade(id){
   confirmModal({title:'Delete this open trade?',text:'The trade will be permanently removed. This cannot be undone.',okText:'Delete trade',danger:true,icon:'⚠'}).then(function(ok){
     if(!ok)return;
+    var gone=S.trades.find(function(t){return t.id===id;});
+    deleteTradeScreenshots(gone);
     S.trades=S.trades.filter(function(t){return t.id!==id;});
     if(S.openTradeId===id)S.openTradeId=null;
     sv('trades',S.trades);sv('openTradeId',S.openTradeId);
@@ -1895,6 +1909,36 @@ function compressImage(file,maxW,quality){
       img.src=e.target.result;
     };
     reader.readAsDataURL(file);
+  });
+}
+// Resolve a screenshot value into something cheap to persist. If it's a data
+// URL and Firebase Storage is available, upload it (keyed by trade id so a
+// re-save overwrites rather than duplicates) and return the download URL —
+// keeping the heavy bytes OUT of the 1MB Firestore user doc. If Storage is
+// unavailable or the upload fails, fall back to storing the data URL inline
+// (today's behaviour). Never rejects.
+function resolveScreenshotRef(val, tradeId, kind){
+  return new Promise(function(resolve){
+    if(!val || typeof val!=='string' || val.indexOf('data:')!==0){ resolve(val||null); return; }
+    if(!STORAGE || !UID || window._demoMode){ resolve(val); return; }
+    try{
+      var ref = STORAGE.ref().child('users/'+UID+'/shots/'+tradeId+'-'+kind+'.jpg');
+      ref.putString(val,'data_url',{contentType:'image/jpeg'})
+        .then(function(snap){ return snap.ref.getDownloadURL(); })
+        .then(function(url){ resolve(url); })
+        .catch(function(e){ console.warn('Screenshot upload failed; storing inline.', e && e.code); resolve(val); });
+    }catch(e){ resolve(val); }
+  });
+}
+// Best-effort cleanup of a trade's screenshots from Storage on delete.
+// Inline (data-URL) screenshots need no cleanup — they vanish with the trade.
+function deleteTradeScreenshots(t){
+  if(!t || !STORAGE) return;
+  ['screenshot','exitScreenshot'].forEach(function(k){
+    var v=t[k];
+    if(typeof v==='string' && /^https?:\/\//.test(v)){
+      try{ STORAGE.refFromURL(v).delete().catch(function(){}); }catch(e){}
+    }
   });
 }
 function paintScreenshotPreview(zoneId,dataUrl,which){
