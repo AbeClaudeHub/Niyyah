@@ -1119,9 +1119,9 @@ var OB=[
     text:'<div style="text-align:left;font-size:0.86rem;color:var(--ink-2);line-height:1.8;">Import your last few weeks and the mirror lights up <strong style="color:var(--ink);">today</strong> instead of next week. Niyyah reads your real trades and surfaces your first behavioral leak right away — the revenge sequences, the time-of-day that quietly bleeds you, the days your discipline slips.<br><br>Export a CSV from your broker or platform, then drop it in. Your salah and nafs data fill in as you go.</div><div style="margin-top:18px;"><button class="btn btn-gold" data-hclick="h67" style="width:100%;justify-content:center;">Import my trades (CSV) →</button></div><div style="margin-top:10px;font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.14em;color:var(--ink-4);text-align:center;">NO HISTORY YET? START FRESH BELOW — WE\'LL SHOW YOU THE ROPES WITH A SAMPLE.</div>'
   },
   {
-    eye:'SEE IT WORK · SAMPLE TRADE',
-    title:'Let\'s log a <em>practice trade</em>.',
-    text:'<div style="text-align:left;font-size:0.85rem;color:var(--ink-2);line-height:1.75;">We\'ll drop a sample trade into your journal so you can see Quality Score, the gate, and the dashboard come alive immediately. <strong style="color:var(--ink);">It\'s flagged as a sample</strong> and excluded from your real analytics — delete it any time from the Trades page.<br><br>This is the fastest way to understand what your real first trade will look like.</div><div style="margin-top:18px;display:flex;flex-direction:column;gap:8px;text-align:left;background:rgba(218,180,98,0.04);border:1px solid rgba(218,180,98,0.14);border-radius:10px;padding:12px 14px;font-family:\'JetBrains Mono\',monospace;font-size:0.65rem;color:var(--ink-3);line-height:1.6;"><div><span style="color:var(--gold);">SAMPLE</span> · ES LONG · entry 5320 · stop 5310 · target 5340</div><div><span style="color:var(--gold);">SETUP</span> · ORB · emotion: calm · gate: all yes</div><div><span style="color:var(--gold);">RESULT</span> · +$150 · quality ~88/100</div></div>'
+    eye:'SEE IT WORK · EXAMPLE',
+    title:'What a logged trade <em>looks like</em>.',
+    text:'<div style="text-align:left;font-size:0.85rem;color:var(--ink-2);line-height:1.75;">Here\'s a complete trade in Niyyah — the setup, your gate answers, your emotional state, and the <strong style="color:var(--ink);">Quality Score</strong> it earns. Yours will look like this.<br><br>This is just an illustration — <strong style="color:var(--ink);">nothing is added to your journal.</strong> Your stats start at zero, honestly, with your first real trade.</div><div style="margin-top:18px;display:flex;flex-direction:column;gap:8px;text-align:left;background:rgba(218,180,98,0.04);border:1px solid rgba(218,180,98,0.14);border-radius:10px;padding:12px 14px;font-family:\'JetBrains Mono\',monospace;font-size:0.65rem;color:var(--ink-3);line-height:1.6;"><div><span style="color:var(--gold);">EXAMPLE</span> · ES LONG · entry 5320 · stop 5310 · target 5340</div><div><span style="color:var(--gold);">SETUP</span> · ORB · emotion: calm · gate: all yes</div><div><span style="color:var(--gold);">RESULT</span> · +$150 · quality ~88/100</div></div>'
   },
   {
     eye:'YOUR FIRST 60 SECONDS',
@@ -1130,43 +1130,11 @@ var OB=[
   }
 ];
 
-// Drop a sample trade into the user's journal when they advance past the
-// sample-trade step. The trade is flagged sample:true and excluded from
-// analytics filtering. They can delete it any time.
-function obAddSampleTrade(){
-  // Skip if we've already inserted a sample (re-running onboarding shouldn't
-  // double-create) or if the user already has trades (don't pollute real data).
-  if((S.trades||[]).some(function(t){return t.sample;})) return;
-  if((S.trades||[]).length > 0) return;
-  var t = {
-    id: Date.now(),
-    sample: true,
-    status: 'closed',
-    date: localDate(),
-    time: '09:45',
-    instrument: 'ES',
-    direction: 'LONG',
-    setup: 'ORB',
-    entryPrice: '5320',
-    stopPrice: '5310',
-    targetPrice: '5340',
-    emotion: 'calm',
-    exitEmotion: 'grateful',
-    exitPrice: '5335',
-    outcome: 'win',
-    lesson: 'Sample trade — added during onboarding so you could see how a logged trade looks.',
-    pnl: 150,
-    quality: 88,
-    islamicCheck: {bismillah:true, prayer:true, setup:true, stop:true},
-    gateAnswers: {waited:'yes', conf:'yes', calm:'yes'},
-    prayers: {},
-    screenshot: null,
-    createdAt: new Date().toISOString(),
-    closedAt: new Date().toISOString()
-  };
-  S.trades.unshift(t);
-  sv('trades', S.trades);
-}
+// NOTE: onboarding no longer injects a fake "sample" trade. A persisted
+// pnl:+$150 trade polluted real-account stats (calendar, KPIs, win rate,
+// streaks, equity) and confused new users into thinking they'd made money.
+// The onboarding step now shows a purely illustrative, non-persisted card;
+// the full "see it work" experience lives in the demo preview (Khalid).
 
 // User picks their biggest leak during onboarding. Persisted to settings so
 // the dashboard insight panel can speak to it specifically until enough
@@ -1211,18 +1179,12 @@ function renderOB(){
   }
 }
 function obNext(){
-  // If we're leaving the SAMPLE-TRADE step, insert the sample trade so the
-  // dashboard shows real-looking state when the user lands on it.
-  var current = OB[S.obStep];
-  if(current && (current.eye||'').indexOf('SAMPLE') > -1){
-    obAddSampleTrade();
-  }
   S.obStep++;
   // If the user imported (or otherwise already has) real trades, the
-  // "practice trade" step is redundant and confusing — skip past it.
+  // illustrative "example trade" step is redundant — skip past it.
   var hasReal = (S.trades||[]).some(function(t){return !t.sample;});
   if(hasReal){
-    while(S.obStep<OB.length && (OB[S.obStep].eye||'').indexOf('SAMPLE')>-1){ S.obStep++; }
+    while(S.obStep<OB.length && (OB[S.obStep].eye||'').indexOf('EXAMPLE')>-1){ S.obStep++; }
   }
   sv('obStep',S.obStep);
   if(S.obStep<OB.length){renderOB();}
@@ -2794,8 +2756,10 @@ function renderCal(){
   var y=S.calMonth.getFullYear(),m=S.calMonth.getMonth();
   var MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
   var todayStr=localDate();var ml=el('cal-month-label');if(ml)ml.textContent=MN[m]+' '+y;
-  var tradeMap={};S.trades.forEach(function(t){if(!tradeMap[t.date])tradeMap[t.date]=[];tradeMap[t.date].push(t);});
-  var ms=y+'-'+pad(m+1);var mAll=S.trades.filter(function(t){return t.date.startsWith(ms);});
+  // Exclude sample/tutorial trades — they must never inflate P&L, win rate, or heatmap cells.
+  var TR=S.trades.filter(function(t){return !t.sample;});
+  var tradeMap={};TR.forEach(function(t){if(!tradeMap[t.date])tradeMap[t.date]=[];tradeMap[t.date].push(t);});
+  var ms=y+'-'+pad(m+1);var mAll=TR.filter(function(t){return t.date.startsWith(ms);});
   var mClosed=mAll.filter(function(t){return t.status==='closed';});
   var mp=mClosed.reduce(function(s,t){return s+t.pnl;},0);var mW=mClosed.filter(function(t){return t.pnl>0;});
   var tDays=new Set(mAll.map(function(t){return t.date;})).size;
@@ -2819,7 +2783,7 @@ function renderCal(){
   var cg=el('cal-grid');if(cg)cg.innerHTML=html;renderMonthlyBars();
 }
 function showDayDetail(dateStr){
-  var dt=S.trades.filter(function(t){return t.date===dateStr;});if(!dt.length)return;
+  var dt=S.trades.filter(function(t){return t.date===dateStr && !t.sample;});if(!dt.length)return;
   var popup=el('day-popup');if(!popup)return;
   var dpd=el('dp-date');if(dpd)dpd.textContent=fmtDate(dateStr)+' \u00b7 '+dt.length+' trade'+(dt.length>1?'s':'');
   var dpb=el('dp-body');if(dpb)dpb.innerHTML=dt.map(function(t){var pS=t.status==='open'?'<span class="open-pill">OPEN</span>':'<span class="t-pnl '+(t.pnl>=0?'pos':'neg')+'">'+fmt(t.pnl,true)+'</span>';return'<div class="day-popup-trade"><span class="t-side '+(t.direction==='LONG'?'long':'short')+'">'+esc(t.direction)+'</span><span style="flex:1;font-size:0.83rem;color:var(--ink);margin:0 8px;">'+esc(t.instrument)+(t.setup?' \u00b7 '+esc(t.setup):'')+'</span>'+pS+'</div>';}).join('');
@@ -2830,7 +2794,7 @@ document.addEventListener('click',function(e){var p=el('day-popup');if(p&&p.clas
 function renderMonthlyBars(){
   var mbEl=el('mbars-wrap');if(!mbEl)return;
   var MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  var closed=S.trades.filter(function(t){return t.status==='closed';});var nowD=new Date(),months=[];
+  var closed=S.trades.filter(function(t){return t.status==='closed' && !t.sample;});var nowD=new Date(),months=[];
   for(var i=11;i>=0;i--){var d=new Date(nowD.getFullYear(),nowD.getMonth()-i,1);months.push({y:d.getFullYear(),m:d.getMonth(),label:MN[d.getMonth()]});}
   var mData=months.map(function(mo){var key=mo.y+'-'+pad(mo.m+1);var ts=closed.filter(function(x){return x.date.startsWith(key);});return{label:mo.label,pnl:ts.reduce(function(s,x){return s+x.pnl;},0),n:ts.length};});
   var mMax=Math.max.apply(null,mData.map(function(d){return Math.abs(d.pnl);}));if(!mMax||mMax<1)mMax=1;
