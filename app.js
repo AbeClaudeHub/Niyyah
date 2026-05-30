@@ -1519,6 +1519,7 @@ function openEntryModal(){
     });
     m._mizanWired = true;
   }
+  entryGoStep(1); // always open on the gate, not the form
   refreshMizan();
 }
 function closeEntry(force){
@@ -1530,6 +1531,19 @@ function closeEntry(force){
     return;
   }
   m.classList.remove('show');document.body.style.overflow='';
+}
+// Two-beat entry flow: step 1 is the gate + emotion (the psychological
+// intervention, where the mirror fires); step 2 is the trade log. Keeping
+// them apart stops the gate from competing with bookkeeping fields.
+function entryGoStep(n){
+  var toStep2 = (n===2);
+  var s1=el('entry-step-1'),s2=el('entry-step-2'),f1=el('entry-foot-1'),f2=el('entry-foot-2');
+  if(s1)s1.style.display=toStep2?'none':'';
+  if(s2)s2.style.display=toStep2?'':'none';
+  if(f1)f1.style.display=toStep2?'none':'';
+  if(f2)f2.style.display=toStep2?'':'none';
+  var body=document.querySelector('#entry-modal .modal-body'); if(body)body.scrollTop=0;
+  if(toStep2){ refreshMizan(); var ei=el('e-inst'); if(ei) try{ei.focus();}catch(e){} }
 }
 function saveEntry(){
   var rawInst=(el('e-inst')?el('e-inst').value:'').trim();
@@ -5793,6 +5807,8 @@ var __H = {
   'h117': function(event){ onScreenshotPick(event,'entry') },
   'h118': function(event){ el('e-screenshot-input').click() },
   'h119': function(event){ saveEntry() },
+  'hEntryNext': function(event){ entryGoStep(2) },
+  'hEntryBack': function(event){ entryGoStep(1) },
   'h120': function(event){ if(event.target===this)closeExit() },
   'h121': function(event){ closeExit() },
   'h122': function(event){ autoCalcExitHint() },

@@ -2221,6 +2221,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
  <div class="modal">
   <div class="modal-head"><div class="modal-title">Enter a <em>Trade</em></div><button class="modal-close" data-hclick="h105">×</button></div>
   <div class="modal-body">
+   <div id="entry-step-1">
    <div class="gate"><div class="gate-title">Before entering — answer honestly.</div>
     <div class="gate-q"><div class="gate-q-text">Did you wait for your full setup criteria?</div><div class="gate-q-btns"><button class="gqb yes" data-hclick="h106">Yes</button><button class="gqb no" data-hclick="h107">No</button></div></div>
     <div class="gate-q"><div class="gate-q-text">Are there 2 or more confluences?</div><div class="gate-q-btns"><button class="gqb yes" data-hclick="h108">Yes</button><button class="gqb no" data-hclick="h109">No</button></div></div>
@@ -2238,6 +2239,9 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <button class="emotion-btn" data-e="overconf" data-hclick="h112"><span class="ei"></span>Cocky</button>
     <button class="emotion-btn" data-e="anxious" data-hclick="h112"><span class="ei"></span>Anxious</button>
    </div>
+   <div style="margin-top:16px;border-top:1px solid var(--line-2);padding-top:13px;font-size:0.78rem;color:var(--ink-3);line-height:1.6;">These two answers are the whole point — be honest with yourself first. Next, log the trade.</div>
+   </div><!-- /entry-step-1 -->
+   <div id="entry-step-2" style="display:none;">
    <div class="fs-label">Trade Details <span style="color:var(--ink-4);font-weight:400;text-transform:none;letter-spacing:0;">· only the instrument is required — add the rest if you have it</span></div>
    <div class="field-row c3"><div class="field"><label>Date</label><input type="date" id="e-date"></div><div class="field"><label>Time</label><input type="time" id="e-time"></div><div class="field"><label>Instrument</label><input type="text" id="e-inst" placeholder="ES, NQ, MGC…"></div></div>
    <div class="field-row c3" id="e-setup-row"><div class="field"><label>Direction</label><select id="e-dir"><option value="LONG">Long</option><option value="SHORT">Short</option></select></div><div class="field" id="e-setup-sel-field"><label>Playbook Setup</label><select id="e-setup-sel"><option value="">— Select or type below —</option></select></div><div class="field"><label id="e-setup-label">Setup name</label><input type="text" id="e-setup" placeholder="ORB, VWAP, BPB…"></div></div>
@@ -2262,8 +2266,10 @@ body:not(.legal-visitor) .legal-back{display:none;}
        <div class="screenshot-zone-hint">PNG / JPEG · auto-compressed · stored privately on your account</div>
      </div>
    </details>
+   </div><!-- /entry-step-2 -->
   </div>
-  <div class="modal-foot"><button class="btn btn-outline" data-hclick="h105">Cancel</button><button class="btn btn-gold" id="save-entry-btn" data-hclick="h119">Enter Trade →</button></div>
+  <div class="modal-foot" id="entry-foot-1"><button class="btn btn-outline" data-hclick="h105">Cancel</button><button class="btn btn-gold" data-hclick="hEntryNext">Continue →</button></div>
+  <div class="modal-foot" id="entry-foot-2" style="display:none;"><button class="btn btn-outline" data-hclick="hEntryBack">← Back</button><button class="btn btn-gold" id="save-entry-btn" data-hclick="h119">Enter Trade →</button></div>
  </div>
 </div>
 
