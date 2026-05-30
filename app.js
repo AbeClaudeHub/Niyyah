@@ -3148,7 +3148,7 @@ function _siratFocusFor(stage, closed, leak, ctx){
   if(stage === 'tawakkul'){
     return { title: 'Add a second proven setup — slowly.', body: 'Run it at half size until you have ' + SIRAT_THRESHOLDS.setupMinTrades + ' trades at ' + SIRAT_THRESHOLDS.setupMinWR + '%+ WR. Diversification compounds; chasing variety destroys.' };
   }
-  return { title: 'Teach what you know. Give zakat. Scale honestly.', body: 'Ihsan is not about more trades — it\'s about more discipline at the same edge, and helping the next brother find theirs.' };
+  return { title: 'Teach what you know. Give zakat. Scale honestly.', body: 'Ihsan is not about more trades — it\'s about more discipline at the same edge, and helping the next trader find theirs.' };
 }
 
 function _siratGraduationFor(stage, ctx){
@@ -3820,8 +3820,8 @@ function renderWitnessRow(){
     row.innerHTML =
       '<div style="display:flex;flex-direction:column;gap:8px;">' +
         '<div style="display:grid;grid-template-columns:1.4fr 1fr;gap:8px;">' +
-          '<input type="email" id="w-email" placeholder="brother@example.com" style="background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;color:var(--ink);font-size:0.84rem;">' +
-          '<input type="text" id="w-label" placeholder="Spouse · Mentor · Brother" style="background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;color:var(--ink);font-size:0.84rem;">' +
+          '<input type="email" id="w-email" placeholder="trusted@example.com" style="background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;color:var(--ink);font-size:0.84rem;">' +
+          '<input type="text" id="w-label" placeholder="Spouse · Mentor · Partner" style="background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;color:var(--ink);font-size:0.84rem;">' +
         '</div>' +
         '<div style="display:flex;justify-content:flex-end;"><button class="btn btn-gold btn-sm" data-hclick="h157">Enable witness</button></div>' +
       '</div>';
