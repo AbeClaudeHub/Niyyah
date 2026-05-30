@@ -1109,6 +1109,12 @@ var OB=[
     text:'<div style="font-size:0.84rem;color:var(--ink-3);margin-bottom:14px;line-height:1.6;">Pick the one that costs you the most. Niyyah will calibrate your dashboard to it.</div><div id="ob-leak-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:left;"><button class="ob-leak-btn" data-leak="revenge" data-hclick="h142" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">Revenge trading</div><div style="font-size:0.72rem;color:var(--ink-4);">Adding after a loss</div></button><button class="ob-leak-btn" data-leak="fomo" data-hclick="h142" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">FOMO entries</div><div style="font-size:0.72rem;color:var(--ink-4);">Chasing the move</div></button><button class="ob-leak-btn" data-leak="rules" data-hclick="h142" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">Breaking my rules</div><div style="font-size:0.72rem;color:var(--ink-4);">Moving stops, oversizing</div></button><button class="ob-leak-btn" data-leak="overconf" data-hclick="h142" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">Kibr after wins</div><div style="font-size:0.72rem;color:var(--ink-4);">Sizing up, getting cocky</div></button><button class="ob-leak-btn" data-leak="missing" data-hclick="h142" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">Missing salah</div><div style="font-size:0.72rem;color:var(--ink-4);">For a chart, regularly</div></button><button class="ob-leak-btn" data-leak="boredom" data-hclick="h142" style="padding:14px 14px;background:linear-gradient(145deg,#1a1810,#0f0d09);border:1.5px solid rgba(255,255,255,0.08);border-radius:11px;color:var(--ink-2);font-family:\'Inter\',sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;transition:all 0.18s;"><div style="font-family:\'Cormorant Garamond\',serif;font-size:1rem;color:var(--ink);font-weight:600;margin-bottom:2px;">Boredom trades</div><div style="font-size:0.72rem;color:var(--ink-4);">Forcing setups</div></button></div>'
   },
   {
+    eye:'JUMP-START · OPTIONAL',
+    title:'Already have a <em>trade history</em>?',
+    btnLabel:'I\'ll start fresh →',
+    text:'<div style="text-align:left;font-size:0.86rem;color:var(--ink-2);line-height:1.8;">Import your last few weeks and the mirror lights up <strong style="color:var(--ink);">today</strong> instead of next week. Niyyah reads your real trades and surfaces your first behavioral leak right away — the revenge sequences, the time-of-day that quietly bleeds you, the days your discipline slips.<br><br>Export a CSV from your broker or platform, then drop it in. Your salah and nafs data fill in as you go.</div><div style="margin-top:18px;"><button class="btn btn-gold" data-hclick="h67" style="width:100%;justify-content:center;">Import my trades (CSV) →</button></div><div style="margin-top:10px;font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.14em;color:var(--ink-4);text-align:center;">NO HISTORY YET? START FRESH BELOW — WE\'LL SHOW YOU THE ROPES WITH A SAMPLE.</div>'
+  },
+  {
     eye:'SEE IT WORK · SAMPLE TRADE',
     title:'Let\'s log a <em>practice trade</em>.',
     text:'<div style="text-align:left;font-size:0.85rem;color:var(--ink-2);line-height:1.75;">We\'ll drop a sample trade into your journal so you can see Quality Score, the gate, and the dashboard come alive immediately. <strong style="color:var(--ink);">It\'s flagged as a sample</strong> and excluded from your real analytics — delete it any time from the Trades page.<br><br>This is the fastest way to understand what your real first trade will look like.</div><div style="margin-top:18px;display:flex;flex-direction:column;gap:8px;text-align:left;background:rgba(218,180,98,0.04);border:1px solid rgba(218,180,98,0.14);border-radius:10px;padding:12px 14px;font-family:\'JetBrains Mono\',monospace;font-size:0.65rem;color:var(--ink-3);line-height:1.6;"><div><span style="color:var(--gold);">SAMPLE</span> · ES LONG · entry 5320 · stop 5310 · target 5340</div><div><span style="color:var(--gold);">SETUP</span> · ORB · emotion: calm · gate: all yes</div><div><span style="color:var(--gold);">RESULT</span> · +$150 · quality ~88/100</div></div>'
@@ -1116,7 +1122,7 @@ var OB=[
   {
     eye:'YOUR FIRST 60 SECONDS',
     title:'Three taps to <em>begin</em>.',
-    text:'<div style="text-align:left;font-size:0.88rem;color:var(--ink-2);line-height:1.85;">→ Tap the <strong style="color:var(--gold);">+</strong> button to log a real trade — entry now, close when done.<br>→ Tap a prayer pill on the dashboard when you pray it.<br>→ That is it. Patterns appear after 5 trades.</div><div style="margin-top:14px;font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.16em;color:var(--ink-4);">YOU CAN OPEN THE GUIDE ANYTIME FROM THE SIDEBAR.</div>'
+    text:'<div style="text-align:left;font-size:0.88rem;color:var(--ink-2);line-height:1.85;">→ Tap the <strong style="color:var(--gold);">+</strong> button to log a real trade — entry now, close when done.<br>→ Tap a prayer pill on the dashboard when you pray it.<br>→ That is it. Your patterns sharpen with every trade you log.</div><div style="margin-top:14px;font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.16em;color:var(--ink-4);">YOU CAN OPEN THE GUIDE ANYTIME FROM THE SIDEBAR.</div>'
   }
 ];
 
@@ -1183,7 +1189,7 @@ function renderOB(){
   // question, which defeats the personalization.
   var isLeakStep=(s.eye||'').indexOf('PERSONAL')===0;
   if(btn){
-    btn.textContent=isLast?'Bismillah — begin':'Continue →';
+    btn.textContent=isLast?'Bismillah — begin':(s.btnLabel||'Continue →');
     btn.style.display=isLeakStep?'none':'';
   }
   if(skip)skip.style.display=isLast?'none':'';
@@ -1208,6 +1214,12 @@ function obNext(){
     obAddSampleTrade();
   }
   S.obStep++;
+  // If the user imported (or otherwise already has) real trades, the
+  // "practice trade" step is redundant and confusing — skip past it.
+  var hasReal = (S.trades||[]).some(function(t){return !t.sample;});
+  if(hasReal){
+    while(S.obStep<OB.length && (OB[S.obStep].eye||'').indexOf('SAMPLE')>-1){ S.obStep++; }
+  }
   sv('obStep',S.obStep);
   if(S.obStep<OB.length){renderOB();}
   else{ obFinish(); }
@@ -1882,9 +1894,11 @@ function openCsvModal(){
   el('csv-error-wrap').innerHTML='';
   el('csv-summary-wrap').innerHTML='';
   el('csv-confirm-btn').style.display='none';
+  // Lift above the onboarding overlay (z-index 500) so import works mid-onboarding.
+  m.style.zIndex='600';
   m.classList.add('show');document.body.style.overflow='hidden';
 }
-function closeCsvModal(){var m=el('csv-modal');if(m)m.classList.remove('show');document.body.style.overflow='';_csvPending=null;}
+function closeCsvModal(){var m=el('csv-modal');if(m){m.classList.remove('show');m.style.zIndex='';}document.body.style.overflow='';_csvPending=null;}
 function downloadCsvTemplate(){
   var sample='date,instrument,direction,entry,stop,target,exit,pnl,setup,emotion,outcome,lesson\n'+
              '2026-05-15,NQ,LONG,21050,21000,21150,21125,150,ORB,calm,win,Held to target — patience worked\n'+
@@ -2030,7 +2044,10 @@ function confirmCsvImport(){
     updateNav();
     if(el('page-trades')&&el('page-trades').classList.contains('active'))renderTrades();
     if(el('page-dashboard')&&el('page-dashboard').classList.contains('active'))renderDash();
-    toast('✓ Imported '+n+' trade'+(n===1?'':'s'),'s');
+    toast('✓ Imported '+n+' trade'+(n===1?'':'s')+' — your mirror is live','s');
+    // If we're mid-onboarding, the import IS the jump-start: advance straight
+    // past the (now-redundant) practice-trade step to the finish.
+    if(el('onboard')&&el('onboard').classList.contains('show')){ obNext(); }
   }).catch(function(){
     S.trades=prior; // sv() already toasted the error
   }).then(function(){
