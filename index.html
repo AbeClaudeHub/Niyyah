@@ -334,6 +334,8 @@ label{display:block;font-family:'Inter',sans-serif;font-size:0.74rem;font-weight
 .gqb.no.on{background:var(--red-soft);border-color:var(--red);color:var(--red);}
 .gate-warn{display:none;background:var(--red-soft);border:1px solid rgba(210,130,130,0.22);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:11px 13px;margin-top:9px;font-size:0.81rem;color:var(--ink-2);line-height:1.65;}
 .gate-warn.show{display:block;animation:slideUp 0.2s ease;}
+.gate-sahib{margin-top:9px;background:rgba(218,180,98,0.06);border:1px solid rgba(218,180,98,0.18);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:10px 13px;font-size:0.8rem;color:var(--ink-2);line-height:1.55;}
+.gate-sahib strong{color:var(--gold-2);font-weight:600;}
 .ic-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px;}
 @media(max-width:500px){.ic-grid{grid-template-columns:1fr;}}
 .ic-item{display:flex;align-items:flex-start;gap:9px;padding:11px 13px;background:var(--surface-2);border:1.5px solid var(--line-2);border-radius:var(--r);cursor:pointer;transition:var(--t);}
@@ -2242,6 +2244,7 @@ body:not(.legal-visitor) .legal-back{display:none;}
     <div class="gate-q"><div class="gate-q-text">Are there 2 or more confluences?</div><div class="gate-q-btns"><button class="gqb yes" data-hclick="h108">Yes</button><button class="gqb no" data-hclick="h109">No</button></div></div>
     <div class="gate-q"><div class="gate-q-text">Are you in a calm, clear state of mind?</div><div class="gate-q-btns"><button class="gqb yes" data-hclick="h110">Yes</button><button class="gqb no" data-hclick="h111">No</button></div></div>
     <div class="gate-warn" id="gate-warn"></div>
+    <div id="entry-sahib-reminder"></div>
    </div>
    <div class="fs-label">Emotional State at Entry</div>
    <div class="emotion-grid">

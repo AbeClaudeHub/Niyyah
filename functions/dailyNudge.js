@@ -112,6 +112,17 @@ function decideNudge(data, today){
     };
   }
 
+  // 4. Sahib daily focus — the everyday companion nudge. The client persists
+  //    the active weekly commitment to the user doc; lead the day with it.
+  const sahib = data.sahib && data.sahib.commitment;
+  if(sahib && sahib.text){
+    return {
+      title: '☽ Sahib',
+      body: `Today’s focus — ${sahib.text}`,
+      url: '/'
+    };
+  }
+
   return null;
 }
 

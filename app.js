@@ -1500,6 +1500,9 @@ function openEntryModal(){
   resetScreenshotZone('e-screenshot-zone','entry');
   document.querySelectorAll('.gqb').forEach(function(b){b.classList.remove('on');});
   var gw=el('gate-warn');if(gw)gw.classList.remove('show');
+  // Sahib's active commitment, surfaced at the moment of decision.
+  var sr=el('entry-sahib-reminder');
+  if(sr){ var sc=S.sahib&&S.sahib.commitment; sr.innerHTML = sc ? '<div class="gate-sahib">☽ Your Sahib focus this week — <strong>'+esc(sc.text)+'</strong></div>' : ''; }
   var rw=el('e-rr-warn');if(rw)rw.style.display='none';
   window._rrConfirmed = false;
   document.querySelectorAll('#entry-modal .emotion-btn').forEach(function(b){b.classList.remove('on');});
@@ -2886,6 +2889,39 @@ function lockInSahibWeek(){
   renderSahib();
 }
 
+// One-line daily brief — powers both the in-app frame and the daily push.
+function sahibBriefText(){
+  try{
+    var diag=diagnoseSahib();
+    if(!diag.enough) return 'Log '+diag.need+' more trade'+(diag.need===1?'':'s')+' and I\'ll name the one habit costing you the most.';
+    var c=S.sahib&&S.sahib.commitment;
+    if(c){
+      if(_daysSince(c.startDate)>=7) return 'Your week is in — open Niyyah to see how you held your focus.';
+      if(new Date().getHours()<16) return 'Today’s focus: '+c.text;
+      return _sahibTodayLine(c);
+    }
+    if(diag.leaks && diag.leaks.length) return 'I found the one habit costing you the most this week. Open Niyyah to see it.';
+    return 'No leak worth chasing right now — alhamdulillah. Keep logging honestly.';
+  }catch(e){ return 'Open Niyyah — your companion is waiting.'; }
+}
+// Today-scoped reflection on the active commitment (the evening frame).
+function _sahibTodayLine(c){
+  var today=localDate();
+  var tt=_sahibChrono().filter(function(t){return t.date===today;});
+  var n=tt.length;
+  if(!n) return 'No trades logged today. The focus still stands: '+c.text;
+  switch(c.id){
+    case 'no_revenge': { var r=0; for(var i=0;i<tt.length;i++){ if(_isRevengeTrade(tt[i], i>0?tt[i-1]:null)) r++; } return n+' trade'+(n===1?'':'s')+' today · '+(r===0?'no revenge entries. That’s the work.':r+' revenge entr'+(r===1?'y':'ies')+' — name it.'); }
+    case 'hard_stops': { var blown=tt.filter(function(t){return t.pnl<0;}).map(_tradeR).filter(function(x){return x!=null;}).filter(function(x){return x<=-1.15;}).length; return n+' today · '+(blown===0?'every stop held.':blown+' stop'+(blown===1?'':'s')+' moved.'); }
+    case 'max_trades': { var tgt=(c.meta&&c.meta.target)||3; return n+' trade'+(n===1?'':'s')+' today · '+(n<=tgt?'within your cap of '+tgt+'.':'over your cap of '+tgt+'.'); }
+    case 'time_window': { var h=(c.meta&&c.meta.cutHour)||12; var late=tt.filter(function(t){var hh=parseInt(String(t.time||'').slice(0,2),10);return !isNaN(hh)&&hh>=h;}).length; return n+' today · '+(late===0?'nothing after '+_fmtHour(h)+'.':late+' after '+_fmtHour(h)+'.'); }
+    case 'has_setup': { var named=tt.filter(function(t){return (t.setup||'').trim() && !(t.gateAnswers&&t.gateAnswers.waited==='no');}).length; return named+' of '+n+' today were named setups.'; }
+    case 'fixed_size': { return n+' trade'+(n===1?'':'s')+' today · hold your size steady.'; }
+    case 'pray_before': { var dp=(S.dailyPrayers||{})[today]||{}; var p=Object.values(dp).filter(Boolean).length; return n+' today · '+p+'/5 prayers logged.'; }
+    default: return n+' trade'+(n===1?'':'s')+' logged today. Focus: '+c.text;
+  }
+}
+
 // ── Sahib card (mounts into #sahib-card on the dashboard) ──
 function _sahibCard(eye,inner){
   return '<div class="sahib-card"><div class="sahib-eye"><span class="sahib-eye-dot"></span>'+eye+'</div>'+inner+'</div>';
@@ -2917,9 +2953,12 @@ function renderSahib(){
         '<div class="sahib-body">'+m.line+'</div>'+
         '<div class="sahib-actions"><button class="btn btn-gold btn-sm" data-hclick="hSahibLock">'+(m.hit?'Lock it in · next focus →':'Set a fresh focus →')+'</button></div>');
     } else {
-      host.innerHTML=_sahibCard('SAHIB · THIS WEEK · DAY '+(m.days+1)+' OF 7',
+      var morning=new Date().getHours()<16;
+      var brief = morning ? 'Today — hold the line.' : _sahibTodayLine(c);
+      host.innerHTML=_sahibCard('SAHIB · '+(morning?'TODAY':'TONIGHT')+' · DAY '+(m.days+1)+' OF 7',
         '<div class="sahib-commit">“'+esc(c.text)+'”</div>'+
-        '<div class="sahib-body">'+m.line+'<span style="color:var(--gold);">'+arrow+'</span></div>'+
+        '<div class="sahib-title" style="font-size:1.15rem;margin-top:12px;margin-bottom:6px;">'+esc(brief)+'</div>'+
+        '<div class="sahib-body">This week: '+m.line+'<span style="color:var(--gold);">'+arrow+'</span></div>'+
         '<div class="sahib-foot">'+(7-m.days)+' day'+((7-m.days)===1?'':'s')+' left — I\'m watching.</div>');
     }
     return;
@@ -4970,6 +5009,7 @@ function runMuhasabah(){
 // Default notification preferences. Stored under S.notifPrefs and
 // persisted to Firestore so they sync across devices.
 var DEFAULT_NOTIF_PREFS = {
+  sahibDailyBrief: true,   // 08:30 local — Sahib's daily focus, when a commitment is active
   fridayMuhasabah: true,   // Friday at 16:00 local
   streakGuard:     true,   // 21:00 local if streak ≥3 and today is empty
   lossCooldown:    true,   // Next day 08:00 after a big-loss day
@@ -5050,6 +5090,15 @@ function nextFireTime(type){
   var state = S.notifState || {};
   var todayKey = localDate();
   switch(type){
+    case 'sahibDailyBrief': {
+      if(!prefs.sahibDailyBrief) return null;
+      // Only nudge when there's an active commitment to hold to.
+      if(!(S.sahib && S.sahib.commitment)) return null;
+      var sd = new Date(); sd.setHours(8,30,0,0);
+      if(sd <= now) return null;                     // morning already passed
+      if(state.sahibDailyBriefDate === todayKey) return null;
+      return sd;
+    }
     case 'fridayMuhasabah': {
       if(!prefs.fridayMuhasabah) return null;
       // Next Friday at 16:00 local. If today is Friday and it's after 16:00,
@@ -5125,7 +5174,7 @@ function tickNotifScheduler(){
   Object.keys(_notifTimers).forEach(function(k){
     clearTimeout(_notifTimers[k]); delete _notifTimers[k];
   });
-  ['fridayMuhasabah','streakGuard','lossCooldown','weekKickoff'].forEach(function(type){
+  ['sahibDailyBrief','fridayMuhasabah','streakGuard','lossCooldown','weekKickoff'].forEach(function(type){
     var when = nextFireTime(type);
     if(!when) return;
     var delay = when.getTime() - Date.now();
@@ -5151,6 +5200,11 @@ function fireScheduledNotif(type){
 }
 
 var NOTIF_COPY = {
+  sahibDailyBrief: {
+    title: '☽ Sahib',
+    body: function(){ return (typeof sahibBriefText==='function') ? sahibBriefText() : 'Your daily focus is ready.'; },
+    url: '/'
+  },
   fridayMuhasabah: {
     title: '☽ Friday muhasabah',
     body: function(){
@@ -5523,6 +5577,7 @@ function renderNotifSettings(){
   var rows = el('notif-prefs-rows');
   if(!rows) return;
   var items = [
+    { key:'sahibDailyBrief', title:'Sahib daily focus',  sub:'08:30 · your weekly commitment, every morning it\'s active' },
     { key:'fridayMuhasabah', title:'Friday muhasabah',  sub:'Friday 16:00 · weekly review reminder' },
     { key:'streakGuard',     title:'Streak guard',      sub:'21:00 · only when a streak is alive and today is empty' },
     { key:'lossCooldown',    title:'Loss-day cooldown', sub:'Next morning 08:00 · after a hard day' },
