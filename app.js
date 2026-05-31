@@ -835,7 +835,7 @@ function startDemo(){
   // Set sidebar display name
   var av=el('sf-av'); if(av) av.textContent='K';
   var nm=el('sf-name'); if(nm) nm.textContent='Khalid';
-  var pl=el('sf-plan-label'); if(pl) pl.textContent='Demo Mode · Sirat';
+  var pl=el('sf-plan-label'); if(pl) pl.textContent='Preview Mode';
 
   // Init app views
   try{ updateNav(); }catch(e){}
@@ -3739,8 +3739,7 @@ function _siratUpsell(){
     '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.56rem;letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;">SIRAT — NIYYAH PREMIUM</div>' +
     '<div style="font-family:\'Cormorant Garamond\',serif;font-size:2.1rem;font-weight:600;color:var(--ink);line-height:1.1;margin-bottom:14px;">The staged path to <em style="color:var(--gold);">profitability.</em></div>' +
     '<div style="font-size:0.92rem;color:var(--ink-2);line-height:1.75;margin-bottom:22px;">Five stages — Tahaarah, Sabr, Yaqeen, Tawakkul, Ihsan — calibrated to your actual data. Niyyah tells you exactly where you stand, what\'s blocking the next stage, and the one focus that gets you through it. Plus <strong style="color:var(--ink);">Mizan</strong> (live verdict on every trade you propose), <strong style="color:var(--ink);">Edge Audit</strong>, <strong style="color:var(--ink);">Risk-of-Ruin</strong>, <strong style="color:var(--ink);">Disaster Brake</strong>, and <strong style="color:var(--ink);">Witness Mode</strong> <span style="font-size:0.8em;color:var(--ink-4);">(rolling out)</span>.</div>' +
-    '<button class="btn btn-gold btn-lg" data-hclick="h153">Upgrade to Sirat — $38/mo</button>' +
-    '<div style="margin-top:10px;font-family:\'JetBrains Mono\',monospace;font-size:0.58rem;letter-spacing:0.14em;color:var(--ink-4);text-transform:uppercase;">or $300/yr · save $156 · 7-day refund</div>' +
+    '<button class="btn btn-gold btn-lg" data-hclick="h36">Open Sirat →</button>' +
     '</div>';
 }
 
@@ -4205,7 +4204,7 @@ function _refreshBrakeBadge(){
 function renderWitnessRow(){
   var row = el('witness-row'); if(!row) return;
   if(!isSirat()){
-    row.innerHTML = '<div style="font-size:0.78rem;color:var(--ink-4);">Available on Sirat. <a data-hclick="h153" style="color:var(--gold);cursor:pointer;">Upgrade →</a></div>';
+    row.innerHTML = '<div style="font-size:0.78rem;color:var(--ink-4);">Available in Sirat. <a data-hclick="h36" style="color:var(--gold);cursor:pointer;">Open →</a></div>';
     return;
   }
   var w = (S.settings && S.settings.witness) || null;
@@ -4365,7 +4364,7 @@ function renderSettings(){
     // Show subscription status
     var subEl=el('s-sub-status');
     if(subEl){
-      subEl.innerHTML='<span style="color:var(--green);">\u2713 Active</span> \u00b7 <strong>Free Demo \u2014 All Features</strong>';
+      subEl.innerHTML='<strong style="color:var(--gold);">Free to use</strong> \u00b7 every feature included';
     }
     // Show password change only for email/password users (not Google/OAuth)
     var isEmailUser=user.providerData&&user.providerData.some(function(p){return p.providerId==='password';});
@@ -5670,7 +5669,7 @@ function init(){
     if(!window._demoMode && S.accountCode && S.credsAcknowledged !== true) _resumeCredentials();
     if(S.settings.name){setText('sf-av',S.settings.name[0].toUpperCase());setText('sf-name',S.settings.name);}
     else if(user&&user.displayName){setText('sf-av',user.displayName[0].toUpperCase());setText('sf-name',user.displayName);}
-    if(user&&user.email){setText('sf-plan-label','Free Demo');}
+    if(user&&user.email){setText('sf-plan-label','Free');}
     if(S.openTradeId){var found=S.trades.find(function(t){return t.id===S.openTradeId&&t.status==='open';});if(!found){S.openTradeId=null;sv('openTradeId',null);}}
     // Increment session counter — drives PWA-install nudge timing
     S.sessionCount = (S.sessionCount||0) + 1;
