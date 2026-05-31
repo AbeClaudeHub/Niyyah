@@ -335,6 +335,13 @@ exports.stripeWebhook = functions
 // password for an account it isn't signed into. See functions/resetPassword.js.
 exports.resetPasswordWithCode = require('./resetPassword').resetPasswordWithCode;
 
+// Daily Sahib push nudge. Left commented so it isn't deployed (and a daily
+// scheduler isn't created) until push is intentionally turned on — see
+// PUSH_SETUP.md. To enable: install deps (web-push is in package.json), set
+// the VAPID config, paste the public key into PUSH_VAPID_PUBLIC in app.js,
+// then uncomment the line below and run `firebase deploy --only functions:sendDailyNudge`.
+// exports.sendDailyNudge = require('./dailyNudge').sendDailyNudge;
+
 // Reverse lookup: given a Stripe customer id, find the Firestore uid.
 // We store stripeCustomerId on the user doc, so a single-field query is
 // enough at any reasonable scale. Add an index in firestore.indexes.json

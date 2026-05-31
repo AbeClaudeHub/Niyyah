@@ -4464,7 +4464,7 @@ function _urlBase64ToUint8Array(b64){
 function renderPushToggleRow(){
   var row = el('push-toggle-row'); if(!row) return;
   if(!PUSH_VAPID_PUBLIC){
-    row.innerHTML = '<div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;">Daily nudges — <em>coming soon.</em> Push reminders for streak-at-risk, post-loss reflection, and weekly muhasabah are being rolled out.</div>';
+    row.innerHTML = '<div style="font-size:0.74rem;color:var(--ink-4);line-height:1.55;">Sahib\'s daily nudge — <em>rolling out.</em> A once-a-day push with your focus, plus streak-at-risk and post-loss reflection. Being switched on shortly.</div>';
     return;
   }
   if(!('serviceWorker' in navigator) || !('PushManager' in window)){
@@ -4474,7 +4474,7 @@ function renderPushToggleRow(){
   var enabled = !!(S.settings && S.settings.pushSubscription);
   row.innerHTML =
     '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">' +
-      '<div style="flex:1;font-size:0.82rem;color:'+(enabled?'var(--ink-2)':'var(--ink-3)')+';"><strong style="color:'+(enabled?'var(--gold)':'var(--ink-3)')+';">Daily nudge</strong> — one push a day if your state needs it (streak-at-risk, post-loss reflection, weekly muhasabah). Off by default.</div>' +
+      '<div style="flex:1;font-size:0.82rem;color:'+(enabled?'var(--ink-2)':'var(--ink-3)')+';"><strong style="color:'+(enabled?'var(--gold)':'var(--ink-3)')+';">Sahib\'s daily nudge</strong> — one push a day: your focus for the day, plus streak-at-risk and post-loss reflection.</div>' +
       '<button class="btn btn-'+(enabled?'outline':'gold')+' btn-sm" data-hclick="hTogglePush">'+(enabled?'Disable':'Enable')+'</button>' +
     '</div>';
 }

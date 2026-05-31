@@ -125,10 +125,13 @@ Project: `sunnahtrader-f71f1` · Domain: `niyyahtrader.com` · Host: Vercel
 
 ## Decisions still open (not blockers, but decide deliberately)
 
-- [ ] **Retention channel.** There is currently *no way to bring a user
-      back* — no email, push undeployed. Recommended: add **optional email**
-      (keep the name+code model as default) + deploy the daily push nudge.
-      This is the single biggest risk to a fanbase launch.
+- [ ] **Retention channel.** Web push is now fully wired in code (client +
+      SW + server), leading with Sahib's daily focus — it just needs the
+      4 deploy steps in **PUSH_SETUP.md** (VAPID keys, config, paste the
+      public key, deploy the scheduled function). Do this before launch;
+      it's how Sahib actually reaches people. Still recommended alongside:
+      **optional email** (keep the name+code model as default) as a fallback
+      for users who don't install the PWA (iOS only pushes to installed PWAs).
 - [ ] **Monetization.** The paywall is intentionally bypassed
       (`isSirat()` returns `true`; the Stripe stack is live but unused).
       Decide "free during early access" vs. re-enabling gates before any
