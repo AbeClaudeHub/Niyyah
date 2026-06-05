@@ -1,0 +1,8 @@
+storage/
+**/__pycache__/
+*.pyc
+.venv/
+venv/
+.git/
+*.md
+.DS_Store

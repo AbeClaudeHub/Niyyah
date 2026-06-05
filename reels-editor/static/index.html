@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0b10" />
+  <title>Reels Editor</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <h1>One-Click <span>Reels</span> Editor</h1>
+      <p class="tag">Upload a clip &rarr; auto captions, dead-air cut, 9:16 reframe &amp; a hook punch-in.</p>
+    </header>
+
+    <!-- Upload -->
+    <section id="uploader" class="card">
+      <label id="drop" class="drop" for="file">
+        <input id="file" type="file" accept="video/*" hidden />
+        <div class="drop-inner">
+          <div class="icon">⬆</div>
+          <div class="drop-title">Tap to choose a video</div>
+          <div class="drop-sub">or drag &amp; drop &middot; up to 3 min</div>
+        </div>
+      </label>
+      <div id="picked" class="picked hidden"></div>
+      <button id="go" class="go" disabled>Make it Reels-ready</button>
+      <p id="err" class="err hidden"></p>
+    </section>
+
+    <!-- Progress -->
+    <section id="progress" class="card hidden">
+      <div class="stage" id="stage">Starting…</div>
+      <div class="bar"><div id="fill" class="fill"></div></div>
+      <div class="pct" id="pct">0%</div>
+      <p class="hint">Processing runs on the server and can take a few minutes for longer clips. Keep this tab open.</p>
+    </section>
+
+    <!-- Result -->
+    <section id="result" class="card hidden">
+      <video id="video" controls playsinline></video>
+      <div id="stats" class="stats"></div>
+      <div class="actions">
+        <a id="download" class="go" download="reel.mp4">Download reel</a>
+        <button id="again" class="ghost">Edit another</button>
+      </div>
+    </section>
+
+    <footer>Self-hosted &middot; no watermarks &middot; your video never leaves your server</footer>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
