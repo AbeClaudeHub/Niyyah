@@ -1,8 +1,12 @@
 FROM python:3.11-slim
 
-# ffmpeg for all media work; fonts-dejavu so libass can render the captions.
+# ffmpeg for all media work. Fonts for captions:
+#  - fonts-liberation : clean bold sans for the Hormozi-style caption look
+#  - fonts-dejavu-core: general fallback
+#  - fonts-hosny-amiri: provides the ﷺ honorific glyph (U+FDFA) via fallback
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core \
+    && apt-get install -y --no-install-recommends \
+        ffmpeg fonts-liberation fonts-dejavu-core fonts-hosny-amiri \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /srv
@@ -16,6 +20,7 @@ RUN python -c "from faster_whisper import WhisperModel; WhisperModel('${WHISPER_
 
 COPY app ./app
 COPY static ./static
+COPY assets ./assets
 
 # Storage lives on a mounted volume in production.
 ENV STORAGE_DIR=/data/storage

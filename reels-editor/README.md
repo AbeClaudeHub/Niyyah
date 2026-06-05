@@ -7,8 +7,13 @@ What it does to every upload:
 
 1. **Normalize** — fixes frame rate, rotation, and audio so anything from your phone works.
 2. **Cut dead air** — detects and removes silent gaps for tight, jump-cut pacing.
-3. **Auto-captions** — transcribes your speech (locally, free, no API keys) and burns in
-   animated word-by-word "karaoke" captions, positioned in the IG safe zone.
+3. **Auto-captions (Alex-Hormozi style, tailored for Muslims)** — transcribes your speech
+   (locally, free, no API keys) and burns in big bold uppercase captions where the spoken
+   word "pops" in **gold**, with a heavy black stroke, positioned in the IG safe zone.
+   Sacred Islamic terms (Allah, Qur'an, Jannah, Insha'Allah…) always render in **green** so
+   they stand out, common terms are auto-corrected to clean spellings (e.g. "in sha allah"
+   → *Insha'Allah*, "subhanallah" → *SubhanAllah*), and the **ﷺ** honorific is appended
+   after the Prophet Muhammad's name. See `app/pipeline/islamic.py`.
 4. **9:16 reframe** — center-crops/scales to exactly 1080×1920.
 5. **Hook punch-in** — a subtle zoom on the opening to boost energy.
 6. **Reels-spec encode** — H.264 / yuv420p / AAC / 30fps / faststart so IG won't recompress it.

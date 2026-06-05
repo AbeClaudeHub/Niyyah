@@ -1,9 +1,10 @@
-"""Step 3 - Build an animated, word-by-word ("karaoke") .ass caption file.
+"""Step 3 - Build animated, Alex-Hormozi-style .ass captions, tuned for Muslims.
 
-We render one short line (a few words) on screen at a time, and emit one Dialogue
-event per word so the currently-spoken word pops (accent colour + slight scale).
-Each word's event extends until the next word begins, so the line stays visible
-and continuous instead of flickering between words.
+We render a few big bold uppercase words at a time and emit one Dialogue event
+per word so the spoken word "pops" (scale animation) in a gold highlight. Sacred
+Islamic terms (Allah, Qur'an, Jannah...) always render in green so they stand out
+even when not the active word. Each word's event extends until the next word
+begins, so the line stays visible and continuous instead of flickering.
 
 Positioning uses bottom-centre alignment with a large vertical margin so text
 sits in the IG "safe zone" — above the caption/username/audio row and clear of
@@ -15,6 +16,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from .. import config
+from . import islamic
 
 
 def _ass_time(t: float) -> str:
@@ -42,9 +44,26 @@ def _chunk(words: list[dict], per_line: int) -> list[list[dict]]:
     return [words[i:i + per_line] for i in range(0, len(words), per_line)]
 
 
+def _token(text: str, *, active: bool, sacred: bool) -> str:
+    """Render one word with the right colour / pop animation override tags."""
+    word = text.upper()
+    if active:
+        color = config.CAPTION_SACRED_COLOR if sacred else config.CAPTION_HIGHLIGHT_COLOR
+        color = _ass_color(color)
+        if config.CAPTION_POP:
+            # Pop from 80% -> 116% over 110ms for that punchy Hormozi snap.
+            anim = "\\fscx80\\fscy80\\t(0,110,\\fscx116\\fscy116)"
+        else:
+            anim = "\\fscx112\\fscy112"
+        return f"{{\\1c{color}{anim}}}{word}{{\\r}}"
+    if sacred:
+        # Sacred terms always stand out in green, even when not the spoken word.
+        return f"{{\\1c{_ass_color(config.CAPTION_SACRED_COLOR)}}}{word}{{\\r}}"
+    return word
+
+
 def build_ass(words: list[dict], dst: Path) -> None:
     base = _ass_color(config.CAPTION_BASE_COLOR)
-    highlight = _ass_color(config.CAPTION_HIGHLIGHT_COLOR)
     outline_col = "&H00000000&"  # opaque black
 
     header = f"""[Script Info]
@@ -56,16 +75,17 @@ ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Default,{config.CAPTION_FONT},{config.CAPTION_FONT_SIZE},{base},{base},{outline_col},&H64000000,-1,0,0,0,100,100,0,0,1,{config.CAPTION_OUTLINE},2,2,60,60,{config.CAPTION_MARGIN_V},1
+Style: Default,{config.CAPTION_FONT},{config.CAPTION_FONT_SIZE},{base},{base},{outline_col},&H64000000,-1,0,0,0,100,100,0,0,1,{config.CAPTION_OUTLINE},{config.CAPTION_SHADOW},{config.CAPTION_ALIGNMENT},80,80,{config.CAPTION_MARGIN_V},1
 
 [Events]
 Format: Layer, Start, End, Style, MarginL, MarginR, MarginV, Effect, Text
 """
 
     lines = _chunk(words, config.CAPTION_WORDS_PER_LINE)
+    sacred_flags = [[islamic.is_sacred(w["word"]) for w in line] for line in lines]
     events: list[str] = []
 
-    for line in lines:
+    for line, sacreds in zip(lines, sacred_flags):
         if not line:
             continue
         line_end = line[-1]["end"]
@@ -76,16 +96,10 @@ Format: Layer, Start, End, Style, MarginL, MarginR, MarginV, Effect, Text
             if end <= start:
                 end = start + 0.12
 
-            rendered = []
-            for j, lw in enumerate(line):
-                token = lw["word"].upper()
-                if j == i:
-                    rendered.append(
-                        f"{{\\1c{highlight}\\fscx112\\fscy112}}{token}{{\\r}}"
-                    )
-                else:
-                    rendered.append(token)
-            text = " ".join(rendered)
+            text = " ".join(
+                _token(lw["word"], active=(j == i), sacred=sacreds[j])
+                for j, lw in enumerate(line)
+            )
             events.append(
                 f"Dialogue: 0,{_ass_time(start)},{_ass_time(end)},Default,,0,0,0,,{text}"
             )

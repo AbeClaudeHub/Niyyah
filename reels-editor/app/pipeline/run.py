@@ -15,7 +15,7 @@ from pathlib import Path
 
 from .. import config, jobs
 from ..ffmpeg_utils import get_video_dimensions
-from . import captions, encode, normalize, silence, transcribe
+from . import captions, encode, islamic, normalize, silence, transcribe
 
 _PROCESS_LOCK = threading.Lock()
 
@@ -41,6 +41,7 @@ def process_video(job_id: str, input_path: Path) -> None:
             words = transcribe.transcribe(trimmed)
 
             jobs.update(job_id, stage="Styling captions", progress=70)
+            words = islamic.transform(words)  # normalize Islamic terms + ﷺ honorific
             captions.build_ass(words, ass_path)
 
             jobs.update(job_id, stage="Reframing & rendering", progress=80)

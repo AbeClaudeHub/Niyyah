@@ -145,7 +145,8 @@
     if (info.removed_seconds) chips.push(`✂ ${info.removed_seconds}s dead air cut`);
     if (info.word_count) chips.push(`💬 ${info.word_count} words captioned`);
     chips.push("📐 1080×1920");
-    chips.push("✨ hook punch-in");
+    chips.push("🔥 Hormozi-style captions");
+    chips.push("☪️ sacred terms highlighted");
     chips.forEach((c) => {
       const s = document.createElement("span");
       s.textContent = c;

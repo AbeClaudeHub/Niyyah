@@ -26,10 +26,15 @@ def final_encode(
     *,
     cwd: Path,
 ) -> None:
+    # Hand libass a fonts dir if the user bundled one (e.g. Montserrat-Bold.ttf).
+    subtitles = f"subtitles={ass_filename}"
+    if config.FONTS_DIR.is_dir() and any(config.FONTS_DIR.iterdir()):
+        subtitles += f":fontsdir={config.FONTS_DIR}"
+
     filters = [
         reframe_filter(src_w, src_h),
         hook_zoom_filter(),
-        f"subtitles={ass_filename}",
+        subtitles,
     ]
     vf = ",".join(filters)
 
