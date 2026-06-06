@@ -20,7 +20,7 @@ from . import captions, encode, islamic, normalize, silence, transcribe
 _PROCESS_LOCK = threading.Lock()
 
 
-def process_video(job_id: str, input_path: Path) -> None:
+def process_video(job_id: str, input_path: Path, style: dict | None = None) -> None:
     d = jobs.job_dir(job_id)
     norm = d / "norm.mp4"
     trimmed = d / "trimmed.mp4"
@@ -41,8 +41,9 @@ def process_video(job_id: str, input_path: Path) -> None:
             words = transcribe.transcribe(trimmed)
 
             jobs.update(job_id, stage="Styling captions", progress=70)
-            words = islamic.transform(words)  # normalize Islamic terms + ﷺ honorific
-            captions.build_ass(words, ass_path)
+            append_pbuh = style.get("append_pbuh") if style else None
+            words = islamic.transform(words, append_pbuh)  # normalize terms + ﷺ honorific
+            captions.build_ass(words, ass_path, style)
 
             jobs.update(job_id, stage="Reframing & rendering", progress=80)
             src_w, src_h = get_video_dimensions(trimmed)

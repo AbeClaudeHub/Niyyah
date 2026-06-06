@@ -63,11 +63,20 @@ Open http://localhost:8000, drop in a clip, hit **Make it Reels-ready**.
 
 The first run downloads the Whisper `base` model (~150 MB) to your cache.
 
-### Tuning
+### Customize the caption style (in the app)
 
-Everything is in `app/config.py` (or override via env vars): caption colors/size/safe-zone,
+Open **🎨 Customize captions** on the home page to change the spoken-word colour, the
+sacred-term colour, words per line, on-screen position, the pop animation, and the ﷺ
+honorific. Hit **Preview this style** to render a quick sample (a few seconds, no
+transcription) before processing a real clip. Your choices are sent with the upload and
+applied to the final video.
+
+### Tuning (defaults & advanced)
+
+Defaults live in `app/config.py` (or override via env vars): caption colors/size/safe-zone,
 silence threshold, hook zoom strength, output quality, upload/duration caps, Whisper model
-size (`WHISPER_MODEL=small` for more accuracy, slower).
+size (`WHISPER_MODEL=small` for more accuracy, slower). Per-request style validation /
+whitelisting is in `app/style.py`.
 
 ---
 

@@ -125,8 +125,10 @@ def _merge_phrases(words: list[dict]) -> list[dict]:
     return out
 
 
-def transform(words: list[dict]) -> list[dict]:
+def transform(words: list[dict], append_pbuh: bool | None = None) -> list[dict]:
     """Normalize Islamic terms, merge phrases, and append the ﷺ honorific."""
+    if append_pbuh is None:
+        append_pbuh = config.APPEND_PBUH
     words = _merge_phrases(words)
     out: list[dict] = []
     for w in words:
@@ -135,7 +137,7 @@ def transform(words: list[dict]) -> list[dict]:
         if key in GLOSSARY:
             core = GLOSSARY[key]
         text = f"{lead}{core}{trail}"
-        if config.APPEND_PBUH and core.lower() in PBUH_AFTER:
+        if append_pbuh and core.lower() in PBUH_AFTER:
             text = f"{text} {config.PBUH_SYMBOL}"
         out.append({"word": text, "start": w["start"], "end": w["end"]})
     return out

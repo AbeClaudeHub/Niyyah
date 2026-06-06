@@ -25,6 +25,34 @@
         </div>
       </label>
       <div id="picked" class="picked hidden"></div>
+
+      <details id="customize" class="customize">
+        <summary>🎨 Customize captions</summary>
+        <div class="ctrls">
+          <label class="ctrl"><span>Spoken word</span><input type="color" id="cHighlight" value="#FFD60A" /></label>
+          <label class="ctrl"><span>Sacred terms</span><input type="color" id="cSacred" value="#2BD66A" /></label>
+          <label class="ctrl"><span>Words / line</span>
+            <select id="cWPL">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3" selected>3</option>
+              <option value="4">4</option>
+            </select>
+          </label>
+          <label class="ctrl"><span>Position</span>
+            <select id="cPos">
+              <option value="420">Lower</option>
+              <option value="560" selected>Lower third</option>
+              <option value="860">Higher</option>
+            </select>
+          </label>
+          <label class="ctrl row"><input type="checkbox" id="cPop" checked /><span>Pop animation on the spoken word</span></label>
+          <label class="ctrl row"><input type="checkbox" id="cPbuh" checked /><span>Add ﷺ after the Prophet's name</span></label>
+          <button id="previewBtn" class="ghost" type="button">▶ Preview this style</button>
+          <video id="previewVideo" class="preview-vid hidden" controls playsinline muted loop></video>
+        </div>
+      </details>
+
       <button id="go" class="go" disabled>Make it Reels-ready</button>
       <p id="err" class="err hidden"></p>
     </section>

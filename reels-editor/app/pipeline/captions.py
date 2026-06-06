@@ -44,26 +44,29 @@ def _chunk(words: list[dict], per_line: int) -> list[list[dict]]:
     return [words[i:i + per_line] for i in range(0, len(words), per_line)]
 
 
-def _token(text: str, *, active: bool, sacred: bool) -> str:
+def _token(text: str, *, active: bool, sacred: bool, style: dict) -> str:
     """Render one word with the right colour / pop animation override tags."""
     word = text.upper()
     if active:
-        color = config.CAPTION_SACRED_COLOR if sacred else config.CAPTION_HIGHLIGHT_COLOR
-        color = _ass_color(color)
-        if config.CAPTION_POP:
+        hexcol = style["sacred_color"] if sacred else style["highlight_color"]
+        color = _ass_color(hexcol)
+        if style["pop"]:
             # Pop from 80% -> 116% over 110ms for that punchy Hormozi snap.
             anim = "\\fscx80\\fscy80\\t(0,110,\\fscx116\\fscy116)"
         else:
             anim = "\\fscx112\\fscy112"
         return f"{{\\1c{color}{anim}}}{word}{{\\r}}"
     if sacred:
-        # Sacred terms always stand out in green, even when not the spoken word.
-        return f"{{\\1c{_ass_color(config.CAPTION_SACRED_COLOR)}}}{word}{{\\r}}"
+        # Sacred terms always stand out, even when not the spoken word.
+        return f"{{\\1c{_ass_color(style['sacred_color'])}}}{word}{{\\r}}"
     return word
 
 
-def build_ass(words: list[dict], dst: Path) -> None:
-    base = _ass_color(config.CAPTION_BASE_COLOR)
+def build_ass(words: list[dict], dst: Path, style: dict | None = None) -> None:
+    from .. import style as style_mod  # local import avoids a cycle at import time
+
+    s = style_mod.resolve(style)  # idempotent: accepts None, partial, or full dict
+    base = _ass_color(s["base_color"])
     outline_col = "&H00000000&"  # opaque black
 
     header = f"""[Script Info]
@@ -75,13 +78,13 @@ ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Default,{config.CAPTION_FONT},{config.CAPTION_FONT_SIZE},{base},{base},{outline_col},&H64000000,-1,0,0,0,100,100,0,0,1,{config.CAPTION_OUTLINE},{config.CAPTION_SHADOW},{config.CAPTION_ALIGNMENT},80,80,{config.CAPTION_MARGIN_V},1
+Style: Default,{s['font']},{s['font_size']},{base},{base},{outline_col},&H64000000,-1,0,0,0,100,100,0,0,1,{s['outline']},{s['shadow']},{s['alignment']},80,80,{s['margin_v']},1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
 
-    lines = _chunk(words, config.CAPTION_WORDS_PER_LINE)
+    lines = _chunk(words, s["words_per_line"])
     sacred_flags = [[islamic.is_sacred(w["word"]) for w in line] for line in lines]
     events: list[str] = []
 
@@ -97,7 +100,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
                 end = start + 0.12
 
             text = " ".join(
-                _token(lw["word"], active=(j == i), sacred=sacreds[j])
+                _token(lw["word"], active=(j == i), sacred=sacreds[j], style=s)
                 for j, lw in enumerate(line)
             )
             events.append(

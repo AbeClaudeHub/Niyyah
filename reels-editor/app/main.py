@@ -8,13 +8,20 @@ from __future__ import annotations
 import uuid
 from pathlib import Path
 
-from fastapi import BackgroundTasks, FastAPI, File, HTTPException, UploadFile
+from fastapi import BackgroundTasks, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from . import config, jobs
+from . import config, jobs, style as style_mod
 from .ffmpeg_utils import FFmpegError, get_duration
+from .pipeline.preview import render_preview
 from .pipeline.run import process_video
+
+# Caption-style fields the UI may send (all optional; validated by style.resolve).
+_STYLE_FIELDS = (
+    "font", "font_size", "words_per_line", "highlight_color", "sacred_color",
+    "base_color", "margin_v", "alignment", "pop", "append_pbuh",
+)
 
 app = FastAPI(title="One-Click Reels Editor")
 
@@ -34,7 +41,24 @@ def health() -> dict:
 
 
 @app.post("/api/jobs")
-async def create_job(background: BackgroundTasks, file: UploadFile = File(...)) -> JSONResponse:
+async def create_job(
+    background: BackgroundTasks,
+    file: UploadFile = File(...),
+    font: str | None = Form(None),
+    font_size: str | None = Form(None),
+    words_per_line: str | None = Form(None),
+    highlight_color: str | None = Form(None),
+    sacred_color: str | None = Form(None),
+    base_color: str | None = Form(None),
+    margin_v: str | None = Form(None),
+    alignment: str | None = Form(None),
+    pop: str | None = Form(None),
+    append_pbuh: str | None = Form(None),
+) -> JSONResponse:
+    args = locals()
+    overrides = {f: args[f] for f in _STYLE_FIELDS}
+    style = style_mod.resolve(overrides)
+
     ext = Path(file.filename or "").suffix.lower()
     if ext not in config.ALLOWED_EXTENSIONS:
         raise HTTPException(
@@ -88,8 +112,19 @@ async def create_job(background: BackgroundTasks, file: UploadFile = File(...)) 
         )
 
     jobs.create(job_id, original_filename=file.filename or f"input{ext}")
-    background.add_task(process_video, job_id, input_path)
+    background.add_task(process_video, job_id, input_path, style)
     return JSONResponse({"job_id": job_id}, status_code=202)
+
+
+@app.post("/api/preview")
+def style_preview(overrides: dict | None = None):
+    """Render a short sample reel with the given caption style (no transcription)."""
+    style = style_mod.resolve(overrides or {})
+    try:
+        path = render_preview(style)
+    except FFmpegError as exc:
+        raise HTTPException(status_code=500, detail=f"Preview render failed: {exc}")
+    return FileResponse(path, media_type="video/mp4", filename="preview.mp4")
 
 
 @app.get("/api/jobs/{job_id}")

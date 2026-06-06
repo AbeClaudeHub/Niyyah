@@ -20,10 +20,27 @@
   const download = $("download");
   const again = $("again");
 
+  const previewBtn = $("previewBtn");
+  const previewVideo = $("previewVideo");
+
   let selectedFile = null;
   let pollTimer = null;
+  let previewUrl = null;
 
   const MAX_MB = 200;
+
+  // Collect the current caption-style settings from the customize panel.
+  function styleFromUI() {
+    return {
+      highlight_color: $("cHighlight").value,
+      sacred_color: $("cSacred").value,
+      words_per_line: $("cWPL").value,
+      margin_v: $("cPos").value,
+      alignment: 2,
+      pop: $("cPop").checked,
+      append_pbuh: $("cPbuh").checked,
+    };
+  }
 
   function showError(msg) {
     err.textContent = msg;
@@ -72,6 +89,33 @@
 
   goBtn.addEventListener("click", upload);
   again.addEventListener("click", reset);
+  previewBtn.addEventListener("click", previewStyle);
+
+  async function previewStyle() {
+    previewBtn.disabled = true;
+    const label = previewBtn.textContent;
+    previewBtn.textContent = "Rendering preview…";
+    clearError();
+    try {
+      const res = await fetch("/api/preview", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(styleFromUI()),
+      });
+      if (!res.ok) throw new Error("preview failed");
+      const blob = await res.blob();
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      previewUrl = URL.createObjectURL(blob);
+      previewVideo.src = previewUrl;
+      previewVideo.classList.remove("hidden");
+      previewVideo.play().catch(() => {});
+    } catch (_) {
+      showError("Couldn't render the preview. Try again.");
+    } finally {
+      previewBtn.disabled = false;
+      previewBtn.textContent = label;
+    }
+  }
 
   async function upload() {
     if (!selectedFile) return;
@@ -80,6 +124,8 @@
 
     const fd = new FormData();
     fd.append("file", selectedFile);
+    const style = styleFromUI();
+    Object.keys(style).forEach((k) => fd.append(k, style[k]));
 
     uploader.classList.add("hidden");
     progress.classList.remove("hidden");
