@@ -28,4 +28,5 @@ RUN mkdir -p /data/storage
 
 EXPOSE 8080
 # Single worker: serializes heavy jobs and keeps the cached model in one process.
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "1"]
+# Shell form so $PORT (set by Railway/Render) is respected; falls back to 8080.
+CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8080} --workers 1

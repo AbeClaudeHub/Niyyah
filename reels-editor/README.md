@@ -80,20 +80,39 @@ whitelisting is in `app/style.py`.
 
 ---
 
-## Deploy (Fly.io)
+> **Not Vercel/Netlify.** This app needs ffmpeg, the Whisper model, long-running
+> background jobs and a writable disk — none of which fit serverless function platforms.
+> Use a container host (below).
 
 The included `Dockerfile` installs ffmpeg + fonts and **bakes the Whisper model into the
-image** (no cold-start download). `fly.toml` mounts a volume for storage and sizes a 2 GB
-machine (enough for `base` int8 + ffmpeg without OOM).
+image** (no cold-start download), and respects `$PORT`. Give the instance **≥ 2 GB RAM**
+(`base` int8 + ffmpeg) or it may OOM.
+
+## Deploy from a phone — Railway (no terminal)
+
+Railway builds straight from GitHub in the browser; `railway.json` is already included.
+
+1. Go to **railway.app** and sign in with GitHub.
+2. **New Project → Deploy from GitHub repo →** pick this repo.
+3. Open the service **→ Settings → Root Directory =** `reels-editor` (so it uses this
+   folder's Dockerfile).
+4. *(Optional, for persistence)* **Settings → Volumes →** add a volume mounted at `/data`.
+5. **Settings → Networking → Generate Domain.** Open that HTTPS URL on your phone.
+
+First build takes a few minutes (it bakes in the model). Use the **Hobby plan** so the
+service gets enough RAM. Render works the same way (New → Web Service → Docker, root dir
+`reels-editor`, paid instance for RAM).
+
+## Deploy from a computer — Fly.io
+
+`fly.toml` mounts a volume and sizes a 2 GB machine.
 
 ```bash
+cd reels-editor
 fly launch --no-deploy          # pick an app name, keep the existing fly.toml
 fly volumes create reels_data --size 3
 fly deploy
 ```
-
-You'll get an HTTPS URL that works from your phone. Railway works too (point it at the
-Dockerfile). Render's free tier will OOM — use a paid instance if you go there.
 
 ---
 
