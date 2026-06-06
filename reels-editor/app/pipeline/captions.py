@@ -70,7 +70,7 @@ def build_ass(words: list[dict], dst: Path) -> None:
 ScriptType: v4.00+
 PlayResX: {config.OUT_WIDTH}
 PlayResY: {config.OUT_HEIGHT}
-WrapStyle: 2
+WrapStyle: 0
 ScaledBorderAndShadow: yes
 
 [V4+ Styles]
@@ -78,7 +78,7 @@ Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour,
 Style: Default,{config.CAPTION_FONT},{config.CAPTION_FONT_SIZE},{base},{base},{outline_col},&H64000000,-1,0,0,0,100,100,0,0,1,{config.CAPTION_OUTLINE},{config.CAPTION_SHADOW},{config.CAPTION_ALIGNMENT},80,80,{config.CAPTION_MARGIN_V},1
 
 [Events]
-Format: Layer, Start, End, Style, MarginL, MarginR, MarginV, Effect, Text
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
 
     lines = _chunk(words, config.CAPTION_WORDS_PER_LINE)

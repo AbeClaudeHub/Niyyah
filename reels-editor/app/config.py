@@ -48,7 +48,7 @@ KEEP_PADDING = 0.08          # keep this much extra on each side of a kept segme
 # distinct colour so they stand out (see pipeline/islamic.py).
 CAPTION_WORDS_PER_LINE = 3           # Hormozi look = few words on screen at once
 CAPTION_FONT = os.environ.get("CAPTION_FONT", "Liberation Sans")  # bold via style; drop Montserrat in assets/fonts for the exact look
-CAPTION_FONT_SIZE = 96               # in PlayRes (1080x1920) coords - big & bold
+CAPTION_FONT_SIZE = 74               # in PlayRes (1080x1920) coords - big & bold, fits 9:16 width
 CAPTION_BASE_COLOR = "FFFFFF"        # white (RRGGBB, converted to ASS BGR)
 CAPTION_HIGHLIGHT_COLOR = "FFD60A"   # gold - active/spoken word (Hormozi pop + Niyyah palette)
 CAPTION_SACRED_COLOR = "2BD66A"      # green - sacred Islamic terms always highlighted
