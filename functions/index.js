@@ -335,6 +335,14 @@ exports.stripeWebhook = functions
 // password for an account it isn't signed into. See functions/resetPassword.js.
 exports.resetPasswordWithCode = require('./resetPassword').resetPasswordWithCode;
 
+// ── 5. AUTO-IMPORT (connect chart / platform) ────────────────────────────
+// ingestFill: token-authed webhook that platforms (TradingView alerts,
+// MT4/5 EAs, Topstep/Tradovate forwarders, custom scripts) POST fills to.
+// manageIngestToken: callable to mint / rotate / revoke a user's token.
+// See functions/autoImport.js and AUTO_IMPORT_SETUP.md.
+exports.ingestFill         = require('./autoImport').ingestFill;
+exports.manageIngestToken  = require('./autoImport').manageIngestToken;
+
 // Daily Sahib push nudge. Left commented so it isn't deployed (and a daily
 // scheduler isn't created) until push is intentionally turned on — see
 // PUSH_SETUP.md. To enable: install deps (web-push is in package.json), set

@@ -915,7 +915,18 @@ function loadAll(){
     S.dailyPrayers = d.dailyPrayers  || {};
     S.playbook     = d.playbook      || [];
     S.openTradeId  = d.openTradeId   || null;
+    S.autoImport   = d.autoImport    || null;
     S.accountCode  = d.accountCode   || null;
+    // Auto-imported fills arrive server-side without a computed quality score
+    // (calcQ lives here on the client). Backfill it so analytics + the Sahib
+    // engine treat them exactly like hand-logged trades.
+    if(S.trades.length){
+      var _needSave=false;
+      S.trades.forEach(function(t){
+        if(t && t.quality===undefined){ t.quality=calcQ(t); _needSave=true; }
+      });
+      if(_needSave){ sv('trades',S.trades).catch(function(){}); }
+    }
     S.credsAcknowledged = d.credsAcknowledged === true;
     // Restore in-progress state so a refresh doesn't wipe taps mid-session
     if(d.gateAns)                       S.gateAns     = d.gateAns;
@@ -1782,6 +1793,26 @@ function saveExit(){
     });
 }
 
+// Auto-imported trades carry server-computed discipline flags so the check-in
+// is visible the instant the fill lands — "keeps you in check" made concrete.
+var _AUTO_FLAG_COPY={
+  revenge:'Re-entry after a same-day loss — was this the setup, or the loss talking?',
+  noPrayer:'No full prayer log for this day. Check the prayer radar before you read this P&L.',
+  lossLimit:'This day breached your daily loss limit. The number to sit with is the rule, not the loss.'
+};
+function _tdAutoFlagBanner(t){
+  if(!t||t.source!=='auto') return '';
+  var flags=(t.autoFlags||[]).filter(function(f){return _AUTO_FLAG_COPY[f];});
+  var src='<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.5rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-4);margin-bottom:'+(flags.length?'8px':'0')+';">AUTO-IMPORTED'+(t.autoSource?(' · '+esc(t.autoSource)):'')+'</div>';
+  if(!flags.length){
+    return '<div style="padding:9px 12px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:10px;margin-bottom:12px;">'+src+'</div>';
+  }
+  var items=flags.map(function(f){
+    return '<div style="font-size:0.76rem;color:var(--ink-2);line-height:1.5;margin-top:6px;">⚠ '+esc(_AUTO_FLAG_COPY[f])+'</div>';
+  }).join('');
+  return '<div style="padding:11px 13px;background:rgba(214,132,132,0.07);border:1px solid rgba(214,132,132,0.22);border-radius:10px;margin-bottom:12px;">'+src+items+'</div>';
+}
+
 // ── TRADE DETAIL MODAL ─────────────────────────────────────────────────────
 function openTD(id){
   currentTDId=id;
@@ -1789,7 +1820,7 @@ function openTD(id){
   var m=el('td-modal');if(!m)return;
   var ic=t.islamicCheck||{};var icScore=Object.values(ic).filter(Boolean).length;
   var body=el('td-body');
-  if(body)body.innerHTML='<div class="td-section"><div class="td-label">Position</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:2rem;font-weight:600;color:var(--ink);margin-bottom:10px;">'+esc(t.instrument)+' <span style="color:'+(t.direction==='LONG'?'var(--green)':'var(--red)')+'">'+esc(t.direction)+'</span></div><div class="td-row">'+
+  if(body)body.innerHTML=_tdAutoFlagBanner(t)+'<div class="td-section"><div class="td-label">Position</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:2rem;font-weight:600;color:var(--ink);margin-bottom:10px;">'+esc(t.instrument)+' <span style="color:'+(t.direction==='LONG'?'var(--green)':'var(--red)')+'">'+esc(t.direction)+'</span></div><div class="td-row">'+
     mkTDItem('Date',fmtDate(t.date))+mkTDItem('Time',esc(t.time)||'\u2014')+mkTDItem('Setup',esc(t.setup)||'\u2014')+mkTDItem('Status',esc(t.status.toUpperCase()))+
     '</div></div><div class="td-section"><div class="td-label">Prices</div><div class="td-row">'+mkTDItem('Entry',esc(t.entryPrice)||'\u2014')+mkTDItem('Stop',esc(t.stopPrice)||'\u2014')+mkTDItem('Target',esc(t.targetPrice)||'\u2014')+mkTDItem('Exit',esc(t.exitPrice)||'\u2014')+'</div></div>'+
     '<div class="td-section"><div class="td-label">Result</div><div class="td-row">'+
@@ -5600,12 +5631,131 @@ function toggleNotifPref(k){
   tickNotifScheduler();
 }
 
-// Patch renderSettings to also render the notification panel after the
-// existing settings UI builds.
+// ── AUTO-IMPORT (CONNECT CHART / PLATFORM) ──────────────────────────────────
+// The plaintext ingest token is returned by the server exactly once (on
+// connect / rotate). We hold it in memory only for this session so the user
+// can copy it; it is never persisted client-side. After a refresh only the
+// "••••XXXX" hint remains, and they rotate to get a fresh one.
+var _autoImportToken = null;
+
+function _aiCopy(text, label){
+  if(!text) return;
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){ toast('✓ '+label+' copied','s'); })
+      .catch(function(){ toast('Copy failed — select and copy manually','e'); });
+  } else {
+    var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();
+    try{ document.execCommand('copy'); toast('✓ '+label+' copied','s'); }catch(e){}
+    document.body.removeChild(ta);
+  }
+}
+function copyAutoImportUrl(){ _aiCopy(S.autoImport && S.autoImport.webhookUrl, 'Webhook URL'); }
+function copyAutoImportToken(){ _aiCopy(_autoImportToken, 'Token'); }
+
+function connectAutoImport(rotate){
+  if(window._demoMode){ toast('Sign in to connect your platform','i'); return; }
+  var fn;
+  try{ fn = FUNCTIONS.httpsCallable('manageIngestToken'); }
+  catch(e){ toast('Auto-import is unavailable right now','e'); return; }
+  toast(rotate?'Rotating token…':'Generating your webhook…','i');
+  fn({ action: rotate ? 'rotate' : 'create' }).then(function(res){
+    var data=(res&&res.data)||{};
+    _autoImportToken = data.token || null;
+    S.autoImport = {
+      connected:true,
+      tokenHint: data.tokenHint || (data.token||'').slice(-4),
+      webhookUrl: data.webhookUrl || (S.autoImport&&S.autoImport.webhookUrl) || ''
+    };
+    toast(rotate?'✓ New token issued — old one disabled':'✓ Connected — copy your URL & token now','s');
+    renderAutoImport();
+  }).catch(function(e){
+    console.error('manageIngestToken:',e);
+    toast('Could not connect — check your connection and try again','e');
+  });
+}
+function disconnectAutoImport(){
+  if(!confirm('Disconnect auto-import? Your platform will stop sending fills and the current token is disabled.')) return;
+  var fn;
+  try{ fn = FUNCTIONS.httpsCallable('manageIngestToken'); }
+  catch(e){ toast('Auto-import is unavailable right now','e'); return; }
+  fn({ action:'revoke' }).then(function(){
+    _autoImportToken=null; S.autoImport=null;
+    toast('Auto-import disconnected','i');
+    renderAutoImport();
+  }).catch(function(e){
+    console.error('manageIngestToken revoke:',e);
+    toast('Could not disconnect — try again','e');
+  });
+}
+function toggleAutoImportHelp(){
+  var h=el('autoimport-help'); if(!h) return;
+  h.style.display = (h.style.display==='none'||!h.style.display) ? 'block' : 'none';
+}
+
+function _aiInstructions(url){
+  var u = esc(url || 'YOUR_WEBHOOK_URL');
+  function block(title, body){
+    return '<div style="margin-top:12px;"><div style="font-family:\'JetBrains Mono\',monospace;font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:5px;">'+title+'</div><div style="font-size:0.74rem;color:var(--ink-3);line-height:1.6;">'+body+'</div></div>';
+  }
+  function code(s){
+    return '<pre style="margin:6px 0 0;padding:9px 11px;background:#0c0b08;border:1px solid var(--line-2);border-radius:8px;overflow-x:auto;font-family:\'JetBrains Mono\',monospace;font-size:0.66rem;color:var(--ink-2);white-space:pre;">'+esc(s)+'</pre>';
+  }
+  return block('TradingView',
+      'On any alert, set <strong>Notifications → Webhook URL</strong> to your URL above, then paste this into the alert <em>Message</em> box (TradingView replaces the <code>{{…}}</code> placeholders):'
+      + code('{\n  "token": "YOUR_TOKEN",\n  "symbol": "{{ticker}}",\n  "action": "{{strategy.order.action}}",\n  "price": "{{close}}",\n  "time": "{{timenow}}"\n}')
+      + '<span style="color:var(--ink-4);">Requires a paid TradingView plan (webhooks aren\'t on the free tier). Logs the signal as it fires.</span>')
+    + block('Topstep / Tradovate',
+      'Topstep runs on TopstepX / Tradovate. Point a small forwarder (or a Tradovate/ProjectX API poller) at your URL and POST each fill as JSON. Include a <code>"pnl"</code> and <code>"exit"</code> on closed trades so P&amp;L imports.')
+    + block('MetaTrader 4 / 5',
+      'Add a one-line <code>WebRequest()</code> to an Expert Advisor on each <code>OnTradeTransaction</code>, POSTing the same JSON shape. Whitelist the URL in <em>Tools → Options → Expert Advisors → Allow WebRequest</em>.')
+    + block('Anything else (curl)',
+      'Any platform that can hit a URL works. Test it right now:'
+      + code('curl -X POST "'+u+'" \\\n  -H "Content-Type: application/json" \\\n  -d \'{"token":"YOUR_TOKEN","symbol":"ES","action":"long","price":5300,"exit":5312,"pnl":150}\'')
+      + 'Accepted fields: <code>symbol</code>, <code>action</code> (long/short/buy/sell), <code>date</code>/<code>time</code>, <code>price</code>, <code>stop</code>, <code>target</code>, <code>exit</code>, <code>pnl</code>, <code>setup</code>, <code>notes</code>, <code>id</code> (for de-duping). The token may instead go in an <code>X-Niyyah-Token</code> header.');
+}
+
+function renderAutoImport(){
+  var row=el('autoimport-row'); if(!row) return;
+  var ai=S.autoImport;
+  if(!(ai&&ai.connected)){
+    row.innerHTML =
+      '<div style="font-size:0.78rem;color:var(--ink-3);margin-bottom:12px;">Not connected. Generate a private webhook URL and token, then point your platform at it.</div>'
+      + '<button class="btn btn-gold btn-sm" data-hclick="hAiConnect">Connect &amp; generate webhook</button>';
+    return;
+  }
+  var url=ai.webhookUrl||'';
+  var last = ai.lastImportAt ? '' : '<div style="font-size:0.72rem;color:var(--ink-4);margin-top:8px;">No fills received yet. Send a test from your platform — new trades appear in your log automatically.</div>';
+  var tokenBlock;
+  if(_autoImportToken){
+    tokenBlock =
+      '<div style="margin-top:12px;"><label style="display:block;font-size:0.72rem;color:var(--ink-3);margin-bottom:4px;">Your token <span style="color:var(--gold);">— shown once, save it now</span></label>'
+      + '<div style="display:flex;gap:6px;align-items:center;"><input type="text" readonly value="'+esc(_autoImportToken)+'" style="flex:1;min-width:0;background:var(--surface-2);border:1px solid var(--line-2);border-radius:8px;color:var(--ink);padding:7px 10px;font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;">'
+      + '<button class="btn btn-outline btn-sm" data-hclick="hAiCopyTok">Copy</button></div></div>';
+  } else {
+    tokenBlock =
+      '<div style="margin-top:12px;font-size:0.74rem;color:var(--ink-4);">Token hidden for security (ends <span style="font-family:\'JetBrains Mono\',monospace;color:var(--ink-3);">••••'+esc(ai.tokenHint||'')+'</span>). Lost it? Rotate to issue a new one.</div>';
+  }
+  row.innerHTML =
+    '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);"></span><span style="font-size:0.82rem;color:var(--ink-2);"><strong style="color:var(--gold);">Connected</strong>'+(ai.lastSource?(' · '+esc(ai.lastSource)):'')+'</span></div>'
+    + '<label style="display:block;font-size:0.72rem;color:var(--ink-3);margin-bottom:4px;">Webhook URL</label>'
+    + '<div style="display:flex;gap:6px;align-items:center;"><input type="text" readonly value="'+esc(url)+'" style="flex:1;min-width:0;background:var(--surface-2);border:1px solid var(--line-2);border-radius:8px;color:var(--ink);padding:7px 10px;font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;">'
+    + '<button class="btn btn-outline btn-sm" data-hclick="hAiCopyUrl">Copy</button></div>'
+    + tokenBlock
+    + last
+    + '<div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:14px;">'
+    + '<button class="btn btn-ghost btn-sm" data-hclick="hAiHelp">How to connect</button>'
+    + '<button class="btn btn-outline btn-sm" data-hclick="hAiRotate">Rotate token</button>'
+    + '<button class="btn btn-ghost btn-sm" data-hclick="hAiDisconnect" style="margin-left:auto;color:var(--red);">Disconnect</button></div>'
+    + '<div id="autoimport-help" style="display:none;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line-2);">'+_aiInstructions(url)+'</div>';
+}
+
+// Patch renderSettings to also render the notification + auto-import panels
+// after the existing settings UI builds.
 var _origRenderSettings = renderSettings;
 renderSettings = function(){
   _origRenderSettings.apply(this, arguments);
   try{ renderNotifSettings(); }catch(e){ console.error('notif settings:',e); }
+  try{ renderAutoImport(); }catch(e){ console.error('auto-import settings:',e); }
 };
 
 // Patch renderDash so all retention surfaces refresh on every dashboard
@@ -6199,6 +6349,12 @@ var __H = {
   'h165': function(event){ snoozeNotifPrompt() },
   'h166': function(event){ dismissPwaNudge() },
   'h167': function(event){ requestNotifPermission().then(renderNotifSettings) },
+  'hAiConnect':    function(event){ connectAutoImport(false) },
+  'hAiRotate':     function(event){ connectAutoImport(true) },
+  'hAiDisconnect': function(event){ disconnectAutoImport() },
+  'hAiCopyUrl':    function(event){ copyAutoImportUrl() },
+  'hAiCopyTok':    function(event){ copyAutoImportToken() },
+  'hAiHelp':       function(event){ toggleAutoImportHelp() },
 };
 (function(){
   var BUBBLE  = ['click','input','change','keydown','mouseover','mouseout'];

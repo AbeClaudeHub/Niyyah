@@ -56,6 +56,14 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    // Auto-import token → uid map. Doc id is a SHA-256 hash of the user's
+    // ingest token; only the ingestFill / manageIngestToken Cloud Functions
+    // (Admin SDK) may read or write it. A client must never be able to list
+    // these or mint a token that points at someone else's uid.
+    match /ingestTokens/{tokenHash} {
+      allow read, write: if false;
+    }
+
     // Lock everything else by default.
     match /{document=**} {
       allow read, write: if false;
