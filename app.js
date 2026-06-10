@@ -1224,6 +1224,8 @@ function go(page,navEl){
   var pg=el('page-'+page);if(pg)pg.classList.add('active');
   if(navEl)navEl.classList.add('active');
   else{var ne=document.querySelector('[data-page="'+page+'"]');if(ne)ne.classList.add('active');}
+  // Mirror the active page onto the mobile bottom nav.
+  document.querySelectorAll('.bnav-item').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-bpage')===page);});
   // If the active item lives inside a collapsed nav group, reveal the group
   // so the highlighted page is visible (e.g. deep-linking straight to /risk).
   var actNav=document.querySelector('.nav-item.active');

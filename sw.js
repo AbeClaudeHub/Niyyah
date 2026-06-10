@@ -3,7 +3,7 @@
 // Also: route notification taps back into the app (Friday muhasabah,
 // streak guard, post-loss cooldown).
 
-const CACHE = 'niyyah-v4';
+const CACHE = 'niyyah-v5';
 const STATIC_HOSTS = [
   'fonts.googleapis.com',
   'fonts.gstatic.com',

@@ -45,7 +45,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☽</text></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='38' fill='%230a0906'/><circle cx='90' cy='90' r='58' fill='%23dab462' opacity='0.18'/><text x='90' y='116' font-size='82' text-anchor='middle' fill='%23f2ead6' font-family='serif'>☽</text></svg>">
 <link rel="manifest" href="/manifest.webmanifest">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 :root{
@@ -1099,6 +1099,165 @@ body:not(.legal-visitor) .legal-back{display:none;}
 .toggle.on{background:linear-gradient(135deg,var(--gold),var(--gold-deep));border-color:var(--gold-deep);}
 .toggle-dot{position:absolute;top:1px;left:1px;width:18px;height:18px;border-radius:50%;background:var(--ink);transition:transform var(--t),background var(--t);}
 .toggle.on .toggle-dot{transform:translateX(16px);background:var(--bg);}
+
+/* ════════════════════════════════════════════════════════════════════════
+   DESIGN V3 — “MIHRAB” LAYER
+   A pure override layer on top of the existing system: Islamic geometry,
+   luminous gold, deeper glasswork, calmer + springier motion. No markup
+   contracts (ids/classes used by app.js) are changed.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* Registered angle for the rotating gold ring (no-ops gracefully). */
+@property --ng{syntax:'<angle>';inherits:false;initial-value:0deg;}
+@keyframes ngSpin{to{--ng:360deg;}}
+@keyframes sheenSweep{from{left:-80%;}to{left:140%;}}
+@keyframes pageStagger{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes brandBreath{0%,100%{box-shadow:0 0 18px rgba(218,180,98,0.25);}50%{box-shadow:0 0 34px rgba(218,180,98,0.5);}}
+
+/* ── 1 · ATMOSPHERE — sacred-geometry texture woven into the app shell ── */
+.main{
+  background:
+    radial-gradient(ellipse 90% 55% at 18% -12%,rgba(218,180,98,0.055) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 45% at 100% 110%,rgba(218,180,98,0.035) 0%,transparent 55%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%23dab462' stroke-opacity='0.022'%3E%3Crect x='42' y='42' width='56' height='56'/%3E%3Crect x='42' y='42' width='56' height='56' transform='rotate(45 70 70)'/%3E%3Cpath d='M70 0v42M70 98v42M0 70h42M98 70h42'/%3E%3C/g%3E%3C/svg%3E"),
+    #0a0906;
+}
+.sidebar{
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%23dab462' stroke-opacity='0.018'%3E%3Crect x='42' y='42' width='56' height='56'/%3E%3Crect x='42' y='42' width='56' height='56' transform='rotate(45 70 70)'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(180deg,#141210 0%,#0b0906 100%);
+}
+::selection{background:rgba(218,180,98,0.28);color:#fdf6e3;}
+:focus-visible{outline:2px solid rgba(218,180,98,0.6);outline-offset:2px;border-radius:4px;}
+*{scrollbar-width:thin;scrollbar-color:rgba(154,120,32,0.5) transparent;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-thumb{background:rgba(154,120,32,0.45);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:rgba(218,180,98,0.6);}
+::-webkit-scrollbar-track{background:transparent;}
+
+/* ── 2 · ARABIC TYPOGRAPHY — real naskh calligraphy for every ayah ────── */
+.verse-ar,.intrade-ar,.dr-ar,.ldeen-ar,.nafs-ar,.ic-arabic,.dhikr-ar{
+  font-family:'Amiri','Cormorant Garamond',serif;font-weight:400;
+}
+.verse-ar{font-size:1.55rem;line-height:1.95;}
+.intrade-ar{font-size:1.95rem;line-height:1.95;}
+.dr-ar{font-size:1.65rem;line-height:1.95;}
+.ldeen-ar{font-size:2.6rem;line-height:1.9;}
+.dhikr-ar{font-size:1.5rem;}
+
+/* ── 3 · TOPBAR & SIDEBAR — quiet glass, living brand ─────────────────── */
+.topbar{background:rgba(9,8,6,0.82);backdrop-filter:blur(26px) saturate(1.5);-webkit-backdrop-filter:blur(26px) saturate(1.5);}
+.topbar::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,rgba(218,180,98,0.28) 30%,rgba(218,180,98,0.28) 70%,transparent);pointer-events:none;}
+.brand-mark{animation:brandBreath 5s ease-in-out infinite;}
+.nav-item{transition:color var(--t),background var(--t),transform var(--t),border-color var(--t);}
+.nav-item:hover{transform:translateX(2px);}
+.nav-item.active .nav-icon{color:var(--gold-2);filter:drop-shadow(0 0 6px rgba(218,180,98,0.55));}
+.sf-av{box-shadow:0 0 0 2px rgba(218,180,98,0.18),0 0 14px rgba(218,180,98,0.2);}
+
+/* ── 4 · MOTION — staggered page entrances ─────────────────────────────── */
+.page.active>*{animation:pageStagger 0.5s cubic-bezier(0.16,1,0.3,1) backwards;}
+.page.active>*:nth-child(2){animation-delay:0.05s;}
+.page.active>*:nth-child(3){animation-delay:0.1s;}
+.page.active>*:nth-child(4){animation-delay:0.15s;}
+.page.active>*:nth-child(5){animation-delay:0.2s;}
+.page.active>*:nth-child(n+6){animation-delay:0.24s;}
+.today-view>*{animation:pageStagger 0.55s cubic-bezier(0.16,1,0.3,1) backwards;}
+.today-view>*:nth-child(2){animation-delay:0.04s;}
+.today-view>*:nth-child(3){animation-delay:0.08s;}
+.today-view>*:nth-child(4){animation-delay:0.12s;}
+.today-view>*:nth-child(5){animation-delay:0.16s;}
+.today-view>*:nth-child(6){animation-delay:0.2s;}
+.today-view>*:nth-child(7){animation-delay:0.24s;}
+.today-view>*:nth-child(n+8){animation-delay:0.28s;}
+
+/* ── 5 · BUTTONS — sheen sweep, springy press ──────────────────────────── */
+.btn{transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.2s,background 0.2s,border-color 0.2s,color 0.2s,filter 0.2s;}
+.btn:active{transform:scale(0.965);}
+.btn-gold::after{content:'';position:absolute;top:-20%;bottom:-20%;left:-80%;width:45%;background:linear-gradient(105deg,transparent,rgba(255,255,255,0.5),transparent);transform:skewX(-20deg);pointer-events:none;}
+.btn-gold:hover::after{animation:sheenSweep 0.65s ease;}
+.btn-outline:hover{transform:translateY(-1px);}
+.fab::before{content:'';position:absolute;inset:-7px;border-radius:50%;background:conic-gradient(from var(--ng,0deg),transparent 0deg,rgba(218,180,98,0.55) 30deg,transparent 75deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 1.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 1.5px));animation:ngSpin 4.5s linear infinite;pointer-events:none;}
+
+/* ── 6 · CARDS — layered depth, top-light, gold ring on the day card ──── */
+.panel,.kpi,.today-card,.metric-card,.pb-card,.goal-card,.cal-stat-card{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.028),0 14px 34px -22px rgba(0,0,0,0.9);
+}
+.today-state{box-shadow:inset 0 1px 0 rgba(255,255,255,0.04),0 24px 60px -30px rgba(0,0,0,0.95),0 0 70px rgba(218,180,98,0.05);}
+.today-state::after{
+  content:'';position:absolute;inset:0;border-radius:var(--r-xl);padding:1px;
+  background:conic-gradient(from var(--ng,40deg),transparent 0deg,rgba(218,180,98,0.06) 30deg,rgba(236,200,120,0.8) 60deg,rgba(218,180,98,0.06) 90deg,transparent 130deg,transparent 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;
+  animation:ngSpin 10s linear infinite;pointer-events:none;opacity:0.8;
+}
+.kpi-val.o,.today-card-val.gold,.streak-num,.salah-count,.risk-result-num{
+  background:linear-gradient(160deg,#f8e8b4 0%,#ecc878 45%,#c9a254 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.sahib-card{box-shadow:inset 0 1px 0 rgba(255,255,255,0.035),0 20px 50px -26px rgba(0,0,0,0.95),0 0 60px rgba(218,180,98,0.05);}
+
+/* ── 7 · SALAH PILLS — light up as the day fills ───────────────────────── */
+.today-prayer-pill{transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);}
+.today-prayer-pill:hover{border-color:rgba(218,180,98,0.35);color:var(--ink-2);}
+.today-prayer-pill.done{box-shadow:0 0 16px rgba(112,184,142,0.18),inset 0 1px 0 rgba(112,184,142,0.15);}
+.today-prayer-pill.done .pip{box-shadow:0 0 8px currentColor;}
+.salah-btn.done .si{filter:drop-shadow(0 0 5px rgba(112,184,142,0.6));}
+
+/* ── 8 · FORMS — custom select chevron, calmer fields ──────────────────── */
+select{
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23b0a282' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 13px center;padding-right:34px;
+}
+input:hover:not(:focus),textarea:hover:not(:focus),select:hover:not(:focus){border-color:rgba(255,255,255,0.14);}
+
+/* ── 9 · TABLES & LISTS ────────────────────────────────────────────────── */
+.t-table tbody tr,.s-table tbody tr{transition:background 0.15s;}
+.t-table tbody tr:hover,.s-table tbody tr:hover{background:rgba(218,180,98,0.05);}
+.t-table tbody tr:hover td:first-child{box-shadow:inset 2px 0 0 rgba(218,180,98,0.6);}
+
+/* ── 10 · MODALS & TOASTS — blur-in glass ──────────────────────────────── */
+@keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(0.97);filter:blur(8px);}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}}
+.modal{animation:modalIn 0.42s cubic-bezier(0.16,1,0.3,1);}
+.modal-bg{backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);}
+.toast{backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:linear-gradient(135deg,rgba(34,31,21,0.92),rgba(20,17,9,0.94));}
+.milestone-card{box-shadow:0 50px 110px rgba(0,0,0,0.8),0 0 110px rgba(218,180,98,0.16);}
+
+/* ── 11 · LANDING REFINEMENTS ──────────────────────────────────────────── */
+.lhero-h1{text-wrap:balance;}
+.lhero-h1 em{filter:drop-shadow(0 0 28px rgba(218,180,98,0.35));}
+.ldeen{
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%23dab462' stroke-opacity='0.07'%3E%3Crect x='42' y='42' width='56' height='56'/%3E%3Crect x='42' y='42' width='56' height='56' transform='rotate(45 70 70)'/%3E%3Cpath d='M70 0v42M70 98v42M0 70h42M98 70h42'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(135deg,rgba(218,180,98,0.09),rgba(218,180,98,0.02) 40%,transparent),
+    linear-gradient(180deg,#141009,#0a0906);
+}
+.ph-title,.lfeatures-h2,.social-proof-h{text-wrap:balance;}
+
+/* ── 12 · MOBILE BOTTOM NAV — the daily loop lives on the phone ────────── */
+.bottom-nav{display:none;}
+@media(max-width:768px){
+  .bottom-nav{
+    position:fixed;left:0;right:0;bottom:0;z-index:95;
+    display:grid;grid-template-columns:1fr 1fr auto 1fr 1fr;align-items:end;gap:2px;
+    padding:7px 10px calc(9px + env(safe-area-inset-bottom,0px));
+    background:linear-gradient(180deg,rgba(15,13,9,0.82),rgba(10,9,6,0.96));
+    backdrop-filter:blur(26px) saturate(1.5);-webkit-backdrop-filter:blur(26px) saturate(1.5);
+    border-top:1px solid rgba(218,180,98,0.16);
+    box-shadow:0 -14px 44px rgba(0,0,0,0.55);
+  }
+  .bnav-item{display:flex;flex-direction:column;align-items:center;gap:4px;background:transparent;border:none;color:var(--ink-4);font-family:'Inter',sans-serif;font-size:0.56rem;font-weight:500;letter-spacing:0.05em;padding:7px 2px 5px;cursor:pointer;border-radius:10px;transition:color 0.18s,transform 0.18s;-webkit-tap-highlight-color:transparent;}
+  .bnav-item:active{transform:scale(0.93);}
+  .bnav-item svg{width:21px;height:21px;}
+  .bnav-item.active{color:var(--gold-2);}
+  .bnav-item.active svg{filter:drop-shadow(0 0 7px rgba(218,180,98,0.55));}
+  .bnav-add{position:relative;width:54px;height:54px;border-radius:50%;margin:0 8px;transform:translateY(-16px);background:linear-gradient(145deg,#f8e5a8,#ecc878 35%,#dab462 70%,#b8962a);border:none;color:#0b0a08;font-size:1.65rem;font-weight:700;line-height:1;box-shadow:0 8px 26px rgba(218,180,98,0.45),0 0 0 7px rgba(10,9,6,0.92);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.2s;}
+  .bnav-add:active{transform:translateY(-16px) scale(0.92);}
+  .fab{display:none;}
+  .toast{bottom:calc(96px + env(safe-area-inset-bottom,0px));}
+  .page{padding-bottom:132px;}
+  body.legal-visitor .bottom-nav{display:none!important;}
+}
 
 </style>
 </head>
@@ -2157,6 +2316,16 @@ body:not(.legal-visitor) .legal-back{display:none;}
 </main>
 
 <button class="fab" data-hclick="h65" title="Log a trade · press N" aria-label="Log a trade (shortcut: N)">+</button>
+
+<!-- MOBILE BOTTOM NAV — the daily loop, one thumb away. Hidden ≥769px and
+     behind the landing/auth overlays. Active state is synced in go(). -->
+<nav class="bottom-nav" id="bottom-nav" aria-label="Primary">
+  <button class="bnav-item active" data-bpage="dashboard" data-hclick="hGoPage" data-hpage="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5"/><path d="M6 9.5V20h12V9.5"/></svg>Today</button>
+  <button class="bnav-item" data-bpage="trades" data-hclick="hGoPage" data-hpage="trades"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M3.5 14.5h17"/></svg>Trades</button>
+  <button class="bnav-add" data-hclick="h65" aria-label="Log a trade">+</button>
+  <button class="bnav-item" data-bpage="analytics" data-hclick="hGoPage" data-hpage="analytics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v16h16"/><path d="M8 15l3.5-4.5 3 2L20 7"/></svg>Analytics</button>
+  <button class="bnav-item" data-bpage="journal" data-hclick="hGoPage" data-hpage="journal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H18v15H7a2 2 0 0 0-2 2V4.5z"/><path d="M9 7.5h6M9 11h6"/></svg>Journal</button>
+</nav>
 
 <div class="modal-bg" id="entry-modal" data-hclick="h104">
  <div class="modal">
