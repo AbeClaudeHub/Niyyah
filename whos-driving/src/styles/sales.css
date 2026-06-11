@@ -1,0 +1,226 @@
+/* ---------------------------------------------------------------
+   Sales page. Type is the hero. Designed at 390px first.
+   --------------------------------------------------------------- */
+
+.site-head {
+  width: var(--col);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+}
+
+.wordmark-link {
+  display: inline-flex;
+  color: var(--bone);
+  text-decoration: none;
+  padding: 0.6rem 0;
+}
+
+.head-link {
+  font-size: var(--text-sm);
+  color: var(--bone-dim);
+  text-decoration-color: var(--gold-hairline);
+  padding: 0.6rem 0;
+}
+
+.col {
+  width: var(--col);
+  margin: 0 auto;
+}
+
+/* hero */
+
+.hero {
+  width: var(--col);
+  margin: 0 auto;
+  padding: var(--space-6) 0 var(--space-5);
+}
+
+.hero h1 {
+  font-size: var(--text-hero);
+  font-weight: 600;
+  margin: var(--space-3) 0;
+}
+
+.hero-sub {
+  font-size: var(--text-lg);
+  color: var(--bone);
+  max-width: 38ch;
+}
+
+.hero-product {
+  color: var(--bone-dim);
+  margin: var(--space-3) 0 var(--space-4);
+}
+
+.hero-product strong {
+  color: var(--bone);
+  letter-spacing: 0.04em;
+}
+
+.gloss {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--bone-dim);
+  font-style: italic;
+  margin-top: 0.4rem;
+}
+
+/* sections */
+
+section {
+  padding: var(--space-2) 0;
+}
+
+h2 {
+  font-size: var(--text-2xl);
+  margin-top: var(--space-1);
+}
+
+.big-line {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: 1.3;
+  margin: var(--space-1) 0 var(--space-3);
+}
+
+/* saboteur cards */
+
+.saboteurs {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  margin: var(--space-4) 0 var(--space-3);
+}
+
+.saboteur {
+  border-top: 1px solid var(--gold-hairline);
+  padding-top: var(--space-2);
+  position: relative;
+}
+
+.sab-arabic {
+  position: absolute;
+  top: var(--space-2);
+  right: 0;
+  font-size: 1.5rem;
+  color: var(--gold);
+  margin: 0;
+}
+
+.saboteur h3 {
+  font-size: var(--text-lg);
+  margin-bottom: 0.3rem;
+}
+
+.sab-register {
+  color: var(--bone-faint);
+  font-weight: 400;
+}
+
+.sab-def {
+  color: var(--bone-dim);
+  margin-bottom: 0.4rem;
+}
+
+.sab-voice {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--bone);
+  margin-bottom: 0;
+}
+
+/* what's inside */
+
+.parts {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.parts h3 {
+  font-size: var(--text-lg);
+  margin-bottom: 0.5rem;
+}
+
+.part-num {
+  color: var(--gold);
+  margin-right: 0.5rem;
+}
+
+.parts p {
+  color: var(--bone-dim);
+  margin-bottom: 0;
+}
+
+.parts .gloss {
+  display: inline;
+  margin: 0;
+}
+
+/* price */
+
+.price-num {
+  color: var(--gold);
+}
+
+.includes {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-3) 0 var(--space-4);
+  max-width: var(--measure);
+}
+
+.includes li {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--ink-line);
+}
+
+.includes li:first-child {
+  border-top: 1px solid var(--ink-line);
+}
+
+.btn-buy {
+  display: block;
+  width: 100%;
+  font-size: var(--text-base);
+  padding: 1.1rem 2rem;
+}
+
+.price .fine {
+  margin-top: var(--space-2);
+}
+
+/* footer */
+
+.site-foot {
+  padding-bottom: var(--space-5);
+}
+
+.site-foot .rule {
+  margin-bottom: var(--space-4);
+}
+
+.foot-inner .wordmark {
+  color: var(--bone-dim);
+  margin-bottom: var(--space-2);
+}
+
+/* larger screens */
+
+@media (min-width: 700px) {
+  .saboteurs {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--space-4);
+  }
+  .btn-buy {
+    display: inline-block;
+    width: auto;
+  }
+}
