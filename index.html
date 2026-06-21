@@ -335,6 +335,13 @@ footer a:hover{color:var(--cream)}
 .final .waitlist{margin-inline:auto}
 .final .waitlist input{background:rgba(0,0,0,.2)}
 .final .form-ok{margin-inline:auto;justify-content:center}
+.waitlist button[disabled]{opacity:.65;cursor:default;pointer-events:none}
+.hp-field{position:absolute!important;left:-9999px!important;top:auto;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
+.form-err{display:none;margin-top:.8em;font-size:.84rem;color:#e8a07a;max-width:460px}
+.form-err.show{display:block}
+.final .form-err{margin-inline:auto;text-align:center}
+.consent{margin-top:.7em;font-size:.72rem;letter-spacing:.02em;color:var(--muted-2);max-width:460px}
+.final .consent{margin-inline:auto;text-align:center}
 .preorder-note{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:.8rem;letter-spacing:.04em;color:var(--muted-2)}
 .preorder-note b{color:var(--gold)}
 </style>
@@ -486,8 +493,9 @@ footer a:hover{color:var(--cream)}
           <input type="email" required placeholder="Enter your email" aria-label="Email address"/>
           <button class="btn primary" type="submit">Join the Waitlist</button>
         </form>
-        <div class="form-ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6 9 17l-5-5"/></svg> You're in — your free Cards are downloading. Watch your inbox.</div>
+        <div class="form-ok" role="status" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6 9 17l-5-5"/></svg> You're in — your free Cards are downloading. Watch your inbox.</div>
         <p class="formnote">Join the waitlist and get <b>The Cards</b> free — the whole system on one page. Or <a href="downloads/the-trader-and-the-nafs-chapter-1.pdf" target="_blank" rel="noopener">read Chapter 1 free →</a></p>
+        <p class="consent">One email when the book launches, plus the occasional note. No spam — unsubscribe anytime.</p>
       </div>
       <div class="assure reveal d4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 6 9 17l-5-5"/></svg> No charts. No hype. The work no trading course will name.</div>
       <div class="hero-meta reveal d4">
@@ -727,8 +735,9 @@ footer a:hover{color:var(--cream)}
       <input type="email" required placeholder="Enter your email" aria-label="Email address"/>
       <button class="btn primary lg" type="submit">Join the Waitlist</button>
     </form>
-    <div class="form-ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6 9 17l-5-5"/></svg> You're in — your free Cards are downloading. Watch your inbox.</div>
+    <div class="form-ok" role="status" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6 9 17l-5-5"/></svg> You're in — your free Cards are downloading. Watch your inbox.</div>
     <p class="fineprint">Get <b style="color:var(--gold-hi)">The Cards</b> free today · the launch bonus when the book drops · backed by the 30-day promise.</p>
+    <p class="consent">One email when the book launches, plus the occasional note. No spam — unsubscribe anytime.</p>
   </div>
 </section>
 
@@ -810,17 +819,93 @@ footer a:hover{color:var(--cream)}
     tick();setInterval(tick,1000);
   }
 
-  // waitlist (demo handler — replace with your Kit / MailerLite embed action)
-  window.joinWaitlist=function(e){
-    e.preventDefault();
-    const form=e.target;
+  // ---- Waitlist → Kit (ConvertKit) ----
+  // 1) Set KIT_FORM_ID to your Kit form's ID:
+  //    Kit dashboard › Grow › Landing Pages & Forms › (your form) › Embed › the number in the URL/snippet.
+  //    Posts to Kit's public subscription endpoint — no API secret lives in this page.
+  // 2) Until a real ID is set, the form runs in demo mode (success + download, no list capture).
+  const KIT_FORM_ID='YOUR_KIT_FORM_ID';
+  const KIT_ENDPOINT='https://app.kit.com/forms/'+KIT_FORM_ID+'/subscriptions';
+  const CARDS_PDF='downloads/the-trader-and-the-nafs-the-cards.pdf';
+  const JOINED_KEY='ttatn_waitlist_joined';
+
+  function deliverCards(){
+    const a=document.createElement('a');
+    a.href=CARDS_PDF;a.download='';a.target='_blank';a.rel='noopener';
+    document.body.appendChild(a);a.click();a.remove();
+  }
+  function showJoined(form){
     const ok=form.parentElement.querySelector('.form-ok');
     form.style.display='none';
     if(ok)ok.classList.add('show');
-    // deliver the lead magnet immediately
-    window.open('downloads/the-trader-and-the-nafs-the-cards.pdf','_blank','noopener');
+  }
+  function trackSignup(){
+    try{
+      if(window.gtag)gtag('event','waitlist_signup');
+      if(window.dataLayer)window.dataLayer.push({event:'waitlist_signup'});
+      if(window.fathom)fathom.trackEvent('waitlist signup');
+    }catch(_){}
+  }
+
+  window.joinWaitlist=async function(e){
+    e.preventDefault();
+    const form=e.target;
+    // honeypot: bots fill hidden fields, humans never see them
+    const hp=form.querySelector('.hp-field');
+    if(hp&&hp.value){showJoined(form);return false;}
+
+    const input=form.querySelector('input[type=email]');
+    const btn=form.querySelector('button[type=submit]');
+    const err=form.parentElement.querySelector('.form-err');
+    if(err){err.classList.remove('show');err.textContent='';}
+    const email=(input&&input.value||'').trim();
+    if(!email)return false;
+
+    const label=btn.textContent;
+    btn.disabled=true;btn.textContent='Joining…';
+
+    const finishOK=()=>{
+      try{localStorage.setItem(JOINED_KEY,'1');}catch(_){}
+      trackSignup();showJoined(form);deliverCards();
+    };
+
+    // demo mode until a real Kit form ID is wired in
+    if(KIT_FORM_ID==='YOUR_KIT_FORM_ID'){
+      console.warn('[waitlist] KIT_FORM_ID not set — running in demo mode, email is NOT captured.');
+      finishOK();return false;
+    }
+
+    try{
+      const body=new FormData();
+      body.append('email_address',email);
+      const res=await fetch(KIT_ENDPOINT,{method:'POST',headers:{Accept:'application/json'},body});
+      if(!res.ok)throw new Error('HTTP '+res.status);
+      finishOK();
+    }catch(_){
+      btn.disabled=false;btn.textContent=label;
+      if(err){err.textContent='Something went wrong — please try again, or email us if it keeps happening.';err.classList.add('show');}
+    }
     return false;
   };
+
+  // inject honeypots + restore "already joined" state on load
+  (function(){
+    const forms=document.querySelectorAll('form.waitlist');
+    forms.forEach(f=>{
+      if(!f.querySelector('.hp-field')){
+        const hp=document.createElement('input');
+        hp.className='hp-field';hp.type='text';hp.name='website';
+        hp.tabIndex=-1;hp.autocomplete='off';hp.setAttribute('aria-hidden','true');
+        f.appendChild(hp);
+      }
+      if(!f.parentElement.querySelector('.form-err')){
+        const p=document.createElement('p');p.className='form-err';p.setAttribute('role','alert');
+        f.insertAdjacentElement('afterend',p);
+      }
+    });
+    let joined=false;try{joined=localStorage.getItem(JOINED_KEY)==='1';}catch(_){}
+    if(joined)forms.forEach(showJoined);
+  })();
 </script>
 </body>
 </html>
