@@ -1,8 +1,7 @@
 {
-  "outputDirectory": "docs",
-  "cleanUrls": true,
   "rewrites": [
-    { "source": "/((?!.*\\.[a-zA-Z0-9]+$).*)", "destination": "/index.html" }
+    { "source": "/", "destination": "/docs/index.html" },
+    { "source": "/((?!docs/).*)", "destination": "/docs/$1" }
   ],
   "headers": [
     {
