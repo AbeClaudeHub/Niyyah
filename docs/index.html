@@ -44,7 +44,7 @@ a{color:inherit;text-decoration:none}
 .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 28px}
 .gold{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .ar{font-family:"Amiri",serif}
-.kicker{font-family:var(--sans);font-weight:600;font-size:.7rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:.8em;margin:0 0 1.3em}
+.kicker{font-family:var(--sans);font-weight:600;font-size:.7rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:.8em;margin:0 0 1.5em}
 .kicker::before{content:"";width:30px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
 
 /* grain */
@@ -63,11 +63,13 @@ header.nav{position:relative;z-index:5;display:flex;align-items:center;justify-c
 .brand{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-size:1.2rem;font-weight:500}
 .brand svg{width:26px;height:26px;color:var(--gold);flex:none}
 .brand b{font-weight:600}
+.nav-cta{display:flex;align-items:center;gap:18px}
 .nav .free{font-size:.82rem;letter-spacing:.04em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:2px;transition:.25s}
 .nav .free:hover{color:var(--cream);border-color:var(--gold)}
+.btn.sm{padding:.6em 1.15em;font-size:.78rem}
 
 /* buttons */
-.btn{position:relative;display:inline-flex;align-items:center;gap:.6em;font-family:var(--sans);font-weight:600;font-size:.86rem;letter-spacing:.04em;padding:.9em 1.7em;border-radius:100px;cursor:pointer;border:1px solid transparent;overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s,border-color .3s,color .3s}
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:.6em;white-space:nowrap;font-family:var(--sans);font-weight:600;font-size:.86rem;letter-spacing:.04em;padding:.9em 1.7em;border-radius:100px;cursor:pointer;border:1px solid transparent;overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s,border-color .3s,color .3s}
 .btn svg{width:17px;height:17px;flex:none}
 .btn.primary{color:#2a1e07;background:var(--gold-grad);box-shadow:0 10px 30px -12px rgba(205,168,99,.7)}
 .btn.primary::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-120%)}
@@ -84,28 +86,29 @@ header.nav{position:relative;z-index:5;display:flex;align-items:center;justify-c
   filter:blur(72px);opacity:.6;mix-blend-mode:screen;animation:auraspin 32s linear infinite}
 .hero-glow{position:absolute;width:560px;height:560px;border-radius:50%;top:-4%;right:-10%;background:radial-gradient(circle,rgba(205,168,99,.14),transparent 70%);filter:blur(20px);animation:floaty 13s ease-in-out infinite,glowpulse 9s ease-in-out infinite;pointer-events:none}
 .hero-glow.two{left:-12%;right:auto;top:auto;bottom:-12%;width:480px;height:480px;background:radial-gradient(circle,rgba(13,90,65,.5),transparent 70%);animation:floaty 17s ease-in-out infinite reverse,glowpulse 11s ease-in-out infinite}
-.hero-inner{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(18px,2.6vh,30px);width:100%}
+.hero-inner{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(20px,2.7vh,34px);width:100%}
 .lead{display:flex;flex-direction:column;align-items:center;max-width:600px;width:100%}
-.hook{font-family:var(--serif);font-weight:400;font-size:clamp(1.5rem,2.7vw,2.1rem);line-height:1.2;letter-spacing:.005em;color:var(--cream);max-width:30ch;margin:0 0 .6em}
+.hook{font-family:var(--serif);font-weight:400;font-size:clamp(1.5rem,2.6vw,1.95rem);line-height:1.24;letter-spacing:.005em;color:var(--cream);max-width:30ch;margin:0 0 .8em}
 .hook em{font-style:italic;font-weight:600;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.subline{font-family:var(--serif);font-style:italic;color:var(--muted);font-size:clamp(1.05rem,1.7vw,1.3rem);margin:0 0 1.2em}
+.subline{font-family:var(--serif);font-style:italic;color:var(--muted);font-size:clamp(1.05rem,1.7vw,1.3rem);margin:0 0 1.5em}
 
 /* launch line (replaces the countdown) */
-.launch{display:inline-flex;align-items:center;gap:.7em;font-size:.72rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-hi);margin:0 0 1.3em}
+.launch{display:inline-flex;align-items:center;gap:.7em;font-size:.72rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-hi);margin:0 0 1.4em}
 .launch b{color:var(--gold-hi);font-weight:600}
 .launch .star{width:15px;height:15px;flex:none;animation:twinkle 4.5s ease-in-out infinite}
 
 /* waitlist */
-.waitlist{display:flex;gap:10px;flex-wrap:wrap;max-width:460px}
-.waitlist input{flex:1;min-width:210px;padding:.95em 1.3em;border-radius:100px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--cream);font-family:var(--sans);font-size:.95rem}
+.waitlist{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;max-width:440px;scroll-margin-top:100px}
+.waitlist input{width:100%;min-width:0;padding:.95em 1.4em;border-radius:100px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--cream);font-family:var(--sans);font-size:.95rem;text-align:center}
+.waitlist .btn{min-width:220px;justify-content:center}
 .waitlist input::placeholder{color:var(--muted-2)}
 .waitlist input:focus{outline:none;border-color:var(--gold);background:rgba(255,255,255,.08)}
 .form-ok{display:none;align-items:center;gap:10px;color:var(--gold-hi);font-family:var(--serif);font-style:italic;font-size:1.3rem;max-width:460px}
 .form-ok.show{display:flex}
 .form-ok svg{width:22px;height:22px;flex:none;color:var(--gold)}
 /* free reads */
-.free-reads{margin-top:1.4em}
-.free-reads .fr-label{font-size:.66rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-2);margin:0 0 .8em}
+.free-reads{margin-top:1.7em}
+.free-reads .fr-label{font-size:.66rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-2);margin:0 0 .9em}
 .fr-row{display:flex;gap:12px;flex-wrap:wrap}
 
 /* 3D BOOK — spinning */
@@ -113,7 +116,7 @@ header.nav{position:relative;z-index:5;display:flex;align-items:center;justify-c
 .halo{position:absolute;width:128%;height:122%;left:-14%;top:-8%;z-index:0;pointer-events:none;
   background:radial-gradient(closest-side,rgba(205,168,99,.20),rgba(13,90,65,.12) 52%,transparent 72%);
   filter:blur(16px);animation:halopulse 6s ease-in-out infinite}
-.book-3d{position:relative;z-index:1;--w:min(190px,32vh);--h:calc(var(--w) * 1.4);--d:24px;
+.book-3d{position:relative;z-index:1;--w:min(172px,30vh);--h:calc(var(--w) * 1.4);--d:24px;
   width:var(--w);height:var(--h);transform-style:preserve-3d;animation:spin 22s linear infinite;will-change:transform}
 .book-3d:hover{animation-play-state:paused}
 .book-3d .face{position:absolute;top:50%;left:50%;backface-visibility:hidden;overflow:hidden}
@@ -169,21 +172,25 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 
 /* keep the book + waitlist inside one viewport on shorter screens */
 /* keep the whole stack inside one viewport on shorter screens */
-@media(max-height:780px){
-  .hero-inner{gap:18px}
-  .book-3d{--w:min(150px,30vh)}
-  .hook{font-size:clamp(1.4rem,3vw,2rem);margin-bottom:.5em}
-  .subline{font-size:1.05rem;margin-bottom:1em}
-  .kicker{margin-bottom:1em}
-  .launch{margin-bottom:1em}
-  .free-reads{margin-top:1.1em}
+@media(max-height:850px){
+  .hero-inner{gap:clamp(16px,2.2vh,26px)}
+  .book-3d{--w:min(158px,26vh)}
+  .hook{font-size:clamp(1.4rem,2.5vw,1.85rem);line-height:1.2;margin-bottom:.55em}
+  .subline{font-size:1.05rem;margin-bottom:1.1em}
+  .kicker{margin-bottom:1.1em}
+  .launch{margin-bottom:1.1em}
+  .free-reads{margin-top:1.2em}
 }
 
 @media(max-width:920px){
   .hero{min-height:auto}
-  .book-3d{--w:min(168px,46vw)}
+  .book-3d{--w:min(158px,44vw)}
   .hook{max-width:24ch}
+  header.nav{padding:14px 18px}
   header.nav .free{display:none}
+  .brand{font-size:1rem}
+  .brand svg{width:22px;height:22px}
+  .btn.sm{padding:.55em 1em;font-size:.74rem}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important}
@@ -333,7 +340,10 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 <!-- nav -->
 <header class="nav">
   <a class="brand" href="#main"><svg viewBox="0 0 100 100"><use href="#khatam"/></svg><span>The Trader <b>&amp; the Nafs</b></span></a>
-  <a class="free" href="downloads/the-trader-and-the-nafs-chapter-1.pdf" target="_blank" rel="noopener">Read Chapter 1 free →</a>
+  <nav class="nav-cta">
+    <a class="free" href="downloads/the-trader-and-the-nafs-chapter-1.pdf" target="_blank" rel="noopener">Read Chapter 1 free →</a>
+    <a class="btn primary sm" href="#join" data-join>Join the Waitlist</a>
+  </nav>
 </header>
 
 <!-- HERO -->
@@ -360,7 +370,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 
       <p class="launch"><svg class="star" viewBox="0 0 40 40" aria-hidden="true"><use href="#ministar"/></svg> The waitlist gets first access</p>
 
-      <form class="waitlist" onsubmit="return joinWaitlist(event)">
+      <form id="join" class="waitlist" onsubmit="return joinWaitlist(event)">
         <input type="email" required placeholder="Enter your email" aria-label="Email address"/>
         <button class="btn primary" type="submit">Join the Waitlist</button>
       </form>
@@ -405,6 +415,13 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       pf.appendChild(i);
     }
   }
+
+  // top-bar CTA scrolls to and focuses the email field
+  const joinBtn=document.querySelector('[data-join]');
+  if(joinBtn)joinBtn.addEventListener('click',()=>{
+    const input=document.querySelector('#join input');
+    if(input)setTimeout(()=>input.focus({preventScroll:true}),400);
+  });
 
   // waitlist (demo handler — replace with your Kit / MailerLite embed action)
   window.joinWaitlist=function(e){
