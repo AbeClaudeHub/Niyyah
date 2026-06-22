@@ -107,9 +107,19 @@ header.nav{position:relative;z-index:5;display:flex;align-items:center;justify-c
 .form-ok.show{display:flex}
 .form-ok svg{width:22px;height:22px;flex:none;color:var(--gold)}
 /* free reads */
-.free-reads{margin-top:1.7em}
-.free-reads .fr-label{font-size:.66rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-2);margin:0 0 .9em}
-.fr-row{display:flex;gap:12px;flex-wrap:wrap}
+.free-reads{margin-top:1.7em;width:100%;max-width:440px}
+.fr-label{display:flex;align-items:center;justify-content:center;gap:.9em;font-size:.62rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--muted-2);margin:0 0 1em}
+.fr-label::before,.fr-label::after{content:"";height:1px;flex:1;max-width:46px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+.fr-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fr-card{display:flex;align-items:center;gap:12px;text-align:left;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,rgba(205,168,99,.05),rgba(255,255,255,.012));transition:transform .3s var(--ease),border-color .3s,background .3s}
+.fr-card:hover{transform:translateY(-3px);border-color:rgba(205,168,99,.5);background:linear-gradient(180deg,rgba(205,168,99,.10),rgba(13,90,65,.10))}
+.fr-ic{flex:none;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:var(--gold);background:rgba(205,168,99,.10);border:1px solid var(--line)}
+.fr-ic svg{width:19px;height:19px}
+.fr-txt{display:flex;flex-direction:column;min-width:0;line-height:1.15}
+.fr-txt b{font-family:var(--sans);font-weight:600;font-size:.9rem;color:var(--cream)}
+.fr-txt small{font-size:.7rem;color:var(--muted-2);margin-top:3px}
+.fr-dl{width:16px;height:16px;flex:none;margin-left:auto;color:var(--gold);opacity:.55;transition:opacity .3s,transform .3s}
+.fr-card:hover .fr-dl{opacity:1;transform:translateY(2px)}
 
 /* 3D BOOK — spinning */
 .book-stage{position:relative;display:flex;justify-content:center;align-items:center;perspective:2200px}
@@ -184,13 +194,17 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 
 @media(max-width:920px){
   .hero{min-height:auto}
-  .book-3d{--w:min(158px,44vw)}
+  .book-3d{--w:min(146px,42vw)}
   .hook{max-width:24ch}
   header.nav{padding:14px 18px}
   header.nav .free{display:none}
   .brand{font-size:1rem}
   .brand svg{width:22px;height:22px}
   .btn.sm{padding:.55em 1em;font-size:.74rem}
+  .fr-card{padding:11px 12px;gap:10px}
+  .fr-ic{width:34px;height:34px}
+  .fr-txt b{white-space:nowrap}
+  .fr-dl{display:none}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important}
@@ -364,7 +378,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       </div>
     </div>
     <div class="lead">
-      <span class="kicker">A book by Abrihym Aobad · Founder of Niyyah</span>
+      <span class="kicker">A book by Abrihym Aobad · Coming Soon</span>
       <p class="hook">You already know where the stop belongs. You drag it anyway. The knowing was never the problem — the <em>doing</em> was.</p>
       <p class="subline">The book about the soul behind the screen.</p>
 
@@ -378,9 +392,17 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 
       <div class="free-reads">
         <p class="fr-label">Read free while you wait</p>
-        <div class="fr-row">
-          <a class="btn ghost" href="downloads/the-trader-and-the-nafs-chapter-1.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h10a3 3 0 0 1 3 3v11a2 2 0 0 0-2-2H4zM20 5h-3a3 3 0 0 0-3 3v11a2 2 0 0 1 2-2h4z"/></svg> Chapter 1</a>
-          <a class="btn ghost" href="downloads/the-trader-and-the-nafs-the-cards.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="14" height="16" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v13"/></svg> The Cards</a>
+        <div class="fr-grid">
+          <a class="fr-card" href="downloads/the-trader-and-the-nafs-chapter-1.pdf" target="_blank" rel="noopener">
+            <span class="fr-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h10a3 3 0 0 1 3 3v11a2 2 0 0 0-2-2H4zM20 5h-3a3 3 0 0 0-3 3v11a2 2 0 0 1 2-2h4z"/></svg></span>
+            <span class="fr-txt"><b>Chapter 1</b><small>The opening</small></span>
+            <svg class="fr-dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
+          </a>
+          <a class="fr-card" href="downloads/the-trader-and-the-nafs-the-cards.pdf" target="_blank" rel="noopener">
+            <span class="fr-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="14" height="16" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v13"/></svg></span>
+            <span class="fr-txt"><b>The Cards</b><small>On one page</small></span>
+            <svg class="fr-dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
+          </a>
         </div>
       </div>
     </div>
