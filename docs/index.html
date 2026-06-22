@@ -18,6 +18,8 @@
 <meta name="twitter:description" content="Why You Keep Breaking Your Rules — and How Islam Teaches You to Master Yourself." />
 <meta name="twitter:image" content="https://niyyahtrader.com/assets/cover.png" />
 <meta name="theme-color" content="#070d0a" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23070d0a'/%3E%3Cg fill='none' stroke='%23cda863' stroke-width='5'%3E%3Crect x='26' y='26' width='48' height='48'/%3E%3Crect x='26' y='26' width='48' height='48' transform='rotate(45 50 50)'/%3E%3Ccircle cx='50' cy='50' r='8' stroke-width='4'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="apple-touch-icon" href="assets/cover.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
@@ -359,9 +361,51 @@ footer a:hover{color:var(--cream)}
 .final .form-ok{margin-inline:auto;justify-content:center}
 .preorder-note{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:.8rem;letter-spacing:.04em;color:var(--muted-2)}
 .preorder-note b{color:var(--gold)}
+
+/* keyboard focus — visible on the dark theme */
+:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px;border-radius:3px}
+.btn:focus-visible{outline-offset:4px}
+
+/* skip link */
+.skip{position:absolute;left:14px;top:-60px;z-index:300;background:var(--gold-grad);color:#2a1e07;font-family:var(--sans);font-weight:600;font-size:.85rem;padding:.7em 1.3em;border-radius:0 0 10px 10px;transition:top .25s var(--ease)}
+.skip:focus{top:0}
 </style>
+<!-- Content stays visible if JS never runs (the scroll-reveal would otherwise hide it). -->
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Book",
+  "name": "The Trader and the Nafs",
+  "alternateName": "Why You Keep Breaking Your Rules — and How Islam Teaches You to Master Yourself",
+  "bookFormat": "https://schema.org/EBook",
+  "inLanguage": "en",
+  "numberOfPages": 280,
+  "url": "https://niyyahtrader.com/",
+  "image": "https://niyyahtrader.com/assets/cover.png",
+  "description": "Not a trading book — a book about the soul behind the screen, and the 1,400-year-old Islamic science of mastering it. Close the gap between what you know and what you do.",
+  "author": {
+    "@type": "Person",
+    "name": "Abrihym Aobad"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Niyyah Press"
+  },
+  "about": ["Trading psychology", "Self-mastery", "Islamic psychology", "Discipline"],
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "GBP",
+    "lowPrice": "9",
+    "highPrice": "29",
+    "offerCount": 3,
+    "availability": "https://schema.org/PreOrder"
+  }
+}
+</script>
 </head>
 <body>
+<a class="skip" href="#top">Skip to content</a>
 <div class="grain"></div>
 <div class="progress" id="progress"></div>
 
@@ -624,9 +668,9 @@ footer a:hover{color:var(--cream)}
     </div>
     <div class="head c reveal" style="margin:90px auto 0"><span class="kicker c">The Three Selves</span><h2>Which self is in the chair <em>right now?</em></h2><p>The Qur'an maps the soul in stages. You always know which one is trading.</p></div>
     <div class="selves">
-      <div class="self reveal d1"><div class="arn">النفس الأمّارة</div><div class="t">al-ammāra</div><h4>The Commanding Self</h4><p>Breaks the rule and feels nothing. Externalizes blame. Worships the outcome. The smooth, untroubled bottom.</p></div>
-      <div class="self reveal d2"><div class="arn">النفس اللوّامة</div><div class="t">al-lawwāma</div><h4>The Reproaching Self</h4><p>Breaks the rule and it tortures him. The conscience, back online. The painful, hopeful middle. <em>If reading this hurt — you're here.</em></p></div>
-      <div class="self peak reveal d3"><div class="arn">النفس المطمئنّة</div><div class="t">al-mutma'inna</div><h4>The Tranquil Self</h4><p>Follows the rule from settled nature, not strain. Feels the sting, doesn't obey it. The summit.</p></div>
+      <div class="self reveal d1"><div class="arn" lang="ar" dir="rtl">النفس الأمّارة</div><div class="t">al-ammāra</div><h4>The Commanding Self</h4><p>Breaks the rule and feels nothing. Externalizes blame. Worships the outcome. The smooth, untroubled bottom.</p></div>
+      <div class="self reveal d2"><div class="arn" lang="ar" dir="rtl">النفس اللوّامة</div><div class="t">al-lawwāma</div><h4>The Reproaching Self</h4><p>Breaks the rule and it tortures him. The conscience, back online. The painful, hopeful middle. <em>If reading this hurt — you're here.</em></p></div>
+      <div class="self peak reveal d3"><div class="arn" lang="ar" dir="rtl">النفس المطمئنّة</div><div class="t">al-mutma'inna</div><h4>The Tranquil Self</h4><p>Follows the rule from settled nature, not strain. Feels the sting, doesn't obey it. The summit.</p></div>
     </div>
   </div>
 </section>
@@ -696,7 +740,7 @@ footer a:hover{color:var(--cream)}
 <!-- AUTHOR -->
 <section class="band-emerald">
   <div class="wrap author reveal">
-    <div class="av ar">ن</div>
+    <div class="av ar" lang="ar" aria-hidden="true">ن</div>
     <div>
       <span class="kicker">The Author</span>
       <blockquote>"Stop chasing <em class="gold">how do I become profitable.</em> Start becoming the person profit naturally follows."</blockquote>
@@ -838,12 +882,21 @@ footer a:hover{color:var(--cream)}
   const cd=document.getElementById('countdown');
   if(cd){
     const target=new Date(cd.dataset.launch).getTime();
+    const label=document.querySelector('.cd-label');
+    let timer;
     const tick=()=>{
-      const d=Math.max(0,target-Date.now());
+      const d=target-Date.now();
+      if(d<=0){
+        // Launch has arrived — swap the timer for a live message instead of freezing on 00:00:00.
+        cd.innerHTML='<div style="min-width:auto;flex:1;align-items:flex-start;text-align:left;border-color:var(--gold)"><b style="font-size:1.25rem">The doors are open</b><span>Join now for first access</span></div>';
+        if(label)label.lastChild.textContent=' Now live';
+        clearInterval(timer);
+        return;
+      }
       const set=(s,v)=>{const el=cd.querySelector('[data-'+s+']');if(el)el.textContent=String(v).padStart(2,'0');};
       set('d',Math.floor(d/864e5));set('h',Math.floor(d/36e5)%24);set('m',Math.floor(d/6e4)%60);set('s',Math.floor(d/1e3)%60);
     };
-    tick();setInterval(tick,1000);
+    tick();timer=setInterval(tick,1000);
   }
 
   // waitlist (demo handler — replace with your Kit / MailerLite embed action)
