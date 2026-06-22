@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://niyyahtrader.com/sitemap.xml
