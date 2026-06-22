@@ -372,6 +372,9 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 
 .result-disease{font-family:var(--serif);font-weight:600;font-size:clamp(2.1rem,7vw,2.9rem);line-height:1;margin:.1em 0 .12em;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .result-arch{font-size:.7rem;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--muted-2);margin-bottom:1.2em}
+.result-disease .amp{font-size:.5em;opacity:.7;font-style:italic}
+.result-secondary{font-size:.92rem;line-height:1.5;color:var(--muted);max-width:44ch;margin:-.4em auto 1.4em}
+.result-secondary b{color:var(--gold-hi);font-weight:600}
 .result-card{border:1px solid var(--line);border-radius:14px;padding:18px 20px;background:rgba(255,255,255,.014);text-align:left;margin-bottom:14px}
 .result-card .rk{font-size:.62rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5em}
 .result-card p{font-size:.95rem;color:var(--muted);margin:0}
@@ -617,7 +620,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       </div>
     </div>
     <div class="lead">
-      <span class="cat-eyebrow"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#ministar"/></svg> The definitive book on Islamic trading psychology</span>
+      <span class="cat-eyebrow"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#ministar"/></svg> The book about the trader, not the trade</span>
       <p class="hook">You know where the stop belongs. You move it anyway. The knowing was never the problem — the <em>doing</em> was.</p>
       <p class="subline">A book about the soul behind the screen — and the 1,400-year-old science of mastering it.</p>
 
@@ -806,10 +809,10 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       <p class="sec-kicker">Why trust this</p>
       <h2 class="sec-h">Written from a real failure — and a real <em>tradition.</em></h2>
       <div class="cred">
-        <div class="cred-item"><b>70k</b><span>WORDS, FULLY WRITTEN</span></div>
-        <div class="cred-item"><b>38</b><span>CHAPTERS · 6 PARTS</span></div>
-        <div class="cred-item"><b>700+</b><span>TRADERS IN THE NIYYAH COMMUNITY</span></div>
-        <div class="cred-item"><b>100%</b><span>GROUNDED IN QUR'AN &amp; HADITH</span></div>
+        <div class="cred-item"><b>38</b><span>chapters, written and finished — a real book, not a pre-sold promise</span></div>
+        <div class="cred-item"><b>5</b><span>diseases named under pressure — and the cure mapped for each one</span></div>
+        <div class="cred-item"><b>12</b><span>weeks of structured practice — from knowing it to actually doing it</span></div>
+        <div class="cred-item"><b>700+</b><span>traders already building this inside the Niyyah community</span></div>
       </div>
       <blockquote class="pullquote">
         <p>"The market is one of the most honest mirrors a human can stand in front of. It does not care what you know. It only records what you do."</p>
@@ -1003,48 +1006,50 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       chapter:'Part III · Despair (and Part VI · the final letter)' }
   };
 
+  /* Balanced set: each disease is offered in 4–5 of the 24 option slots, so no
+     single answer is structurally favoured. Options are shuffled per render. */
   const QUESTIONS = [
     { q:'You just took your second losing trade of the day. What actually happens next?',
       opts:[
-        {t:'I re-enter fast to win it back — waiting feels impossible.', d:'impatience'},
-        {t:'I freeze. I see the next setup but can’t pull the trigger.', d:'fear'},
+        {t:'I re-enter fast to win it back — sitting still feels impossible.', d:'impatience'},
+        {t:'I freeze — I see the next setup but can’t pull the trigger.', d:'fear'},
         {t:'I double down to prove the market wrong.', d:'pride'},
-        {t:'I spiral — maybe I’m just not cut out for this.', d:'despair'}
+        {t:'I hunt a bigger trade to erase the red in one shot.', d:'greed'}
       ]},
-    { q:'Price hits your target. Your honest reaction is:',
+    { q:'Price runs all the way to your target. Your honest first move is:',
       opts:[
         {t:'I move the target — there’s probably more in it.', d:'greed'},
         {t:'I take it early, before it can turn on me.', d:'fear'},
-        {t:'I hold past the plan because closing feels like quitting.', d:'pride'},
-        {t:'I grab it instantly, before I can “ruin it.”', d:'impatience'}
+        {t:'I grab it the instant it prints, before I can “ruin it.”', d:'impatience'},
+        {t:'I close it, but already feel I’ll just give it back tomorrow.', d:'despair'}
       ]},
     { q:'The market is flat and slow. There’s no clean setup. You:',
       opts:[
-        {t:'Take something anyway — I can’t just sit here.', d:'impatience'},
         {t:'Hunt for a bigger trade to “make the day worth it.”', d:'greed'},
-        {t:'Force a view to feel in control.', d:'pride'},
-        {t:'Stay out, but feel anxious I’m missing the real move.', d:'fear'}
+        {t:'Stay out, but feel anxious I’m missing the real move.', d:'fear'},
+        {t:'Force a view so I feel in control of something.', d:'pride'},
+        {t:'Lose interest — days like this make me wonder why I bother.', d:'despair'}
       ]},
     { q:'You broke your own rule and it cost you. The loudest thought is:',
       opts:[
         {t:'“See? I always sabotage myself.”', d:'despair'},
         {t:'“It wasn’t really my fault — the conditions were off.”', d:'pride'},
         {t:'“I need to make that back right now.”', d:'impatience'},
-        {t:'“I should’ve taken more while I had the chance.”', d:'greed'}
+        {t:'“I can’t trust myself near the button anymore.”', d:'fear'}
       ]},
-    { q:'When you size a position, what’s really driving the number?',
+    { q:'When you set your position size, what’s really driving the number?',
       opts:[
-        {t:'How much I could make if I’m right — I size up when hot.', d:'greed'},
-        {t:'How much it’ll hurt if I’m wrong — I size down out of nerves.', d:'fear'},
-        {t:'How badly I want to be right this time.', d:'pride'},
-        {t:'Impatience — I’d rather end the day fast, win or lose.', d:'impatience'}
+        {t:'How much I’d make if I’m right — I size up when I’m hot.', d:'greed'},
+        {t:'How badly I want to be proven right this time.', d:'pride'},
+        {t:'Impatience — I’d rather settle the day fast, win or lose.', d:'impatience'},
+        {t:'I barely size at all — part of me has already given up.', d:'despair'}
       ]},
     { q:'A week of red. By Friday, what’s true of you?',
       opts:[
-        {t:'I’ve quietly stopped journaling and review.', d:'despair'},
         {t:'I’m overtrading to climb back fast.', d:'impatience'},
-        {t:'I’m convinced one big trade will fix it all.', d:'greed'},
-        {t:'I’m trading scared — smaller, later, hesitant.', d:'fear'}
+        {t:'I’m convinced one big trade will fix everything.', d:'greed'},
+        {t:'I’m trading scared — smaller, later, hesitant.', d:'fear'},
+        {t:'I’m blaming the conditions, not my own decisions.', d:'pride'}
       ]}
   ];
 
@@ -1056,6 +1061,9 @@ footer .ar{color:var(--gold);font-size:1.1rem}
   let step = -1; // -1 intro, 0..n-1 questions, n result
   let scores = {};
   let lastFocus = null;
+  let QORDER = []; // per-session shuffled option order, set in renderIntro
+  let TIEBREAK = []; // per-session random order so equal scores don't favour one disease
+  const shuffle = a => { for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
 
   function openDiag(){
     lastFocus = document.activeElement;
@@ -1090,6 +1098,8 @@ footer .ar{color:var(--gold);font-size:1.1rem}
   }
 
   function renderIntro(){
+    QORDER = QUESTIONS.map(Q => shuffle(Q.opts.slice()));
+    TIEBREAK = shuffle(Object.keys(DISEASES));
     setProgress(false);
     diagBody.innerHTML = `
       <div class="diag-center">
@@ -1108,11 +1118,12 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 
   function renderQuestion(){
     const Q = QUESTIONS[step];
+    const opts = QORDER[step] || Q.opts;
     setProgress(true, step);
     diagBody.innerHTML = `
       <h2 class="diag-q" id="diag-title">${Q.q}</h2>
       <div class="diag-opts">
-        ${Q.opts.map((o,i)=>`<button class="diag-opt" type="button" data-d="${o.d}">
+        ${opts.map((o,i)=>`<button class="diag-opt" type="button" data-d="${o.d}">
             <span class="mk">${String.fromCharCode(65+i)}</span><span>${o.t}</span>
           </button>`).join('')}
       </div>
@@ -1131,45 +1142,79 @@ footer .ar{color:var(--gold);font-size:1.1rem}
     diagBody.querySelector('.diag-opt').focus();
   }
 
-  function topDisease(){
-    // order array gives a stable tiebreak preference
-    const order=['impatience','greed','fear','pride','despair'];
-    return order.reduce((best,k)=> scores[k]>scores[best]?k:best, order[0]);
+  function rankedDiseases(){
+    // sort by score desc; genuine ties surface as a co-dominant pair (not hidden
+    // behind a fixed preference), which is how the old impatience bias crept in.
+    const tb = TIEBREAK.length ? TIEBREAK : Object.keys(DISEASES);
+    return Object.keys(DISEASES)
+      .map(k => ({ k, s: scores[k]||0 }))
+      .sort((a,b) => (b.s - a.s) || (tb.indexOf(a.k) - tb.indexOf(b.k)));
+  }
+
+  function lockBlock(list){
+    const lines = list.map(D =>
+      `<li>The cure for <b>${D.name.toLowerCase()}</b> — <b>${D.cure}</b> — and the chapter written for it: <b>${D.chapter}</b>.</li>`
+    ).join('');
+    return `
+      <div class="result-lock">
+        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Unlock your full Nafs Report</h4>
+        <ul>
+          ${lines}
+          <li>The Cards — the whole system on one page — plus founding-reader access.</li>
+        </ul>
+        <form class="diag-form" id="diag-form" novalidate>
+          <input type="email" required placeholder="Enter your email to unlock" aria-label="Email address" />
+          <button class="btn primary" type="submit"><span>Unlock my report &amp; join the founding readers</span></button>
+        </form>
+        <p class="disclaimer" style="text-align:center;margin-top:10px">First access at launch + the 72-hour founding bonus. No spam. Unsubscribe anytime.</p>
+      </div>`;
   }
 
   function renderResult(){
     setProgress(true, QUESTIONS.length); diagBar.style.width='100%';
     diagStepLabel.querySelector('span').textContent='Your result';
-    const key = topDisease(); const D = DISEASES[key];
-    diagBody.innerHTML = `
-      <div class="diag-center" style="text-align:center">
+    const ranked = rankedDiseases();
+    const primary = ranked[0], second = ranked[1];
+    const P = DISEASES[primary.k];
+    const coDominant = second && second.s === primary.s && primary.s > 0;
+    const hasStreak  = second && !coDominant && second.s >= 2;
+    const S = (coDominant || hasStreak) ? DISEASES[second.k] : null;
+
+    let head, cards, unlock;
+    if(coDominant){
+      head = `
+        <span class="diag-badge"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#ministar"/></svg> Two diseases are running your account</span>
+        <div class="result-disease" id="diag-title">${P.name} <span class="amp">&amp;</span> ${S.name}</div>
+        <div class="result-arch">${P.arch} · ${S.arch}</div>
+        <p class="result-secondary">They scored level — and they feed each other. Most traders carry a pair like this; seeing both is the start of breaking the loop.</p>`;
+      cards = `
+        <div class="result-card"><div class="rk">What ${P.name.toLowerCase()} does to your account</div><p>${P.desc}</p></div>
+        <div class="result-card"><div class="rk">What ${S.name.toLowerCase()} does to your account</div><p>${S.desc}</p></div>`;
+      unlock = lockBlock([P, S]);
+    } else {
+      head = `
         <span class="diag-badge"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#ministar"/></svg> Your dominant disease</span>
-        <div class="result-disease" id="diag-title">${D.name}</div>
-        <div class="result-arch">${D.arch} · <span class="ar">${D.ar}</span></div>
-      </div>
-      <div class="result-card"><div class="rk">What it does to your account</div><p>${D.desc}</p></div>
-      <div class="result-lock">
-        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Unlock your full Nafs Report</h4>
-        <ul>
-          <li>Your reading of the cure — <b>${D.cure}</b> — and why it works.</li>
-          <li>The exact chapter written for you: <b>${D.chapter}</b>.</li>
-          <li>The Cards (the whole system, one page) + founding-reader access.</li>
-        </ul>
-        <form class="diag-form" id="diag-form" novalidate>
-          <input type="email" required placeholder="Enter your email to unlock" aria-label="Email address" />
-          <button class="btn primary" type="submit">Unlock my report &amp; join the founding readers</button>
-        </form>
-        <p class="disclaimer" style="text-align:center;margin-top:10px">First access at launch + the 72-hour founding bonus. No spam. Unsubscribe anytime.</p>
-      </div>
+        <div class="result-disease" id="diag-title">${P.name}</div>
+        <div class="result-arch">${P.arch} · <span class="ar">${P.ar}</span></div>
+        ${hasStreak ? `<p class="result-secondary">— with a clear streak of <b>${S.name}</b> underneath. Master the first, and much of the second loosens with it.</p>` : ``}`;
+      cards = `<div class="result-card"><div class="rk">What it does to your account</div><p>${P.desc}</p></div>`;
+      unlock = lockBlock(hasStreak ? [P, S] : [P]);
+    }
+
+    diagBody.innerHTML = `
+      <div class="diag-center" style="text-align:center">${head}</div>
+      ${cards}
+      ${unlock}
       <button class="diag-back" type="button" id="diag-retake"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/></svg> Retake</button>`;
+
     const form=document.getElementById('diag-form');
     form.addEventListener('submit', async (e)=>{
       e.preventDefault();
       const email=form.querySelector('input').value.trim();
       if(!email || !/.+@.+\..+/.test(email)){ form.querySelector('input').focus(); return; }
       const submitBtn=form.querySelector('button'); submitBtn.disabled=true; submitBtn.textContent='Unlocking…';
-      await submitLead(email, { disease:key, archetype:D.arch, source:'diagnostic' });
-      renderSuccess(D, true);
+      await submitLead(email, { disease:primary.k, secondary:(S ? second.k : ''), archetype:P.arch, source:'diagnostic' });
+      renderSuccess(P, true);
     });
     document.getElementById('diag-retake').addEventListener('click', ()=>{ step=-1; scores={impatience:0,greed:0,fear:0,pride:0,despair:0}; renderIntro(); });
     form.querySelector('input').focus();
