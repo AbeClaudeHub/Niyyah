@@ -44,7 +44,7 @@ a{color:inherit;text-decoration:none}
 .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 28px}
 .gold{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .ar{font-family:"Amiri",serif}
-.kicker{font-family:var(--sans);font-weight:600;font-size:.7rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:.8em;margin:0 0 1.7em}
+.kicker{font-family:var(--sans);font-weight:600;font-size:.7rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:.8em;margin:0 0 1.3em}
 .kicker::before{content:"";width:30px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
 
 /* grain */
@@ -84,14 +84,14 @@ header.nav{position:relative;z-index:5;display:flex;align-items:center;justify-c
   filter:blur(72px);opacity:.6;mix-blend-mode:screen;animation:auraspin 32s linear infinite}
 .hero-glow{position:absolute;width:560px;height:560px;border-radius:50%;top:-4%;right:-10%;background:radial-gradient(circle,rgba(205,168,99,.14),transparent 70%);filter:blur(20px);animation:floaty 13s ease-in-out infinite,glowpulse 9s ease-in-out infinite;pointer-events:none}
 .hero-glow.two{left:-12%;right:auto;top:auto;bottom:-12%;width:480px;height:480px;background:radial-gradient(circle,rgba(13,90,65,.5),transparent 70%);animation:floaty 17s ease-in-out infinite reverse,glowpulse 11s ease-in-out infinite}
-.hero-inner{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(22px,3.2vh,38px);width:100%}
+.hero-inner{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(18px,2.6vh,30px);width:100%}
 .lead{display:flex;flex-direction:column;align-items:center;max-width:600px;width:100%}
-.hook{font-family:var(--serif);font-weight:400;font-size:clamp(1.6rem,3.4vw,2.6rem);line-height:1.2;letter-spacing:.005em;color:var(--cream);max-width:22ch;margin:0 0 .7em}
+.hook{font-family:var(--serif);font-weight:400;font-size:clamp(1.5rem,2.7vw,2.1rem);line-height:1.2;letter-spacing:.005em;color:var(--cream);max-width:30ch;margin:0 0 .6em}
 .hook em{font-style:italic;font-weight:600;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.subline{font-family:var(--serif);font-style:italic;color:var(--muted);font-size:clamp(1.05rem,1.7vw,1.3rem);margin:0 0 1.5em}
+.subline{font-family:var(--serif);font-style:italic;color:var(--muted);font-size:clamp(1.05rem,1.7vw,1.3rem);margin:0 0 1.2em}
 
 /* launch line (replaces the countdown) */
-.launch{display:inline-flex;align-items:center;gap:.7em;font-size:.72rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-hi);margin:0 0 1.6em}
+.launch{display:inline-flex;align-items:center;gap:.7em;font-size:.72rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-hi);margin:0 0 1.3em}
 .launch b{color:var(--gold-hi);font-weight:600}
 .launch .star{width:15px;height:15px;flex:none;animation:twinkle 4.5s ease-in-out infinite}
 
@@ -108,14 +108,29 @@ header.nav{position:relative;z-index:5;display:flex;align-items:center;justify-c
 .free-reads .fr-label{font-size:.66rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-2);margin:0 0 .8em}
 .fr-row{display:flex;gap:12px;flex-wrap:wrap}
 
-/* 3D BOOK */
-.book-stage{display:flex;justify-content:center;perspective:1900px}
-.book-3d{position:relative;width:min(215px,40vh);aspect-ratio:600/840;transform-style:preserve-3d;transform:rotateY(-26deg) rotateX(7deg);animation:bookfloat 8s ease-in-out infinite;transition:transform 1s var(--ease)}
-.book-3d:hover{transform:rotateY(-9deg) rotateX(3deg)}
-.book-3d .cover-svg{position:relative;width:100%;height:100%;border-radius:5px 9px 9px 5px;box-shadow:0 60px 90px -34px rgba(0,0,0,.9),inset 0 0 0 1px rgba(205,168,99,.18);transform:translateZ(22px);overflow:hidden}
-.book-3d .pages{position:absolute;top:2%;height:96%;right:-2px;width:26px;transform:translateZ(10px);background:repeating-linear-gradient(90deg,#e9dfca,#e9dfca 1px,#cdbf9f 2px,#e9dfca 3px);border-radius:0 4px 4px 0;transform-origin:right}
-.book-3d .spine{position:absolute;left:0;top:0;bottom:0;width:24px;transform:rotateY(90deg) translateZ(-12px);background:linear-gradient(90deg,#072018,#0c3325);transform-origin:left}
-.book-3d .sheen{position:absolute;inset:0;border-radius:5px 9px 9px 5px;transform:translateZ(23px);background:linear-gradient(118deg,transparent 38%,rgba(255,255,255,.16) 47%,transparent 56%);pointer-events:none;animation:sheen 6.5s ease-in-out infinite;mix-blend-mode:screen}
+/* 3D BOOK — spinning */
+.book-stage{position:relative;display:flex;justify-content:center;align-items:center;perspective:2200px}
+.halo{position:absolute;width:128%;height:122%;left:-14%;top:-8%;z-index:0;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(205,168,99,.20),rgba(13,90,65,.12) 52%,transparent 72%);
+  filter:blur(16px);animation:halopulse 6s ease-in-out infinite}
+.book-3d{position:relative;z-index:1;--w:min(190px,32vh);--h:calc(var(--w) * 1.4);--d:24px;
+  width:var(--w);height:var(--h);transform-style:preserve-3d;animation:spin 22s linear infinite;will-change:transform}
+.book-3d:hover{animation-play-state:paused}
+.book-3d .face{position:absolute;top:50%;left:50%;backface-visibility:hidden;overflow:hidden}
+.book-3d .front,.book-3d .back{width:var(--w);height:var(--h);border-radius:4px 8px 8px 4px;box-shadow:inset 0 0 0 1px rgba(205,168,99,.18)}
+.book-3d .front{transform:translate(-50%,-50%) translateZ(calc(var(--d) / 2))}
+.book-3d .back{transform:translate(-50%,-50%) rotateY(180deg) translateZ(calc(var(--d) / 2))}
+.book-3d .face svg{width:100%;height:100%;display:block}
+.book-3d .spine{width:var(--d);height:var(--h);border-radius:3px 0 0 3px;
+  transform:translate(-50%,-50%) rotateY(-90deg) translateZ(calc(var(--w) / 2));
+  background:linear-gradient(90deg,#0a2c20,#0d3e2c 32%,#082319);display:flex;align-items:center;justify-content:center}
+.book-3d .spine span{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--serif);font-weight:600;
+  font-size:calc(var(--d) * .4);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+.book-3d .edge{width:var(--d);height:calc(var(--h) - 6px);border-radius:0 2px 2px 0;
+  transform:translate(-50%,-50%) rotateY(90deg) translateZ(calc(var(--w) / 2));
+  background:repeating-linear-gradient(0deg,#efe7d2,#efe7d2 1px,#cdbf9f 2px,#efe7d2 3px)}
+.book-3d .sheen{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;
+  background:linear-gradient(118deg,transparent 42%,rgba(255,255,255,.26) 50%,transparent 58%);animation:sheen 7s ease-in-out infinite}
 
 /* footer */
 footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:24px 0;color:var(--muted-2);font-size:.78rem;animation:fade 1.4s var(--ease) both}
@@ -125,12 +140,18 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 /* entrance + ambient motion */
 @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 @keyframes fade{from{opacity:0}to{opacity:1}}
-@keyframes bookfloat{0%,100%{translate:0 0}50%{translate:0 -16px}}
+@keyframes spin{from{transform:rotateX(5deg) rotateY(0deg)}to{transform:rotateX(5deg) rotateY(360deg)}}
+@keyframes halopulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
 @keyframes floaty{0%,100%{translate:0 0}50%{translate:0 -26px}}
 @keyframes glowpulse{0%,100%{opacity:.65}50%{opacity:1}}
 @keyframes auraspin{to{transform:rotate(1turn)}}
-@keyframes sheen{0%,100%{transform:translateZ(23px) translateX(-60%)}50%{transform:translateZ(23px) translateX(60%)}}
+@keyframes sheen{0%,100%{transform:translateX(-75%)}50%{transform:translateX(75%)}}
+@keyframes drift{0%,100%{transform:translate(0,0);opacity:.12}50%{transform:translate(var(--dx),var(--dy));opacity:.65}}
 @keyframes twinkle{0%,100%{opacity:.5;transform:rotate(0) scale(.9)}50%{opacity:1;transform:rotate(45deg) scale(1.1)}}
+
+/* drifting gold motes */
+.particles{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.particles i{position:absolute;width:3px;height:3px;border-radius:50%;background:radial-gradient(circle,#f3e2af,rgba(205,168,99,.25));box-shadow:0 0 6px rgba(205,168,99,.6);animation:drift linear infinite}
 
 .lead>*{opacity:0;animation:rise .85s var(--ease) both}
 .lead>*:nth-child(1){animation-delay:.05s}
@@ -150,7 +171,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 /* keep the whole stack inside one viewport on shorter screens */
 @media(max-height:780px){
   .hero-inner{gap:18px}
-  .book-3d{width:min(170px,34vh)}
+  .book-3d{--w:min(150px,30vh)}
   .hook{font-size:clamp(1.4rem,3vw,2rem);margin-bottom:.5em}
   .subline{font-size:1.05rem;margin-bottom:1em}
   .kicker{margin-bottom:1em}
@@ -160,14 +181,16 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 
 @media(max-width:920px){
   .hero{min-height:auto}
-  .book-3d{width:min(200px,52vw)}
-  .hook{max-width:20ch}
+  .book-3d{--w:min(168px,46vw)}
+  .hook{max-width:24ch}
   header.nav .free{display:none}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important}
   html{scroll-behavior:auto}
   .lead>*,.book-stage{opacity:1!important}
+  .book-3d{transform:rotateX(5deg) rotateY(-24deg)}
+  .particles{display:none}
 }
 </style>
 <script type="application/ld+json">
@@ -283,6 +306,27 @@ footer .ar{color:var(--gold);font-size:1.1rem}
     <line x1="240" y1="772" x2="360" y2="772" stroke="#cda863" stroke-width="1" opacity=".5"/>
     <text x="300" y="792" text-anchor="middle" fill="url(#goldGrad)" font-family="Fraunces,serif" font-style="italic" font-size="22" letter-spacing="3">ABRIHYM AOBAD</text>
   </symbol>
+
+  <!-- THE BACK COVER (shown as the book spins) -->
+  <symbol id="coverBack" viewBox="0 0 600 840" preserveAspectRatio="xMidYMid slice">
+    <rect width="600" height="840" fill="url(#coverBg)"/>
+    <rect width="600" height="840" fill="url(#girih)" opacity="0.08"/>
+    <rect width="600" height="840" fill="url(#vig)"/>
+    <rect x="26" y="26" width="548" height="788" fill="none" stroke="url(#goldGrad)" stroke-width="2"/>
+    <rect x="38" y="38" width="524" height="764" fill="none" stroke="#cda863" stroke-width="1" opacity=".6"/>
+    <use href="#ministar" width="28" height="28" x="24" y="24"/>
+    <use href="#ministar" width="28" height="28" x="548" y="24"/>
+    <use href="#ministar" width="28" height="28" x="24" y="788"/>
+    <use href="#ministar" width="28" height="28" x="548" y="788"/>
+    <g style="color:#cda863"><use href="#khatam" width="150" height="150" x="225" y="150"/></g>
+    <text x="300" y="360" text-anchor="middle" fill="#cda863" font-family="Amiri,serif" font-size="38" opacity=".82">النَّفْس</text>
+    <text x="300" y="460" text-anchor="middle" fill="url(#goldGrad)" font-family="Fraunces,serif" font-style="italic" font-size="30">The soul behind</text>
+    <text x="300" y="500" text-anchor="middle" fill="url(#goldGrad)" font-family="Fraunces,serif" font-style="italic" font-size="30">the screen.</text>
+    <line x1="235" y1="552" x2="365" y2="552" stroke="#cda863" stroke-width="1" opacity=".5"/>
+    <text x="300" y="600" text-anchor="middle" fill="#cbbd99" font-family="Inter,sans-serif" font-size="12.5" letter-spacing="1.6">WHY YOU KEEP BREAKING YOUR RULES — AND HOW</text>
+    <text x="300" y="620" text-anchor="middle" fill="#cbbd99" font-family="Inter,sans-serif" font-size="12.5" letter-spacing="1.6">ISLAM TEACHES YOU TO MASTER YOURSELF</text>
+    <text x="300" y="792" text-anchor="middle" fill="#cda863" font-family="Inter,sans-serif" font-size="13" letter-spacing="6" font-weight="600">NIYYAH&#160;&#160;PRESS</text>
+  </symbol>
 </defs>
 </svg>
 
@@ -298,13 +342,15 @@ footer .ar{color:var(--gold);font-size:1.1rem}
   <div class="aura" aria-hidden="true"></div>
   <div class="hero-glow"></div>
   <div class="hero-glow two"></div>
+  <div class="particles" id="particles" aria-hidden="true"></div>
   <div class="wrap hero-inner">
     <div class="book-stage">
+      <div class="halo" aria-hidden="true"></div>
       <div class="book-3d">
-        <div class="spine"></div>
-        <div class="pages"></div>
-        <svg class="cover-svg" viewBox="0 0 600 840" role="img" aria-label="Cover of The Trader and the Nafs"><use href="#cover"/></svg>
-        <div class="sheen"></div>
+        <div class="face front"><svg viewBox="0 0 600 840" role="img" aria-label="Cover of The Trader and the Nafs"><use href="#cover"/></svg><span class="sheen"></span></div>
+        <div class="face back" aria-hidden="true"><svg viewBox="0 0 600 840"><use href="#coverBack"/></svg></div>
+        <div class="face spine" aria-hidden="true"><span>The Trader and the Nafs</span></div>
+        <div class="face edge" aria-hidden="true"></div>
       </div>
     </div>
     <div class="lead">
@@ -341,6 +387,24 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 
 <script>
   document.getElementById('yr').textContent=new Date().getFullYear();
+
+  // drifting gold motes (skip if the user prefers reduced motion)
+  const pf=document.getElementById('particles');
+  if(pf && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+    const rand=(a,b)=>a+Math.random()*(b-a);
+    for(let k=0;k<26;k++){
+      const i=document.createElement('i');
+      const s=rand(1.5,3.5);
+      i.style.left=rand(0,100)+'%';
+      i.style.top=rand(0,100)+'%';
+      i.style.width=i.style.height=s.toFixed(1)+'px';
+      i.style.setProperty('--dx',rand(-40,40).toFixed(0)+'px');
+      i.style.setProperty('--dy',rand(-60,-20).toFixed(0)+'px');
+      i.style.animationDuration=rand(9,20).toFixed(1)+'s';
+      i.style.animationDelay=(-rand(0,20)).toFixed(1)+'s';
+      pf.appendChild(i);
+    }
+  }
 
   // waitlist (demo handler — replace with your Kit / MailerLite embed action)
   window.joinWaitlist=function(e){
