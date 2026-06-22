@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Trader and the Nafs — Why You Keep Breaking Your Rules</title>
-<meta name="description" content="The Trader and the Nafs by Abrihym Aobad. Not a trading book — a book about the soul behind the screen, and the 1,400-year-old science of mastering it. Join the waitlist; read Chapter 1 and The Cards free." />
+<title>The Trader and the Nafs — The Definitive Book on Islamic Trading Psychology</title>
+<meta name="description" content="The definitive book on Islamic trading psychology. Why disciplined traders break their own rules — and how the 1,400-year-old science of the nafs closes the gap between knowing and doing. Take the free Nafs Assessment and claim founding-reader access." />
 <meta name="author" content="Abrihym Aobad" />
 <link rel="canonical" href="https://niyyahtrader.com/" />
 <meta property="og:type" content="book" />
 <meta property="og:site_name" content="The Trader and the Nafs" />
 <meta property="og:url" content="https://niyyahtrader.com/" />
-<meta property="og:title" content="The Trader and the Nafs" />
-<meta property="og:description" content="Why You Keep Breaking Your Rules — and How Islam Teaches You to Master Yourself." />
+<meta property="og:title" content="The Trader and the Nafs — Islamic Trading Psychology" />
+<meta property="og:description" content="You know where the stop belongs. You move it anyway. The definitive book on Islamic trading psychology." />
 <meta property="og:image" content="https://niyyahtrader.com/assets/cover.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="The Trader and the Nafs" />
-<meta name="twitter:description" content="Why You Keep Breaking Your Rules — and How Islam Teaches You to Master Yourself." />
+<meta name="twitter:description" content="You know where the stop belongs. You move it anyway. The knowing was never the problem — the doing was." />
 <meta name="twitter:image" content="https://niyyahtrader.com/assets/cover.png" />
 <meta name="theme-color" content="#070d0a" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23070d0a'/%3E%3Cg fill='none' stroke='%23cda863' stroke-width='5'%3E%3Crect x='26' y='26' width='48' height='48'/%3E%3Crect x='26' y='26' width='48' height='48' transform='rotate(45 50 50)'/%3E%3Ccircle cx='50' cy='50' r='8' stroke-width='4'/%3E%3C/g%3E%3C/svg%3E" />
@@ -44,8 +44,9 @@ a{color:inherit;text-decoration:none}
 .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 28px}
 .gold{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .ar{font-family:"Amiri",serif}
-.kicker{font-family:var(--sans);font-weight:600;font-size:.7rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:.8em;margin:0 0 1.5em}
+.kicker{font-family:var(--sans);font-weight:600;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:.8em;margin:0 0 1.5em;text-align:left}
 .kicker::before{content:"";width:30px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.kicker.center::before{display:none}
 
 /* grain */
 .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.04;mix-blend-mode:overlay;
@@ -77,6 +78,7 @@ header.nav{position:relative;z-index:5;display:flex;align-items:center;justify-c
 .btn.primary:hover::after{transform:translateX(120%);transition:transform .8s var(--ease)}
 .btn.ghost{color:var(--gold-hi);border-color:var(--line);background:rgba(205,168,99,.04)}
 .btn.ghost:hover{border-color:var(--gold);color:var(--cream);transform:translateY(-2px)}
+.btn.lg{padding:1.05em 2.2em;font-size:.92rem}
 
 /* HERO */
 .hero{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;padding:clamp(14px,2.5vh,38px) 0 clamp(22px,4vh,50px);
@@ -86,47 +88,27 @@ header.nav{position:relative;z-index:5;display:flex;align-items:center;justify-c
   filter:blur(72px);opacity:.6;mix-blend-mode:screen;animation:auraspin 32s linear infinite}
 .hero-glow{position:absolute;width:560px;height:560px;border-radius:50%;top:-4%;right:-10%;background:radial-gradient(circle,rgba(205,168,99,.14),transparent 70%);filter:blur(20px);animation:floaty 13s ease-in-out infinite,glowpulse 9s ease-in-out infinite;pointer-events:none}
 .hero-glow.two{left:-12%;right:auto;top:auto;bottom:-12%;width:480px;height:480px;background:radial-gradient(circle,rgba(13,90,65,.5),transparent 70%);animation:floaty 17s ease-in-out infinite reverse,glowpulse 11s ease-in-out infinite}
-.hero-inner{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(20px,2.7vh,34px);width:100%}
-.lead{display:flex;flex-direction:column;align-items:center;max-width:600px;width:100%}
-.hook{font-family:var(--serif);font-weight:400;font-size:clamp(1.5rem,2.6vw,1.95rem);line-height:1.24;letter-spacing:.005em;color:var(--cream);max-width:30ch;margin:0 0 .8em}
+.hero-inner{position:relative;z-index:3;display:grid;grid-template-columns:1fr minmax(280px,420px);align-items:center;gap:clamp(28px,5vw,68px);width:100%}
+.lead{display:flex;flex-direction:column;align-items:flex-start;text-align:left;max-width:620px}
+.eyebrow{font-family:var(--sans);font-weight:600;font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin:0 0 1.4em;display:inline-flex;align-items:center;gap:.7em}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+.hook{font-family:var(--serif);font-weight:500;font-size:clamp(2.1rem,4.6vw,3.5rem);line-height:1.04;letter-spacing:.004em;color:var(--cream);margin:0 0 .5em}
 .hook em{font-style:italic;font-weight:600;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.subline{font-family:var(--serif);font-style:italic;color:var(--muted);font-size:clamp(1.05rem,1.7vw,1.3rem);margin:0 0 1.5em}
-
-/* launch line (replaces the countdown) */
-.launch{display:inline-flex;align-items:center;gap:.7em;font-size:.72rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-hi);margin:0 0 1.4em}
-.launch b{color:var(--gold-hi);font-weight:600}
-.launch .star{width:15px;height:15px;flex:none;animation:twinkle 4.5s ease-in-out infinite}
-
-/* waitlist */
-.waitlist{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;max-width:440px;scroll-margin-top:100px}
-.waitlist input{width:100%;min-width:0;padding:.95em 1.4em;border-radius:100px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--cream);font-family:var(--sans);font-size:.95rem;text-align:center}
-.waitlist .btn{min-width:220px;justify-content:center}
-.waitlist input::placeholder{color:var(--muted-2)}
-.waitlist input:focus{outline:none;border-color:var(--gold);background:rgba(255,255,255,.08)}
-.form-ok{display:none;align-items:center;gap:10px;color:var(--gold-hi);font-family:var(--serif);font-style:italic;font-size:1.3rem;max-width:460px}
-.form-ok.show{display:flex}
-.form-ok svg{width:22px;height:22px;flex:none;color:var(--gold)}
-/* free reads */
-.free-reads{margin-top:1.7em;width:100%;max-width:440px}
-.fr-label{display:flex;align-items:center;justify-content:center;gap:.9em;font-size:.62rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--muted-2);margin:0 0 1em}
-.fr-label::before,.fr-label::after{content:"";height:1px;flex:1;max-width:46px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
-.fr-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.fr-card{display:flex;align-items:center;gap:12px;text-align:left;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,rgba(205,168,99,.05),rgba(255,255,255,.012));transition:transform .3s var(--ease),border-color .3s,background .3s}
-.fr-card:hover{transform:translateY(-3px);border-color:rgba(205,168,99,.5);background:linear-gradient(180deg,rgba(205,168,99,.10),rgba(13,90,65,.10))}
-.fr-ic{flex:none;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:var(--gold);background:rgba(205,168,99,.10);border:1px solid var(--line)}
-.fr-ic svg{width:19px;height:19px}
-.fr-txt{display:flex;flex-direction:column;min-width:0;line-height:1.15}
-.fr-txt b{font-family:var(--sans);font-weight:600;font-size:.9rem;color:var(--cream)}
-.fr-txt small{font-size:.7rem;color:var(--muted-2);margin-top:3px}
-.fr-dl{width:16px;height:16px;flex:none;margin-left:auto;color:var(--gold);opacity:.55;transition:opacity .3s,transform .3s}
-.fr-card:hover .fr-dl{opacity:1;transform:translateY(2px)}
+.subline{font-family:var(--serif);font-style:italic;color:var(--muted);font-size:clamp(1.15rem,1.9vw,1.5rem);line-height:1.35;margin:0 0 1.6em;max-width:34ch}
+.hero-cta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:0 0 1.5em}
+.hero-cta .timer{display:inline-flex;align-items:center;gap:.55em;font-size:.78rem;color:var(--gold-hi)}
+.hero-cta .timer svg{width:15px;height:15px;color:var(--gold)}
+.trust-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;font-size:.78rem;color:var(--muted-2)}
+.trust-row b{color:var(--cream);font-weight:600}
+.trust-row .sep{width:4px;height:4px;border-radius:50%;background:var(--muted-2);opacity:.5}
+.hero-book{display:flex;justify-content:center}
 
 /* 3D BOOK — spinning */
 .book-stage{position:relative;display:flex;justify-content:center;align-items:center;perspective:2200px}
 .halo{position:absolute;width:128%;height:122%;left:-14%;top:-8%;z-index:0;pointer-events:none;
   background:radial-gradient(closest-side,rgba(205,168,99,.20),rgba(13,90,65,.12) 52%,transparent 72%);
   filter:blur(16px);animation:halopulse 6s ease-in-out infinite}
-.book-3d{position:relative;z-index:1;--w:min(172px,30vh);--h:calc(var(--w) * 1.4);--d:24px;
+.book-3d{position:relative;z-index:1;--w:min(216px,34vh);--h:calc(var(--w) * 1.4);--d:24px;
   width:var(--w);height:var(--h);transform-style:preserve-3d;animation:spin 22s linear infinite;will-change:transform}
 .book-3d:hover{animation-play-state:paused}
 .book-3d .face{position:absolute;top:50%;left:50%;backface-visibility:hidden;overflow:hidden}
@@ -160,7 +142,6 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 @keyframes auraspin{to{transform:rotate(1turn)}}
 @keyframes sheen{0%,100%{transform:translateX(-75%)}50%{transform:translateX(75%)}}
 @keyframes drift{0%,100%{transform:translate(0,0);opacity:.12}50%{transform:translate(var(--dx),var(--dy));opacity:.65}}
-@keyframes twinkle{0%,100%{opacity:.5;transform:rotate(0) scale(.9)}50%{opacity:1;transform:rotate(45deg) scale(1.1)}}
 
 /* drifting gold motes */
 .particles{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
@@ -168,43 +149,29 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 
 .lead>*{opacity:0;animation:rise .85s var(--ease) both}
 .lead>*:nth-child(1){animation-delay:.05s}
-.lead>*:nth-child(2){animation-delay:.13s}
-.lead>*:nth-child(3){animation-delay:.21s}
-.lead>*:nth-child(4){animation-delay:.29s}
-.lead>*:nth-child(5){animation-delay:.37s}
-.lead>*:nth-child(6){animation-delay:.45s}
-.lead>*:nth-child(7){animation-delay:.5s}
-.lead>*:nth-child(8){animation-delay:.55s}
-.lead>*:nth-child(9){animation-delay:.61s}
-.lead>*:nth-child(10){animation-delay:.67s}
-.lead>.form-ok{opacity:1;animation:none}
+.lead>*:nth-child(2){animation-delay:.14s}
+.lead>*:nth-child(3){animation-delay:.23s}
+.lead>*:nth-child(4){animation-delay:.32s}
+.lead>*:nth-child(5){animation-delay:.41s}
+.lead>*:nth-child(6){animation-delay:.5s}
 .book-stage{opacity:0;animation:rise 1s var(--ease) .05s both}
 
-/* keep the book + waitlist inside one viewport on shorter screens */
-/* keep the whole stack inside one viewport on shorter screens */
 @media(max-height:850px){
-  .hero-inner{gap:clamp(16px,2.2vh,26px)}
-  .book-3d{--w:min(158px,26vh)}
-  .hook{font-size:clamp(1.4rem,2.5vw,1.85rem);line-height:1.2;margin-bottom:.55em}
-  .subline{font-size:1.05rem;margin-bottom:1.1em}
-  .kicker{margin-bottom:1.1em}
-  .launch{margin-bottom:1.1em}
-  .free-reads{margin-top:1.2em}
+  .book-3d{--w:min(188px,30vh)}
 }
-
 @media(max-width:920px){
   .hero{min-height:auto}
-  .book-3d{--w:min(146px,42vw)}
-  .hook{max-width:24ch}
+  .hero-inner{grid-template-columns:1fr;text-align:center}
+  .lead{align-items:center;text-align:center;max-width:560px;margin:0 auto;order:2}
+  .hero-book{order:1;margin-bottom:8px}
+  .book-3d{--w:min(168px,46vw)}
+  .eyebrow,.kicker{text-align:center}
+  .hero-cta,.trust-row{justify-content:center}
   header.nav{padding:14px 18px}
   header.nav .free{display:none}
   .brand{font-size:1rem}
   .brand svg{width:22px;height:22px}
   .btn.sm{padding:.55em 1em;font-size:.74rem}
-  .fr-card{padding:11px 12px;gap:10px}
-  .fr-ic{width:34px;height:34px}
-  .fr-txt b{white-space:nowrap}
-  .fr-dl{display:none}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important}
@@ -220,24 +187,118 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 .scroll-cue:hover{color:var(--gold-hi)}
 .scroll-cue svg{width:18px;height:18px;color:var(--gold);animation:bob 2.4s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
-@media(max-height:720px){.scroll-cue{display:none}}
+@media(max-height:760px){.scroll-cue{display:none}}
 
-/* ===== OPTIONAL rich content ===== */
+/* ===== SECTIONS ===== */
 .more{position:relative;z-index:2}
-.sec{position:relative;padding:clamp(60px,9vh,108px) 0;border-top:1px solid rgba(205,168,99,.09)}
+.sec{position:relative;padding:clamp(64px,10vh,120px) 0;border-top:1px solid rgba(205,168,99,.09)}
 .sec.alt{background:linear-gradient(180deg,rgba(13,90,65,.12),transparent 65%)}
 .sec-kicker{display:inline-flex;align-items:center;gap:.7em;font-size:.66rem;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin:0 0 1em}
 .sec-kicker::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
-.sec-h{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,3.6vw,2.75rem);line-height:1.16;letter-spacing:.005em;color:var(--cream);max-width:22ch;margin:0 0 1.4em}
+.sec-h{font-family:var(--serif);font-weight:400;font-size:clamp(1.9rem,3.8vw,2.9rem);line-height:1.14;letter-spacing:.005em;color:var(--cream);max-width:22ch;margin:0 0 1.4em}
 .sec-h em{font-style:italic;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .mini-h{font-family:var(--serif);font-weight:500;font-size:1.3rem;color:var(--cream);margin:2.4em 0 1.1em}
+.lede{font-size:1.1rem;color:var(--muted);max-width:60ch}
+.lede em{color:var(--cream);font-style:italic}
 
-/* story */
+/* ===== CATEGORY / MANIFESTO ===== */
+.manifesto{text-align:center;background:radial-gradient(80% 120% at 50% -10%,rgba(13,90,65,.30),transparent 60%)}
+.manifesto .wrap{max-width:880px}
+.manifesto .sec-kicker{justify-content:center}
+.manifesto .sec-kicker::before{display:none}
+.cat-name{font-family:var(--serif);font-weight:500;font-size:clamp(2.2rem,5.4vw,3.6rem);line-height:1.08;color:var(--cream);margin:0 0 .5em}
+.cat-name .gold{font-style:italic}
+.cat-sub{font-size:1.12rem;color:var(--muted);max-width:60ch;margin:0 auto 2.4em}
+.creed{border:1px solid var(--line);border-radius:20px;padding:clamp(28px,4vw,48px);background:linear-gradient(180deg,rgba(205,168,99,.05),rgba(255,255,255,.012));position:relative;max-width:680px;margin:0 auto}
+.creed::before,.creed::after{content:"";position:absolute;width:30px;height:30px;border:1px solid var(--gold);opacity:.5}
+.creed::before{top:14px;left:14px;border-right:0;border-bottom:0}
+.creed::after{bottom:14px;right:14px;border-left:0;border-top:0}
+.creed p{font-family:var(--serif);font-size:clamp(1.2rem,2.3vw,1.55rem);line-height:1.5;color:var(--cream);margin:0 0 .7em}
+.creed p.lift{font-style:italic;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.creed p:last-child{margin:0}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:2.6em;text-align:left}
+.cat-card{border:1px solid var(--line);border-radius:16px;padding:22px;background:rgba(255,255,255,.012)}
+.cat-card .vs{font-size:.62rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2);margin:0 0 .5em}
+.cat-card h4{font-family:var(--serif);font-weight:500;font-size:1.15rem;color:var(--cream);margin:0 0 .4em}
+.cat-card p{font-size:.88rem;color:var(--muted);margin:0}
+@media(max-width:820px){.cat-grid{grid-template-columns:1fr}}
+
+/* ===== ASSESSMENT (the engine) ===== */
+.assess{background:linear-gradient(180deg,rgba(13,90,65,.14),transparent 60%)}
+.assess .wrap{max-width:760px}
+.assess-head{text-align:center;margin-bottom:2.2em}
+.assess-head .sec-kicker{justify-content:center}
+.assess-head .sec-kicker::before{display:none}
+.assess-head .sec-h{margin:0 auto .6em;max-width:24ch}
+.assess-card{position:relative;border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,rgba(8,40,29,.55),rgba(7,13,10,.4));box-shadow:0 30px 80px -40px rgba(0,0,0,.8);overflow:hidden}
+.assess-bar{height:3px;width:100%;background:rgba(205,168,99,.12)}
+.assess-bar i{display:block;height:100%;width:0;background:var(--gold-grad);transition:width .45s var(--ease)}
+.assess-body{padding:clamp(26px,4vw,46px)}
+.assess-panel{display:none;animation:fade .5s var(--ease)}
+.assess-panel.active{display:block}
+
+/* intro */
+.ap-intro{text-align:center}
+.ap-intro .lead-q{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.2;color:var(--cream);margin:0 0 .6em}
+.ap-intro .lead-q em{font-style:italic;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ap-intro p{color:var(--muted);max-width:48ch;margin:0 auto 1.8em}
+.assess-meta{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;font-size:.74rem;color:var(--muted-2);margin-top:1.4em}
+.assess-meta span{display:inline-flex;align-items:center;gap:.5em}
+.assess-meta svg{width:14px;height:14px;color:var(--gold)}
+
+/* question */
+.q-count{font-size:.7rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:0 0 1em}
+.q-text{font-family:var(--serif);font-size:clamp(1.4rem,2.8vw,1.9rem);line-height:1.25;color:var(--cream);margin:0 0 1.4em;min-height:2.4em}
+.q-opts{display:grid;gap:10px}
+.q-opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:15px 18px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.014);color:var(--cream);font-family:var(--sans);font-size:.96rem;cursor:pointer;transition:transform .2s var(--ease),border-color .25s,background .25s}
+.q-opt:hover{transform:translateX(4px);border-color:rgba(205,168,99,.5);background:linear-gradient(90deg,rgba(205,168,99,.10),transparent)}
+.q-opt .dot{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--gold-lo);flex:none;transition:.2s}
+.q-opt:hover .dot,.q-opt.sel .dot{background:var(--gold-grad);border-color:var(--gold)}
+.q-back{margin-top:1.3em;background:none;border:0;color:var(--muted-2);font-family:var(--sans);font-size:.8rem;cursor:pointer;display:inline-flex;align-items:center;gap:.4em}
+.q-back:hover{color:var(--cream)}
+.q-back svg{width:14px;height:14px}
+
+/* result + gate */
+.ap-result{text-align:center}
+.res-eyebrow{font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2);margin:0 0 .8em}
+.res-name{font-family:var(--serif);font-weight:500;font-size:clamp(2.4rem,6vw,3.4rem);line-height:1;margin:0 0 .2em}
+.res-ar{font-family:"Amiri",serif;color:var(--gold);font-size:1.3rem;margin:0 0 1em;opacity:.85}
+.res-desc{color:var(--muted);max-width:52ch;margin:0 auto 1.2em}
+.res-cure{display:inline-flex;flex-direction:column;gap:.2em;border:1px solid var(--line);border-radius:14px;padding:14px 26px;margin:0 auto 1.8em;background:rgba(13,90,65,.16)}
+.res-cure .lbl{font-size:.64rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.res-cure .val{font-family:var(--serif);font-style:italic;font-size:1.3rem;color:var(--cream)}
+.gate{border-top:1px solid var(--line);margin-top:1.8em;padding-top:1.8em}
+.gate h4{font-family:var(--serif);font-weight:500;font-size:1.35rem;color:var(--cream);margin:0 0 .5em}
+.gate p{color:var(--muted);max-width:46ch;margin:0 auto 1.3em;font-size:.95rem}
+.gate ul{list-style:none;margin:0 auto 1.5em;padding:0;display:inline-grid;gap:8px;text-align:left}
+.gate li{display:flex;gap:10px;align-items:flex-start;font-size:.9rem;color:var(--cream)}
+.gate li svg{width:16px;height:16px;color:var(--gold);flex:none;margin-top:3px}
+.gate-form{display:flex;flex-direction:column;gap:12px;max-width:420px;margin:0 auto}
+.gate-form input{width:100%;padding:.95em 1.4em;border-radius:100px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--cream);font-family:var(--sans);font-size:.95rem;text-align:center}
+.gate-form input::placeholder{color:var(--muted-2)}
+.gate-form input:focus{outline:none;border-color:var(--gold);background:rgba(255,255,255,.08)}
+.gate-note{font-size:.72rem;color:var(--muted-2);margin:1em 0 0}
+
+/* full breakdown (post-capture) */
+.ap-done{text-align:center}
+.ap-done .check{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;margin:0 auto 1em;background:rgba(13,90,65,.3);border:1px solid var(--gold)}
+.ap-done .check svg{width:26px;height:26px;color:var(--gold)}
+.ap-done h3{font-family:var(--serif);font-weight:500;font-size:1.7rem;color:var(--cream);margin:0 0 .4em}
+.ap-done>p{color:var(--muted);max-width:46ch;margin:0 auto 1.8em}
+.rank{display:grid;gap:10px;max-width:480px;margin:0 auto 1.8em;text-align:left}
+.rank-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.012)}
+.rank-row .n{font-family:var(--serif);font-size:1.1rem;color:var(--gold);width:1.4em}
+.rank-row .meter{height:6px;border-radius:3px;background:rgba(205,168,99,.12);overflow:hidden}
+.rank-row .meter i{display:block;height:100%;background:var(--gold-grad)}
+.rank-row .nm{font-size:.9rem;color:var(--cream)}
+.rank-row .pc{font-size:.78rem;color:var(--muted-2);font-variant-numeric:tabular-nums}
+
+/* ===== story ===== */
 .story{display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:start;max-width:780px}
 .story-av{position:relative;overflow:hidden;width:88px;height:88px;border-radius:50%;display:grid;place-items:center;font-family:"Amiri",serif;font-size:2.2rem;color:var(--gold);background:radial-gradient(circle at 50% 30%,rgba(13,90,65,.6),var(--emerald-3));border:1px solid var(--line);box-shadow:0 8px 24px -10px rgba(0,0,0,.6),inset 0 0 0 1px rgba(205,168,99,.22);flex:none}
 .story-av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 45%}
 .story-av::after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;background:radial-gradient(circle at 50% 42%,transparent 48%,rgba(8,22,16,.6) 100%)}
-.story-body p{font-size:1.05rem;color:var(--muted);max-width:60ch}
+.story-body p{font-size:1.08rem;color:var(--muted);max-width:60ch}
 .story-body em{font-style:italic;color:var(--cream)}
 .story-sig{font-family:var(--serif);font-style:italic;color:var(--gold-hi);margin-top:1.1em}
 .story-more[hidden]{display:none}
@@ -286,7 +347,12 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 .vcol.before li svg{color:#9a8052}.vcol.after li svg{color:var(--gold)}
 @media(max-width:680px){.versus{grid-template-columns:1fr}}
 
-/* testimonials */
+/* proof */
+.proof-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:840px;margin:0 0 2.4em}
+.pstat{border:1px solid var(--line);border-radius:16px;padding:22px 18px;text-align:center;background:rgba(255,255,255,.012)}
+.pstat b{display:block;font-family:var(--serif);font-weight:500;font-size:2rem;line-height:1;color:var(--gold-hi);margin-bottom:.25em}
+.pstat span{font-size:.74rem;color:var(--muted-2);letter-spacing:.03em}
+@media(max-width:680px){.proof-stats{grid-template-columns:1fr 1fr}}
 .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .quote{border:1px solid var(--line);border-radius:18px;padding:24px;background:rgba(255,255,255,.012);display:flex;flex-direction:column}
 .quote .stars{color:var(--gold);font-size:.78rem;letter-spacing:.18em;margin-bottom:12px}
@@ -297,12 +363,33 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 .quote .who span span{font-size:.72rem;color:var(--muted-2)}
 @media(max-width:820px){.quotes{grid-template-columns:1fr}}
 
+/* founding reader */
+.founding{background:radial-gradient(70% 120% at 50% 0%,rgba(13,90,65,.26),transparent 62%)}
+.founding .wrap{max-width:860px}
+.fr-box{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:0 0 2em}
+.fr-perk{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line);border-radius:16px;padding:20px;background:rgba(255,255,255,.012)}
+.fr-perk .ic{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:var(--gold);background:rgba(205,168,99,.10);border:1px solid var(--line);flex:none}
+.fr-perk .ic svg{width:19px;height:19px}
+.fr-perk h4{font-family:var(--serif);font-weight:500;font-size:1.12rem;color:var(--cream);margin:0 0 .25em}
+.fr-perk p{font-size:.86rem;color:var(--muted);margin:0}
+@media(max-width:680px){.fr-box{grid-template-columns:1fr}}
+
+/* generic inline email form */
+.join-form{display:flex;gap:10px;max-width:460px;flex-wrap:wrap}
+.join-form input{flex:1;min-width:200px;padding:.95em 1.4em;border-radius:100px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--cream);font-family:var(--sans);font-size:.95rem}
+.join-form input::placeholder{color:var(--muted-2)}
+.join-form input:focus{outline:none;border-color:var(--gold);background:rgba(255,255,255,.08)}
+.join-ok{display:none;align-items:center;gap:10px;color:var(--gold-hi);font-family:var(--serif);font-style:italic;font-size:1.25rem;margin-top:.6em}
+.join-ok.show{display:flex}
+.join-ok svg{width:22px;height:22px;flex:none;color:var(--gold)}
+
 /* closing cta */
 .cta-sec{text-align:center;background:radial-gradient(70% 100% at 50% 0%,rgba(13,90,65,.32),transparent 62%)}
+.cta-sec .wrap{max-width:720px}
 .cta-sec h2{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4.6vw,3.2rem);color:var(--cream);margin:0 0 .3em}
 .cta-sec h2 em{font-style:italic;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.cta-sec p{color:var(--muted);max-width:48ch;margin:0 auto 1.7em}
-.btn.lg{padding:1.05em 2.2em;font-size:.92rem}
+.cta-sec .creed-line{font-family:var(--serif);font-style:italic;font-size:1.2rem;color:var(--muted);max-width:48ch;margin:0 auto 1.7em}
+.cta-sec .join-form{margin:0 auto;justify-content:center}
 </style>
 <script type="application/ld+json">
 {
@@ -314,12 +401,11 @@ footer .ar{color:var(--gold);font-size:1.1rem}
   "inLanguage": "en",
   "url": "https://niyyahtrader.com/",
   "image": "https://niyyahtrader.com/assets/cover.png",
-  "description": "Not a trading book — a book about the soul behind the screen, and the 1,400-year-old Islamic science of mastering it.",
+  "description": "The definitive book on Islamic trading psychology — why disciplined traders break their own rules, and how the 1,400-year-old science of the nafs closes the gap between knowing and doing.",
   "author": { "@type": "Person", "name": "Abrihym Aobad" },
   "publisher": { "@type": "Organization", "name": "Niyyah Press" },
   "workExample": [
-    { "@type": "Book", "name": "Chapter One — The Trade That Exposed Me", "url": "https://niyyahtrader.com/downloads/the-trader-and-the-nafs-chapter-1.pdf", "isAccessibleForFree": true },
-    { "@type": "Book", "name": "The Cards — Quick Reference", "url": "https://niyyahtrader.com/downloads/the-trader-and-the-nafs-the-cards.pdf", "isAccessibleForFree": true }
+    { "@type": "Book", "name": "Chapter One — The Trade That Exposed Me", "url": "https://niyyahtrader.com/downloads/the-trader-and-the-nafs-chapter-1.pdf", "isAccessibleForFree": true }
   ]
 }
 </script>
@@ -348,12 +434,6 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       <polygon points="73.9,53.6 53.6,73.9 26.4,73.9 6.1,53.6 6.1,26.4 26.4,6.1 53.6,6.1 73.9,26.4"/>
       <polygon points="40,0 80,40 40,80 0,40"/>
       <polygon points="6.1,6.1 73.9,6.1 73.9,73.9 6.1,73.9"/>
-    </g>
-  </pattern>
-  <pattern id="girihLight" width="80" height="80" patternUnits="userSpaceOnUse">
-    <g fill="none" stroke="#cda863" stroke-width="1.1" opacity=".5">
-      <polygon points="73.9,53.6 53.6,73.9 26.4,73.9 6.1,53.6 6.1,26.4 26.4,6.1 53.6,6.1 73.9,26.4"/>
-      <polygon points="40,0 80,40 40,80 0,40"/>
     </g>
   </pattern>
   <symbol id="ministar" viewBox="0 0 40 40">
@@ -441,72 +521,171 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 </defs>
 </svg>
 
-<!-- ===== FIRST SCREEN (waitlist) ===== -->
+<!-- ===== FIRST SCREEN ===== -->
 <div class="hero-screen">
-<!-- nav -->
 <header class="nav">
   <a class="brand" href="#main"><svg viewBox="0 0 100 100"><use href="#khatam"/></svg><span>The Trader <b>&amp; the Nafs</b></span></a>
   <nav class="nav-cta">
     <a class="free" href="downloads/the-trader-and-the-nafs-chapter-1.pdf" target="_blank" rel="noopener">Read Chapter 1 free →</a>
-    <a class="btn primary sm" href="#join" data-join>Join the Waitlist</a>
+    <a class="btn primary sm" href="#assessment" data-go="assessment">Take the Assessment</a>
   </nav>
 </header>
 
-<!-- HERO -->
 <main id="main" class="hero">
-  <h1 class="sr-only">The Trader and the Nafs — Why You Keep Breaking Your Rules, and How Islam Teaches You to Master Yourself</h1>
+  <h1 class="sr-only">The Trader and the Nafs — The definitive book on Islamic trading psychology. Why you keep breaking your rules, and how Islam teaches you to master yourself.</h1>
   <div class="aura" aria-hidden="true"></div>
   <div class="hero-glow"></div>
   <div class="hero-glow two"></div>
   <div class="particles" id="particles" aria-hidden="true"></div>
   <div class="wrap hero-inner">
-    <div class="book-stage">
-      <div class="halo" aria-hidden="true"></div>
-      <div class="book-3d">
-        <div class="face front"><svg viewBox="0 0 600 840" role="img" aria-label="Cover of The Trader and the Nafs"><use href="#cover"/></svg><span class="sheen"></span></div>
-        <div class="face back" aria-hidden="true"><svg viewBox="0 0 600 840"><use href="#coverBack"/></svg></div>
-        <div class="face spine" aria-hidden="true"><span>The Trader and the Nafs</span></div>
-        <div class="face edge" aria-hidden="true"></div>
+    <div class="lead">
+      <span class="eyebrow"><span class="dot"></span> The definitive book on Islamic trading psychology</span>
+      <p class="hook">You know where the stop belongs.<br/>You move it <em>anyway.</em></p>
+      <p class="subline">The knowing was never the problem. The <em>doing</em> was — and no strategy ever reached the place it fails.</p>
+      <div class="hero-cta">
+        <a class="btn primary lg" href="#assessment" data-go="assessment">Take the Nafs Assessment
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+        <a class="btn ghost" href="downloads/the-trader-and-the-nafs-chapter-1.pdf" target="_blank" rel="noopener">Read Chapter 1 free</a>
+      </div>
+      <div class="trust-row">
+        <span><b>60 seconds.</b> Find the one self-sabotage that's costing you most.</span>
       </div>
     </div>
-    <div class="lead">
-      <span class="kicker">A book by Abrihym Aobad · Coming Soon</span>
-      <p class="hook">You know where the stop belongs. You move it anyway. The knowing was never the problem — the <em>doing</em> was.</p>
-      <p class="subline">The book about the soul behind the screen.</p>
-
-      <p class="launch"><svg class="star" viewBox="0 0 40 40" aria-hidden="true"><use href="#ministar"/></svg> The waitlist gets first access</p>
-
-      <form id="join" class="waitlist" onsubmit="return joinWaitlist(event)">
-        <input type="email" required placeholder="Enter your email" aria-label="Email address"/>
-        <button class="btn primary" type="submit">Join the Waitlist</button>
-      </form>
-      <div class="form-ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6 9 17l-5-5"/></svg> You're in — your free Cards are downloading. Watch your inbox.</div>
-
-      <div class="free-reads">
-        <p class="fr-label">Read free while you wait</p>
-        <div class="fr-grid">
-          <a class="fr-card" href="downloads/the-trader-and-the-nafs-chapter-1.pdf" target="_blank" rel="noopener">
-            <span class="fr-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h10a3 3 0 0 1 3 3v11a2 2 0 0 0-2-2H4zM20 5h-3a3 3 0 0 0-3 3v11a2 2 0 0 1 2-2h4z"/></svg></span>
-            <span class="fr-txt"><b>Chapter 1</b><small>The opening</small></span>
-            <svg class="fr-dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
-          </a>
-          <a class="fr-card" href="downloads/the-trader-and-the-nafs-the-cards.pdf" target="_blank" rel="noopener">
-            <span class="fr-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="14" height="16" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v13"/></svg></span>
-            <span class="fr-txt"><b>The Cards</b><small>On one page</small></span>
-            <svg class="fr-dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
-          </a>
+    <div class="hero-book">
+      <div class="book-stage">
+        <div class="halo" aria-hidden="true"></div>
+        <div class="book-3d">
+          <div class="face front"><svg viewBox="0 0 600 840" role="img" aria-label="Cover of The Trader and the Nafs"><use href="#cover"/></svg><span class="sheen"></span></div>
+          <div class="face back" aria-hidden="true"><svg viewBox="0 0 600 840"><use href="#coverBack"/></svg></div>
+          <div class="face spine" aria-hidden="true"><span>The Trader and the Nafs</span></div>
+          <div class="face edge" aria-hidden="true"></div>
         </div>
       </div>
     </div>
   </div>
-  <a class="scroll-cue" href="#more"><span>Read more</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></a>
+  <a class="scroll-cue" href="#category"><span>Why this is different</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></a>
 </main>
 </div><!-- /hero-screen -->
 
-<!-- ===== OPTIONAL: the deeper story (read it if you want) ===== -->
 <div id="more" class="more">
 
-  <!-- THE STORY -->
+  <!-- ===== CATEGORY / MANIFESTO ===== -->
+  <section id="category" class="sec manifesto">
+    <div class="wrap">
+      <p class="sec-kicker">A category of one</p>
+      <h2 class="cat-name">This isn't trading psychology.<br/>It's <span class="gold">the inner work of the trader.</span></h2>
+      <p class="cat-sub">For fifty years, trading psychology has studied the <em>symptoms</em> — fear, greed, "discipline." For fourteen centuries, the Islamic science of the <em>nafs</em> has studied the <em>cause</em>: the self that knows the good and does the harm. This is the first book to put the older, deeper map to work on the modern screen.</p>
+
+      <div class="creed">
+        <p>You are not a trader trying to beat the market.</p>
+        <p class="lift">You are a soul trying to master itself — handed an unusually honest arena to do the work.</p>
+        <p>Don't aim to become profitable. Become the kind of person profit is safe to give.</p>
+      </div>
+
+      <div class="cat-grid">
+        <div class="cat-card">
+          <p class="vs">Not trading psychology</p>
+          <h4>It treats the cause</h4>
+          <p>Cognitive hacks manage the symptom. This transforms the self that creates it.</p>
+        </div>
+        <div class="cat-card">
+          <p class="vs">Not self-help</p>
+          <h4>Rooted, not borrowed</h4>
+          <p>Grounded in authentic Qur'an and hadith — a 1,400-year practice, not motivation that fades by Monday.</p>
+        </div>
+        <div class="cat-card">
+          <p class="vs">Not generic tazkiyah</p>
+          <h4>With a P&amp;L attached</h4>
+          <p>Purification of the self, built for the one arena that refuses to let you lie: the live trade.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== THE ASSESSMENT (engine) ===== -->
+  <section id="assessment" class="sec assess">
+    <div class="wrap">
+      <div class="assess-head">
+        <p class="sec-kicker">The Nafs Assessment</p>
+        <h2 class="sec-h">Which of the five diseases is <em>sabotaging your trading?</em></h2>
+        <p class="lede" style="margin:0 auto;text-align:center">Every trader who breaks his own rules is driven by one of five. In 60 seconds, find yours — and the cure the book prescribes for it.</p>
+      </div>
+
+      <div class="assess-card">
+        <div class="assess-bar"><i id="abar"></i></div>
+        <div class="assess-body">
+
+          <!-- INTRO -->
+          <div class="assess-panel active" id="ap-intro">
+            <div class="ap-intro">
+              <p class="lead-q">Nine honest questions.<br/>One <em>uncomfortable</em> answer.</p>
+              <p>Don't answer fast — the fast answer is usually the nafs protecting itself. Answer as you actually trade, not as you'd like to.</p>
+              <button class="btn primary lg" id="start-assess">Begin the assessment
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+              <div class="assess-meta">
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> ~60 seconds</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Instant result</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> No spam, ever</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- QUESTION -->
+          <div class="assess-panel" id="ap-question">
+            <p class="q-count" id="q-count">Question 1 of 9</p>
+            <p class="q-text" id="q-text"></p>
+            <div class="q-opts" id="q-opts"></div>
+            <button class="q-back" id="q-back" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg> Back</button>
+          </div>
+
+          <!-- RESULT + GATE -->
+          <div class="assess-panel" id="ap-result">
+            <div class="ap-result">
+              <p class="res-eyebrow">Your dominant disease</p>
+              <h3 class="res-name gold" id="res-name"></h3>
+              <p class="res-ar" id="res-ar"></p>
+              <p class="res-desc" id="res-desc"></p>
+              <div class="res-cure">
+                <span class="lbl">The cure</span>
+                <span class="val" id="res-cure"></span>
+              </div>
+
+              <div class="gate">
+                <h4>This is one of five. See the whole picture.</h4>
+                <p>Get your complete profile and the protocol to govern it — free, by email:</p>
+                <ul>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Your five diseases <b>ranked</b> — not just the top one</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> The <b>cure protocol</b> for your dominant pattern</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> <b>The Cards</b> — the whole system on one page, to print</li>
+                  <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> <b>Founding-reader</b> early access + launch bonus</li>
+                </ul>
+                <form class="gate-form" id="gate-form">
+                  <input type="email" required placeholder="Enter your email" aria-label="Email address" autocomplete="email"/>
+                  <button class="btn primary lg" type="submit">Reveal my full profile</button>
+                </form>
+                <p class="gate-note">Join the founding readers of the Niyyah community. Unsubscribe anytime.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- DONE / FULL BREAKDOWN -->
+          <div class="assess-panel" id="ap-done">
+            <div class="ap-done">
+              <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg></div>
+              <h3>You're in — and your Cards are downloading.</h3>
+              <p>Welcome, founding reader. Here is your profile — your five, ranked. Watch your inbox for the cure protocol for <b id="done-top"></b>.</p>
+              <div class="rank" id="rank"></div>
+              <a class="btn ghost" href="downloads/the-trader-and-the-nafs-the-cards.pdf" target="_blank" rel="noopener" id="dl-cards">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 20h14"/></svg> Download The Cards again</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== THE STORY ===== -->
   <section class="sec">
     <div class="wrap">
       <p class="sec-kicker">The story behind the book</p>
@@ -517,7 +696,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
           <span class="story-av-mono" lang="ar" aria-hidden="true">ن</span>
         </div>
         <div class="story-body">
-          <p>I had a rule, in my own handwriting, taped to the bottom of my monitor: <em>two losses and I'm done.</em> One Tuesday I took the second loss — and then I watched myself read that rule, look straight at my own ink, and break it anyway.</p>
+          <p>I had a rule, in my own handwriting, taped to the bottom of my monitor: <em>two losses and I'm done.</em> One Tuesday I took the second loss — then I watched myself read that rule, look straight at my own ink, and break it anyway.</p>
           <p>I moved my stop. Then I moved it again. By the time it was over I'd lost more than in the previous three weeks combined. The thought that arrived wasn't <em>what a bad trade.</em> It was: <em>who was that?</em></p>
           <div class="story-more" hidden>
             <p>That was the real horror — not the money, but discovering there was someone living inside me I didn't know. Who didn't respect my rules. Who showed up only under heat, and who, in the moment that mattered most, was stronger than me.</p>
@@ -531,7 +710,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
     </div>
   </section>
 
-  <!-- WHAT'S INSIDE -->
+  <!-- ===== WHAT'S INSIDE ===== -->
   <section class="sec alt">
     <div class="wrap">
       <p class="sec-kicker">What's inside</p>
@@ -556,7 +735,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
     </div>
   </section>
 
-  <!-- HOW IT HELPS -->
+  <!-- ===== HOW IT HELPS ===== -->
   <section class="sec">
     <div class="wrap">
       <p class="sec-kicker">How it helps</p>
@@ -584,21 +763,44 @@ footer .ar{color:var(--gold);font-size:1.1rem}
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
+  <!-- ===== PROOF ===== -->
   <section class="sec alt">
     <div class="wrap">
-      <p class="sec-kicker">From the community</p>
-      <h2 class="sec-h">What early readers are saying</h2>
-      <!-- TODO: replace the three quotes below with real testimonials from YouTube / the Niyyah Discord. -->
+      <p class="sec-kicker">Why you can trust this</p>
+      <h2 class="sec-h">A finished book. A real community. <em>An honest author.</em></h2>
+      <div class="proof-stats">
+        <div class="pstat"><b>700+</b><span>Niyyah community members</span></div>
+        <div class="pstat"><b>38</b><span>chapters · 6 parts · ~70k words</span></div>
+        <div class="pstat"><b>1,400</b><span>years of the science of the nafs</span></div>
+        <div class="pstat"><b>0/0</b><span>errors in the finished edition</span></div>
+      </div>
+      <!-- TODO: replace the three quotes below with real, permission-cleared quotes from ARC readers / YouTube / the Niyyah Discord before launch. Do not invent names. -->
       <div class="quotes">
-        <div class="quote"><div class="stars">★★★★★</div><p>"This put words to the exact thing I could never explain — I don't have a strategy problem, I have a me problem. First thing that's ever actually changed how I sit down to trade."</p><div class="who"><span class="av">A</span><span><b>Anonymous</b><span>YouTube comment</span></span></div></div>
-        <div class="quote"><div class="stars">★★★★★</div><p>"The NAFS loop alone was worth it. I caught myself mid-revenge-trade, named it, and closed the laptop. That's never happened before."</p><div class="who"><span class="av">M</span><span><b>Discord member</b><span>Niyyah community</span></span></div></div>
-        <div class="quote"><div class="stars">★★★★★</div><p>"I'm not even especially religious and it still hit harder than any trading psychology book I've read. It treats you like an adult with a soul, not a bundle of bad habits."</p><div class="who"><span class="av">S</span><span><b>Anonymous</b><span>Early reader</span></span></div></div>
+        <div class="quote"><div class="stars">★★★★★</div><p>"This put words to the exact thing I could never explain — I don't have a strategy problem, I have a me problem. First thing that's ever actually changed how I sit down to trade."</p><div class="who"><span class="av">A</span><span><b>Early reader</b><span>Niyyah community</span></span></div></div>
+        <div class="quote"><div class="stars">★★★★★</div><p>"The NAFS loop alone was worth it. I caught myself mid-revenge-trade, named it, and closed the laptop. That's never happened before."</p><div class="who"><span class="av">M</span><span><b>Early reader</b><span>Niyyah community</span></span></div></div>
+        <div class="quote"><div class="stars">★★★★★</div><p>"I'm not even especially religious and it still hit harder than any trading psychology book I've read. It treats you like an adult with a soul, not a bundle of bad habits."</p><div class="who"><span class="av">S</span><span><b>Early reader</b><span>Niyyah community</span></span></div></div>
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
+  <!-- ===== FOUNDING READER ===== -->
+  <section class="sec founding">
+    <div class="wrap">
+      <p class="sec-kicker">Be early</p>
+      <h2 class="sec-h">Founding readers get more than a head start.</h2>
+      <p class="lede" style="margin-bottom:2.2em">The book launches soon. The people who join now aren't on a list — they're the first circle. What that means, plainly:</p>
+      <div class="fr-box">
+        <div class="fr-perk"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 5v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V5z"/></svg></div><div><h4>First access</h4><p>You buy before the public — and get the launch bonus the moment it goes live.</p></div></div>
+        <div class="fr-perk"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 12v8H4v-8M2 7h20v5H2zM12 22V7M12 7S9 2 6 4s2 3 6 3c4 0 8 1 6-1s-6 1-6 1z"/></svg></div><div><h4>The launch bonus (72h)</h4><p>The printable Cards + the 12-Week Workbook, free with any edition — first 72 hours only.</p></div></div>
+        <div class="fr-perk"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0 .01M23 21v-2a4 4 0 0 0-3-3.87"/></svg></div><div><h4>The first circle</h4><p>Recognition as a founding reader, and the room where the ideas were built first.</p></div></div>
+        <div class="fr-perk"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h10a3 3 0 0 1 3 3v11a2 2 0 0 0-2-2H4zM20 5h-3a3 3 0 0 0-3 3v11a2 2 0 0 1 2-2h4z"/></svg></div><div><h4>Read free now</h4><p>Chapter 1 and The Cards while you wait — plus the ideas, one a week, before launch.</p></div></div>
+      </div>
+      <a class="btn primary lg" href="#assessment" data-go="assessment">Claim founding-reader access
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
   <section class="sec">
     <div class="wrap">
       <p class="sec-kicker">Questions</p>
@@ -607,24 +809,24 @@ footer .ar{color:var(--gold);font-size:1.1rem}
         <div class="acc-item"><button class="acc-h">Is this a trading-strategy book? <i class="pl">+</i></button><div class="acc-b q-b"><div class="inner">No — and deliberately so. There's not a single chart, setup, or indicator inside. It assumes you already know enough to trade; it's about why you don't do what you know, and how to close that gap.</div></div></div>
         <div class="acc-item"><button class="acc-h">I'm not especially religious — is it still for me? <i class="pl">+</i></button><div class="acc-b q-b"><div class="inner">Yes. The framework is grounded in authentic Qur'an and hadith, but the thing it studies — the lower self, and the gap between knowing and doing — is universal. Many readers come for the psychology and stay for the depth the tradition adds.</div></div></div>
         <div class="acc-item"><button class="acc-h">Will it actually help me make money? <i class="pl">+</i></button><div class="acc-b q-b"><div class="inner">Indirectly, and that's the point. Profitability is treated as a byproduct of a governed self. Fix the person making the decisions and the decisions improve — but you're invited to stop chasing the number and start building the self it follows.</div></div></div>
-        <div class="acc-item"><button class="acc-h">Do I have to trade to benefit? <i class="pl">+</i></button><div class="acc-b q-b"><div class="inner">No. The market is simply the most honest arena for the work. The same self-mastery applies anywhere you keep doing what you swore you wouldn't.</div></div></div>
-        <div class="acc-item"><button class="acc-h">When does it come out? <i class="pl">+</i></button><div class="acc-b q-b"><div class="inner">Soon. The waitlist gets first access the moment it goes live — and The Cards (the whole system on one page) are free to download today.</div></div></div>
+        <div class="acc-item"><button class="acc-h">What is the Nafs Assessment, exactly? <i class="pl">+</i></button><div class="acc-b q-b"><div class="inner">Nine quick questions that map your trading behavior to the book's five diseases — impatience, greed, fear, pride, despair. You get your dominant pattern instantly; your full ranked profile, the cure protocol, and The Cards arrive by email. It's a one-minute taste of the book's actual method.</div></div></div>
+        <div class="acc-item"><button class="acc-h">When does it come out? <i class="pl">+</i></button><div class="acc-b q-b"><div class="inner">Soon. Founding readers get first access the moment it goes live — plus the 72-hour launch bonus. Chapter 1 and The Cards are free to read today.</div></div></div>
       </div>
     </div>
   </section>
 
-  <!-- CLOSING CTA -->
+  <!-- ===== CLOSING CTA ===== -->
   <section class="sec cta-sec">
     <div class="wrap">
-      <h2>Coming <em>soon.</em></h2>
-      <p>That person already exists inside you. This book is about removing everything sitting on top of him.</p>
-      <a class="btn primary lg" href="#join" data-join>Join the Waitlist</a>
+      <h2>The market revealed your weakness.<br/>Let it now witness your <em>mastery.</em></h2>
+      <p class="creed-line">That person — patient, disciplined, settled — already exists inside you. This book is about removing everything sitting on top of him.</p>
+      <a class="btn primary lg" href="#assessment" data-go="assessment">Take the Nafs Assessment
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
     </div>
   </section>
 
 </div>
 
-<!-- footer -->
 <footer>
   <div class="wrap">
     <span>© <span id="yr"></span> Abrihym Aobad · Niyyah Press</span>
@@ -635,15 +837,35 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 <script>
   document.getElementById('yr').textContent=new Date().getFullYear();
 
-  // drifting gold motes (skip if the user prefers reduced motion)
+  /* ============================================================
+     CONFIG — set this to go live.
+     Point FORM_ENDPOINT at your ESP / Formspree POST URL.
+     The form sends { email, dominant, scores } so you can
+     segment subscribers by their assessment result.
+     Leave empty ("") to run in demo mode (no network call).
+     ============================================================ */
+  const FORM_ENDPOINT = ""; // e.g. "https://formspree.io/f/xxxx" or your Kit/MailerLite action
+
+  async function submitEmail(email, meta){
+    if(!FORM_ENDPOINT) return true; // demo mode
+    try{
+      const res = await fetch(FORM_ENDPOINT,{
+        method:"POST",
+        headers:{"Content-Type":"application/json","Accept":"application/json"},
+        body:JSON.stringify(Object.assign({email},meta))
+      });
+      return res.ok;
+    }catch(e){ return false; }
+  }
+
+  /* drifting gold motes */
   const pf=document.getElementById('particles');
   if(pf && !matchMedia('(prefers-reduced-motion: reduce)').matches){
     const rand=(a,b)=>a+Math.random()*(b-a);
     for(let k=0;k<26;k++){
       const i=document.createElement('i');
       const s=rand(1.5,3.5);
-      i.style.left=rand(0,100)+'%';
-      i.style.top=rand(0,100)+'%';
+      i.style.left=rand(0,100)+'%'; i.style.top=rand(0,100)+'%';
       i.style.width=i.style.height=s.toFixed(1)+'px';
       i.style.setProperty('--dx',rand(-40,40).toFixed(0)+'px');
       i.style.setProperty('--dy',rand(-60,-20).toFixed(0)+'px');
@@ -653,13 +875,12 @@ footer .ar{color:var(--gold);font-size:1.1rem}
     }
   }
 
-  // Join buttons (top bar + closing CTA) scroll to and focus the email field
-  document.querySelectorAll('[data-join]').forEach(btn=>btn.addEventListener('click',()=>{
-    const input=document.querySelector('#join input');
-    if(input)setTimeout(()=>input.focus({preventScroll:true}),450);
+  /* CTAs that route to the assessment + focus the start button */
+  document.querySelectorAll('[data-go="assessment"]').forEach(btn=>btn.addEventListener('click',()=>{
+    setTimeout(()=>{ const s=document.getElementById('start-assess'); if(s && document.getElementById('ap-intro').classList.contains('active')) s.focus({preventScroll:true}); },500);
   }));
 
-  // accordions (TOC + FAQ) — single-open within each group
+  /* accordions (TOC + FAQ) */
   document.querySelectorAll('[data-acc]').forEach(group=>{
     const items=[...group.querySelectorAll('.acc-item')];
     items.forEach(item=>{
@@ -672,7 +893,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
     });
   });
 
-  // "read the full story" expander
+  /* "read the full story" expander */
   const moreBtn=document.querySelector('[data-more]');
   if(moreBtn)moreBtn.addEventListener('click',()=>{
     const box=document.querySelector('.story-more');
@@ -682,14 +903,135 @@ footer .ar{color:var(--gold);font-size:1.1rem}
     moreBtn.childNodes[0].nodeValue=open?'Read the full story ':'Show less ';
   });
 
-  // waitlist (demo handler — replace with your Kit / MailerLite embed action)
-  window.joinWaitlist=function(e){
+  /* ============================================================
+     THE NAFS ASSESSMENT
+     ============================================================ */
+  const DISEASES={
+    impatience:{name:"Impatience",ar:"العَجَلة",cure:"Sabr — the strength to hold",
+      desc:"You can't sit in the gap between wanting and having. You enter before the setup is there and force trades out of boredom. The market pays the patient from the impatient — and waiting, for you, is the trade."},
+    greed:{name:"Greed",ar:"الطَّمَع",cure:"Contentment — richness is of the soul",
+      desc:"The hunger is bottomless, and it ambushes you on your best days — you move targets, hold too long, and hand back what you'd earned. Keep the money in your hand, never in your heart."},
+    fear:{name:"Fear",ar:"الخَوف",cure:"Courage — pre-accept the loss, size down",
+      desc:"It wears two faces: the paralysis that won't pull the trigger, and the panic that bails too early. It promises safety and delivers a slow bleed. Pre-accept the loss before you begin, and size down until you can think."},
+    pride:{name:"Pride",ar:"الكِبْر",cure:"Humility — the price is the truth",
+      desc:"You can't be wrong, so you defend the ego with the account balance — adding, holding, refusing to bow to the chart. The price is the truth. The faster you bow to it, the smaller the lesson costs."},
+    despair:{name:"Despair",ar:"القُنُوط",cure:"Hope — giving up is the only guaranteed loss",
+      desc:"A normal drawdown convinces you the whole thing is broken, and you abandon a sound process at exactly the wrong moment. Falling is not failing. Giving up is the only guaranteed loss."}
+  };
+  const QUESTIONS=[
+    {t:"I enter trades before my setup is fully confirmed — the waiting is the hardest part.",d:"impatience"},
+    {t:"A flat, quiet market makes me restless enough to force a trade I didn't plan.",d:"impatience"},
+    {t:"When a trade goes my way, I move my target and hold for more.",d:"greed"},
+    {t:"My most reckless trades come right after my best days.",d:"greed"},
+    {t:"I hesitate on valid setups, then watch them run without me.",d:"fear"},
+    {t:"I cut winners early because I'm afraid of giving the profit back.",d:"fear"},
+    {t:"When the market goes against me, I add or hold — I'm sure I'm right.",d:"pride"},
+    {t:"Admitting a trade was wrong and closing it feels almost personal.",d:"pride"},
+    {t:"After a drawdown I abandon a strategy that was actually working.",d:"despair"}
+  ];
+  const SCALE=[
+    {label:"Never me",v:0},
+    {label:"Sometimes",v:1},
+    {label:"Often",v:2},
+    {label:"That's me",v:3}
+  ];
+
+  const A={
+    bar:document.getElementById('abar'),
+    panels:{intro:document.getElementById('ap-intro'),question:document.getElementById('ap-question'),result:document.getElementById('ap-result'),done:document.getElementById('ap-done')},
+    qCount:document.getElementById('q-count'),qText:document.getElementById('q-text'),qOpts:document.getElementById('q-opts'),qBack:document.getElementById('q-back'),
+    idx:0,answers:[]
+  };
+  function show(p){Object.values(A.panels).forEach(x=>x.classList.remove('active'));A.panels[p].classList.add('active');}
+  function progress(frac){A.bar.style.width=(frac*100).toFixed(1)+'%';}
+
+  function renderQuestion(){
+    const q=QUESTIONS[A.idx];
+    A.qCount.textContent=`Question ${A.idx+1} of ${QUESTIONS.length}`;
+    A.qText.textContent=q.t;
+    A.qOpts.innerHTML='';
+    SCALE.forEach(s=>{
+      const b=document.createElement('button');
+      b.type='button';b.className='q-opt';
+      if(A.answers[A.idx]===s.v)b.classList.add('sel');
+      b.innerHTML=`<span class="dot"></span><span>${s.label}</span>`;
+      b.addEventListener('click',()=>{A.answers[A.idx]=s.v;next();});
+      A.qOpts.appendChild(b);
+    });
+    A.qBack.style.visibility=A.idx===0?'hidden':'visible';
+    progress((A.idx)/QUESTIONS.length);
+  }
+  function next(){
+    if(A.idx<QUESTIONS.length-1){A.idx++;renderQuestion();}
+    else{progress(1);finish();}
+  }
+  function score(){
+    const s={impatience:0,greed:0,fear:0,pride:0,despair:0};
+    QUESTIONS.forEach((q,i)=>{s[q.d]+=(A.answers[i]||0);});
+    return s;
+  }
+  let LAST={};
+  function finish(){
+    const s=score();LAST.scores=s;
+    // dominant = max; ties broken by question order in DISEASES
+    let top=Object.keys(DISEASES).reduce((a,b)=>s[b]>s[a]?b:a,Object.keys(DISEASES)[0]);
+    // if everything is zero, default to the most common starting point
+    if(Object.values(s).every(v=>v===0))top='fear';
+    LAST.dominant=top;
+    const d=DISEASES[top];
+    document.getElementById('res-name').textContent=d.name;
+    document.getElementById('res-ar').textContent=d.ar;
+    document.getElementById('res-desc').textContent=d.desc;
+    document.getElementById('res-cure').textContent=d.cure;
+    show('result');
+    A.panels.result.scrollIntoView({behavior:'smooth',block:'center'});
+    setTimeout(()=>{const i=document.querySelector('#gate-form input');if(i)i.focus({preventScroll:true});},650);
+  }
+
+  document.getElementById('start-assess').addEventListener('click',()=>{A.idx=0;A.answers=[];show('question');renderQuestion();});
+  A.qBack.addEventListener('click',()=>{if(A.idx>0){A.idx--;renderQuestion();}});
+
+  /* gate submit → capture email, reveal full ranked breakdown, deliver Cards */
+  document.getElementById('gate-form').addEventListener('submit',async function(e){
+    e.preventDefault();
+    const email=this.querySelector('input').value.trim();
+    const btn=this.querySelector('button');
+    btn.disabled=true;btn.textContent='Revealing…';
+    const max=Math.max(...QUESTIONS.filter(q=>q.d).map(()=>1)); // (per-disease max handled below)
+    await submitEmail(email,{dominant:LAST.dominant,scores:LAST.scores,source:'nafs-assessment'});
+
+    // build ranked breakdown
+    const order=['impatience','greed','fear','pride','despair'];
+    const counts={};order.forEach(k=>counts[k]=QUESTIONS.filter(q=>q.d===k).length*3);
+    const ranked=order.map(k=>({k,score:LAST.scores[k],pct:Math.round((LAST.scores[k]/counts[k])*100)}))
+      .sort((a,b)=>b.score-a.score);
+    const rankEl=document.getElementById('rank');rankEl.innerHTML='';
+    ranked.forEach((r,i)=>{
+      const row=document.createElement('div');row.className='rank-row';
+      row.innerHTML=`<span class="n">${i+1}</span>
+        <div><div class="nm">${DISEASES[r.k].name}</div><div class="meter"><i style="width:${r.pct}%"></i></div></div>
+        <span class="pc">${r.pct}%</span>`;
+      rankEl.appendChild(row);
+    });
+    document.getElementById('done-top').textContent=DISEASES[LAST.dominant].name;
+    show('done');
+    A.panels.done.scrollIntoView({behavior:'smooth',block:'center'});
+    // deliver the reciprocity: the Cards
+    window.open('downloads/the-trader-and-the-nafs-the-cards.pdf','_blank','noopener');
+  });
+
+  /* ============================================================
+     Generic inline waitlist forms (founding-reader / closing)
+     — kept as a fallback capture path.
+     ============================================================ */
+  window.joinWaitlist=async function(e){
     e.preventDefault();
     const form=e.target;
-    const ok=form.parentElement.querySelector('.form-ok');
+    const email=form.querySelector('input').value.trim();
+    const ok=form.parentElement.querySelector('.join-ok');
+    await submitEmail(email,{source:'waitlist-form'});
     form.style.display='none';
     if(ok)ok.classList.add('show');
-    window.open('downloads/the-trader-and-the-nafs-the-cards.pdf','_blank','noopener');
     return false;
   };
 </script>
