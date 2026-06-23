@@ -524,6 +524,26 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 /* compressed TOC tail */
 .toc-more{margin:1.3em 0 0;font-size:.95rem;color:var(--muted);max-width:64ch}
 .toc-more b{color:var(--gold-hi);font-weight:600}
+
+/* ===== MY STORY — proof: stats + real payout receipts ===== */
+.proof-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:2.6em 0 2.4em}
+.proof-stat{border:1px solid var(--line);border-radius:16px;padding:22px 18px;background:linear-gradient(180deg,rgba(13,90,65,.16),transparent)}
+.proof-stat b{display:block;font-family:var(--serif);font-weight:500;font-size:2.1rem;line-height:1;color:var(--gold-hi);margin-bottom:.35em}
+.proof-stat span{font-size:.8rem;letter-spacing:.02em;color:var(--muted)}
+@media(max-width:760px){.proof-stats{grid-template-columns:1fr}}
+.proof-label{font-size:.9rem;color:var(--muted);margin:0 0 1.1em;display:inline-flex;align-items:center;gap:.6em}
+.proof-label svg{width:16px;height:16px;color:var(--gold);flex:none}
+.proof-shots{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:0 0 1.3em}
+.shot{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:linear-gradient(180deg,rgba(13,90,65,.12),rgba(255,255,255,.012));
+  transition:transform .4s var(--ease),border-color .4s,box-shadow .4s}
+.shot:hover{transform:translateY(-4px);border-color:rgba(205,168,99,.4);box-shadow:0 22px 50px -28px rgba(0,0,0,.7)}
+.shot img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 44%}
+.shot figcaption{padding:11px 14px;font-family:var(--serif);font-size:.92rem;color:var(--gold-hi);border-top:1px solid var(--line)}
+.shot .ph{display:none;flex-direction:column;align-items:center;justify-content:center;gap:9px;aspect-ratio:4/5;color:var(--muted-2);text-align:center;padding:16px;font-size:.74rem;letter-spacing:.04em}
+.shot.noimg .ph{display:flex}
+.shot .ph svg{width:28px;height:28px;color:var(--gold)}
+@media(max-width:680px){.proof-shots{grid-template-columns:1fr 1fr}}
+.proof-disclaimer{font-size:.72rem;color:var(--muted-2);max-width:62ch;margin:0 0 2em;line-height:1.6}
 </style>
 <script type="application/ld+json">
 {
@@ -705,6 +725,75 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 
 <div id="more" class="more">
 
+  <!-- MY STORY — who I am, the turnaround, and the proof -->
+  <section class="sec" id="story">
+    <div class="wrap">
+      <p class="sec-kicker">My story</p>
+      <h2 class="sec-h">I blew account after account — until I fixed the <em>one person</em> who kept losing.</h2>
+      <div class="story">
+        <div class="story-av">
+          <img src="assets/author.jpg" alt="Abrihym Aobad" onerror="this.remove()" />
+          <span class="story-av-mono" lang="ar" aria-hidden="true">ن</span>
+        </div>
+        <div class="story-body">
+          <p>I'm Abrihym Aobad. For years I had a rule taped to the bottom of my monitor, in my own handwriting: <em>two losses and I'm done.</em> One Tuesday I took the second loss — and watched myself read that rule, look straight at my own ink, and break it anyway. By the time it was over I'd given back more than the previous three weeks combined.</p>
+          <p>The thought that arrived wasn't <em>what a bad trade.</em> It was: <em>who was that?</em> I didn't have a strategy problem. I'd <em>overridden</em> a strategy that was fine — in the six inches between my brain and my hand, a place no charting software has ever reached.</p>
+          <div class="story-more" hidden>
+            <p>When I went looking for who had mapped that gap most precisely, I didn't find it in modern psychology. I found it in my own tradition — the 1,400-year-old Islamic science of the <em>nafs</em>, the self. So I stopped trying to become a better trader and started trying to master the one person who kept losing. The five diseases. The loop. The daily reckoning. Everything that became this book.</p>
+            <p>Then the accounts stopped blowing. I passed evaluations and started pulling <em>real payouts</em> from funded accounts — not because I found a better setup, but because the self pulling the trigger had finally been governed. Same markets, same hands, a different man behind them.</p>
+            <p>And I wasn't the only one it was working for. I began sharing this with other Muslim traders, and in a single month it grew into the largest Muslim trading community I know of — <em>750+ members</em> doing this work side by side. This book is everything I taught them, written down.</p>
+          </div>
+          <button class="reveal-btn" data-more aria-expanded="false">Read the full story <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
+        </div>
+      </div>
+
+      <div class="proof-stats">
+        <div class="proof-stat"><b>$11,900+</b><span>in recent payouts from funded accounts</span></div>
+        <div class="proof-stat"><b>750+</b><span>members — the biggest Muslim trading community I know of, built in 30 days</span></div>
+        <div class="proof-stat"><b>Funded</b><span>evaluations passed, after years of blowing accounts</span></div>
+      </div>
+
+      <p class="proof-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 13l4 4L19 7"/></svg> Real payouts from my own funded account — not a demo:</p>
+      <div class="proof-shots">
+        <figure class="shot">
+          <img src="assets/payout-1.png" alt="Topstep ACH payout of $3,049 to Abrihym Aobad" loading="lazy" onerror="this.closest('.shot').classList.add('noimg');this.remove()" />
+          <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2h9l5 5v15H6z"/><path d="M9 12h6M9 16h6"/></svg><span>Topstep payout</span></div>
+          <figcaption>$3,049 · Topstep payout</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="assets/payout-2.png" alt="Topstep ACH payout of $4,372 to Abrihym Aobad" loading="lazy" onerror="this.closest('.shot').classList.add('noimg');this.remove()" />
+          <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2h9l5 5v15H6z"/><path d="M9 12h6M9 16h6"/></svg><span>Topstep payout</span></div>
+          <figcaption>$4,372 · Topstep payout</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="assets/payout-3.png" alt="Topstep ACH payout of $4,480 to Abrihym Aobad" loading="lazy" onerror="this.closest('.shot').classList.add('noimg');this.remove()" />
+          <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2h9l5 5v15H6z"/><path d="M9 12h6M9 16h6"/></svg><span>Topstep payout</span></div>
+          <figcaption>$4,480 · Topstep payout</figcaption>
+        </figure>
+      </div>
+      <p class="proof-disclaimer">These are real payouts from my own funded trading account. Trading carries risk, and my results are not a promise of yours — this book is about the discipline behind the numbers, not a guarantee of profit.</p>
+
+      <p class="story-sig">— Abrihym Aobad · Founder of Niyyah, home to 750+ Muslim traders doing this work</p>
+    </div>
+  </section>
+
+  <!-- WHAT'S INSIDE (category compressed to a few lines, then the system) -->
+  <section class="sec alt">
+    <div class="wrap">
+      <p class="sec-kicker">What's inside</p>
+      <h2 class="sec-h">A book you <em>read</em> — and a system you <em>run.</em></h2>
+      <p class="lede">A thousand books teach you <em>how to trade.</em> This is the first built for <em>who is doing the trading</em> — trading psychology drawn not from a list of biases to debug, but from the 1,400-year-old Islamic science of the self. Not motivational uplift, not faulty software to patch. Right now there is nothing else in the category.</p>
+      <div class="cards-3">
+        <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h10a3 3 0 0 1 3 3v11a2 2 0 0 0-2-2H4zM20 5h-3a3 3 0 0 0-3 3v11a2 2 0 0 1 2-2h4z"/></svg></div><h4>38 chapters, 6 parts</h4><p>From the invisible war, through the five diseases and their cures, to the path of mastery.</p></div>
+        <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div><h4>The NAFS Loop &amp; Three Selves</h4><p>A portable model you can run in the heat of any trade, the instant the impulse rises.</p></div>
+        <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="9"/></svg></div><h4>A daily operating system</h4><p>Pre-market rituals, in-session discipline, the daily reckoning, weekly self-audits.</p></div>
+        <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12h4l2 6 4-14 2 8h6"/></svg></div><h4>The Twelve-Week Path</h4><p>Structured practice that turns the ideas into a self — not a feeling that fades by Monday.</p></div>
+        <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="14" height="16" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v13"/></svg></div><h4>The Cards</h4><p>The whole book compressed to what you can glance at when there's no time to remember a chapter.</p></div>
+        <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg></div><h4>Rooted, not borrowed</h4><p>Grounded in authentic Qur'an and hadith — and a story, insight and exercise in every chapter.</p></div>
+      </div>
+    </div>
+  </section>
+
   <!-- THE FIVE DISEASES — surfaced early: the strongest curiosity hook -->
   <section class="sec" id="diseases">
     <div class="wrap">
@@ -759,48 +848,6 @@ footer .ar{color:var(--gold);font-size:1.1rem}
         <div class="icard"><h4>The commanding self</h4><p>Drives the override — calm, reasonable, and certain that <em>today is different.</em></p></div>
         <div class="icard"><h4>The reproaching self</h4><p>Catches it only after the damage is done. The voice that asks, too late, <em>who was that?</em></p></div>
         <div class="icard"><h4>The tranquil self</h4><p>The one you're building — that follows the rule from settled nature, not white-knuckle strain.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- THE STORY (founder story — now after the model, where readers care who's talking) -->
-  <section class="sec">
-    <div class="wrap">
-      <p class="sec-kicker">The story behind the book</p>
-      <h2 class="sec-h">It started with the worst <em>forty minutes</em> of my trading life.</h2>
-      <div class="story">
-        <div class="story-av">
-          <img src="assets/author.jpg" alt="Abrihym Aobad" onerror="this.remove()" />
-          <span class="story-av-mono" lang="ar" aria-hidden="true">ن</span>
-        </div>
-        <div class="story-body">
-          <p>I had a rule, in my own handwriting, taped to the bottom of my monitor: <em>two losses and I'm done.</em> One Tuesday I took the second loss — and then I watched myself read that rule, look straight at my own ink, and break it anyway.</p>
-          <p>I moved my stop. Then I moved it again. By the time it was over I'd lost more than in the previous three weeks combined. The thought that arrived wasn't <em>what a bad trade.</em> It was: <em>who was that?</em></p>
-          <div class="story-more" hidden>
-            <p>That was the real horror — not the money, but discovering there was someone living inside me I didn't know. Who didn't respect my rules. Who showed up only under heat, and who, in the moment that mattered most, was stronger than me.</p>
-            <p>I could have done what most traders do: decided the problem was technical, bought another course, blamed my edge. But I hadn't had a strategy problem. I'd <em>overridden</em> a strategy that was fine. The failure happened in the six inches between my brain and my hand — a place no charting software has ever reached.</p>
-            <p>When I went looking for who had mapped that gap most precisely, I didn't find it in modern psychology. I found it in my own tradition — the 1,400-year-old Islamic science of the <em>nafs</em>, the self. This book is what happened when I stopped trying to become a better trader and started trying to master the one person who kept losing.</p>
-          </div>
-          <button class="reveal-btn" data-more aria-expanded="false">Read the full story <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
-          <p class="story-sig">— Abrihym Aobad · Founder of Niyyah, home to 700+ traders doing this work</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WHAT'S INSIDE (category compressed to a few lines, then the system + TOC) -->
-  <section class="sec alt">
-    <div class="wrap">
-      <p class="sec-kicker">What's inside</p>
-      <h2 class="sec-h">A book you <em>read</em> — and a system you <em>run.</em></h2>
-      <p class="lede">A thousand books teach you <em>how to trade.</em> This is the first built for <em>who is doing the trading</em> — trading psychology drawn not from a list of biases to debug, but from the 1,400-year-old Islamic science of the self. Not motivational uplift, not faulty software to patch. Right now there is nothing else in the category.</p>
-      <div class="cards-3">
-        <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h10a3 3 0 0 1 3 3v11a2 2 0 0 0-2-2H4zM20 5h-3a3 3 0 0 0-3 3v11a2 2 0 0 1 2-2h4z"/></svg></div><h4>38 chapters, 6 parts</h4><p>From the invisible war, through the five diseases and their cures, to the path of mastery.</p></div>
-        <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div><h4>The NAFS Loop &amp; Three Selves</h4><p>A portable model you can run in the heat of any trade, the instant the impulse rises.</p></div>
-        <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="9"/></svg></div><h4>A daily operating system</h4><p>Pre-market rituals, in-session discipline, the daily reckoning, weekly self-audits.</p></div>
-        <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12h4l2 6 4-14 2 8h6"/></svg></div><h4>The Twelve-Week Path</h4><p>Structured practice that turns the ideas into a self — not a feeling that fades by Monday.</p></div>
-        <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="14" height="16" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v13"/></svg></div><h4>The Cards</h4><p>The whole book compressed to what you can glance at when there's no time to remember a chapter.</p></div>
-        <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg></div><h4>Rooted, not borrowed</h4><p>Grounded in authentic Qur'an and hadith — and a story, insight and exercise in every chapter.</p></div>
       </div>
     </div>
   </section>
@@ -1234,8 +1281,8 @@ footer .ar{color:var(--gold);font-size:1.1rem}
   (function(){
     if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const auto='#more .sec-kicker,#more .sec-h,#more .lede,#more .dis-grid,#more .loopviz,'
-      +'#more .diag-invite,#more .story,#more .cards-3,#more .mini-h,#more .acc,#more .toc-more,#more .versus,'
-      +'#more .cred,#more .pullquote,#more .quotes,#more .founder-card,#more .peek-note';
+      +'#more .story,#more .proof-stats,#more .proof-shots,#more .cards-3,#more .mini-h,#more .acc,#more .toc-more,'
+      +'#more .quotes,#more .peek-note';
     document.querySelectorAll(auto).forEach(el=>el.classList.add('reveal'));
     const els=document.querySelectorAll('.reveal');
     if(!('IntersectionObserver' in window)){ els.forEach(el=>el.classList.add('in')); return; }
