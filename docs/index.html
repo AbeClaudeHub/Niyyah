@@ -525,25 +525,37 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 .toc-more{margin:1.3em 0 0;font-size:.95rem;color:var(--muted);max-width:64ch}
 .toc-more b{color:var(--gold-hi);font-weight:600}
 
-/* ===== MY STORY — proof: stats + real payout receipts ===== */
-.proof-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:2.6em 0 2.4em}
+/* ===== MY STORY — narrative beats, stats, and photo proof ===== */
+.story-h{font-family:var(--serif);font-weight:500;font-size:clamp(1.4rem,2.6vw,1.85rem);line-height:1.2;color:var(--cream);max-width:24ch;margin:2.8em 0 .55em}
+.story-h em{font-style:italic;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.story-p{font-size:1.08rem;color:var(--muted);max-width:62ch;margin:0 0 1.1em}
+.story-p em{font-style:italic;color:var(--cream)}
+.proof-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:1.8em 0 1.6em}
 .proof-stat{border:1px solid var(--line);border-radius:16px;padding:22px 18px;background:linear-gradient(180deg,rgba(13,90,65,.16),transparent)}
 .proof-stat b{display:block;font-family:var(--serif);font-weight:500;font-size:2.1rem;line-height:1;color:var(--gold-hi);margin-bottom:.35em}
 .proof-stat span{font-size:.8rem;letter-spacing:.02em;color:var(--muted)}
 @media(max-width:760px){.proof-stats{grid-template-columns:1fr}}
-.proof-label{font-size:.9rem;color:var(--muted);margin:0 0 1.1em;display:inline-flex;align-items:center;gap:.6em}
+.proof-label{font-size:.9rem;color:var(--muted);margin:1.6em 0 1.1em;display:inline-flex;align-items:center;gap:.6em}
 .proof-label svg{width:16px;height:16px;color:var(--gold);flex:none}
-.proof-shots{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:0 0 1.3em}
-.shot{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:linear-gradient(180deg,rgba(13,90,65,.12),rgba(255,255,255,.012));
+.proof-disclaimer{font-size:.72rem;color:var(--muted-2);max-width:62ch;margin:.4em 0 0;line-height:1.6}
+
+/* photo / screenshot media blocks (losses, payouts, community, wins, dms) */
+.story-media{display:grid;gap:14px;margin:1.4em 0}
+.story-media.c2{grid-template-columns:repeat(2,1fr);max-width:600px}
+.story-media.c3{grid-template-columns:repeat(3,1fr)}
+.story-media.one{grid-template-columns:1fr;max-width:760px}
+.media{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:linear-gradient(180deg,rgba(13,90,65,.12),rgba(255,255,255,.012));
   transition:transform .4s var(--ease),border-color .4s,box-shadow .4s}
-.shot:hover{transform:translateY(-4px);border-color:rgba(205,168,99,.4);box-shadow:0 22px 50px -28px rgba(0,0,0,.7)}
-.shot img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 44%}
-.shot figcaption{padding:11px 14px;font-family:var(--serif);font-size:.92rem;color:var(--gold-hi);border-top:1px solid var(--line)}
-.shot .ph{display:none;flex-direction:column;align-items:center;justify-content:center;gap:9px;aspect-ratio:4/5;color:var(--muted-2);text-align:center;padding:16px;font-size:.74rem;letter-spacing:.04em}
-.shot.noimg .ph{display:flex}
-.shot .ph svg{width:28px;height:28px;color:var(--gold)}
-@media(max-width:680px){.proof-shots{grid-template-columns:1fr 1fr}}
-.proof-disclaimer{font-size:.72rem;color:var(--muted-2);max-width:62ch;margin:0 0 2em;line-height:1.6}
+.media:hover{transform:translateY(-4px);border-color:rgba(205,168,99,.4);box-shadow:0 22px 50px -28px rgba(0,0,0,.7)}
+.media img{display:block;width:100%;object-fit:cover;background:#0a130e;object-position:50% 44%}
+.media.tall img,.media.tall .ph{aspect-ratio:4/5}
+.media.wide img,.media.wide .ph{aspect-ratio:16/9}
+.media.wide img{object-position:50% 50%}
+.media figcaption{padding:11px 14px;font-family:var(--serif);font-size:.92rem;color:var(--gold-hi);border-top:1px solid var(--line)}
+.media .ph{display:none;flex-direction:column;align-items:center;justify-content:center;gap:9px;color:var(--muted-2);text-align:center;padding:18px;font-size:.76rem;letter-spacing:.04em}
+.media.noimg .ph{display:flex}
+.media .ph svg{width:28px;height:28px;color:var(--gold)}
+@media(max-width:680px){.story-media.c3{grid-template-columns:1fr 1fr}}
 </style>
 <script type="application/ld+json">
 {
@@ -725,55 +737,123 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 
 <div id="more" class="more">
 
-  <!-- MY STORY — who I am, the turnaround, and the proof -->
+  <!-- MY STORY — the fall, the return to deen, and the movement -->
   <section class="sec" id="story">
     <div class="wrap">
       <p class="sec-kicker">My story</p>
-      <h2 class="sec-h">I blew account after account — until I fixed the <em>one person</em> who kept losing.</h2>
+      <h2 class="sec-h">I blew accounts for years and never made a dollar — until I came back to my <em>deen.</em></h2>
+
       <div class="story">
         <div class="story-av">
           <img src="assets/author.jpg" alt="Abrihym Aobad" onerror="this.remove()" />
           <span class="story-av-mono" lang="ar" aria-hidden="true">ن</span>
         </div>
         <div class="story-body">
-          <p>I'm Abrihym Aobad. For years I had a rule taped to the bottom of my monitor, in my own handwriting: <em>two losses and I'm done.</em> One Tuesday I took the second loss — and watched myself read that rule, look straight at my own ink, and break it anyway. By the time it was over I'd given back more than the previous three weeks combined.</p>
-          <p>The thought that arrived wasn't <em>what a bad trade.</em> It was: <em>who was that?</em> I didn't have a strategy problem. I'd <em>overridden</em> a strategy that was fine — in the six inches between my brain and my hand, a place no charting software has ever reached.</p>
-          <div class="story-more" hidden>
-            <p>When I went looking for who had mapped that gap most precisely, I didn't find it in modern psychology. I found it in my own tradition — the 1,400-year-old Islamic science of the <em>nafs</em>, the self. So I stopped trying to become a better trader and started trying to master the one person who kept losing. The five diseases. The loop. The daily reckoning. Everything that became this book.</p>
-            <p>Then the accounts stopped blowing. I passed evaluations and started pulling <em>real payouts</em> from funded accounts — not because I found a better setup, but because the self pulling the trigger had finally been governed. Same markets, same hands, a different man behind them.</p>
-            <p>And I wasn't the only one it was working for. I began sharing this with other Muslim traders, and in a single month it grew into the largest Muslim trading community I know of — <em>750+ members</em> doing this work side by side. This book is everything I taught them, written down.</p>
-          </div>
-          <button class="reveal-btn" data-more aria-expanded="false">Read the full story <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
+          <p>I'm Abrihym Aobad. For years I blew account after account and never made a single dollar. It wasn't for lack of information — I had more strategies, more indicators, more screen time than I can count. I kept losing anyway. Eventually I lost everything, and what was left wasn't just an empty account. It was an empty <em>me.</em></p>
         </div>
       </div>
 
-      <div class="proof-stats">
-        <div class="proof-stat"><b>$11,900+</b><span>in recent payouts from funded accounts</span></div>
-        <div class="proof-stat"><b>750+</b><span>members — the biggest Muslim trading community I know of, built in 30 days</span></div>
-        <div class="proof-stat"><b>Funded</b><span>evaluations passed, after years of blowing accounts</span></div>
+      <!-- PHOTOS TO ADD: blown accounts → assets/loss-1.png, assets/loss-2.png -->
+      <div class="story-media c2">
+        <figure class="media tall">
+          <img src="assets/loss-1.png" alt="A blown trading account" loading="lazy" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+          <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="10" r="1.8"/><path d="m4 18 5-4 3 2 4-4 4 3"/></svg><span>Blown account</span></div>
+          <figcaption>Years of blown accounts</figcaption>
+        </figure>
+        <figure class="media tall">
+          <img src="assets/loss-2.png" alt="Another blown trading account" loading="lazy" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+          <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="10" r="1.8"/><path d="m4 18 5-4 3 2 4-4 4 3"/></svg><span>Blown account</span></div>
+          <figcaption>Nothing to show for all the information</figcaption>
+        </figure>
       </div>
 
-      <p class="proof-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 13l4 4L19 7"/></svg> Real payouts from my own funded account — not a demo:</p>
-      <div class="proof-shots">
-        <figure class="shot">
-          <img src="assets/payout-1.png" alt="Topstep ACH payout of $3,049 to Abrihym Aobad" loading="lazy" onerror="this.closest('.shot').classList.add('noimg');this.remove()" />
+      <h3 class="story-h">Then I stepped away — and reconnected with my <em>deen.</em></h3>
+      <p class="story-p">After losing everything and feeling empty, I took a break from all of it: the charts, the noise, the chase. I went back to my deen — and it was in that connection that I finally understood why I kept losing no matter how much I learned. The problem was never the strategy. It was the self behind it.</p>
+      <p class="story-p">So I started to implement what Islam had been teaching all along — through the Qur'an, through the hadith, through the science of the <em>nafs.</em> Patience. Restraint. Sincerity. Gratitude. I stopped trying to become a better trader and started becoming a <em>governed</em> one. And that's when everything changed.</p>
+
+      <!-- PHOTOS TO ADD: real payouts → assets/payout-1.png, payout-2.png, payout-3.png -->
+      <p class="proof-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 13l4 4L19 7"/></svg> Then the payouts started — real money from funded accounts, not a demo:</p>
+      <div class="story-media c3">
+        <figure class="media tall">
+          <img src="assets/payout-1.png" alt="Topstep ACH payout of $3,049 to Abrihym Aobad" loading="lazy" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
           <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2h9l5 5v15H6z"/><path d="M9 12h6M9 16h6"/></svg><span>Topstep payout</span></div>
           <figcaption>$3,049 · Topstep payout</figcaption>
         </figure>
-        <figure class="shot">
-          <img src="assets/payout-2.png" alt="Topstep ACH payout of $4,372 to Abrihym Aobad" loading="lazy" onerror="this.closest('.shot').classList.add('noimg');this.remove()" />
+        <figure class="media tall">
+          <img src="assets/payout-2.png" alt="Topstep ACH payout of $4,372 to Abrihym Aobad" loading="lazy" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
           <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2h9l5 5v15H6z"/><path d="M9 12h6M9 16h6"/></svg><span>Topstep payout</span></div>
           <figcaption>$4,372 · Topstep payout</figcaption>
         </figure>
-        <figure class="shot">
-          <img src="assets/payout-3.png" alt="Topstep ACH payout of $4,480 to Abrihym Aobad" loading="lazy" onerror="this.closest('.shot').classList.add('noimg');this.remove()" />
+        <figure class="media tall">
+          <img src="assets/payout-3.png" alt="Topstep ACH payout of $4,480 to Abrihym Aobad" loading="lazy" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
           <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2h9l5 5v15H6z"/><path d="M9 12h6M9 16h6"/></svg><span>Topstep payout</span></div>
           <figcaption>$4,480 · Topstep payout</figcaption>
         </figure>
       </div>
-      <p class="proof-disclaimer">These are real payouts from my own funded trading account. Trading carries risk, and my results are not a promise of yours — this book is about the discipline behind the numbers, not a guarantee of profit.</p>
+      <p class="proof-disclaimer">These are real payouts from my own funded trading accounts. Trading carries risk, and my results are not a promise of yours — this book is about the discipline behind the numbers, not a guarantee of profit.</p>
 
-      <p class="story-sig">— Abrihym Aobad · Founder of Niyyah, home to 750+ Muslim traders doing this work</p>
+      <h3 class="story-h">Once it worked for me, I went looking for others to help.</h3>
+      <p class="story-p">I couldn't keep it to myself. I set out to help other Muslims who were struggling in their trading the same way I had — losing not for lack of knowledge, but for lack of mastery over themselves.</p>
+
+      <h3 class="story-h">In two months, it became a <em>movement.</em></h3>
+      <div class="proof-stats">
+        <div class="proof-stat"><b>750+</b><span>members in the largest Muslim trading community I know of — and growing daily</span></div>
+        <div class="proof-stat"><b>100s</b><span>of messages from traders this work has changed</span></div>
+        <div class="proof-stat"><b>2 months</b><span>from my own turnaround to a community this size</span></div>
+      </div>
+
+      <!-- PHOTO TO ADD: community screenshot → assets/community.png (wide) -->
+      <div class="story-media one">
+        <figure class="media wide">
+          <img src="assets/community.png" alt="The Niyyah Muslim trading community, 750+ members" loading="lazy" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+          <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 11a4 4 0 1 0-8 0M3 20a7 7 0 0 1 14 0"/><circle cx="18" cy="8" r="2.5"/></svg><span>The community — 750+ members</span></div>
+          <figcaption>The community — 750+ members and growing daily</figcaption>
+        </figure>
+      </div>
+
+      <p class="story-p">And the part that means the most: I started watching it work in <em>them</em> too — members passing their evaluations and taking their own first payouts, becoming the traders they'd been trying to be for years.</p>
+
+      <!-- PHOTOS TO ADD: member wins → assets/win-1.png, win-2.png, win-3.png -->
+      <div class="story-media c3">
+        <figure class="media tall">
+          <img src="assets/win-1.png" alt="A community member's payout" loading="lazy" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+          <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="10" r="1.8"/><path d="m4 18 5-4 3 2 4-4 4 3"/></svg><span>Member win</span></div>
+          <figcaption>A member's payout</figcaption>
+        </figure>
+        <figure class="media tall">
+          <img src="assets/win-2.png" alt="A community member passing their evaluation" loading="lazy" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+          <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="10" r="1.8"/><path d="m4 18 5-4 3 2 4-4 4 3"/></svg><span>Member win</span></div>
+          <figcaption>A passed evaluation</figcaption>
+        </figure>
+        <figure class="media tall">
+          <img src="assets/win-3.png" alt="Another community member's funded account" loading="lazy" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+          <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="10" r="1.8"/><path d="m4 18 5-4 3 2 4-4 4 3"/></svg><span>Member win</span></div>
+          <figcaption>Another funded account</figcaption>
+        </figure>
+      </div>
+
+      <p class="story-p">Hundreds of them wrote to tell me what changed — not just in their accounts, but in how they carried themselves through a loss.</p>
+
+      <!-- PHOTOS TO ADD: member messages → assets/dm-1.png, dm-2.png, dm-3.png -->
+      <div class="story-media c3">
+        <figure class="media tall">
+          <img src="assets/dm-1.png" alt="A message from a community member" loading="lazy" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+          <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Member message</span></div>
+          <figcaption>A message from a member</figcaption>
+        </figure>
+        <figure class="media tall">
+          <img src="assets/dm-2.png" alt="Another message from a community member" loading="lazy" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+          <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Member message</span></div>
+          <figcaption>What changed for them</figcaption>
+        </figure>
+        <figure class="media tall">
+          <img src="assets/dm-3.png" alt="A third message from a community member" loading="lazy" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+          <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Member message</span></div>
+          <figcaption>One of hundreds</figcaption>
+        </figure>
+      </div>
+
+      <p class="story-sig">— Abrihym Aobad · Founder of Niyyah, home to 750+ Muslim traders doing this work. This book is everything I taught them, written down.</p>
     </div>
   </section>
 
@@ -1281,8 +1361,8 @@ footer .ar{color:var(--gold);font-size:1.1rem}
   (function(){
     if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const auto='#more .sec-kicker,#more .sec-h,#more .lede,#more .dis-grid,#more .loopviz,'
-      +'#more .story,#more .proof-stats,#more .proof-shots,#more .cards-3,#more .mini-h,#more .acc,#more .toc-more,'
-      +'#more .quotes,#more .peek-note';
+      +'#more .story,#more .story-h,#more .story-p,#more .proof-stats,#more .proof-label,#more .story-media,'
+      +'#more .cards-3,#more .mini-h,#more .acc,#more .toc-more,#more .quotes,#more .peek-note';
     document.querySelectorAll(auto).forEach(el=>el.classList.add('reveal'));
     const els=document.querySelectorAll('.reveal');
     if(!('IntersectionObserver' in window)){ els.forEach(el=>el.classList.add('in')); return; }
