@@ -481,6 +481,28 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 @media(max-width:820px){.pages{grid-template-columns:1fr}}
 .ob-cta{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:2.4em}
 .ob-cta .note{font-size:.84rem;color:var(--muted-2);max-width:34ch}
+
+/* ===== PROOF — real results, real discipline ===== */
+.proof-sec{background:radial-gradient(75% 120% at 50% 0%,rgba(13,90,65,.18),transparent 62%)}
+.proof-lede{max-width:62ch;font-size:1.05rem;color:var(--muted);margin:-.5em 0 2.6em}
+.proof-lede em{font-style:italic;color:var(--cream)}
+.proof-group{margin:0 0 2.8em}
+.proof-group:last-of-type{margin-bottom:0}
+.proof-glabel{display:flex;align-items:baseline;gap:.7em;flex-wrap:wrap;margin:0 0 1.1em}
+.proof-glabel h3{font-family:var(--serif);font-weight:500;font-size:1.3rem;color:var(--cream);margin:0}
+.proof-glabel span{font-size:.82rem;color:var(--muted-2)}
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.proof-grid.cols-4{grid-template-columns:repeat(4,1fr)}
+.pf-card{position:relative;margin:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:rgba(255,255,255,.012);aspect-ratio:4/5}
+.pf-card img{width:100%;height:100%;object-fit:cover;display:block}
+.pf-card figcaption{position:absolute;left:0;right:0;bottom:0;padding:16px 14px 12px;font-size:.78rem;color:var(--cream);line-height:1.35;background:linear-gradient(0deg,rgba(8,40,29,.94),rgba(8,40,29,.5) 60%,transparent)}
+.pf-card.pf-empty{display:grid;place-items:center;border-style:dashed;background:linear-gradient(180deg,rgba(205,168,99,.05),transparent)}
+.pf-card.pf-empty img{display:none}
+.pf-card.pf-empty figcaption{display:none}
+.pf-card.pf-empty::before{content:"add  " attr(data-file);padding:18px;text-align:center;font-size:.72rem;letter-spacing:.04em;color:var(--muted-2)}
+.proof-note{font-size:.74rem;color:var(--muted-2);max-width:74ch;margin:2.6em 0 0;line-height:1.6}
+@media(max-width:820px){.proof-grid,.proof-grid.cols-4{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.proof-grid,.proof-grid.cols-4{grid-template-columns:1fr}}
 </style>
 <script type="application/ld+json">
 {
@@ -892,6 +914,48 @@ footer .ar{color:var(--gold);font-size:1.1rem}
         <div class="quote"><div class="stars">★★★★★</div><p>"I caught myself mid-revenge-trade, named it, and closed the laptop. That had never happened before."</p><div class="who"><span class="av">N</span><span><b>Niyyah community member</b><span>early reader</span></span></div></div>
         <div class="quote"><div class="stars">★★★★★</div><p>"It treats you like an adult with a soul, not a bundle of bad habits. Hit harder than any trading-psychology book I've read."</p><div class="who"><span class="av">N</span><span><b>Niyyah community member</b><span>early reader</span></span></div></div>
       </div>
+    </div>
+  </section>
+
+  <!-- PROOF — real results, real discipline -->
+  <section class="sec proof-sec" id="proof">
+    <div class="wrap">
+      <p class="sec-kicker">The proof</p>
+      <h2 class="sec-h">The discipline shows up <em>in the payouts.</em></h2>
+      <p class="proof-lede reveal">Chasing the number was never the point — and that's exactly why it arrives. <em>Govern the self first, and the results follow.</em> Here is what that has looked like: my own funded payouts, traders inside the Niyyah community passing their accounts and getting paid, and the messages that tell me the lessons are landing.</p>
+
+      <!-- GROUP 1 — founder's own payouts -->
+      <div class="proof-group reveal">
+        <div class="proof-glabel"><h3>My own payouts</h3><span>Funded-account withdrawals, mine</span></div>
+        <div class="proof-grid">
+          <figure class="pf-card" data-file="payout-1.jpg"><img src="assets/proof/payout-1.jpg" alt="Personal funded-account payout confirmation" loading="lazy" onerror="this.closest('.pf-card').classList.add('pf-empty')"><figcaption>Personal payout — funded account</figcaption></figure>
+          <figure class="pf-card" data-file="payout-2.jpg"><img src="assets/proof/payout-2.jpg" alt="Personal funded-account payout confirmation" loading="lazy" onerror="this.closest('.pf-card').classList.add('pf-empty')"><figcaption>Personal payout — funded account</figcaption></figure>
+          <figure class="pf-card" data-file="payout-3.jpg"><img src="assets/proof/payout-3.jpg" alt="Personal funded-account payout confirmation" loading="lazy" onerror="this.closest('.pf-card').classList.add('pf-empty')"><figcaption>Personal payout — funded account</figcaption></figure>
+        </div>
+      </div>
+
+      <!-- GROUP 2 — community members passing accounts & getting paid -->
+      <div class="proof-group reveal">
+        <div class="proof-glabel"><h3>The community, getting paid</h3><span>Niyyah traders passing accounts &amp; cashing out</span></div>
+        <div class="proof-grid cols-4">
+          <figure class="pf-card" data-file="community-1.jpg"><img src="assets/proof/community-1.jpg" alt="Niyyah community member passing an evaluation / receiving a payout" loading="lazy" onerror="this.closest('.pf-card').classList.add('pf-empty')"><figcaption>Niyyah trader — account passed &amp; paid</figcaption></figure>
+          <figure class="pf-card" data-file="community-2.jpg"><img src="assets/proof/community-2.jpg" alt="Niyyah community member passing an evaluation / receiving a payout" loading="lazy" onerror="this.closest('.pf-card').classList.add('pf-empty')"><figcaption>Niyyah trader — account passed &amp; paid</figcaption></figure>
+          <figure class="pf-card" data-file="community-3.jpg"><img src="assets/proof/community-3.jpg" alt="Niyyah community member passing an evaluation / receiving a payout" loading="lazy" onerror="this.closest('.pf-card').classList.add('pf-empty')"><figcaption>Niyyah trader — account passed &amp; paid</figcaption></figure>
+          <figure class="pf-card" data-file="community-4.jpg"><img src="assets/proof/community-4.jpg" alt="Niyyah community member passing an evaluation / receiving a payout" loading="lazy" onerror="this.closest('.pf-card').classList.add('pf-empty')"><figcaption>Niyyah trader — account passed &amp; paid</figcaption></figure>
+        </div>
+      </div>
+
+      <!-- GROUP 3 — appreciation DMs -->
+      <div class="proof-group reveal">
+        <div class="proof-glabel"><h3>The work is landing</h3><span>Messages about the videos &amp; the lessons</span></div>
+        <div class="proof-grid">
+          <figure class="pf-card" data-file="message-1.jpg"><img src="assets/proof/message-1.jpg" alt="Message from a trader appreciating the videos and lessons" loading="lazy" onerror="this.closest('.pf-card').classList.add('pf-empty')"><figcaption>From a trader who watched the lessons</figcaption></figure>
+          <figure class="pf-card" data-file="message-2.jpg"><img src="assets/proof/message-2.jpg" alt="Message from a trader appreciating the videos and lessons" loading="lazy" onerror="this.closest('.pf-card').classList.add('pf-empty')"><figcaption>From a trader who watched the lessons</figcaption></figure>
+          <figure class="pf-card" data-file="message-3.jpg"><img src="assets/proof/message-3.jpg" alt="Message from a trader appreciating the videos and lessons" loading="lazy" onerror="this.closest('.pf-card').classList.add('pf-empty')"><figcaption>From a trader who watched the lessons</figcaption></figure>
+        </div>
+      </div>
+
+      <p class="proof-note">Shared with permission. These are real payouts and real messages — they are not a promise of your results. Trading carries substantial risk of loss, most people who attempt it lose money, and nothing here is financial advice. The point of this book and community is the self that does the trading, not the number on the screen.</p>
     </div>
   </section>
 
