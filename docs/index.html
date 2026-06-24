@@ -624,54 +624,6 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 </script>
 </head>
 <body>
-<!-- PRIVATE PREVIEW GATE — client-side password lock so only invited eyes see the site -->
-<style>
-  #gate{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;padding:24px;
-    background:radial-gradient(120% 120% at 50% 0%,#0c3a29 0%,#08281d 55%,#061b13 100%);
-    font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-  #gate.ok{display:none}
-  html.locked{overflow:hidden}
-  #gate .box{width:100%;max-width:360px;text-align:center}
-  #gate .mono{font-family:"Amiri",serif;font-size:2.6rem;color:#cda863;line-height:1;margin:0 0 .2em}
-  #gate h1{font-family:"Amiri",serif;font-weight:500;font-size:1.5rem;color:#f4efe1;margin:.1em 0 .15em}
-  #gate p{color:#9fb2a7;font-size:.95rem;margin:0 0 1.4em}
-  #gate form{display:flex;gap:10px}
-  #gate input{flex:1;padding:.8em 1em;border-radius:10px;border:1px solid rgba(205,168,99,.35);
-    background:rgba(8,22,16,.6);color:#f4efe1;font-size:1rem;outline:none}
-  #gate input:focus{border-color:#cda863;box-shadow:0 0 0 3px rgba(205,168,99,.18)}
-  #gate button{padding:.8em 1.2em;border-radius:10px;border:0;cursor:pointer;font-weight:600;
-    color:#08281d;background:linear-gradient(135deg,#f3e2af,#cda863)}
-  #gate .err{min-height:1.2em;margin:.9em 0 0;color:#e7a98f;font-size:.85rem;opacity:0;transition:opacity .2s}
-  #gate .err.show{opacity:1}
-</style>
-<div id="gate" role="dialog" aria-modal="true" aria-label="Private preview">
-  <div class="box">
-    <p class="mono" lang="ar" aria-hidden="true">ن</p>
-    <h1>Private preview</h1>
-    <p>This page isn't public yet. Enter the access code to continue.</p>
-    <form id="gateForm" autocomplete="off">
-      <input id="gateInput" type="password" inputmode="numeric" placeholder="Access code" aria-label="Access code" autofocus />
-      <button type="submit">Enter</button>
-    </form>
-    <p class="err" id="gateErr">Incorrect code — try again.</p>
-  </div>
-</div>
-<script>
-(function(){
-  var CODE="1234", KEY="niyyah_preview_ok";
-  var root=document.documentElement, gate=document.getElementById("gate");
-  function unlock(){gate.classList.add("ok");root.classList.remove("locked");}
-  if(sessionStorage.getItem(KEY)==="1"||localStorage.getItem(KEY)==="1"){unlock();return;}
-  root.classList.add("locked");
-  document.getElementById("gateForm").addEventListener("submit",function(e){
-    e.preventDefault();
-    var v=document.getElementById("gateInput").value.trim();
-    if(v===CODE){localStorage.setItem(KEY,"1");sessionStorage.setItem(KEY,"1");unlock();}
-    else{var err=document.getElementById("gateErr");err.classList.add("show");
-      var i=document.getElementById("gateInput");i.value="";i.focus();}
-  });
-})();
-</script>
 <a class="skip" href="#main">Skip to content</a>
 <div class="grain"></div>
 
