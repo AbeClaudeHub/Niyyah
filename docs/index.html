@@ -414,6 +414,12 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 .reveal.in{opacity:1;transform:none}
 .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}}
+/* living gold — animated shimmer across gradient emphasis words */
+.sec-h em,.story-h em,.cat-statement em,.diag-invite h3 em{
+  background:linear-gradient(100deg,var(--gold-lo),var(--gold-hi) 32%,var(--gold) 50%,var(--gold-hi) 68%,var(--gold-lo));
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shimmerText 7s ease-in-out infinite}
+@keyframes shimmerText{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 
 /* ===== "WHY ANOTHER STRATEGY WON'T FIX YOU" ===== */
 .fix-sec{background:radial-gradient(80% 120% at 50% -10%,rgba(168,127,60,.10),transparent 58%)}
@@ -1508,19 +1514,47 @@ footer .ar{color:var(--gold);font-size:1.1rem}
     qf.querySelector('input').focus();
   }
 
-  /* ===== SCROLL REVEAL — premium section rhythm ===== */
+  /* ===== SCROLL REVEAL — premium section rhythm across the whole page ===== */
   (function(){
     if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const auto='#more .sec-kicker,#more .sec-h,#more .lede,#more .dis-grid,#more .loopviz,'
-      +'#more .story,#more .story-h,#more .story-p,#more .proof-stats,#more .proof-label,#more .story-media,'
-      +'#more .cards-3,#more .mini-h,#more .acc,#more .toc-more,#more .quotes,#more .peek-note';
-    document.querySelectorAll(auto).forEach(el=>el.classList.add('reveal'));
+    const sel='.sec-kicker,.sec-h,.lede,.cat-statement,.cat-body,.cat-card,.diag-invite,'
+      +'.story,.story-h,.story-p,.proof-label,.proof-stats,.proof-disclaimer,.carousel,'
+      +'.cards-3>*,.quote,.cred-item,.mini-h,.acc,.toc-more,.story-sig,.peek-note,.cta-cluster';
+    document.querySelectorAll(sel).forEach(el=>{ if(!el.closest('.hero')) el.classList.add('reveal'); });
+    // stagger items inside a row
+    document.querySelectorAll('.cards-3,.proof-stats,.cat-grid,.quotes,.creds').forEach(row=>{
+      let n=0;
+      Array.prototype.forEach.call(row.children,kid=>{ if(kid.classList.contains('reveal')){ kid.classList.add('d'+(n%3+1)); n++; } });
+    });
+    const vh=window.innerHeight||0;
     const els=document.querySelectorAll('.reveal');
+    // pre-show anything already on screen so there's no flash
+    els.forEach(el=>{ if(el.offsetParent!==null && el.getBoundingClientRect().top < vh*0.92) el.classList.add('in'); });
     if(!('IntersectionObserver' in window)){ els.forEach(el=>el.classList.add('in')); return; }
     const io=new IntersectionObserver((entries)=>{
       entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
     },{rootMargin:'0px 0px -8% 0px',threshold:.12});
-    els.forEach(el=>io.observe(el));
+    els.forEach(el=>{ if(!el.classList.contains('in')) io.observe(el); });
+  })();
+
+  /* ===== COUNT-UP — stat numbers tick up when they scroll into view ===== */
+  (function(){
+    const stats=document.querySelector('.proof-stats'); if(!stats) return;
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const bs=Array.prototype.slice.call(stats.querySelectorAll('b'));
+    bs.forEach(b=>{ b.dataset.val=b.textContent; });
+    function run(b){
+      const m=b.dataset.val.match(/^(\D*)(\d[\d,]*)(.*)$/); if(!m){ return; }
+      const pre=m[1], target=parseInt(m[2].replace(/,/g,''),10), suf=m[3];
+      if(reduce){ b.textContent=b.dataset.val; return; }
+      let t0=null;
+      function step(ts){ if(!t0)t0=ts; const p=Math.min(1,(ts-t0)/1500); const e=1-Math.pow(1-p,3);
+        b.textContent=pre+Math.round(target*e).toLocaleString()+suf; if(p<1) requestAnimationFrame(step); }
+      requestAnimationFrame(step);
+    }
+    if(!('IntersectionObserver' in window)){ bs.forEach(run); return; }
+    const io=new IntersectionObserver((en)=>{ en.forEach(e=>{ if(e.isIntersecting){ bs.forEach(run); io.disconnect(); } }); },{threshold:.4});
+    io.observe(stats);
   })();
 
   /* triggers */
