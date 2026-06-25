@@ -127,7 +127,8 @@ header.nav{position:relative;z-index:5;display:flex;align-items:center;justify-c
 
 .disclaimer{font-size:.7rem;color:var(--muted-2);margin:2px 0 0;letter-spacing:.02em}
 /* price + launch anchor near the primary CTA */
-.cta-anchor{font-size:.78rem;color:var(--muted);letter-spacing:.02em;margin:4px 0 0;line-height:1.5}
+.cta-anchor{display:inline-flex;align-items:center;gap:.55em;font-family:var(--sans);font-size:.95rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-hi);margin:12px 0 0;padding:.58em 1.25em;border:1px solid rgba(205,168,99,.42);border-radius:100px;background:rgba(205,168,99,.08);box-shadow:0 0 24px -10px rgba(205,168,99,.65)}
+.cta-anchor::before{content:"";width:8px;height:8px;border-radius:50%;flex:none;background:var(--gold);box-shadow:0 0 10px rgba(205,168,99,.95);animation:glowpulse 2.4s ease-in-out infinite}
 .cta-anchor b{color:var(--gold-hi);font-weight:600}
 .cta-anchor .was{text-decoration:line-through;opacity:.65}
 
@@ -811,15 +812,14 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       </div>
     </div>
   </div>
-  <a class="scroll-cue" href="#why"><span>Why I wrote this</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></a>
+  <a class="scroll-cue" href="#diseases"><span>The five diseases</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></a>
 </main>
 </div><!-- /hero-screen -->
 
 <div id="more" class="more">
 
   <!-- MY STORY — the fall, the return to deen, and the movement -->
-  <!-- HIDDEN FOR NOW (restore by removing `hidden`): full My Story section + all photo carousels -->
-  <section class="sec" id="story" hidden>
+  <section class="sec" id="story">
     <div class="wrap">
       <p class="sec-kicker">My story</p>
       <h2 class="sec-h">I blew accounts for years and never made a dollar — until I came back to my <em>deen.</em></h2>
@@ -1003,41 +1003,26 @@ footer .ar{color:var(--gold);font-size:1.1rem}
   </script>
 
   <!-- WHAT'S INSIDE (category compressed to a few lines, then the system) -->
-  <!-- WHY I WROTE THIS — condensed personal experience + how it helps you trade -->
-  <section class="sec" id="why">
-    <div class="wrap">
-      <p class="sec-kicker">Why I wrote this</p>
-      <h2 class="sec-h">I didn't lose for lack of strategy. I lost because of the <em>self</em> behind the screen.</h2>
-      <p class="story-p">I'm Abrihym Aobad. For years I blew account after account and never made a single dollar — not for lack of information, but because something in me took over under pressure. Eventually I lost everything. What was left wasn't just an empty account; it was an empty <em>me.</em></p>
-      <p class="story-p">Then I stepped away and reconnected with my <em>deen.</em> Through the Qur'an, the hadith, and the 1,400-year-old science of the <em>nafs,</em> I finally understood the problem was never the strategy — it was the self behind it. I stopped trying to become a better trader and started becoming a <em>governed</em> one. That's when everything changed.</p>
-      <p class="story-p">I wrote this book because I couldn't keep that to myself — it's everything I learned about mastering the self behind the trade.</p>
-      <h3 class="story-h">How it makes you a better trader</h3>
-      <p class="story-p">This isn't another strategy. It closes the gap between what you <em>know</em> and what you <em>do</em>: it names the disease quietly running your account, hands you a model to run the instant the impulse rises, and a daily practice that turns discipline into settled habit instead of white-knuckle strain.</p>
-    </div>
-  </section>
-
   <section class="sec alt">
     <div class="wrap">
       <p class="sec-kicker">What's inside</p>
       <h2 class="sec-h">A book you <em>read</em> — and a system you <em>run.</em></h2>
-      <p class="lede">A thousand books teach you <em>how to trade.</em> This one is built for <em>who is doing the trading</em> — psychology drawn from the 1,400-year-old Islamic science of the self. Not motivational uplift, not faulty software to patch.</p>
+      <p class="lede">A thousand books teach you <em>how to trade.</em> This one is built for <em>who is doing the trading</em> — trading psychology drawn not from a list of biases to debug, but from the 1,400-year-old Islamic science of the self. Not motivational uplift, not faulty software to patch. Right now there is nothing else in the category.</p>
       <div class="cards-3">
+        <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h10a3 3 0 0 1 3 3v11a2 2 0 0 0-2-2H4zM20 5h-3a3 3 0 0 0-3 3v11a2 2 0 0 1 2-2h4z"/></svg></div><h4>38 chapters, 6 parts</h4><p>From the invisible war, through the five diseases and their cures, to the path of mastery.</p></div>
         <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div><h4>The NAFS Loop &amp; Three Selves</h4><p>A portable model you can run in the heat of any trade, the instant the impulse rises.</p></div>
         <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="9"/></svg></div><h4>A daily operating system</h4><p>Pre-market rituals, in-session discipline, the daily reckoning, weekly self-audits.</p></div>
-        <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg></div><h4>Rooted, not borrowed</h4><p>Grounded in authentic Qur'an and hadith — and a story, insight and exercise in every chapter.</p></div>
-      </div>
-      <!-- HIDDEN FOR NOW (restore to lengthen "What's inside"):
-        <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h10a3 3 0 0 1 3 3v11a2 2 0 0 0-2-2H4zM20 5h-3a3 3 0 0 0-3 3v11a2 2 0 0 1 2-2h4z"/></svg></div><h4>38 chapters, 6 parts</h4><p>From the invisible war, through the five diseases and their cures, to the path of mastery.</p></div>
         <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12h4l2 6 4-14 2 8h6"/></svg></div><h4>The Twelve-Week Path</h4><p>Structured practice that turns the ideas into a self — not a feeling that fades by Monday.</p></div>
         <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="14" height="16" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v13"/></svg></div><h4>The Cards</h4><p>The whole book compressed to what you can glance at when there's no time to remember a chapter.</p></div>
-      -->
+        <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg></div><h4>Rooted, not borrowed</h4><p>Grounded in authentic Qur'an and hadith — and a story, insight and exercise in every chapter.</p></div>
+      </div>
       <!-- TODO: confirm sourcing credibility line (verify this is accurate before publishing) -->
       <p class="peek-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg> Every Qur'anic verse and hadith cited is referenced to source.</p>
     </div>
   </section>
 
   <!-- THE FIVE DISEASES — surfaced early: the strongest curiosity hook -->
-  <section class="sec" id="diseases" hidden>
+  <section class="sec" id="diseases">
     <div class="wrap">
       <p class="sec-kicker">The five diseases</p>
       <h2 class="sec-h">One of these runs your account <em>more than your strategy does.</em></h2>
@@ -1054,7 +1039,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
   </section>
 
   <!-- THE NAFS LOOP — the core model, surfaced high, shown visually -->
-  <section class="sec alt" id="loop" hidden>
+  <section class="sec alt" id="loop">
     <div class="wrap">
       <p class="sec-kicker">The core model</p>
       <h2 class="sec-h">The instant the impulse rises, you run <em>the loop.</em></h2>
@@ -1095,7 +1080,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
   </section>
 
   <!-- TRUST -->
-  <section class="sec alt" hidden>
+  <section class="sec alt">
     <div class="wrap">
       <p class="sec-kicker">Why trust this</p>
       <h2 class="sec-h">Written from a real failure — and a real <em>tradition.</em></h2>
@@ -1116,7 +1101,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
   </section>
 
   <!-- FAQ -->
-  <section class="sec" hidden>
+  <section class="sec">
     <div class="wrap">
       <p class="sec-kicker">Questions</p>
       <h2 class="sec-h">Honest answers</h2>
@@ -1129,7 +1114,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
   </section>
 
   <!-- CLOSING CTA -->
-  <section class="sec cta-sec" hidden>
+  <section class="sec cta-sec">
     <div class="wrap">
       <h2>The person who follows through <em>already exists in you.</em></h2>
       <p>This book is about removing everything sitting on top of him. Start by finding what's in the way.</p>
