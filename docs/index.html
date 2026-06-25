@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Trader and the Nafs — The Definitive Book on Islamic Trading Psychology</title>
-<meta name="description" content="The definitive book on Islamic trading psychology by Abrihym Aobad. Not a strategy book — the book about the soul behind the screen, and the 1,400-year-old science of mastering it. Take the free Nafs Diagnostic and join the founding readers." />
+<title>The Trader and the Nafs — Islamic Trading Psychology</title>
+<meta name="description" content="A book on Islamic trading psychology by Abrihym Aobad. Not a strategy book — the book about the soul behind the screen, and the 1,400-year-old science of mastering it. Take the free Nafs Diagnostic and join the founding readers." />
 <meta name="author" content="Abrihym Aobad" />
 <link rel="canonical" href="https://niyyahtrader.com/" />
 <meta property="og:type" content="book" />
@@ -15,7 +15,7 @@
 <meta property="og:image" content="https://niyyahtrader.com/assets/cover.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="The Trader and the Nafs — Islamic Trading Psychology" />
-<meta name="twitter:description" content="The definitive book on Islamic trading psychology. Find the disease costing you money — take the free Nafs Diagnostic." />
+<meta name="twitter:description" content="Islamic trading psychology — the soul behind the screen. Find the disease costing you money — take the free Nafs Diagnostic." />
 <meta name="twitter:image" content="https://niyyahtrader.com/assets/cover.png" />
 <meta name="theme-color" content="#070d0a" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23070d0a'/%3E%3Cg fill='none' stroke='%23cda863' stroke-width='5'%3E%3Crect x='26' y='26' width='48' height='48'/%3E%3Crect x='26' y='26' width='48' height='48' transform='rotate(45 50 50)'/%3E%3Ccircle cx='50' cy='50' r='8' stroke-width='4'/%3E%3C/g%3E%3C/svg%3E" />
@@ -65,7 +65,7 @@ header.nav{position:relative;z-index:5;display:flex;align-items:center;justify-c
 .brand svg{width:26px;height:26px;color:var(--gold);flex:none}
 .brand b{font-weight:600}
 .nav-cta{display:flex;align-items:center;gap:18px}
-.nav .free{font-size:.82rem;letter-spacing:.04em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:2px;transition:.25s}
+.nav .free{background:none;border:0;border-bottom:1px solid var(--line);cursor:pointer;font-family:var(--sans);font-weight:300;font-size:.82rem;letter-spacing:.04em;color:var(--muted);padding:0 0 2px;transition:.25s}
 .nav .free:hover{color:var(--cream);border-color:var(--gold)}
 .btn.sm{padding:.6em 1.15em;font-size:.78rem}
 
@@ -80,6 +80,26 @@ header.nav{position:relative;z-index:5;display:flex;align-items:center;justify-c
 .btn.ghost{color:var(--gold-hi);border-color:var(--line);background:rgba(205,168,99,.04)}
 .btn.ghost:hover{border-color:var(--gold);color:var(--cream);transform:translateY(-2px)}
 .btn[disabled]{opacity:.6;cursor:wait;pointer-events:none}
+
+/* sticky CTA header — appears once the hero scrolls away */
+.sticky-cta{position:fixed;top:0;left:0;right:0;z-index:120;display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:9px clamp(14px,4vw,28px);
+  background:rgba(7,13,10,.85);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);box-shadow:0 8px 30px -18px rgba(0,0,0,.8);
+  transform:translateY(-105%);transition:transform .35s var(--ease);pointer-events:none}
+.sticky-cta.show{transform:none;pointer-events:auto}
+.sticky-cta .brand{font-family:var(--serif);font-size:1rem;font-weight:500;display:flex;align-items:center;gap:10px;min-width:0}
+.sticky-cta .brand svg{width:22px;height:22px;color:var(--gold);flex:none}
+.sticky-cta .brand b{font-weight:600}
+.sticky-cta .btn{padding:.6em 1.2em;font-size:.8rem;flex:none}
+.sticky-cta .btn .short{display:none}
+@media(max-width:560px){
+  .sticky-cta .brand span{display:none}
+  .sticky-cta .btn .full{display:none}
+  .sticky-cta .btn .short{display:inline}
+  .sticky-cta .btn{font-size:.78rem}
+}
+@media(prefers-reduced-motion:reduce){.sticky-cta{transition:none}}
 
 /* HERO */
 .hero{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;padding:clamp(14px,2.5vh,38px) 0 clamp(22px,4vh,50px);
@@ -106,6 +126,10 @@ header.nav{position:relative;z-index:5;display:flex;align-items:center;justify-c
 .cta-sub .dot{width:3px;height:3px;border-radius:50%;background:var(--muted-2)}
 
 .disclaimer{font-size:.7rem;color:var(--muted-2);margin:2px 0 0;letter-spacing:.02em}
+/* price + launch anchor near the primary CTA */
+.cta-anchor{font-size:.78rem;color:var(--muted);letter-spacing:.02em;margin:4px 0 0;line-height:1.5}
+.cta-anchor b{color:var(--gold-hi);font-weight:600}
+.cta-anchor .was{text-decoration:line-through;opacity:.65}
 
 /* 3D BOOK — spinning */
 .book-stage{position:relative;display:flex;justify-content:center;align-items:center;perspective:2200px}
@@ -614,7 +638,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
   "inLanguage": "en",
   "url": "https://niyyahtrader.com/",
   "image": "https://niyyahtrader.com/assets/cover.png",
-  "description": "The definitive book on Islamic trading psychology — the soul behind the screen, and the 1,400-year-old Islamic science of mastering it.",
+  "description": "A book on Islamic trading psychology — the soul behind the screen, and the 1,400-year-old Islamic science of mastering it.",
   "author": { "@type": "Person", "name": "Abrihym Aobad" },
   "publisher": { "@type": "Organization", "name": "Niyyah Press" },
   "workExample": [
@@ -626,6 +650,14 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <div class="grain"></div>
+
+<!-- STICKY CTA — single primary action, revealed once the hero is scrolled past -->
+<div class="sticky-cta" id="stickyCta" aria-hidden="true">
+  <a class="brand" href="#main"><svg viewBox="0 0 100 100"><use href="#khatam"/></svg><span>The Trader <b>&amp; the Nafs</b></span></a>
+  <button class="btn primary" type="button" data-diag>
+    <span class="full">Find the disease costing you money</span><span class="short">Find your disease — free</span>
+  </button>
+</div>
 
 <!-- SVG DEFS: gradients, patterns, the COVER artwork -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -739,14 +771,14 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 <header class="nav">
   <a class="brand" href="#main"><svg viewBox="0 0 100 100"><use href="#khatam"/></svg><span>The Trader <b>&amp; the Nafs</b></span></a>
   <nav class="nav-cta">
-    <a class="free" href="downloads/the-trader-and-the-nafs-chapter-1.pdf" target="_blank" rel="noopener">Read Chapter 1 free →</a>
+    <button class="free" type="button" data-chapter>Read Chapter 1 free →</button>
     <button class="btn primary sm" type="button" data-diag>Take the Diagnostic</button>
   </nav>
 </header>
 
 <!-- HERO -->
 <main id="main" class="hero">
-  <h1 class="sr-only">The Trader and the Nafs — the definitive book on Islamic trading psychology, by Abrihym Aobad</h1>
+  <h1 class="sr-only">The Trader and the Nafs — Islamic trading psychology, by Abrihym Aobad</h1>
   <div class="aura" aria-hidden="true"></div>
   <div class="hero-glow"></div>
   <div class="hero-glow two"></div>
@@ -764,17 +796,18 @@ footer .ar{color:var(--gold);font-size:1.1rem}
     <div class="lead">
       <span class="cat-eyebrow"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#ministar"/></svg> The book about the trader, not the trade</span>
       <p class="hook">You don't break your rules because you lack discipline. You break them because a part of you <em>takes control</em> under pressure.</p>
-      <p class="subline">The first book on Islamic trading psychology — the soul behind the screen, and the 1,400-year-old science of mastering it.</p>
+      <p class="subline">Islamic trading psychology — the soul behind the screen, and the 1,400-year-old science of mastering it.</p>
 
       <div class="cta-cluster" id="join">
         <button class="btn primary lg" type="button" data-diag>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
-          <span>Find the disease costing you money — free</span>
+          <span>Find the disease costing you money</span>
         </button>
         <p class="cta-sub">
-          <span>60-second Nafs Diagnostic</span><span class="dot"></span>
-          <a href="#quickjoin" data-quickjoin>or just join the waitlist</a>
+          <span>60-second diagnostic, free</span><span class="dot"></span>
+          <a href="#quickjoin" data-quickjoin>or join the waitlist</a>
         </p>
+        <p class="cta-anchor">Launching <b>[LAUNCH MONTH — FILL IN]</b> · founding price <b>[$X FOUNDING — FILL IN]</b> <span class="was">[$Y FULL — FILL IN]</span> for waitlist members — first 72 hours.</p>
       </div>
     </div>
   </div>
@@ -792,7 +825,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 
       <div class="story">
         <div class="story-av">
-          <img src="assets/author.jpg" alt="Abrihym Aobad" onerror="this.remove()" />
+          <img loading="lazy" src="assets/author.jpg" alt="Abrihym Aobad" onerror="this.remove()" />
           <span class="story-av-mono" lang="ar" aria-hidden="true">ن</span>
         </div>
         <div class="story-body">
@@ -800,15 +833,15 @@ footer .ar{color:var(--gold);font-size:1.1rem}
         </div>
       </div>
 
-      <!-- blown accounts: IMG_4888 (dashboard of closed accounts), IMG_2537 (Topstep max-loss email) -->
+      <!-- blown accounts: IMG_4888.jpg (dashboard of closed accounts), IMG_2537 (Topstep max-loss email) -->
       <div class="carousel" data-carousel>
         <div class="ctrack">
           <figure class="media cslide">
-            <img src="assets/IMG_4888.png" alt="My Topstep dashboard showing dozens of closed, blown evaluation accounts" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+            <img loading="lazy" src="assets/IMG_4888.jpg" alt="My Topstep dashboard showing dozens of closed, blown evaluation accounts" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
             <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="10" r="1.8"/><path d="m4 18 5-4 3 2 4-4 4 3"/></svg><span>Blown account</span></div>
           </figure>
           <figure class="media cslide">
-            <img src="assets/IMG_2537.jpeg" alt="Topstep email: funded account closed for violating the maximum loss limit" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+            <img loading="lazy" src="assets/IMG_2537.jpeg" alt="Topstep email: funded account closed for violating the maximum loss limit" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
             <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="10" r="1.8"/><path d="m4 18 5-4 3 2 4-4 4 3"/></svg><span>Blown account</span></div>
           </figure>
         </div>
@@ -821,45 +854,22 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       <p class="story-p">After losing everything and feeling empty, I took a break from all of it: the charts, the noise, the chase. I went back to my deen — and it was in that connection that I finally understood why I kept losing no matter how much I learned. The problem was never the strategy. It was the self behind it.</p>
       <p class="story-p">So I started to implement what Islam had been teaching all along — through the Qur'an, through the hadith, through the science of the <em>nafs.</em> Patience. Restraint. Sincerity. Gratitude. I stopped trying to become a better trader and started becoming a <em>governed</em> one. And that's when everything changed.</p>
 
-      <!-- my payouts: bank deposits IMG_4975 ($3,049), IMG_4974 ($4,372), IMG_4973 ($4,480) -->
-      <p class="proof-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 13l4 4L19 7"/></svg> Then the payouts started — real money from funded accounts, not a demo:</p>
-      <div class="carousel" data-carousel>
-        <div class="ctrack">
-          <figure class="media cslide">
-            <img src="assets/IMG_4975.jpeg" alt="Bank deposit: Topstep ACH payout of $3,049 to Abrihym Aobad" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
-            <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2h9l5 5v15H6z"/><path d="M9 12h6M9 16h6"/></svg><span>Topstep payout</span></div>
-          </figure>
-          <figure class="media cslide">
-            <img src="assets/IMG_4974.jpeg" alt="Bank deposit: Topstep ACH payout of $4,372 to Abrihym Aobad" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
-            <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2h9l5 5v15H6z"/><path d="M9 12h6M9 16h6"/></svg><span>Topstep payout</span></div>
-          </figure>
-          <figure class="media cslide">
-            <img src="assets/IMG_4973.jpeg" alt="Bank deposit: Topstep ACH payout of $4,480 to Abrihym Aobad" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
-            <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2h9l5 5v15H6z"/><path d="M9 12h6M9 16h6"/></svg><span>Topstep payout</span></div>
-          </figure>
-        </div>
-        <button class="cbtn cprev" type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg></button>
-        <button class="cbtn cnext" type="button" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
-        <div class="cdots"></div>
-      </div>
-      <p class="proof-disclaimer">These are real payouts from my own funded trading accounts. Trading carries risk, and my results are not a promise of yours — this book is about the discipline behind the numbers, not a guarantee of profit.</p>
-
       <h3 class="story-h">Once it worked for me, I went looking for others to help.</h3>
       <p class="story-p">I couldn't keep it to myself. I set out to help other Muslims who were struggling in their trading the same way I had — losing not for lack of knowledge, but for lack of mastery over themselves.</p>
 
       <h3 class="story-h">In two months, it became a <em>movement.</em></h3>
-      <p class="story-p">A following grew across my social media faster than I ever expected, and around it formed what I believe is the largest Muslim trading community anywhere — and it grows every single day.</p>
+      <p class="story-p">A following grew across my social media faster than I ever expected, and around it formed a community of Muslim traders doing this work together — showing up daily, sharing their losses honestly, and changing how they trade.</p>
       <div class="proof-stats">
-        <div class="proof-stat"><b>750+</b><span>members in the largest Muslim trading community I know of — and growing daily</span></div>
+        <div class="proof-stat"><b>750+</b><span>Muslim traders doing the work together — and showing up daily</span></div>
         <div class="proof-stat"><b>100s</b><span>of messages from traders this work has changed</span></div>
-        <div class="proof-stat"><b>2 months</b><span>from my own turnaround to a community this size</span></div>
+        <div class="proof-stat"><b>2 months</b><span>from my own turnaround to a community living this</span></div>
       </div>
 
       <!-- STILL NEEDED: a community screenshot (member count / server roster) → assets/community.png (wide). Shows a styled placeholder until added. -->
       <div class="carousel wide" data-carousel>
         <div class="ctrack">
           <figure class="media cslide">
-            <img src="assets/community.png" alt="The Niyyah Muslim trading community, 750+ members" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+            <img loading="lazy" src="assets/community.png" alt="The Niyyah Muslim trading community, 750+ members" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
             <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 11a4 4 0 1 0-8 0M3 20a7 7 0 0 1 14 0"/><circle cx="18" cy="8" r="2.5"/></svg><span>The community — 750+ members</span></div>
           </figure>
         </div>
@@ -874,27 +884,27 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       <div class="carousel" data-carousel>
         <div class="ctrack">
           <figure class="media cslide">
-            <img src="assets/IMG_4147.jpeg" alt="Member: got funded after applying the nafs work, with an Alpha Futures certificate" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+            <img loading="lazy" src="assets/IMG_4147.jpeg" alt="Member: got funded after applying the nafs work, with an Alpha Futures certificate" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
             <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="10" r="1.8"/><path d="m4 18 5-4 3 2 4-4 4 3"/></svg><span>Member win</span></div>
           </figure>
           <figure class="media cslide">
-            <img src="assets/IMG_4864.jpeg" alt="Member passing their first ever evaluation with an Apex Trader Funding certificate" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+            <img loading="lazy" src="assets/IMG_4864.jpeg" alt="Member passing their first ever evaluation with an Apex Trader Funding certificate" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
             <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="10" r="1.8"/><path d="m4 18 5-4 3 2 4-4 4 3"/></svg><span>Member win</span></div>
           </figure>
           <figure class="media cslide">
-            <img src="assets/IMG_4866.jpeg" alt="Member passing a LucidFlex 50K funded account evaluation" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+            <img loading="lazy" src="assets/IMG_4866.jpeg" alt="Member passing a LucidFlex 50K funded account evaluation" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
             <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="10" r="1.8"/><path d="m4 18 5-4 3 2 4-4 4 3"/></svg><span>Member win</span></div>
           </figure>
           <figure class="media cslide">
-            <img src="assets/IMG_4865.jpeg" alt="Member's My Funded Futures payout certificate for $1,151" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+            <img loading="lazy" src="assets/IMG_4865.jpeg" alt="Member's My Funded Futures payout certificate for $1,151" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
             <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="10" r="1.8"/><path d="m4 18 5-4 3 2 4-4 4 3"/></svg><span>Member win</span></div>
           </figure>
           <figure class="media cslide">
-            <img src="assets/IMG_4863.jpeg" alt="A community member's Topstep payout" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+            <img loading="lazy" src="assets/IMG_4863.jpeg" alt="A community member's Topstep payout" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
             <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="10" r="1.8"/><path d="m4 18 5-4 3 2 4-4 4 3"/></svg><span>Member win</span></div>
           </figure>
           <figure class="media cslide">
-            <img src="assets/IMG_4869.jpeg" alt="Member reaching phase 2 of an evaluation for the first time, seven weeks in" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+            <img loading="lazy" src="assets/IMG_4869.jpeg" alt="Member reaching phase 2 of an evaluation for the first time, seven weeks in" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
             <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="10" r="1.8"/><path d="m4 18 5-4 3 2 4-4 4 3"/></svg><span>Member win</span></div>
           </figure>
         </div>
@@ -909,15 +919,15 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       <div class="carousel" data-carousel>
         <div class="ctrack">
           <figure class="media cslide">
-            <img src="assets/IMG_4856.jpeg" alt="Member message about how connecting trading to Islam changed their view of a loss" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+            <img loading="lazy" src="assets/IMG_4856.jpeg" alt="Member message about how connecting trading to Islam changed their view of a loss" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
             <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Member message</span></div>
           </figure>
           <figure class="media cslide">
-            <img src="assets/IMG_4855.jpeg" alt="Member message thanking Abrihym for always responding and helping with emotional trading" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+            <img loading="lazy" src="assets/IMG_4855.jpeg" alt="Member message thanking Abrihym for always responding and helping with emotional trading" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
             <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Member message</span></div>
           </figure>
           <figure class="media cslide">
-            <img src="assets/IMG_4857.jpeg" alt="Member message saying the Islamic perspective in the videos helped them through bad times" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+            <img loading="lazy" src="assets/IMG_4857.jpeg" alt="Member message saying the Islamic perspective in the videos helped them through bad times" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
             <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Member message</span></div>
           </figure>
         </div>
@@ -925,6 +935,31 @@ footer .ar{color:var(--gold);font-size:1.1rem}
         <button class="cbtn cnext" type="button" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
         <div class="cdots"></div>
       </div>
+
+      <!-- my payouts: bank deposits IMG_4975 ($3,049), IMG_4974 ($4,372), IMG_4973 ($4,480).
+           Placed AFTER member wins on purpose: member proof sells the book; the author's own
+           payouts only show he can trade. -->
+      <p class="proof-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 13l4 4L19 7"/></svg> And it worked for me, too — these are real payouts from my own funded accounts, not a demo:</p>
+      <div class="carousel" data-carousel>
+        <div class="ctrack">
+          <figure class="media cslide">
+            <img src="assets/IMG_4975.jpeg" alt="Bank deposit: Topstep ACH payout of $3,049 to Abrihym Aobad" loading="lazy" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+            <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2h9l5 5v15H6z"/><path d="M9 12h6M9 16h6"/></svg><span>Topstep payout</span></div>
+          </figure>
+          <figure class="media cslide">
+            <img src="assets/IMG_4974.jpeg" alt="Bank deposit: Topstep ACH payout of $4,372 to Abrihym Aobad" loading="lazy" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+            <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2h9l5 5v15H6z"/><path d="M9 12h6M9 16h6"/></svg><span>Topstep payout</span></div>
+          </figure>
+          <figure class="media cslide">
+            <img src="assets/IMG_4973.jpeg" alt="Bank deposit: Topstep ACH payout of $4,480 to Abrihym Aobad" loading="lazy" onerror="this.closest('.media').classList.add('noimg');this.remove()" />
+            <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2h9l5 5v15H6z"/><path d="M9 12h6M9 16h6"/></svg><span>Topstep payout</span></div>
+          </figure>
+        </div>
+        <button class="cbtn cprev" type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <button class="cbtn cnext" type="button" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+        <div class="cdots"></div>
+      </div>
+      <p class="proof-disclaimer">These are real payouts from my own funded trading accounts. Trading carries risk, and my results are not a promise of yours — this book is about the discipline behind the numbers, not a guarantee of profit.</p>
 
       <p class="story-sig">— Abrihym Aobad · Founder of Niyyah, home to 750+ Muslim traders doing this work. This book is everything I taught them, written down.</p>
     </div>
@@ -971,7 +1006,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
     <div class="wrap">
       <p class="sec-kicker">What's inside</p>
       <h2 class="sec-h">A book you <em>read</em> — and a system you <em>run.</em></h2>
-      <p class="lede">A thousand books teach you <em>how to trade.</em> This is the first built for <em>who is doing the trading</em> — trading psychology drawn not from a list of biases to debug, but from the 1,400-year-old Islamic science of the self. Not motivational uplift, not faulty software to patch. Right now there is nothing else in the category.</p>
+      <p class="lede">A thousand books teach you <em>how to trade.</em> This one is built for <em>who is doing the trading</em> — trading psychology drawn not from a list of biases to debug, but from the 1,400-year-old Islamic science of the self. Not motivational uplift, not faulty software to patch. Right now there is nothing else in the category.</p>
       <div class="cards-3">
         <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h10a3 3 0 0 1 3 3v11a2 2 0 0 0-2-2H4zM20 5h-3a3 3 0 0 0-3 3v11a2 2 0 0 1 2-2h4z"/></svg></div><h4>38 chapters, 6 parts</h4><p>From the invisible war, through the five diseases and their cures, to the path of mastery.</p></div>
         <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div><h4>The NAFS Loop &amp; Three Selves</h4><p>A portable model you can run in the heat of any trade, the instant the impulse rises.</p></div>
@@ -980,6 +1015,8 @@ footer .ar{color:var(--gold);font-size:1.1rem}
         <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="14" height="16" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v13"/></svg></div><h4>The Cards</h4><p>The whole book compressed to what you can glance at when there's no time to remember a chapter.</p></div>
         <div class="icard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg></div><h4>Rooted, not borrowed</h4><p>Grounded in authentic Qur'an and hadith — and a story, insight and exercise in every chapter.</p></div>
       </div>
+      <!-- TODO: confirm sourcing credibility line (verify this is accurate before publishing) -->
+      <p class="peek-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg> Every Qur'anic verse and hadith cited is referenced to source.</p>
     </div>
   </section>
 
@@ -1052,8 +1089,11 @@ footer .ar{color:var(--gold);font-size:1.1rem}
            The lines below are real-format community reactions kept generic and unattributed. -->
       <p class="sec-kicker" style="margin:.2em 0 1.3em">Early reactions from the Niyyah community</p>
       <div class="quotes">
+        <!-- TODO: replace with real named testimonial (first name + handle/photo) from Discord -->
         <div class="quote"><div class="stars">★★★★★</div><p>"This put words to the thing I could never explain — I don't have a strategy problem, I have a <em>me</em> problem."</p><div class="who"><span class="av">N</span><span><b>Niyyah community member</b><span>early reader</span></span></div></div>
+        <!-- TODO: replace with real named testimonial (first name + handle/photo) from Discord -->
         <div class="quote"><div class="stars">★★★★★</div><p>"I caught myself mid-revenge-trade, named it, and closed the laptop. That had never happened before."</p><div class="who"><span class="av">N</span><span><b>Niyyah community member</b><span>early reader</span></span></div></div>
+        <!-- TODO: replace with real named testimonial (first name + handle/photo) from Discord -->
         <div class="quote"><div class="stars">★★★★★</div><p>"It treats you like an adult with a soul, not a bundle of bad habits. Hit harder than any trading-psychology book I've read."</p><div class="who"><span class="av">N</span><span><b>Niyyah community member</b><span>early reader</span></span></div></div>
       </div>
     </div>
@@ -1067,7 +1107,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       <div class="acc faq" data-acc>
         <div class="acc-item"><button class="acc-h">Is this a trading-strategy book? <i class="pl">+</i></button><div class="acc-b q-b"><div class="inner">No — and deliberately so. There's not a single chart, setup, or indicator inside. It assumes you already know enough to trade; it's about why you don't do what you know, and how to close that gap.</div></div></div>
         <div class="acc-item"><button class="acc-h">Do I need to be Muslim to get value from it? <i class="pl">+</i></button><div class="acc-b q-b"><div class="inner">No. The framework is grounded in authentic Qur'an and hadith, but the thing it studies — the lower self, and the gap between knowing and doing — is universal. Many readers come for the psychology and stay for the depth the tradition adds.</div></div></div>
-        <div class="acc-item"><button class="acc-h">When does it launch? <i class="pl">+</i></button><div class="acc-b q-b"><div class="inner">Soon. The waitlist gets first access the moment it goes live, plus the founding-reader bonus for the first 72 hours. You can read Chapter 1 free today while you wait.</div></div></div>
+        <div class="acc-item"><button class="acc-h">When does it launch? <i class="pl">+</i></button><div class="acc-b q-b"><div class="inner">[LAUNCH MONTH — FILL IN]. Waitlist members get first access and the founding price — [$X FOUNDING — FILL IN] instead of [$Y FULL — FILL IN] — for the first 72 hours. Read Chapter 1 free today while you wait.</div></div></div>
       </div>
     </div>
   </section>
@@ -1078,6 +1118,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       <h2>The person who follows through <em>already exists in you.</em></h2>
       <p>This book is about removing everything sitting on top of him. Start by finding what's in the way.</p>
       <button class="btn primary lg" type="button" data-diag>Take the free Nafs Diagnostic</button>
+      <p class="cta-anchor" style="margin-top:1.1em">Launching <b>[LAUNCH MONTH — FILL IN]</b> · founding price <b>[$X FOUNDING — FILL IN]</b> <span class="was">[$Y FULL — FILL IN]</span> for waitlist members — first 72 hours.</p>
     </div>
   </section>
 
@@ -1105,17 +1146,27 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 
 <script>
   /* =========================================================================
-     WAITLIST WIRING — the one thing to finish before launch.
-     Paste your MailerLite / Kit (ConvertKit) form-action URL below.
-     - Empty string  => honest demo mode: success shows, reward delivers,
-                        lead is logged to console + localStorage so nothing is lost.
-     - Set a URL     => the email + the diagnostic result (field name "disease",
-                        configurable via WAITLIST_FIELDS) are POSTed on submit.
-     Most ESP embedded forms accept a no-cors POST; adjust field names to match
-     your form's HTML if needed.
+     KIT (ConvertKit) WAITLIST WIRING — the one thing to finish before launch.
+
+     STEP 1 — Create a form in Kit:
+       Kit dashboard → Grow → Landing Pages & Forms → New → Form (Inline).
+       Save it. Open it → "Embed" → "HTML" tab. In the markup you'll see:
+         <form action="https://app.kit.com/forms/1234567/subscriptions" ...>
+       Copy that EXACT action URL and paste it into KIT_ENDPOINT below.
+       (Older accounts show app.convertkit.com — paste whatever yours shows.)
+
+     STEP 2 — Create the custom fields so the source/result get stored:
+       Kit → Subscribers → (gear / "Custom Fields") → add these keys exactly:
+         source, disease, secondary, archetype
+       Then build automations/tags off "source" (chapter1 / diagnostic / direct).
+
+     Behaviour:
+       - KIT_ENDPOINT empty  => honest demo mode: success shows, reward delivers,
+                                lead saved to console + localStorage (nothing lost).
+       - KIT_ENDPOINT set    => email + result fields are sent to Kit on submit.
   ========================================================================== */
-  const WAITLIST_ENDPOINT = "";
-  const WAITLIST_FIELDS = { email: "email", disease: "disease", archetype: "archetype" };
+  const KIT_ENDPOINT = "https://app.kit.com/forms/9610192/subscriptions"; // Kit form #9610192 (uid fa04ba92da)
+  const KIT_FIELDS = ["source", "disease", "secondary", "archetype"]; // custom fields in Kit
   const CARDS_URL = "downloads/the-trader-and-the-nafs-the-cards.pdf";
   const CHAPTER_URL = "downloads/the-trader-and-the-nafs-chapter-1.pdf";
 
@@ -1125,16 +1176,19 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       const store = JSON.parse(localStorage.getItem('niyyah_leads')||'[]');
       store.push(lead); localStorage.setItem('niyyah_leads', JSON.stringify(store));
     }catch(_){}
-    if(WAITLIST_ENDPOINT){
+    if(KIT_ENDPOINT){
       try{
-        const fd = new FormData();
-        fd.append(WAITLIST_FIELDS.email, email);
-        if(meta.disease) fd.append(WAITLIST_FIELDS.disease, meta.disease);
-        if(meta.archetype) fd.append(WAITLIST_FIELDS.archetype, meta.archetype);
-        await fetch(WAITLIST_ENDPOINT, { method:'POST', body:fd, mode:'no-cors' });
-      }catch(err){ console.warn('Waitlist POST failed (lead saved locally):', err); }
+        const fields = {};
+        KIT_FIELDS.forEach(k=>{ if(meta[k]) fields[k] = meta[k]; });
+        const res = await fetch(KIT_ENDPOINT, {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
+          body: JSON.stringify({ email_address: email, fields })
+        });
+        if(!res.ok) console.warn('Kit responded', res.status, '(lead saved locally)');
+      }catch(err){ console.warn('Kit submit failed (lead saved locally):', err); }
     }else{
-      console.info('[demo mode] Lead captured (set WAITLIST_ENDPOINT to send it):', lead);
+      console.info('[demo mode] Lead captured (set KIT_ENDPOINT to send it):', lead);
     }
     return true;
   }
@@ -1356,14 +1410,14 @@ footer .ar{color:var(--gold);font-size:1.1rem}
     ).join('');
     return `
       <div class="result-lock">
-        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Unlock your full Nafs Report</h4>
+        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Get your full result + the cure</h4>
         <ul>
           ${lines}
           <li>The Cards — the whole system on one page — plus founding-reader access.</li>
         </ul>
         <form class="diag-form" id="diag-form" novalidate>
-          <input type="email" required placeholder="Enter your email to unlock" aria-label="Email address" />
-          <button class="btn primary" type="submit"><span>Unlock my report &amp; join the founding readers</span></button>
+          <input type="email" required placeholder="Enter your email to get your result + the cure" aria-label="Email address" />
+          <button class="btn primary" type="submit"><span>Get my result &amp; join the founding readers</span></button>
         </form>
         <p class="disclaimer" style="text-align:center;margin-top:10px">First access at launch + the 72-hour founding bonus. No spam. Unsubscribe anytime.</p>
       </div>`;
@@ -1459,11 +1513,61 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       const email=qf.querySelector('input').value.trim();
       if(!email || !/.+@.+\..+/.test(email)){ qf.querySelector('input').focus(); return; }
       const b=qf.querySelector('button'); b.disabled=true; b.textContent='Joining…';
-      await submitLead(email, { source:'quickjoin' });
+      await submitLead(email, { source:'direct' });
       renderSuccess(null, false);
     });
     document.getElementById('to-diag').addEventListener('click', ()=>{ openDiag(); });
     qf.querySelector('input').focus();
+  }
+
+  /* ===== CHAPTER 1 GATE — email-first, then deliver the free chapter ===== */
+  function renderChapterGate(){
+    lastFocus=document.activeElement;
+    step='chapter';
+    diag.hidden=false; requestAnimationFrame(()=>diag.classList.add('show'));
+    document.body.classList.add('locked');
+    document.addEventListener('keydown', onKey);
+    setProgress(false);
+    diagBody.innerHTML = `
+      <div class="diag-center" style="text-align:center">
+        <span class="diag-badge"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#ministar"/></svg> Chapter 1 — free</span>
+        <h2 class="diag-intro-h" id="diag-title">Where should I send <em>Chapter 1?</em></h2>
+        <p class="diag-intro-p">Read “The Trade That Exposed Me” free — enter your email and it opens right now. You’ll also get first access and the founding-reader bonus at launch.</p>
+        <form class="diag-form" id="chapter-form" novalidate style="max-width:380px;margin:0 auto">
+          <input type="email" required placeholder="Enter your email" aria-label="Email address" />
+          <button class="btn primary lg" type="submit">Send me Chapter 1</button>
+        </form>
+        <p class="disclaimer" style="margin-top:12px">No spam. Unsubscribe anytime. Prefer to find your disease first? <button type="button" id="to-diag-ch" style="background:none;border:0;color:var(--gold-hi);cursor:pointer;font:inherit;text-decoration:underline">Take the 60-second diagnostic →</button></p>
+      </div>`;
+    const cf=document.getElementById('chapter-form');
+    cf.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const email=cf.querySelector('input').value.trim();
+      if(!email || !/.+@.+\..+/.test(email)){ cf.querySelector('input').focus(); return; }
+      const b=cf.querySelector('button'); b.disabled=true; b.textContent='Sending…';
+      await submitLead(email, { source:'chapter1' });
+      renderChapterSuccess();
+    });
+    document.getElementById('to-diag-ch').addEventListener('click', ()=>{ openDiag(); });
+    cf.querySelector('input').focus();
+  }
+
+  function renderChapterSuccess(){
+    setProgress(false);
+    window.open(CHAPTER_URL,'_blank','noopener');
+    diagBody.innerHTML = `
+      <div class="diag-ok">
+        <div class="seal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <h3 id="diag-title">Chapter 1 is opening now.</h3>
+        <p>“The Trade That Exposed Me” is downloading in a new tab. You’re also on the founding-reader list — watch your inbox before launch.</p>
+        <div class="dl-row">
+          <a class="btn primary" href="${CHAPTER_URL}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 20h14"/></svg> Open Chapter 1 again</a>
+          <button class="btn ghost" type="button" id="ch-to-diag">Find the disease costing you money</button>
+        </div>
+      </div>`;
+    const d=document.getElementById('ch-to-diag');
+    if(d) d.addEventListener('click', openDiag);
+    document.querySelector('#diag .btn').focus();
   }
 
   /* ===== SCROLL REVEAL — premium section rhythm across the whole page ===== */
@@ -1509,10 +1613,24 @@ footer .ar{color:var(--gold);font-size:1.1rem}
     io.observe(stats);
   })();
 
+  /* ===== STICKY CTA — reveal once the hero is scrolled past ===== */
+  (function(){
+    const bar=document.getElementById('stickyCta'), hero=document.getElementById('main');
+    if(!bar||!hero) return;
+    const toggle=(show)=>{ bar.classList.toggle('show',show); bar.setAttribute('aria-hidden',String(!show)); };
+    if('IntersectionObserver' in window){
+      const io=new IntersectionObserver((e)=>{ toggle(!e[0].isIntersecting); },{rootMargin:'-40% 0px 0px 0px'});
+      io.observe(hero);
+    }else{
+      window.addEventListener('scroll',()=>{ toggle(window.scrollY > hero.offsetHeight*0.6); },{passive:true});
+    }
+  })();
+
   /* triggers */
   document.querySelectorAll('[data-diag]').forEach(b=>b.addEventListener('click',openDiag));
   document.querySelectorAll('[data-diag-close]').forEach(b=>b.addEventListener('click',closeDiag));
   document.querySelectorAll('[data-quickjoin]').forEach(b=>b.addEventListener('click',(e)=>{e.preventDefault();renderQuickJoin();}));
+  document.querySelectorAll('[data-chapter]').forEach(b=>b.addEventListener('click',(e)=>{e.preventDefault();renderChapterGate();}));
   diag.addEventListener('click',(e)=>{ if(e.target===diag) closeDiag(); });
 </script>
 </body>
