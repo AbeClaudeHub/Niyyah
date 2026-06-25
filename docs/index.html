@@ -1146,17 +1146,27 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 
 <script>
   /* =========================================================================
-     WAITLIST WIRING — the one thing to finish before launch.
-     Paste your MailerLite / Kit (ConvertKit) form-action URL below.
-     - Empty string  => honest demo mode: success shows, reward delivers,
-                        lead is logged to console + localStorage so nothing is lost.
-     - Set a URL     => the email + the diagnostic result (field name "disease",
-                        configurable via WAITLIST_FIELDS) are POSTed on submit.
-     Most ESP embedded forms accept a no-cors POST; adjust field names to match
-     your form's HTML if needed.
+     KIT (ConvertKit) WAITLIST WIRING — the one thing to finish before launch.
+
+     STEP 1 — Create a form in Kit:
+       Kit dashboard → Grow → Landing Pages & Forms → New → Form (Inline).
+       Save it. Open it → "Embed" → "HTML" tab. In the markup you'll see:
+         <form action="https://app.kit.com/forms/1234567/subscriptions" ...>
+       Copy that EXACT action URL and paste it into KIT_ENDPOINT below.
+       (Older accounts show app.convertkit.com — paste whatever yours shows.)
+
+     STEP 2 — Create the custom fields so the source/result get stored:
+       Kit → Subscribers → (gear / "Custom Fields") → add these keys exactly:
+         source, disease, secondary, archetype
+       Then build automations/tags off "source" (chapter1 / diagnostic / direct).
+
+     Behaviour:
+       - KIT_ENDPOINT empty  => honest demo mode: success shows, reward delivers,
+                                lead saved to console + localStorage (nothing lost).
+       - KIT_ENDPOINT set    => email + result fields are sent to Kit on submit.
   ========================================================================== */
-  const WAITLIST_ENDPOINT = "";
-  const WAITLIST_FIELDS = { email: "email", disease: "disease", archetype: "archetype", source: "source" };
+  const KIT_ENDPOINT = ""; // <-- paste your Kit form action URL here (see STEP 1)
+  const KIT_FIELDS = ["source", "disease", "secondary", "archetype"]; // custom fields in Kit
   const CARDS_URL = "downloads/the-trader-and-the-nafs-the-cards.pdf";
   const CHAPTER_URL = "downloads/the-trader-and-the-nafs-chapter-1.pdf";
 
@@ -1166,17 +1176,19 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       const store = JSON.parse(localStorage.getItem('niyyah_leads')||'[]');
       store.push(lead); localStorage.setItem('niyyah_leads', JSON.stringify(store));
     }catch(_){}
-    if(WAITLIST_ENDPOINT){
+    if(KIT_ENDPOINT){
       try{
-        const fd = new FormData();
-        fd.append(WAITLIST_FIELDS.email, email);
-        if(meta.disease) fd.append(WAITLIST_FIELDS.disease, meta.disease);
-        if(meta.archetype) fd.append(WAITLIST_FIELDS.archetype, meta.archetype);
-        if(meta.source) fd.append(WAITLIST_FIELDS.source, meta.source);
-        await fetch(WAITLIST_ENDPOINT, { method:'POST', body:fd, mode:'no-cors' });
-      }catch(err){ console.warn('Waitlist POST failed (lead saved locally):', err); }
+        const fields = {};
+        KIT_FIELDS.forEach(k=>{ if(meta[k]) fields[k] = meta[k]; });
+        const res = await fetch(KIT_ENDPOINT, {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
+          body: JSON.stringify({ email_address: email, fields })
+        });
+        if(!res.ok) console.warn('Kit responded', res.status, '(lead saved locally)');
+      }catch(err){ console.warn('Kit submit failed (lead saved locally):', err); }
     }else{
-      console.info('[demo mode] Lead captured (set WAITLIST_ENDPOINT to send it):', lead);
+      console.info('[demo mode] Lead captured (set KIT_ENDPOINT to send it):', lead);
     }
     return true;
   }
