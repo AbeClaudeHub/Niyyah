@@ -604,7 +604,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 .ctrack::-webkit-scrollbar{display:none}
 .carousel::after{content:"";position:absolute;inset:1.5px;border-radius:22px;pointer-events:none;z-index:4;
   box-shadow:inset 0 1px 0 rgba(243,226,175,.18),inset 0 0 70px -34px rgba(205,168,99,.45)}
-.carousel .cslide{flex:0 0 100%;scroll-snap-align:center;position:relative}
+.carousel .cslide{flex:0 0 100%;scroll-snap-align:start;position:relative}
 .carousel .media{border:0;border-radius:0;background:transparent;transition:none}
 .carousel .media:hover{transform:none;border:0;box-shadow:none}
 .carousel .media img{width:100%;height:min(74vh,640px);object-fit:contain;object-position:center;background:#070f0b;display:block}
@@ -909,10 +909,17 @@ footer .ar{color:var(--gold);font-size:1.1rem}
         dotsWrap.appendChild(b);
       }
       var dots=dotsWrap.children;
-      function go(idx){idx=Math.max(0,Math.min(n-1,idx));track.scrollTo({left:idx*track.clientWidth,behavior:'smooth'});}
+      function go(idx){idx=Math.max(0,Math.min(n-1,idx));track.scrollTo({left:slides[idx].offsetLeft,behavior:'smooth'});}
       function update(){
-        i=Math.max(0,Math.min(n-1,Math.round(track.scrollLeft/track.clientWidth)));
-        for(var k=0;k<n;k++)dots[k].classList.toggle('on',k===i);
+        // pick the slide whose start is nearest the current scroll position —
+        // robust to snap alignment, sub-pixel rounding, gaps and odd widths
+        var best=0,bestDist=Infinity;
+        for(var k=0;k<n;k++){
+          var d=Math.abs(slides[k].offsetLeft-track.scrollLeft);
+          if(d<bestDist){bestDist=d;best=k;}
+        }
+        i=best;
+        for(var k2=0;k2<n;k2++)dots[k2].classList.toggle('on',k2===i);
         count.innerHTML='<b>'+pad(i+1)+'</b> / '+pad(n);
         prev.disabled=(i<=0);next.disabled=(i>=n-1);
       }
