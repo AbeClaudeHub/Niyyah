@@ -48,6 +48,18 @@
   .foot{margin-top:18px;text-align:center;font-size:11px;color:var(--muted);letter-spacing:.04em}
   .foot a{color:var(--gold)}
   svg.kh{width:22px;height:22px;color:var(--gold);vertical-align:middle}
+  /* on-screen reading (the print mm sizes are far too large on a phone) */
+  @media screen{
+    .cover{height:auto;min-height:90vh;padding:9vh 26px}
+    .cover h1{font-size:46px}
+    .cover h1 span{font-size:24px}
+    .intro,.card,.foot{max-width:700px;margin-left:auto;margin-right:auto}
+    body{padding-bottom:40px}
+  }
+  @media screen and (max-width:760px){
+    .cover h1{font-size:42px}
+    .intro,.card,.foot{margin-left:16px;margin-right:16px}
+  }
 </style>
 </head>
 <body>

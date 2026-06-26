@@ -16,15 +16,14 @@
   p{margin:0 0 .95em}
   em{font-style:italic;color:var(--emerald)}
   .ar{font-family:"Amiri",serif}
-  /* cover */
-  .cover{height:261mm;background:radial-gradient(120% 80% at 50% 30%,#15604655,transparent 60%),linear-gradient(160deg,var(--emerald),var(--emerald-d));color:#f4efe1;border:2px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30mm 18mm;page-break-after:always;position:relative}
-  .cover::before{content:"";position:absolute;inset:6mm;border:1px solid rgba(202,161,78,.5)}
-  .emblem{width:80px;height:80px;color:var(--gold-2);margin-bottom:20px}
-  .cover .kick{font-family:var(--sans);font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--gold-2);margin-bottom:24px}
-  .cover .ch{font-family:var(--sans);font-size:12px;letter-spacing:5px;text-transform:uppercase;color:#cdbf9f;margin-bottom:8px}
-  .cover h1{font-size:46px;color:#f4efe1;max-width:18ch}
-  .cover .from{margin-top:30px;font-style:italic;color:var(--gold-2);font-size:15px}
-  .cover .sub{margin-top:6px;font-family:var(--sans);font-size:11px;letter-spacing:2px;color:#cdbf9f}
+  /* cover — mirrors the real book cover (the hero) */
+  .cover{height:261mm;background:radial-gradient(120% 80% at 50% 24%,rgba(16,88,63,.4),transparent 60%),linear-gradient(165deg,#0a130e,#06100b);color:#f4efe1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:22mm 18mm;page-break-after:always;position:relative}
+  .cover::before{content:"";position:absolute;inset:7mm;border:1px solid rgba(202,161,78,.45)}
+  .cover .kick{font-family:var(--sans);font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--gold-2);margin-bottom:13mm}
+  .cover .bookimg{width:100mm;max-width:62%;height:auto;border-radius:1.5mm;box-shadow:0 12mm 26mm -10mm rgba(0,0,0,.75),0 0 0 0.4mm rgba(202,161,78,.4)}
+  .cover .ch{font-family:var(--sans);font-size:12px;letter-spacing:5px;text-transform:uppercase;color:var(--gold-2);margin:13mm 0 6px}
+  .cover h1{font-size:34px;color:#f4efe1;max-width:18ch;font-weight:500}
+  .cover .sub{margin-top:12px;font-family:var(--sans);font-size:11px;letter-spacing:2px;color:#cdbf9f}
   /* chapter */
   .chap{max-width:64ch;margin:0 auto}
   .chnum{font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
@@ -46,6 +45,20 @@
   .cta p{color:#d9cead;max-width:54ch;font-size:14px}
   .cta .btn{margin-top:22px;font-family:var(--sans);font-weight:600;font-size:13px;letter-spacing:.04em;color:var(--emerald-d);background:linear-gradient(100deg,#caa14e,#f3e2af,#caa14e);padding:13px 28px;border-radius:100px}
   .cta .small{margin-top:16px;font-family:var(--sans);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-2)}
+  /* on-screen reading (the print mm sizes are far too large on a phone) */
+  @media screen{
+    body{font-size:17px;line-height:1.7}
+    .cover{height:auto;min-height:92vh;padding:9vh 26px}
+    .cover .bookimg{width:58vw;max-width:240px}
+    .cover h1{font-size:27px}
+    .chap{padding:40px 26px 8px}
+    .chtitle{font-size:27px}
+    .cta{height:auto;padding:64px 30px;margin-top:8px}
+    .cta h2{font-size:28px}
+  }
+  @media screen and (min-width:760px){
+    .chap{padding:64px 0 8px}
+  }
 </style>
 </head>
 <body>
@@ -53,11 +66,10 @@
 
 <section class="cover">
   <div class="kick">Niyyah Press · Free Chapter</div>
-  <svg class="emblem" viewBox="0 0 100 100"><use href="#kh"/></svg>
+  <img class="bookimg" src="../assets/cover.png" alt="The Trader and the Nafs — book cover" />
   <div class="ch">Chapter One</div>
   <h1>The Trade That Exposed Me</h1>
-  <div class="from">from <em>The Trader and the Nafs</em></div>
-  <div class="sub">ABRIHYM AOBAD</div>
+  <div class="sub">from The Trader and the Nafs · Abrihym Aobad</div>
 </section>
 
 <article class="chap">

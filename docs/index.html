@@ -374,6 +374,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 .diag-progress{height:4px;border-radius:100px;background:rgba(255,255,255,.06);overflow:hidden;margin-bottom:18px}
 .diag-progress i{display:block;height:100%;width:0;border-radius:100px;background:var(--gold-grad);transition:width .45s var(--ease)}
 .diag-step-label{font-size:.64rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;justify-content:space-between}
+.diag-step-label[hidden],.diag-progress[hidden]{display:none}
 .diag-body{padding:0 30px 30px;overflow-y:auto}
 .diag-q{font-family:var(--serif);font-weight:500;font-size:clamp(1.4rem,4vw,1.75rem);line-height:1.18;color:var(--cream);margin:0 0 1.1em}
 .diag-opts{display:grid;gap:10px}
@@ -424,6 +425,8 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 .diag-ok .seal svg{width:30px;height:30px}
 .diag-ok h3{font-family:var(--serif);font-weight:500;font-size:1.7rem;color:var(--cream);margin:0 0 .4em}
 .diag-ok p{color:var(--muted);max-width:40ch;margin:0 auto 1.5em}
+.diag-ok .confirm{font-size:.85rem;line-height:1.55;color:var(--muted-2);max-width:44ch;margin:-.3em auto 1.6em;background:rgba(205,168,99,.06);border:1px solid var(--line);border-radius:12px;padding:.85em 1.1em}
+.diag-ok .confirm b{color:var(--gold-hi);font-weight:600}
 .diag-ok .dl-row{display:flex;flex-direction:column;gap:10px}
 .diag-ok .dl-row .btn{width:100%}
 
@@ -1113,8 +1116,8 @@ footer .ar{color:var(--gold);font-size:1.1rem}
   ========================================================================== */
   const KIT_ENDPOINT = "https://app.kit.com/forms/9610192/subscriptions"; // Kit form #9610192 (uid fa04ba92da)
   const KIT_FIELDS = ["source", "disease", "secondary", "archetype"]; // custom fields in Kit
-  const CARDS_URL = "downloads/the-trader-and-the-nafs-the-cards.pdf";
-  const CHAPTER_URL = "downloads/the-trader-and-the-nafs-chapter-1.pdf";
+  const CARDS_URL = "downloads/the-cards.html";
+  const CHAPTER_URL = "downloads/chapter-1.html";
 
   async function submitLead(email, meta){
     const lead = { email, ...meta, ts: new Date().toISOString() };
@@ -1462,10 +1465,11 @@ footer .ar{color:var(--gold);font-size:1.1rem}
     diagBody.innerHTML = `
       <div class="diag-ok">
         <div class="seal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6 9 17l-5-5"/></svg></div>
-        <h3 id="diag-title">You’re in — and you’re a founding reader.</h3>
-        <p>${fromDiag ? `Your Cards are downloading now. Your full report on <b>${D.name}</b> is on its way to your inbox — along with its cure, <b>${D.cure}</b>. When the book opens, that’s the first chapter to turn to.` : `Your Cards are downloading now. Watch your inbox — the ideas behind the book land weekly until launch.`}</p>
+        <h3 id="diag-title">You’re in — welcome, founding reader.</h3>
+        <p>Your Cards just opened in a new tab.${fromDiag ? ` Your full <b>${D.name}</b> report and its cure, <b>${D.cure}</b>, are on their way by email — when the book opens, that’s the first chapter to turn to.` : ``}</p>
+        <p class="confirm"><b>One quick step:</b> check your inbox and tap <b>confirm</b> so I can send ${fromDiag ? 'your report and the' : 'the'} founding-reader emails. If it’s not there in a minute, peek in <b>spam</b> or <b>promotions</b> and mark it “not spam.”</p>
         <div class="dl-row">
-          <a class="btn primary" href="${CARDS_URL}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 20h14"/></svg> Download The Cards again</a>
+          <a class="btn primary" href="${CARDS_URL}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg> View The Cards</a>
           <a class="btn ghost" href="${CHAPTER_URL}" target="_blank" rel="noopener">Read Chapter 1 free</a>
         </div>
       </div>`;
@@ -1541,10 +1545,11 @@ footer .ar{color:var(--gold);font-size:1.1rem}
     diagBody.innerHTML = `
       <div class="diag-ok">
         <div class="seal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6 9 17l-5-5"/></svg></div>
-        <h3 id="diag-title">Chapter 1 is opening now.</h3>
-        <p>“The Trade That Exposed Me” is downloading in a new tab. You’re also on the founding-reader list — watch your inbox before launch.</p>
+        <h3 id="diag-title">Chapter 1 just opened.</h3>
+        <p>“The Trade That Exposed Me” opened in a new tab — read it right there.</p>
+        <p class="confirm"><b>One quick step:</b> you’re on the founding-reader list, so check your inbox and tap <b>confirm</b> to lock in first access and the launch bonus. If it’s not there in a minute, peek in <b>spam</b> or <b>promotions</b>.</p>
         <div class="dl-row">
-          <a class="btn primary" href="${CHAPTER_URL}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 20h14"/></svg> Open Chapter 1 again</a>
+          <a class="btn primary" href="${CHAPTER_URL}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg> View Chapter 1 again</a>
           <button class="btn ghost" type="button" id="ch-to-diag">Find the disease costing you money</button>
         </div>
       </div>`;
