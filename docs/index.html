@@ -404,6 +404,10 @@ footer .ar{color:var(--gold);font-size:1.1rem}
 .result-card .rk{font-size:.62rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5em}
 .result-card p{font-size:.95rem;color:var(--muted);margin:0}
 .result-card .ar{display:block;font-size:1.2rem;color:var(--gold-hi);margin-bottom:.3em;direction:rtl}
+.result-cure{border:1px solid rgba(205,168,99,.34);border-radius:14px;padding:16px 20px;text-align:left;margin:2px 0 14px;background:linear-gradient(180deg,rgba(205,168,99,.09),rgba(205,168,99,.02))}
+.result-cure .rk{font-size:.62rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5em}
+.result-cure p{font-size:.95rem;line-height:1.5;color:var(--cream);margin:0}
+.result-cure b{color:var(--gold-hi);font-weight:600}
 .result-lock{border:1px dashed rgba(205,168,99,.4);border-radius:14px;padding:20px;text-align:left;position:relative;margin-top:6px}
 .result-lock h4{font-family:var(--serif);font-weight:500;font-size:1.2rem;color:var(--cream);margin:0 0 .4em;display:flex;align-items:center;gap:.5em}
 .result-lock h4 svg{width:17px;height:17px;color:var(--gold)}
@@ -1139,29 +1143,42 @@ footer .ar{color:var(--gold);font-size:1.1rem}
   /* ============================ THE NAFS DIAGNOSTIC ===================== */
   const DISEASES = {
     impatience:{ name:'Impatience', arch:'The Rusher', ar:'العَجَلَة',
-      desc:'You force trades the market hasn’t offered yet. Dead sessions feel unbearable, so you manufacture action — and the action is what bleeds you.',
-      cure:'Sabr', cureLine:'The cure is sabr — the trained strength to wait without flinching. There is a chapter built entirely on it.',
+      tell:'You force trades the market hasn’t offered yet. Dead sessions feel unbearable, so you manufacture action — and the manufactured action is what bleeds you.',
+      cost:'Your losing trades aren’t bad reads. They’re the trades you invented to escape the silence between the good ones.',
+      voice:'It’s the commanding self wearing the mask of “staying active.” It always has a reason ready before you’ve even noticed the urge.',
+      cure:'Sabr', cureLine:'Not gritted-teeth waiting — the trained strength to sit in an empty market without flinching, until the real trade comes to you.',
       chapter:'Part IV · Sabr — The Strength to Hold' },
     greed:{ name:'Greed', arch:'The Never-Enough', ar:'الطَّمَع',
-      desc:'You move the target after price reaches it. You oversize when you feel hot, and you give winners back chasing a little more. Enough never arrives.',
-      cure:'Ghinā an-nafs', cureLine:'The cure is the richness of the self — wanting from a full place, not an empty one. The book treats it as the disease beneath the disease.',
-      chapter:'Part III · Greed (and Part II · The Love of Wealth)' },
+      tell:'You move the target after price reaches it. You size up when you feel hot and give winners back chasing a little more. The moment you reach “enough,” it moves.',
+      cost:'It’s not that you don’t take profit. It’s that the profit never counts as enough to keep — so you hand it back to the market, again and again.',
+      voice:'The hunger was never for a number; no number fills it. It’s a condition of the heart that the next win can never satisfy.',
+      cure:'Shukr', cureLine:'Not more discipline — gratitude: the richness of soul (ghinā an-nafs) that ends scarcity, so you can take “enough” and walk away whole.',
+      chapter:'Part IV · Shukr — Gratitude & the End of Scarcity' },
     fear:{ name:'Fear', arch:'The Flincher', ar:'الخَوْف',
-      desc:'You hesitate on valid setups and cut winners early to make the discomfort stop. The plan is sound; your nerve breaks before it can pay you.',
-      cure:'Tawakkul', cureLine:'The cure is tawakkul — doing your part fully, then releasing the outcome to the One who owns it. A whole chapter lands here.',
-      chapter:'Part IV · Tawakkul — Release of Outcome' },
+      tell:'You hesitate on valid setups and cut winners early to make the discomfort stop. The plan is sound; your nerve breaks before it can pay you.',
+      cost:'You don’t lose to bad trades. You lose to the good ones — taken too small, exited too soon, or never taken at all.',
+      voice:'Fear feels like caution, so you trust it. But it’s the override, protecting you from the very plan you wrote in a calm hour.',
+      cure:'Tawakkul', cureLine:'Doing your part in full, then releasing the outcome to the One who owns it — so you can act decisively without needing to control the result.',
+      chapter:'Part IV · Tawakkul — Trust & the Release of Outcome' },
     pride:{ name:'Pride', arch:'The Untouchable', ar:'الكِبْر',
-      desc:'You fight the market to be proven right. You skip the journal, dismiss the loss as a fluke, and refuse to admit a trade was simply wrong.',
-      cure:'Muhasabah', cureLine:'The cure is muhasabah — the daily reckoning that makes you answerable to yourself before the market does it for you.',
-      chapter:'Part IV · Muhasabah — The Reckoning' },
+      tell:'You fight the market to be proven right. You skip the journal, write losses off as flukes, and refuse to admit a trade was simply wrong.',
+      cost:'The single loss rarely ruins you. Refusing to admit it — and doubling down to be right — is what turns a small loss into the blow-up.',
+      voice:'Pride hides the evidence from you. The trade that would teach you the most is the exact one you’ve quietly decided not to look at.',
+      cure:'Muhasabah', cureLine:'The daily reckoning — and the humility (tawāḍuʿ) under it — that makes you answerable to yourself before the market does it for you.',
+      chapter:'Part IV · Muhasabah — The Reckoning Before the Reckoning' },
     despair:{ name:'Despair', arch:'The Quitter', ar:'اليَأْس',
-      desc:'After drawdown you spiral — abandon the plan, trade from self-contempt, or walk away convinced you’re not built for this. The loss becomes a verdict on you.',
-      cure:'Rajāʾ', cureLine:'The cure is hope rightly placed — refusing the lie that one bad stretch is the final word. The book closes the door on despair deliberately.',
-      chapter:'Part III · Despair (and Part VI · the final letter)' }
+      tell:'After drawdown you spiral — abandon the plan, trade from self-contempt, or walk away convinced you’re not built for this. The loss stops being information and becomes a verdict on you.',
+      cost:'You quit good systems at the bottom — right before they’d have turned — and call it self-knowledge. The drawdown was never the problem. Reading it as the end was.',
+      voice:'Despair can’t tell weather from climate. A normal losing streak feels like permanent proof, and the proof feels like the truth.',
+      cure:'Rajāʾ', cureLine:'Hope rightly placed — the trained refusal to let one bad stretch become the final word, and the skill of grading the process, not the P&L.',
+      chapter:'Part III · Despair — and the Final Letter' }
   };
 
-  /* Balanced set: each disease is offered in 4–5 of the 24 option slots, so no
-     single answer is structurally favoured. Options are shuffled per render. */
+  /* Balanced set: across the 24 option slots each disease is offered 5 times,
+     except one (4) — the closest an even split gets with 5 diseases. Scenarios
+     deliberately span both losing AND winning moments, since the upside reveals
+     greed and pride as sharply as drawdown reveals fear and despair. Options are
+     shuffled per render so position never favours an answer. */
   const QUESTIONS = [
     { q:'You just took your second losing trade of the day. What actually happens next?',
       opts:[
@@ -1175,7 +1192,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
         {t:'I move the target — there’s probably more in it.', d:'greed'},
         {t:'I take it early, before it can turn on me.', d:'fear'},
         {t:'I grab it the instant it prints, before I can “ruin it.”', d:'impatience'},
-        {t:'I close it, but already feel I’ll just give it back tomorrow.', d:'despair'}
+        {t:'I close it, but already brace to give it all back tomorrow.', d:'despair'}
       ]},
     { q:'The market is flat and slow. There’s no clean setup. You:',
       opts:[
@@ -1198,12 +1215,12 @@ footer .ar{color:var(--gold);font-size:1.1rem}
         {t:'Impatience — I’d rather settle the day fast, win or lose.', d:'impatience'},
         {t:'I barely size at all — part of me has already given up.', d:'despair'}
       ]},
-    { q:'A week of red. By Friday, what’s true of you?',
+    { q:'You close a real winner — a genuinely green day. What do you do with the feeling?',
       opts:[
-        {t:'I’m overtrading to climb back fast.', d:'impatience'},
-        {t:'I’m convinced one big trade will fix everything.', d:'greed'},
-        {t:'I’m trading scared — smaller, later, hesitant.', d:'fear'},
-        {t:'I’m blaming the conditions, not my own decisions.', d:'pride'}
+        {t:'Immediately hunt the next one — the win barely lands before I want more.', d:'greed'},
+        {t:'Can’t sit still — I trade again right away and give some of it back.', d:'impatience'},
+        {t:'Brace for it to reverse — I can’t actually enjoy it.', d:'fear'},
+        {t:'Wait for it to vanish — wins never seem to last for someone like me.', d:'despair'}
       ]}
   ];
 
@@ -1306,21 +1323,39 @@ footer .ar{color:var(--gold);font-size:1.1rem}
   }
 
   function lockBlock(list){
+    const many = list.length > 1;
     const lines = list.map(D =>
-      `<li>The cure for <b>${D.name.toLowerCase()}</b> — <b>${D.cure}</b> — and the chapter written for it: <b>${D.chapter}</b>.</li>`
+      `<li>The chapter written to install <b>${D.cure}</b> in you — <b>${D.chapter}</b>.</li>`
     ).join('');
     return `
       <div class="result-lock">
-        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Get your full result + the cure</h4>
+        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Get your full report + the chapter that cures it</h4>
         <ul>
+          <li>Your personalised breakdown of ${many?'both diseases':'this disease'} — where ${many?'they hide':'it hides'} in your trading, and the exact moment ${many?'they strike':'it strikes'}.</li>
           ${lines}
-          <li>The Cards — the whole system on one page — plus founding-reader access.</li>
+          <li>The Cards — the whole system on one page — plus founding-reader access and your first copy when the book opens.</li>
         </ul>
         <form class="diag-form" id="diag-form" novalidate>
-          <input type="email" required placeholder="Enter your email to get your result + the cure" aria-label="Email address" />
-          <button class="btn primary" type="submit"><span>Get my result &amp; join the founding readers</span></button>
+          <input type="email" required placeholder="Enter your email to get your report + the cure" aria-label="Email address" />
+          <button class="btn primary" type="submit"><span>Send my report &amp; join the founding readers</span></button>
         </form>
         <p class="disclaimer" style="text-align:center;margin-top:10px">First access at launch + the 72-hour founding bonus. No spam. Unsubscribe anytime.</p>
+      </div>`;
+  }
+
+  function cureTease(list){
+    if(list.length > 1){
+      return `
+        <div class="result-cure">
+          <div class="rk">The cures — older than every chart</div>
+          <p><b>${list[0].cure}</b> — ${list[0].cureLine}</p>
+          <p style="margin-top:.55em"><b>${list[1].cure}</b> — ${list[1].cureLine}</p>
+        </div>`;
+    }
+    return `
+      <div class="result-cure">
+        <div class="rk">The cure — older than every chart</div>
+        <p>It has a name: <b>${list[0].cure}</b>. ${list[0].cureLine}</p>
       </div>`;
   }
 
@@ -1334,7 +1369,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
     const hasStreak  = second && !coDominant && second.s >= 2;
     const S = (coDominant || hasStreak) ? DISEASES[second.k] : null;
 
-    let head, cards, unlock;
+    let head, cards, tease, unlock;
     if(coDominant){
       head = `
         <span class="diag-badge"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#ministar"/></svg> Two diseases are running your account</span>
@@ -1342,8 +1377,9 @@ footer .ar{color:var(--gold);font-size:1.1rem}
         <div class="result-arch">${P.arch} · ${S.arch}</div>
         <p class="result-secondary">They scored level — and they feed each other. Most traders carry a pair like this; seeing both is the start of breaking the loop.</p>`;
       cards = `
-        <div class="result-card"><div class="rk">What ${P.name.toLowerCase()} does to your account</div><p>${P.desc}</p></div>
-        <div class="result-card"><div class="rk">What ${S.name.toLowerCase()} does to your account</div><p>${S.desc}</p></div>`;
+        <div class="result-card"><div class="rk">What ${P.name.toLowerCase()} is doing to your account</div><p>${P.tell}</p></div>
+        <div class="result-card"><div class="rk">What ${S.name.toLowerCase()} is doing to your account</div><p>${S.tell}</p></div>`;
+      tease = cureTease([P, S]);
       unlock = lockBlock([P, S]);
     } else {
       head = `
@@ -1351,13 +1387,18 @@ footer .ar{color:var(--gold);font-size:1.1rem}
         <div class="result-disease" id="diag-title">${P.name}</div>
         <div class="result-arch">${P.arch} · <span class="ar">${P.ar}</span></div>
         ${hasStreak ? `<p class="result-secondary">— with a clear streak of <b>${S.name}</b> underneath. Master the first, and much of the second loosens with it.</p>` : ``}`;
-      cards = `<div class="result-card"><div class="rk">What it does to your account</div><p>${P.desc}</p></div>`;
+      cards = `
+        <div class="result-card"><div class="rk">What it’s doing to your account</div><p>${P.tell}</p></div>
+        <div class="result-card"><div class="rk">What it’s quietly costing you</div><p>${P.cost}</p></div>
+        <div class="result-card"><div class="rk">The voice behind it</div><p>${P.voice}</p></div>`;
+      tease = cureTease(hasStreak ? [P, S] : [P]);
       unlock = lockBlock(hasStreak ? [P, S] : [P]);
     }
 
     diagBody.innerHTML = `
       <div class="diag-center" style="text-align:center">${head}</div>
       ${cards}
+      ${tease}
       ${unlock}
       <button class="diag-back" type="button" id="diag-retake"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/></svg> Retake</button>`;
 
@@ -1381,7 +1422,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       <div class="diag-ok">
         <div class="seal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6 9 17l-5-5"/></svg></div>
         <h3 id="diag-title">You’re in — and you’re a founding reader.</h3>
-        <p>${fromDiag ? `Your Cards are downloading now. Watch your inbox for your full report on <b>${D.name}</b> and the chapter written for it.` : `Your Cards are downloading now. Watch your inbox — the ideas behind the book land weekly until launch.`}</p>
+        <p>${fromDiag ? `Your Cards are downloading now. Your full report on <b>${D.name}</b> is on its way to your inbox — along with its cure, <b>${D.cure}</b>. When the book opens, that’s the first chapter to turn to.` : `Your Cards are downloading now. Watch your inbox — the ideas behind the book land weekly until launch.`}</p>
         <div class="dl-row">
           <a class="btn primary" href="${CARDS_URL}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 20h14"/></svg> Download The Cards again</a>
           <a class="btn ghost" href="${CHAPTER_URL}" target="_blank" rel="noopener">Read Chapter 1 free</a>
