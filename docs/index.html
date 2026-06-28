@@ -1367,21 +1367,21 @@ footer .ar{color:var(--gold);font-size:1.1rem}
   }
 
   function lockBlock(list){
-    const many = list.length > 1;
     const lines = list.map(D =>
-      `<li>The chapter written to install <b>${D.cure}</b> in you — <b>${D.chapter}</b>.</li>`
+      `<li>When the book opens, the cure for <b>${D.name.toLowerCase()}</b> — <b>${D.cure}</b> — is the chapter written for you: <b>${D.chapter}</b>.</li>`
     ).join('');
     return `
       <div class="result-lock">
-        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Get your full report + the chapter that cures it</h4>
+        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Get the Cards &amp; join the founding readers</h4>
         <ul>
-          <li>Your personalised breakdown of ${many?'both diseases':'this disease'} — where ${many?'they hide':'it hides'} in your trading, and the exact moment ${many?'they strike':'it strikes'}.</li>
+          <li>The Cards — the whole system on one page — emailed to you to keep.</li>
+          <li>A lesson from the book each week until launch.</li>
           ${lines}
-          <li>The Cards — the whole system on one page — plus founding-reader access and your first copy when the book opens.</li>
+          <li>Founding-reader access: your first copy the day it opens — before anyone — plus the launch bonus.</li>
         </ul>
         <form class="diag-form" id="diag-form" novalidate>
-          <input type="email" required placeholder="Enter your email to get your report + the cure" aria-label="Email address" />
-          <button class="btn primary" type="submit"><span>Send my report &amp; join the founding readers</span></button>
+          <input type="email" required placeholder="Enter your email to get the Cards" aria-label="Email address" />
+          <button class="btn primary" type="submit"><span>Send my Cards &amp; join the founding readers</span></button>
         </form>
         <p class="disclaimer" style="text-align:center;margin-top:10px">First access at launch + the 72-hour founding bonus. No spam. Unsubscribe anytime.</p>
       </div>`;
@@ -1456,7 +1456,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       renderSuccess(P, true);
     });
     document.getElementById('diag-retake').addEventListener('click', ()=>{ step=-1; scores={impatience:0,greed:0,fear:0,pride:0,despair:0}; renderIntro(); });
-    form.querySelector('input').focus();
+    diagBody.scrollTop = 0; // show the result from the top — don't jump to the email field
   }
 
   function renderSuccess(D, fromDiag){
@@ -1466,7 +1466,7 @@ footer .ar{color:var(--gold);font-size:1.1rem}
       <div class="diag-ok">
         <div class="seal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6 9 17l-5-5"/></svg></div>
         <h3 id="diag-title">You’re in — welcome, founding reader.</h3>
-        <p>Your Cards just opened in a new tab.${fromDiag ? ` Your full <b>${D.name}</b> report and its cure, <b>${D.cure}</b>, are on their way by email — when the book opens, that’s the first chapter to turn to.` : ``}</p>
+        <p>Your Cards just opened in a new tab — and they’re waiting in your inbox too.${fromDiag ? ` When the book opens, <b>${D.cure}</b> — the cure for your <b>${D.name}</b> — is the first chapter to turn to.` : ``}</p>
         <p class="confirm">From now until launch, I’ll be sending you lessons (via email) from the book each week — the real ideas inside it: the market as a mirror, the lie that breaks every rule (“today is different”), the five diseases quietly costing you money, and the Prophetic psychology that trains them out of you. You’ll walk into launch day already ahead.<br><br><b>Check your inbox</b> — if it’s not there in a minute, peek in <b>spam</b> or <b>promotions</b>.</p>
         <div class="dl-row">
           <a class="btn primary" href="${CARDS_URL}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg> View The Cards</a>
