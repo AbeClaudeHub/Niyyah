@@ -218,11 +218,11 @@ function composeWhen(moments){
   return `${moments[0]}, and ${moments[1]}`;
 }
 function patternSentence(record, key){
-  const moments = (record.patternMoments[key] || {}).moments || [];
+  const moments = ((record.patternMoments || {})[key] || {}).moments || [];
   return `I recognize ${PATTERN_LABEL[key].toLowerCase()} in myself. It enters ${composeWhen(moments)}.`;
 }
 function patternSentenceHtml(record, key){
-  const moments = ((record.patternMoments[key] || {}).moments || []).map(esc);
+  const moments = (((record.patternMoments || {})[key] || {}).moments || []).map(esc);
   return `I recognize <strong style="color:var(--cream)">${esc(PATTERN_LABEL[key].toLowerCase())}</strong> in myself. It enters ${composeWhen(moments)}.`;
 }
 
@@ -615,6 +615,10 @@ function fmtDate(iso){
 }
 
 function documentInnerHtml(record){
+  const vision = record.vision || {};
+  const rules = record.rules || {};
+  const patterns = Array.isArray(record.patterns) ? record.patterns : [];
+  const life = Array.isArray(record.life) ? record.life : [];
   return `
     <div class="paper-head">
       <div class="kicker">The Contract</div>
@@ -625,26 +629,26 @@ function documentInnerHtml(record){
 
     <div class="doc-section">
       <div class="sec-label">The Vision</div>
-      <p><strong style="color:var(--cream)">As a trader:</strong> ${esc(record.vision.trader)}</p>
-      <p><strong style="color:var(--cream)">As a man:</strong> ${esc(record.vision.man)}</p>
-      <p><strong style="color:var(--cream)">As a servant:</strong> ${esc(record.vision.servant)}</p>
+      <p><strong style="color:var(--cream)">As a trader:</strong> ${esc(vision.trader)}</p>
+      <p><strong style="color:var(--cream)">As a man:</strong> ${esc(vision.man)}</p>
+      <p><strong style="color:var(--cream)">As a servant:</strong> ${esc(vision.servant)}</p>
     </div>
 
     <div class="doc-section">
       <div class="sec-label">My Patterns</div>
-      ${record.patterns.map(k => `<p>${patternSentenceHtml(record, k)}</p>`).join("")}
+      ${patterns.map(k => `<p>${patternSentenceHtml(record, k)}</p>`).join("")}
     </div>
 
     <div class="doc-section">
       <div class="sec-label">My Trading Rules</div>
-      <div class="doc-clause"><div class="clause-kind">The Hard Rule</div><div class="clause-text">"${esc(record.rules.hard)}"</div></div>
-      <div class="doc-clause"><div class="clause-kind">The Daily Rule</div><div class="clause-text">"${esc(record.rules.daily)}"</div></div>
-      <div class="doc-clause"><div class="clause-kind">The Recovery Rule</div><div class="clause-text">"${esc(record.rules.recovery)}"</div></div>
+      <div class="doc-clause"><div class="clause-kind">The Hard Rule</div><div class="clause-text">"${esc(rules.hard)}"</div></div>
+      <div class="doc-clause"><div class="clause-kind">The Daily Rule</div><div class="clause-text">"${esc(rules.daily)}"</div></div>
+      <div class="doc-clause"><div class="clause-kind">The Recovery Rule</div><div class="clause-text">"${esc(rules.recovery)}"</div></div>
     </div>
 
     <div class="doc-section">
       <div class="sec-label">My Life</div>
-      ${record.life.map(r => `<p><strong style="color:var(--cream)">${esc(r.area)}</strong> — ${esc(r.action)}</p>`).join("")}
+      ${life.filter(r => r && typeof r === "object").map(r => `<p><strong style="color:var(--cream)">${esc(r.area)}</strong> — ${esc(r.action)}</p>`).join("")}
     </div>
 
     <div class="doc-section">
@@ -690,9 +694,10 @@ function copyToClipboard(text, btn){
 }
 
 function renderDocument(record){
+  const rules = record.rules || {};
   const dailyPayload = {
     n: record.name,
-    h: record.rules.hard, d: record.rules.daily, r: record.rules.recovery,
+    h: rules.hard, d: rules.daily, r: rules.recovery,
     de: record.deed, le: record.leaving,
   };
   const dailyLink = `${location.origin}/daily#${DailyLink.encode(dailyPayload)}`;
@@ -783,13 +788,69 @@ function exportContractPNG(record){
 
 /* ---------- Boot ---------- */
 
+/* Contracts signed on earlier versions of this page can be missing whole
+   sections (vision arrived after v1, the patterns array after v2). Rendering
+   the signed document from such a record used to throw before any HTML was
+   written, leaving the page blank. Only render the document when the record
+   actually has everything the document prints. */
+function usableContract(rec){
+  return !!(rec && typeof rec === "object"
+    && typeof rec.name === "string" && rec.name
+    && rec.signedAt
+    && rec.vision && typeof rec.vision === "object"
+    && Array.isArray(rec.patterns)
+    && rec.rules && typeof rec.rules === "object"
+    && typeof rec.rules.hard === "string"
+    && Array.isArray(rec.life));
+}
+
+/* A legacy record can't be rendered as a document, but the member shouldn't
+   retype what still carries over — prefill the wizard with it. */
+function prefillFromLegacy(rec){
+  if(!rec || typeof rec !== "object") return;
+  if(rec.vision && typeof rec.vision === "object"){
+    state.vision.trader = rec.vision.trader || "";
+    state.vision.man = rec.vision.man || "";
+    state.vision.servant = rec.vision.servant || "";
+  }
+  if(rec.rules && typeof rec.rules === "object"){
+    state.rules.hard = rec.rules.hard || "";
+    state.rules.daily = rec.rules.daily || "";
+    state.rules.recovery = rec.rules.recovery || "";
+  }
+  if(Array.isArray(rec.patterns)) state.patterns = rec.patterns.filter(k => PATTERN_LABEL[k]);
+  if(rec.patternMoments && typeof rec.patternMoments === "object") state.patternMoments = rec.patternMoments;
+  if(Array.isArray(rec.life) && rec.life.length){
+    const rows = rec.life.filter(r => r && typeof r === "object").map(r => ({ area: r.area || "", action: r.action || "" }));
+    if(rows.length) state.life = rows;
+  }
+  if(typeof rec.deed === "string") state.deed = rec.deed;
+  if(typeof rec.leaving === "string") state.leaving = rec.leaving;
+  if(typeof rec.witness === "string") state.witness = rec.witness;
+  if(typeof rec.name === "string") state.name = rec.name;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   app = document.getElementById("app");
   let existing = null;
   try{ existing = JSON.parse(localStorage.getItem("niyyah_contract") || "null"); }catch(_){}
-  if(existing){
-    renderDocument(existing);
-  }else{
-    renderStep();
+  try{
+    if(usableContract(existing)){
+      renderDocument(existing);
+    }else{
+      if(existing) prefillFromLegacy(existing);
+      renderStep();
+    }
+  }catch(_){
+    // Whatever failed, this page must never sit blank.
+    try{ renderStep(); }catch(__){
+      app.innerHTML = `
+        <div class="stage">
+          <div class="wiz-kicker">The Contract</div>
+          <h1 class="wiz-title">Something went wrong loading your saved contract.</h1>
+          <p class="wiz-help">Your answers are safe on this device. Reload the page to write your contract.</p>
+          <a class="btn primary" href="contract.html">Reload</a>
+        </div>`;
+    }
   }
 });
