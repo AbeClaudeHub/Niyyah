@@ -1,6 +1,14 @@
 /* Niyyah — compact, URL-safe encode/decode for the personal daily-page
    link. Everything happens client-side; the hash fragment is never sent
-   to a server, so this is the only "sync" mechanism the site needs. */
+   to a server, so this is the only "sync" mechanism the site needs.
+
+   Links come in two formats:
+     - "z:" + base64url(deflate-raw(JSON))  — compressed, the default when
+       the browser has CompressionStream. Roughly half the length.
+     - base64url(JSON)                      — legacy. Still produced when
+       compression is unavailable, and always accepted on decode, so links
+       pinned before compression existed keep working forever.
+   encode() and decode() are async either way. */
 
 const DailyLink = (function(){
   function toUnicodeB64(str){
@@ -15,10 +23,37 @@ const DailyLink = (function(){
     while(s.length % 4) s += "=";
     return s;
   }
-  function encode(obj){
-    return toUrlSafe(toUnicodeB64(JSON.stringify(obj)));
+
+  async function deflateToUrlSafe(str){
+    const stream = new Blob([new TextEncoder().encode(str)]).stream()
+      .pipeThrough(new CompressionStream("deflate-raw"));
+    const bytes = new Uint8Array(await new Response(stream).arrayBuffer());
+    let bin = "";
+    for(let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return toUrlSafe(btoa(bin));
   }
-  function decode(str){
+  async function inflateFromUrlSafe(s){
+    const bin = atob(fromUrlSafe(s));
+    const bytes = new Uint8Array(bin.length);
+    for(let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    const stream = new Blob([bytes]).stream()
+      .pipeThrough(new DecompressionStream("deflate-raw"));
+    return new TextDecoder().decode(await new Response(stream).arrayBuffer());
+  }
+
+  async function encode(obj){
+    const json = JSON.stringify(obj);
+    const legacy = toUrlSafe(toUnicodeB64(json));
+    if(typeof CompressionStream === "undefined") return legacy;
+    try{
+      const packed = "z:" + await deflateToUrlSafe(json);
+      return packed.length < legacy.length ? packed : legacy;
+    }catch(_){
+      return legacy;
+    }
+  }
+  async function decode(str){
+    if(str.slice(0, 2) === "z:") return JSON.parse(await inflateFromUrlSafe(str.slice(2)));
     return JSON.parse(fromUnicodeB64(fromUrlSafe(str)));
   }
   return { encode, decode };

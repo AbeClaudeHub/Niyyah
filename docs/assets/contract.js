@@ -700,7 +700,6 @@ function renderDocument(record){
     h: rules.hard, d: rules.daily, r: rules.recovery,
     de: record.deed, le: record.leaving,
   };
-  const dailyLink = `${location.origin}/daily#${DailyLink.encode(dailyPayload)}`;
 
   app.innerHTML = `
     <div class="wrap fx-slow" style="padding:88px 0 40px">
@@ -721,8 +720,8 @@ function renderDocument(record){
             <h3>This is your daily page.</h3>
             <p>Save this link — pin it in your room, add it to your home screen. It carries your rules with it, on any device.</p>
             <div class="link-box">
-              <span class="link-text" id="dailyLinkText">${esc(dailyLink)}</span>
-              <button type="button" class="btn ghost small" id="copyLinkBtn">Copy</button>
+              <span class="link-text" id="dailyLinkText">Preparing your link&hellip;</span>
+              <button type="button" class="btn ghost small" id="copyLinkBtn" disabled>Copy</button>
             </div>
           </div>
         </div>
@@ -730,14 +729,28 @@ function renderDocument(record){
           <div class="handoff-num">3</div>
           <div class="handoff-body">
             <h3>Check in before every session. Check out after. Every day.</h3>
-            <a class="btn ghost" href="${esc(dailyLink)}">Open your daily page</a>
+            <a class="btn ghost" id="openDailyBtn" href="/daily">Open your daily page</a>
           </div>
         </div>
       </div>
     </div>`;
 
   document.getElementById("downloadBtn").addEventListener("click", () => exportContractPNG(record));
-  document.getElementById("copyLinkBtn").addEventListener("click", () => copyToClipboard(dailyLink, document.getElementById("copyLinkBtn")));
+
+  // The link is built asynchronously (it gets compressed when the browser
+  // supports it). If anything fails, /daily still works on this device via
+  // localStorage — the link just won't carry the rules cross-device.
+  const copyBtn = document.getElementById("copyLinkBtn");
+  Promise.resolve(DailyLink.encode(dailyPayload)).then(code => {
+    return `${location.origin}/daily#${code}`;
+  }).catch(() => {
+    return `${location.origin}/daily`;
+  }).then(dailyLink => {
+    document.getElementById("dailyLinkText").textContent = dailyLink;
+    document.getElementById("openDailyBtn").href = dailyLink;
+    copyBtn.disabled = false;
+    copyBtn.addEventListener("click", () => copyToClipboard(dailyLink, copyBtn));
+  });
 }
 
 /* ---------- PNG export (shared engine in assets/canvas-doc.js) ---------- */

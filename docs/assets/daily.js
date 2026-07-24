@@ -28,10 +28,10 @@ function toggleRow(id, question, options){
 
 /* ---------- Resolve the paper source: hash first, then localStorage ---------- */
 
-function resolvePaperSource(){
+async function resolvePaperSource(){
   if(location.hash && location.hash.length > 1){
     try{
-      const p = DailyLink.decode(location.hash.slice(1));
+      const p = await DailyLink.decode(location.hash.slice(1));
       const fromHash = {
         name: p.n,
         rules: { hard: p.h, daily: p.d, recovery: p.r },
@@ -467,9 +467,9 @@ function exportCheckOutPNG(record){
 /* ---------- Boot ---------- */
 
 let app;
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   app = document.getElementById("app");
-  paperSource = resolvePaperSource();
+  try{ paperSource = await resolvePaperSource(); }catch(_){ paperSource = null; }
   if(!paperSource){ renderNoSource(); return; }
   renderMenu();
 });

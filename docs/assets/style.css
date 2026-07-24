@@ -251,7 +251,7 @@ body.contract-doc{background:#0c0a08}
 .handoff-body h3{font-size:1.05rem;margin-bottom:.4em;color:var(--cream)}
 .handoff-body p{color:var(--muted);font-size:.9rem;margin-bottom:.8em}
 .link-box{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:.8em 1em;background:rgba(201,163,95,.04)}
-.link-box .link-text{flex:1;min-width:0;overflow-wrap:break-word;font-family:var(--sans);font-size:.8rem;color:var(--gold-hi)}
+.link-box .link-text{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--sans);font-size:.8rem;color:var(--gold-hi)}
 .link-box button{flex-shrink:0}
 
 /* iOS fallback: full-screen "press and hold to save" image view */
