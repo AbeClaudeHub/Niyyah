@@ -1,11 +1,30 @@
 /* Niyyah — The Contract. A guided covenant the member writes themselves.
    Structure and gravity are ours; the words are theirs. Nothing here is
    pre-signed on their behalf. Signed once — a standing covenant, no end
-   date. Daily tracking lives in the papers (papers.html), not here. */
+   date. Daily tracking lives on the daily page (daily.html), not here. */
 
 const PATTERN_LABEL = {
   impatience: "Impatience", greed: "Greed", fear: "Fear", pride: "Pride", despair: "Despair",
 };
+
+const PATTERN_ORDER = ["impatience", "greed", "fear", "pride", "despair"];
+
+const PATTERN_DESC = {
+  impatience: "You act before the setup is ready — entries, exits, decisions, all rushed.",
+  greed: "Size grows and stops loosen when you're winning.",
+  fear: "You hesitate on a valid trade, or cut it short, out of nerves rather than plan.",
+  pride: "You won't admit the trade was wrong until it's already cost you.",
+  despair: "You stop caring what happens, or stop trying, after it goes bad.",
+};
+
+const MOMENT_OPTIONS = [
+  { label: "After a win", phrase: "after a win" },
+  { label: "After a loss", phrase: "after a loss" },
+  { label: "Before entry, waiting", phrase: "before entry, while I'm waiting" },
+  { label: "When I'm flat too long", phrase: "when I'm flat too long" },
+  { label: "At the end of a red day", phrase: "at the end of a red day" },
+  { label: "When I'm about to hit my goal", phrase: "when I'm about to hit my goal" },
+];
 
 const RULE_EXAMPLES = {
   greed: {
@@ -95,23 +114,31 @@ const RULE_EXAMPLES = {
   },
 };
 
-const MIRROR_HINT = {
-  greed: "after you're already up, when your size grows and your stop moves",
-  fear: "the moment a trade is finally right and something in you shrinks the plan",
-  impatience: "in the gap between finishing your analysis and waiting for it to be true",
-  pride: "the half-second after a trade goes wrong, when it stops being your fault",
-  despair: "as a slow withdrawal — the journal stops, the review stops",
-};
+const DEED_EXAMPLES = [
+  "I will pray every prayer on time, not just when it's convenient.",
+  "I will read a page of Qur'an daily, even one page.",
+  "I will say istighfar before my first trade of the day.",
+];
+const LEAVING_EXAMPLES = [
+  "I will leave backbiting, even when everyone else in the room is doing it.",
+  "I will leave doom-scrolling trading Twitter after a loss.",
+  "I will leave music in the car on the way to trade.",
+];
+const LIFE_EXAMPLES = [
+  { area: "Marriage", action: "One evening a week, phone off." },
+  { area: "Sleep", action: "In bed by 11pm on trading nights." },
+  { area: "Anger", action: "Walk outside for five minutes before I respond to anyone." },
+];
 
 let diag = null;
 try{ diag = JSON.parse(localStorage.getItem("niyyah_diagnosis") || "null"); }catch(_){}
 
 const state = {
-  primary: (diag && diag.primary) || "greed",
-  secondary: (diag && diag.secondary) || "fear",
+  primary: (diag && diag.primary) || "",
+  secondary: (diag && diag.secondary) || "",
   vision: { trader: "", man: "", servant: "" },
-  primaryEnters: "",
-  secondaryEnters: "",
+  patterns: [],
+  patternMoments: {},
   rules: { hard: "", daily: "", recovery: "" },
   life: [{ area: "", action: "" }],
   deed: "",
@@ -121,7 +148,7 @@ const state = {
   ack: false,
 };
 
-const STEP_COUNT = 8;
+const STEP_COUNT = 9;
 let stepIdx = 0;
 let app;
 
@@ -162,12 +189,49 @@ function bindNav(onNext){
   if(next) next.addEventListener("click", () => { if(onNext()) goStep(1); });
 }
 
+function bindChipFill(){
+  document.querySelectorAll(".chip[data-target]").forEach(chip => {
+    chip.addEventListener("click", () => {
+      document.getElementById(chip.dataset.target).value = chip.dataset.text;
+    });
+  });
+}
+
+function chipsHtml(list, targetId){
+  return `<div class="suggestions">${list.map(t => `<button type="button" class="chip" data-target="${targetId}" data-text="${esc(t)}">${t}</button>`).join("")}</div>`;
+}
+
+/* Examples in Rules are drawn from the patterns the member actually chose
+   in My Patterns (Fix 2) — not the diagnosis alone. Two patterns pool
+   their examples (2 from the first, 1 from the second) so the chip row
+   stays at three, not six. */
+function combinedExamples(category){
+  const keys = state.patterns.length ? state.patterns : [state.primary, state.secondary].filter(Boolean);
+  if(keys.length === 0) return RULE_EXAMPLES.greed[category];
+  if(keys.length === 1) return RULE_EXAMPLES[keys[0]][category];
+  return [...RULE_EXAMPLES[keys[0]][category].slice(0, 2), ...RULE_EXAMPLES[keys[1]][category].slice(0, 1)];
+}
+
+function composeWhen(moments){
+  if(moments.length === 0) return "";
+  if(moments.length === 1) return moments[0];
+  return `${moments[0]}, and ${moments[1]}`;
+}
+function patternSentence(record, key){
+  const moments = (record.patternMoments[key] || {}).moments || [];
+  return `I recognize ${PATTERN_LABEL[key].toLowerCase()} in myself. It enters ${composeWhen(moments)}.`;
+}
+function patternSentenceHtml(record, key){
+  const moments = ((record.patternMoments[key] || {}).moments || []).map(esc);
+  return `I recognize <strong style="color:var(--cream)">${esc(PATTERN_LABEL[key].toLowerCase())}</strong> in myself. It enters ${composeWhen(moments)}.`;
+}
+
 /* ---------- Step renderers ---------- */
 
 function renderStep(){
   const renderers = [
-    renderDeclaration, renderVision, renderPatterns, renderRules,
-    renderLife, renderDeen, renderWitness, renderSignature,
+    renderDeclaration, renderVision, renderPatternsPick, renderPatternsMoments,
+    renderRules, renderLife, renderDeen, renderWitness, renderSignature,
   ];
   renderers[stepIdx]();
 }
@@ -228,65 +292,156 @@ function renderVision(){
   });
 }
 
-function renderPatterns(){
-  app.innerHTML = stepChrome("My Patterns", "Name where they enter.", "Your diagnosis found these two. Complete each clause in your own words — not ours.", `
-    <div class="field">
-      <label class="f-label">My primary pattern</label>
-      <p class="quote" style="font-family:var(--serif);font-style:italic;color:var(--gold-hi);font-size:1.2rem;margin-bottom:.6em">${PATTERN_LABEL[state.primary]}</p>
-      <label class="f-label">...and it enters when</label>
-      <textarea id="primaryEnters" placeholder="e.g. ${esc(MIRROR_HINT[state.primary])}">${esc(state.primaryEnters)}</textarea>
-    </div>
-    <div class="field">
-      <label class="f-label">My secondary pattern</label>
-      <p class="quote" style="font-family:var(--serif);font-style:italic;color:var(--gold-hi);font-size:1.2rem;margin-bottom:.6em">${PATTERN_LABEL[state.secondary]}</p>
-      <label class="f-label">...and it enters when</label>
-      <textarea id="secondaryEnters" placeholder="e.g. ${esc(MIRROR_HINT[state.secondary])}">${esc(state.secondaryEnters)}</textarea>
-    </div>
+/* My Patterns — Step A: pick 1-2 patterns you recognize in yourself. */
+function renderPatternsPick(){
+  if(state.patterns.length === 0){
+    state.patterns = [state.primary, state.secondary].filter(Boolean);
+  }
+  const cardsHtml = PATTERN_ORDER.map(key => {
+    const seen = key === state.primary || key === state.secondary;
+    return `
+      <button type="button" class="pattern-card" data-pattern="${key}">
+        ${seen ? `<span class="seen-badge">Seen in your diagnosis</span>` : ""}
+        <h3>${PATTERN_LABEL[key]}</h3>
+        <p>${PATTERN_DESC[key]}</p>
+      </button>`;
+  }).join("");
+
+  app.innerHTML = stepChrome("My Patterns", "Which of these do you recognize in yourself?", "Pick one or two. Your diagnosis pointed at some of these — but this is your call, not ours.", `
+    <div class="pattern-grid">${cardsHtml}</div>
+    <p class="hint" style="margin-top:.8em">Choose 1 or 2.</p>
+    <button class="btn primary" id="nextBtn" style="margin-top:1.2em">Continue</button>
+  `);
+
+  function refresh(){
+    document.querySelectorAll(".pattern-card").forEach(card => {
+      const key = card.dataset.pattern;
+      const selected = state.patterns.includes(key);
+      card.classList.toggle("selected", selected);
+      card.classList.toggle("disabled", !selected && state.patterns.length >= 2);
+    });
+  }
+  refresh();
+  document.querySelectorAll(".pattern-card").forEach(card => {
+    card.addEventListener("click", () => {
+      const key = card.dataset.pattern;
+      if(state.patterns.includes(key)){
+        state.patterns = state.patterns.filter(k => k !== key);
+      }else if(state.patterns.length < 2){
+        state.patterns = [...state.patterns, key];
+      }
+      refresh();
+    });
+  });
+
+  bindNav(() => {
+    if(state.patterns.length < 1){
+      alert("Pick at least one pattern.");
+      return false;
+    }
+    const nextMoments = {};
+    state.patterns.forEach(k => { nextMoments[k] = state.patternMoments[k] || { moments: [] }; });
+    state.patternMoments = nextMoments;
+    return true;
+  });
+}
+
+/* My Patterns — Step B: when does each selected pattern enter. */
+function renderPatternsMoments(){
+  const blocksHtml = state.patterns.map(key => {
+    const entry = state.patternMoments[key];
+    const customVal = entry.moments.find(m => !MOMENT_OPTIONS.some(o => o.phrase === m)) || "";
+    const optsHtml = MOMENT_OPTIONS.map(o => {
+      const isSel = entry.moments.includes(o.phrase);
+      return `<button type="button" class="chip moment-chip ${isSel ? "selected" : ""}" data-pattern="${key}" data-phrase="${esc(o.phrase)}">${o.label}</button>`;
+    }).join("");
+    return `
+      <div class="rule-slot" data-pattern-block="${key}">
+        <div class="kind">${PATTERN_LABEL[key]}</div>
+        <h3>When does it enter?</h3>
+        <div class="suggestions">${optsHtml}<button type="button" class="chip custom-toggle" data-pattern="${key}">+ Write my own</button></div>
+        <p class="hint">Tap up to two — or write your own.</p>
+        <div class="field custom-field" data-pattern="${key}" style="margin-top:.6em;${customVal ? "" : "display:none"}">
+          <input type="text" class="custom-input" data-pattern="${key}" placeholder="When it enters, in your words" value="${esc(customVal)}" />
+        </div>
+      </div>`;
+  }).join("");
+
+  app.innerHTML = stepChrome("My Patterns", "When does it enter?", "Up to two moments per pattern. Tap the ones that are true — or write your own.", `
+    ${blocksHtml}
     <button class="btn primary" id="nextBtn">Continue</button>
   `);
+
+  const moments = key => state.patternMoments[key].moments;
+  const setMoments = (key, arr) => { state.patternMoments[key].moments = arr.slice(0, 2); };
+
+  document.querySelectorAll(".moment-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      const key = chip.dataset.pattern;
+      const phrase = chip.dataset.phrase;
+      let m = moments(key);
+      if(m.includes(phrase)) m = m.filter(x => x !== phrase);
+      else if(m.length < 2) m = [...m, phrase];
+      setMoments(key, m);
+      renderPatternsMoments();
+    });
+  });
+  document.querySelectorAll(".custom-toggle").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.pattern;
+      const field = document.querySelector(`.custom-field[data-pattern="${key}"]`);
+      const show = field.style.display === "none";
+      field.style.display = show ? "block" : "none";
+      if(show) field.querySelector("input").focus();
+    });
+  });
+  document.querySelectorAll(".custom-input").forEach(inp => {
+    inp.addEventListener("input", () => {
+      const key = inp.dataset.pattern;
+      const val = inp.value.trim();
+      let m = moments(key).filter(x => MOMENT_OPTIONS.some(o => o.phrase === x));
+      if(val) m = m.length < 2 ? [...m, val] : [...m.slice(0, 1), val];
+      setMoments(key, m);
+    });
+  });
+
   bindNav(() => {
-    state.primaryEnters = document.getElementById("primaryEnters").value.trim();
-    state.secondaryEnters = document.getElementById("secondaryEnters").value.trim();
-    if(!state.primaryEnters || !state.secondaryEnters){
-      alert("Finish both clauses in your own words before continuing.");
-      return false;
+    for(const key of state.patterns){
+      if(moments(key).length === 0){
+        alert(`Add at least one moment for ${PATTERN_LABEL[key]}.`);
+        return false;
+      }
     }
     return true;
   });
 }
 
-function chipsHtml(list, targetId){
-  return `<div class="suggestions">${list.map(t => `<button type="button" class="chip" data-target="${targetId}" data-text="${esc(t)}">${t}</button>`).join("")}</div>`;
-}
-
 function renderRules(){
-  const ex = RULE_EXAMPLES[state.primary];
   app.innerHTML = stepChrome("My Trading Rules", "Exactly three. No more, no fewer.", "Each is a different kind of rule. Use the examples for inspiration, but write your own — it has to be your sentence to hold.", `
     <div class="rule-slot">
       <div class="kind">The Hard Rule</div>
-      <h3>An absolute "I will never," aimed at your primary pattern.</h3>
-      ${chipsHtml(ex.hard, "hardRule")}
+      <h3>An absolute "I will never," aimed at what you just named in My Patterns.</h3>
+      ${chipsHtml(combinedExamples("hard"), "hardRule")}
+      <p class="hint">Tap one to use it — or write your own.</p>
       <textarea id="hardRule" placeholder="I will never...">${esc(state.rules.hard)}</textarea>
     </div>
     <div class="rule-slot">
       <div class="kind">The Daily Rule</div>
       <h3>A process you follow every single day.</h3>
-      ${chipsHtml(ex.daily, "dailyRule")}
+      ${chipsHtml(combinedExamples("daily"), "dailyRule")}
+      <p class="hint">Tap one to use it — or write your own.</p>
       <textarea id="dailyRule" placeholder="I will always...">${esc(state.rules.daily)}</textarea>
     </div>
     <div class="rule-slot">
       <div class="kind">The Recovery Rule</div>
       <h3>What you do after a loss or a red day.</h3>
-      ${chipsHtml(ex.recovery, "recoveryRule")}
+      ${chipsHtml(combinedExamples("recovery"), "recoveryRule")}
+      <p class="hint">Tap one to use it — or write your own.</p>
       <textarea id="recoveryRule" placeholder="After...">${esc(state.rules.recovery)}</textarea>
     </div>
     <button class="btn primary" id="nextBtn">Continue</button>
   `);
-  document.querySelectorAll(".chip").forEach(chip => {
-    chip.addEventListener("click", () => {
-      document.getElementById(chip.dataset.target).value = chip.dataset.text;
-    });
-  });
+  bindChipFill();
   bindNav(() => {
     state.rules.hard = document.getElementById("hardRule").value.trim();
     state.rules.daily = document.getElementById("dailyRule").value.trim();
@@ -314,12 +469,29 @@ function lifeRowHtml(row, i){
     </div>`;
 }
 
+function applyLifeExample(ex){
+  syncLifeFromDom();
+  let idx = state.life.findIndex(r => !r.area && !r.action);
+  if(idx === -1 && state.life.length < 2){
+    state.life.push({ area: "", action: "" });
+    idx = state.life.length - 1;
+  }
+  if(idx === -1) idx = 0;
+  state.life[idx] = { area: ex.area, action: ex.action };
+  renderLife();
+}
+
 function renderLife(){
+  const exampleChips = `<div class="suggestions">${LIFE_EXAMPLES.map((ex, i) => `<button type="button" class="chip life-chip" data-i="${i}">${esc(ex.area)} — ${esc(ex.action)}</button>`).join("")}</div><p class="hint">Tap one to use it — or write your own.</p>`;
   app.innerHTML = stepChrome("My Life", "Trading is not the only place discipline is missing.", "Up to two areas outside the charts. Each needs a concrete weekly action — an area with no action doesn't count.", `
+    ${exampleChips}
     <div id="lifeRows">${state.life.map(lifeRowHtml).join("")}</div>
     ${state.life.length < 2 ? `<button type="button" class="btn ghost small" id="addLife">+ Add another area</button>` : ""}
     <button class="btn primary" id="nextBtn" style="margin-top:1.6em">Continue</button>
   `);
+  document.querySelectorAll(".life-chip").forEach(chip => {
+    chip.addEventListener("click", () => applyLifeExample(LIFE_EXAMPLES[Number(chip.dataset.i)]));
+  });
   const addBtn = document.getElementById("addLife");
   if(addBtn) addBtn.addEventListener("click", () => {
     state.life.push({ area: "", action: "" });
@@ -355,16 +527,19 @@ function renderDeen(){
   app.innerHTML = stepChrome("My Deen", "Taking on, and leaving off.", "<em>Deen</em> — the way of life; the discipline of practice, not just belief. These are different disciplines — the contract asks for both.", `
     <div class="field">
       <label class="f-label">The Deed — one thing you weren't doing before, or weren't doing consistently</label>
-      <p class="hint" style="margin-bottom:.5em">Praying on time. Daily Qur'an. <em>Istighfar</em> (asking forgiveness). Calling your mother.</p>
+      ${chipsHtml(DEED_EXAMPLES, "deed")}
+      <p class="hint">Tap one to use it — or write your own.</p>
       <textarea id="deed" placeholder="I will...">${esc(state.deed)}</textarea>
     </div>
     <div class="field">
       <label class="f-label">The Leaving — one thing you commit to reducing or leaving</label>
-      <p class="hint" style="margin-bottom:.5em">Backbiting. Doom-scrolling. Music in the car. Whatever is true for you.</p>
+      ${chipsHtml(LEAVING_EXAMPLES, "leaving")}
+      <p class="hint">Tap one to use it — or write your own.</p>
       <textarea id="leaving" placeholder="I will leave...">${esc(state.leaving)}</textarea>
     </div>
     <button class="btn primary" id="nextBtn">Continue</button>
   `);
+  bindChipFill();
   bindNav(() => {
     state.deed = document.getElementById("deed").value.trim();
     state.leaving = document.getElementById("leaving").value.trim();
@@ -457,8 +632,7 @@ function documentInnerHtml(record){
 
     <div class="doc-section">
       <div class="sec-label">My Patterns</div>
-      <p><strong style="color:var(--cream)">${PATTERN_LABEL[record.primary]}</strong> enters when ${esc(record.primaryEnters)}</p>
-      <p><strong style="color:var(--cream)">${PATTERN_LABEL[record.secondary]}</strong> enters when ${esc(record.secondaryEnters)}</p>
+      ${record.patterns.map(k => `<p>${patternSentenceHtml(record, k)}</p>`).join("")}
     </div>
 
     <div class="doc-section">
@@ -491,19 +665,74 @@ function documentInnerHtml(record){
   `;
 }
 
+function copyToClipboard(text, btn){
+  const original = btn.textContent;
+  const done = () => {
+    btn.textContent = "Copied";
+    setTimeout(() => { btn.textContent = original; }, 1600);
+  };
+  const fallback = () => {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try{ document.execCommand("copy"); done(); }catch(_){}
+    ta.remove();
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(fallback);
+  }else{
+    fallback();
+  }
+}
+
 function renderDocument(record){
+  const dailyPayload = {
+    n: record.name,
+    h: record.rules.hard, d: record.rules.daily, r: record.rules.recovery,
+    de: record.deed, le: record.leaving,
+  };
+  const dailyLink = `${location.origin}/daily#${DailyLink.encode(dailyPayload)}`;
+
   app.innerHTML = `
     <div class="wrap fx-slow" style="padding:88px 0 40px">
       <div class="paper" id="finalPaper">${documentInnerHtml(record)}</div>
-      <div style="max-width:600px;margin:1.6em auto 0">
-        <button class="btn primary" id="downloadBtn">Download your contract. Post it in your room.</button>
-      </div>
-      <div style="max-width:600px;margin:0 auto" class="turn">
-        <p>Your contract is signed. Now take your papers.</p>
-        <a class="btn ghost" href="papers.html" style="margin-top:1em">Take your papers</a>
+
+      <div class="handoff" style="max-width:600px;margin:1.6em auto 0">
+        <div class="handoff-step">
+          <div class="handoff-num">1</div>
+          <div class="handoff-body">
+            <h3>Post your contract in your room.</h3>
+            <p>Download the document above and share it where your witness can see it.</p>
+            <button class="btn primary" id="downloadBtn">Download your contract</button>
+          </div>
+        </div>
+        <div class="handoff-step">
+          <div class="handoff-num">2</div>
+          <div class="handoff-body">
+            <h3>This is your daily page.</h3>
+            <p>Save this link — pin it in your room, add it to your home screen. It carries your rules with it, on any device.</p>
+            <div class="link-box">
+              <span class="link-text" id="dailyLinkText">${esc(dailyLink)}</span>
+              <button type="button" class="btn ghost small" id="copyLinkBtn">Copy</button>
+            </div>
+          </div>
+        </div>
+        <div class="handoff-step">
+          <div class="handoff-num">3</div>
+          <div class="handoff-body">
+            <h3>Check in before every session. Check out after. Every day.</h3>
+            <a class="btn ghost" href="${esc(dailyLink)}">Open your daily page</a>
+          </div>
+        </div>
       </div>
     </div>`;
+
   document.getElementById("downloadBtn").addEventListener("click", () => exportContractPNG(record));
+  document.getElementById("copyLinkBtn").addEventListener("click", () => copyToClipboard(dailyLink, document.getElementById("copyLinkBtn")));
 }
 
 /* ---------- PNG export (shared engine in assets/canvas-doc.js) ---------- */
@@ -524,8 +753,7 @@ function exportContractPNG(record){
   b.paragraph(`As a servant: ${record.vision.servant}`, { color: COLOR.muted });
 
   b.sectionLabel("My Patterns");
-  b.paragraph(`${PATTERN_LABEL[record.primary]} enters when ${record.primaryEnters}`, { color: COLOR.muted });
-  b.paragraph(`${PATTERN_LABEL[record.secondary]} enters when ${record.secondaryEnters}`, { color: COLOR.muted });
+  record.patterns.forEach(k => b.paragraph(patternSentence(record, k), { color: COLOR.muted }));
 
   b.sectionLabel("My Trading Rules");
   b.paragraph("The Hard Rule", { font: `700 18px ${SANS}`, color: COLOR.muted2, lineHeight: 20, gapAfter: 6 });

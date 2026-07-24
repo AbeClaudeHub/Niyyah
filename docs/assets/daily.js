@@ -1,11 +1,13 @@
-/* Niyyah — The Daily Papers. Two short forms generated from the member's
-   own signed contract: The Check-In (before the session) and The Check-Out
-   (after it). The contract is posted once; these are used every day. */
+/* Niyyah — The Daily Page. Two short forms generated from the member's own
+   signed contract: The Check-In (before the session) and The Check-Out
+   (after it). The contract is posted once; this page is used every day.
 
-let contract = null;
-try{ contract = JSON.parse(localStorage.getItem("niyyah_contract") || "null"); }catch(_){}
+   Source of truth: the personal link's hash fragment (#<code>), which
+   encodes just enough of the contract — name, rules, deed, leaving — to
+   regenerate both papers on any device, with no backend and no login.
+   localStorage is only a same-device convenience on top of that. */
 
-let app;
+let paperSource = null;
 
 function esc(s){
   return (s || "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
@@ -24,21 +26,47 @@ function toggleRow(id, question, options){
     </div>`;
 }
 
+/* ---------- Resolve the paper source: hash first, then localStorage ---------- */
+
+function resolvePaperSource(){
+  if(location.hash && location.hash.length > 1){
+    try{
+      const p = DailyLink.decode(location.hash.slice(1));
+      const fromHash = {
+        name: p.n,
+        rules: { hard: p.h, daily: p.d, recovery: p.r },
+        deed: p.de, leaving: p.le,
+      };
+      try{ localStorage.setItem("niyyah_daily_source", JSON.stringify(fromHash)); }catch(_){}
+      return fromHash;
+    }catch(_){ /* corrupt hash — fall through to localStorage */ }
+  }
+  try{
+    const full = JSON.parse(localStorage.getItem("niyyah_contract") || "null");
+    if(full && full.rules) return { name: full.name, rules: full.rules, deed: full.deed, leaving: full.leaving };
+  }catch(_){}
+  try{
+    const cached = JSON.parse(localStorage.getItem("niyyah_daily_source") || "null");
+    if(cached && cached.rules) return cached;
+  }catch(_){}
+  return null;
+}
+
 /* ---------- Entry ---------- */
 
-function renderNoContract(){
+function renderNoSource(){
   app.innerHTML = `
     <div class="stage fx-in intro-card">
       <h1>Sign your contract first.</h1>
-      <p>The papers are generated from what you wrote in your contract — your rules, your deed, your leaving. There's nothing to print until that exists.</p>
-      <a class="btn primary" href="contract.html">Go to your contract</a>
+      <p>Your papers live in your personal link — find it pinned in your room, or redo your contract here.</p>
+      <a class="btn primary" href="/contract.html">Go to your contract</a>
     </div>`;
 }
 
 function renderMenu(){
   app.innerHTML = `
     <div class="stage fx-in">
-      <div class="wiz-kicker">The Daily Papers</div>
+      <div class="wiz-kicker">The Daily Page</div>
       <h1 class="wiz-title">Your contract is posted. This is what you use every day.</h1>
       <p class="wiz-help">Check in before you trade. Check out when you're done. <em>Muhasabah</em> — the daily self-accounting — is how the nafs gets caught early, not after the account is already gone.</p>
       <div class="paper-menu">
@@ -74,7 +102,7 @@ function openCheckOut(){
 /* ---------- Paper One: The Check-In ---------- */
 
 function renderCheckInForm(){
-  const hard = contract.rules.hard;
+  const hard = paperSource.rules.hard;
   app.innerHTML = `
     <div class="stage fx-in">
       <div class="wiz-kicker">Paper One</div>
@@ -130,7 +158,7 @@ function renderCheckInForm(){
     }
     const record = {
       dateISO: new Date().toISOString(),
-      name: contract.name,
+      name: paperSource.name,
       niyyah, plan,
       sleep: toggles.sleep, fajr: toggles.fajr, motive: toggles.motive,
       hardRule: hard,
@@ -188,7 +216,7 @@ function renderCheckInDoc(record){
       </div>
       <div style="max-width:600px;margin:.8em auto 0;display:flex;gap:20px;justify-content:center">
         <button type="button" class="back-link" id="redoBtn">Fill in again</button>
-        <button type="button" class="back-link" id="menuBtn">Back to your papers</button>
+        <button type="button" class="back-link" id="menuBtn">Back to your daily page</button>
       </div>
       <div id="handoff" hidden></div>
     </div>`;
@@ -213,11 +241,11 @@ function renderCheckOutForm(){
   }catch(_){}
 
   const rows = [
-    { id: "hard", label: "My Hard Rule", text: contract.rules.hard, q: "Followed?" },
-    { id: "daily", label: "My Daily Rule", text: contract.rules.daily, q: "Followed?" },
-    { id: "recovery", label: "My Recovery Rule", text: contract.rules.recovery, q: "Followed, or not triggered?" },
-    { id: "deed", label: "My Deed", text: contract.deed, q: "Done?" },
-    { id: "leaving", label: "My Leaving", text: contract.leaving, q: "Avoided?" },
+    { id: "hard", label: "My Hard Rule", text: paperSource.rules.hard, q: "Followed?" },
+    { id: "daily", label: "My Daily Rule", text: paperSource.rules.daily, q: "Followed?" },
+    { id: "recovery", label: "My Recovery Rule", text: paperSource.rules.recovery, q: "Followed, or not triggered?" },
+    { id: "deed", label: "My Deed", text: paperSource.deed, q: "Done?" },
+    { id: "leaving", label: "My Leaving", text: paperSource.leaving, q: "Avoided?" },
   ];
 
   app.innerHTML = `
@@ -280,11 +308,11 @@ function renderCheckOutForm(){
     const total = need.reduce((sum, k) => sum + scores[k], 0);
     const record = {
       dateISO: new Date().toISOString(),
-      name: contract.name,
+      name: paperSource.name,
       scores: { hard: scores.hard, daily: scores.daily, recovery: scores.recovery, deed: scores.deed, leaving: scores.leaving, honesty: scores.honesty },
       total, sentence, brokenClause,
-      hardRuleText: contract.rules.hard, dailyRuleText: contract.rules.daily, recoveryRuleText: contract.rules.recovery,
-      deedText: contract.deed, leavingText: contract.leaving,
+      hardRuleText: paperSource.rules.hard, dailyRuleText: paperSource.rules.daily, recoveryRuleText: paperSource.rules.recovery,
+      deedText: paperSource.deed, leavingText: paperSource.leaving,
     };
     try{ localStorage.setItem("niyyah_checkout", JSON.stringify(record)); }catch(_){}
     renderCheckOutDoc(record);
@@ -342,7 +370,7 @@ function renderCheckOutDoc(record){
       </div>
       <div style="max-width:600px;margin:.8em auto 0;display:flex;gap:20px;justify-content:center">
         <button type="button" class="back-link" id="redoBtn">Fill in again</button>
-        <button type="button" class="back-link" id="menuBtn">Back to your papers</button>
+        <button type="button" class="back-link" id="menuBtn">Back to your daily page</button>
       </div>
       <div id="handoff" hidden></div>
     </div>`;
@@ -366,9 +394,10 @@ function revealHandoff(){
   el.className = "turn fx-in";
   el.innerHTML = `
     <p>Your paper is downloading.</p>
-    <p style="font-family:var(--sans);font-style:normal;font-size:.92rem;color:var(--muted)">Post the contract once. Use these two every day — check in before you trade, check out when you're done. Not motivation — <em style="color:var(--gold-hi)">muhasabah</em>, the self-accounting that catches the nafs on paper before it costs you in the account.</p>
-    <a class="btn ghost" href="papers.html" style="margin-top:1em">Back to your papers</a>
+    <p style="font-family:var(--sans);font-style:normal;font-size:.92rem;color:var(--muted)">Check in before you trade, check out when you're done. Not motivation — <em style="color:var(--gold-hi)">muhasabah</em>, the self-accounting that catches the nafs on paper before it costs you in the account.</p>
+    <button type="button" class="btn ghost" style="margin-top:1em" id="handoffMenuBtn">Back to your daily page</button>
   `;
+  document.getElementById("handoffMenuBtn").addEventListener("click", renderMenu);
 }
 
 /* ---------- PNG exports (shared engine in assets/canvas-doc.js) ---------- */
@@ -437,8 +466,10 @@ function exportCheckOutPNG(record){
 
 /* ---------- Boot ---------- */
 
+let app;
 document.addEventListener("DOMContentLoaded", () => {
   app = document.getElementById("app");
-  if(!contract){ renderNoContract(); return; }
+  paperSource = resolvePaperSource();
+  if(!paperSource){ renderNoSource(); return; }
   renderMenu();
 });

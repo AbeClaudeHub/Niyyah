@@ -3,12 +3,18 @@
    an SVG/foreignObject. That SVG-rasterization technique taints the canvas
    in Chrome (SecurityError on toDataURL) even for same-origin, script-free
    content, so it can't be used here. Pure 2D drawing primitives never taint
-   the canvas, which is what makes this reliable.
+   the canvas, which is what makes this reliable. No images are ever drawn
+   onto the canvas (fillText/stroke/fillRect only) — keep it that way, since
+   a single cross-origin or non-origin-clean image would taint it again.
 
-   Used by the contract, the check-in paper, and the check-out paper, so all
-   three share one drawing engine and one visual register. Each caller gets
-   a fresh builder via DocRender.createBuilder(), pushes content with its
-   helpers, then calls DocRender.renderAndDownload(builder, filename). */
+   Used by the contract and both daily papers, so all three share one
+   drawing engine and one visual register. Each caller gets a fresh builder
+   via DocRender.createBuilder(), pushes content with its helpers, then
+   calls DocRender.renderAndDownload(builder, filename) — async, since it
+   waits on document.fonts.ready and uses canvas.toBlob(). iOS Safari
+   largely ignores the <a download> attribute, so on iOS this opens the
+   image full-screen instead, with a "press and hold to save" instruction,
+   rather than silently failing to download anything. */
 
 const DocRender = (function(){
   const W = 1080, M = 72;
@@ -176,7 +182,39 @@ const DocRender = (function(){
     return { ops, yRef, heading, kicker, paragraph, sectionLabel, divider, gradeLine, signatureLine, custom };
   }
 
-  function renderAndDownload(builder, filename){
+  function isIOS(){
+    if(/iP(hone|od|ad)/.test(navigator.platform)) return true;
+    // iPadOS 13+ reports itself as "MacIntel" — the touch-support check is
+    // what actually distinguishes it from a real Mac.
+    return navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+  }
+
+  function showSaveOverlay(blob, filename){
+    const url = URL.createObjectURL(blob);
+    const overlay = document.createElement("div");
+    overlay.className = "img-save-overlay";
+    overlay.innerHTML = `
+      <div class="img-save-bar">Press and hold the image, then choose "Save Image."</div>
+      <img src="${url}" alt="${filename}" />
+      <button type="button" class="btn ghost img-save-close">Done</button>
+    `;
+    document.body.appendChild(overlay);
+    overlay.querySelector(".img-save-close").addEventListener("click", () => {
+      overlay.remove();
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  async function renderAndDownload(builder, filename){
+    // Canvas text uses only system fonts (Georgia/Times New Roman, Arial/
+    // Helvetica) so this isn't strictly required for THIS module, but a
+    // caller could add a custom-font paragraph later, and waiting here is
+    // free — document.fonts.ready resolves immediately if nothing is
+    // still loading.
+    if(document.fonts && document.fonts.ready){
+      try{ await document.fonts.ready; }catch(_){}
+    }
+
     const measureCanvas = document.createElement("canvas");
     const mctx = measureCanvas.getContext("2d");
     builder.yRef.v = M;
@@ -201,20 +239,35 @@ const DocRender = (function(){
     builder.yRef.v = M;
     for(const op of builder.ops) op(ctx, false);
 
-    try{
-      const dataUrl = canvas.toDataURL("image/png");
-      const a = document.createElement("a");
-      a.download = filename;
-      a.href = dataUrl;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      return true;
-    }catch(err){
-      console.warn("PNG export failed:", err);
-      alert("Couldn't generate the image in this browser. Try again, or screenshot this page.");
-      return false;
-    }
+    return new Promise(resolve => {
+      canvas.toBlob(blob => {
+        if(!blob){
+          alert("Couldn't generate the image in this browser. Try again, or screenshot this page.");
+          resolve(false);
+          return;
+        }
+        if(isIOS()){
+          showSaveOverlay(blob, filename);
+          resolve(true);
+          return;
+        }
+        try{
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.download = filename;
+          a.href = url;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 4000);
+          resolve(true);
+        }catch(err){
+          console.warn("PNG export failed:", err);
+          alert("Couldn't generate the image in this browser. Try again, or screenshot this page.");
+          resolve(false);
+        }
+      }, "image/png");
+    });
   }
 
   return { W, M, contentW, COLOR, SERIF, SANS, createBuilder, renderAndDownload };

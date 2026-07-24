@@ -223,6 +223,43 @@ body.contract-doc{background:#0c0a08}
 .rule-echo-box{border:1px solid var(--line-2);border-radius:12px;padding:1em 1.2em;margin-bottom:1em}
 .rule-echo-box .clause-text{font-family:var(--serif);font-style:italic;color:var(--cream);font-size:1.02rem}
 
+/* My Patterns — Step A: tappable pattern cards */
+.pattern-grid{display:flex;flex-direction:column;gap:12px;margin-top:.4em}
+.pattern-card{
+  position:relative;display:block;width:100%;text-align:left;font-family:inherit;
+  border:1px solid var(--line-2);border-radius:14px;padding:1.2em 1.3em;
+  background:rgba(255,255,255,.012);cursor:pointer;
+  transition:border-color .15s,background .15s,opacity .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.pattern-card .seen-badge{display:inline-block;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1px solid var(--line);border-radius:100px;padding:.3em .8em;margin-bottom:.6em}
+.pattern-card h3{font-size:1.1rem;margin-bottom:.3em;color:var(--cream)}
+.pattern-card p{color:var(--muted);font-size:.88rem;margin:0}
+.pattern-card.selected{border-color:var(--gold);background:rgba(201,163,95,.07)}
+.pattern-card.disabled{opacity:.4}
+
+/* My Patterns — Step B: moment chips per selected pattern */
+.chip.moment-chip.selected{border-color:var(--gold);color:var(--gold-hi);background:rgba(201,163,95,.09)}
+.chip.custom-toggle{border-style:dashed}
+
+/* The closing handoff — three numbered steps */
+.handoff{margin-top:2.2em;padding-top:2em;border-top:1px double var(--line)}
+.handoff-step{display:flex;gap:16px;margin-bottom:1.8em}
+.handoff-step:last-child{margin-bottom:0}
+.handoff-num{flex-shrink:0;width:34px;height:34px;border-radius:50%;border:1px solid var(--gold);color:var(--gold-hi);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:1.05rem}
+.handoff-body{flex:1;min-width:0}
+.handoff-body h3{font-size:1.05rem;margin-bottom:.4em;color:var(--cream)}
+.handoff-body p{color:var(--muted);font-size:.9rem;margin-bottom:.8em}
+.link-box{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:.8em 1em;background:rgba(201,163,95,.04)}
+.link-box .link-text{flex:1;min-width:0;overflow-wrap:break-word;font-family:var(--sans);font-size:.8rem;color:var(--gold-hi)}
+.link-box button{flex-shrink:0}
+
+/* iOS fallback: full-screen "press and hold to save" image view */
+.img-save-overlay{position:fixed;inset:0;background:#000;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+.img-save-bar{color:var(--cream);font-size:.88rem;text-align:center;margin-bottom:18px;font-family:var(--sans);max-width:34ch}
+.img-save-overlay img{max-width:100%;max-height:65vh;border-radius:4px;box-shadow:0 20px 60px -20px rgba(0,0,0,.8)}
+.img-save-overlay .img-save-close{width:auto;margin-top:22px;padding:.8em 2.4em}
+
 @media (min-width:640px){
   .wrap{padding:0 32px}
 }
