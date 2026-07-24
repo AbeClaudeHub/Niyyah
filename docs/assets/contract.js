@@ -1,6 +1,7 @@
 /* Niyyah — The Contract. A guided covenant the member writes themselves.
    Structure and gravity are ours; the words are theirs. Nothing here is
-   pre-signed on their behalf. */
+   pre-signed on their behalf. Signed once — a standing covenant, no end
+   date. Daily tracking lives in the papers (papers.html), not here. */
 
 const PATTERN_LABEL = {
   impatience: "Impatience", greed: "Greed", fear: "Fear", pride: "Pride", despair: "Despair",
@@ -108,19 +109,19 @@ try{ diag = JSON.parse(localStorage.getItem("niyyah_diagnosis") || "null"); }cat
 const state = {
   primary: (diag && diag.primary) || "greed",
   secondary: (diag && diag.secondary) || "fear",
+  vision: { trader: "", man: "", servant: "" },
   primaryEnters: "",
   secondaryEnters: "",
   rules: { hard: "", daily: "", recovery: "" },
   life: [{ area: "", action: "" }],
   deed: "",
   leaving: "",
-  grade: { passing: 80, failClause: "", brokenClause: "" },
   witness: "",
   name: "",
   ack: false,
 };
 
-const STEP_COUNT = 9;
+const STEP_COUNT = 8;
 let stepIdx = 0;
 let app;
 
@@ -165,8 +166,8 @@ function bindNav(onNext){
 
 function renderStep(){
   const renderers = [
-    renderDeclaration, renderPatterns, renderRules, renderLife,
-    renderDeen, renderGrade, renderWitness, renderTerm, renderSignature,
+    renderDeclaration, renderVision, renderPatterns, renderRules,
+    renderLife, renderDeen, renderWitness, renderSignature,
   ];
   renderers[stepIdx]();
 }
@@ -176,7 +177,7 @@ function renderDeclaration(){
     <div class="decl-text">
       <p>I am entering this contract with my eyes open. My results in the market are downstream of my discipline, not my strategy — I have been shown my patterns, and I no longer get to say I didn't know.</p>
       <p>This contract is between me and <em>Allah</em> before it is between me and any group, any room, or any brother watching. What I write here is a covenant, not a caption.</p>
-      <p>A contract written casually will be broken casually. I am taking the next fifteen minutes seriously because the next twelve weeks deserve it.</p>
+      <p>A contract written casually will be broken casually. I am taking the next fifteen minutes seriously, because what I sign today does not come with an expiration date.</p>
     </div>
     <button class="btn primary" id="nextBtn" disabled style="margin-top:2em">Continue</button>
   `, { noBack: true });
@@ -194,6 +195,37 @@ function renderDeclaration(){
     }
   }, 1000);
   btn.addEventListener("click", () => goStep(1));
+}
+
+function renderVision(){
+  app.innerHTML = stepChrome("The Vision", "Where you see yourself, inshAllah.", "<em>InshAllah</em> — \"if Allah wills.\" Not slogans — a real picture of who you're becoming. One example under each prompt to set the register; the answer has to be yours.", `
+    <div class="field">
+      <label class="f-label">As a trader</label>
+      <p class="hint" style="margin-bottom:.5em">e.g. Someone who takes the setups on his plan and leaves the rest alone, win or lose.</p>
+      <textarea id="visionTrader" placeholder="The trader I am becoming, inshAllah:">${esc(state.vision.trader)}</textarea>
+    </div>
+    <div class="field">
+      <label class="f-label">As a man</label>
+      <p class="hint" style="margin-bottom:.5em">e.g. Someone whose word is the same in the group chat as it is at home.</p>
+      <textarea id="visionMan" placeholder="The man my family and brothers will know, inshAllah:">${esc(state.vision.man)}</textarea>
+    </div>
+    <div class="field">
+      <label class="f-label">As a servant</label>
+      <p class="hint" style="margin-bottom:.5em">e.g. Praying on time without being chased into it, and asking forgiveness before I ask for anything else.</p>
+      <textarea id="visionServant" placeholder="Where I stand with Allah, inshAllah:">${esc(state.vision.servant)}</textarea>
+    </div>
+    <button class="btn primary" id="nextBtn">Continue</button>
+  `);
+  bindNav(() => {
+    state.vision.trader = document.getElementById("visionTrader").value.trim();
+    state.vision.man = document.getElementById("visionMan").value.trim();
+    state.vision.servant = document.getElementById("visionServant").value.trim();
+    if(!state.vision.trader || !state.vision.man || !state.vision.servant){
+      alert("All three — trader, man, servant — are required.");
+      return false;
+    }
+    return true;
+  });
 }
 
 function renderPatterns(){
@@ -344,43 +376,6 @@ function renderDeen(){
   });
 }
 
-function renderGrade(){
-  app.innerHTML = stepChrome("My Grade", "The scorecard this contract lives or dies by.", "Each line below is graded 1–5, every trading day. Then set your own terms.", `
-    <div class="doc-section" style="border:1px solid var(--line-2);border-radius:14px;padding:1.2em 1.4em">
-      <div class="grade-line"><span class="g-label">Hard Rule followed</span><span class="g-scale">1–5</span></div>
-      <div class="grade-line"><span class="g-label">Daily Rule followed</span><span class="g-scale">1–5</span></div>
-      <div class="grade-line"><span class="g-label">Recovery Rule followed</span><span class="g-scale">1–5</span></div>
-      <div class="grade-line"><span class="g-label">The Deed done</span><span class="g-scale">1–5</span></div>
-      <div class="grade-line"><span class="g-label">The Leaving held</span><span class="g-scale">1–5</span></div>
-      <div class="grade-line" style="border-bottom:none"><span class="g-label">Was I honest in my check-in today?</span><span class="g-scale">1–5</span></div>
-    </div>
-    <div class="field" style="margin-top:1.6em">
-      <label class="f-label">My passing weekly score</label>
-      <input type="number" id="passing" min="1" max="100" value="${state.grade.passing}" />
-      <p class="hint">Suggested: 80%.</p>
-    </div>
-    <div class="field">
-      <label class="f-label">If I fail a week, I will</label>
-      <textarea id="failClause" placeholder="e.g. Say it out loud on the Friday call.">${esc(state.grade.failClause)}</textarea>
-    </div>
-    <div class="field">
-      <label class="f-label">If I break my Hard Rule, that same day I will</label>
-      <textarea id="brokenClause" placeholder="e.g. Message my witness before the market closes.">${esc(state.grade.brokenClause)}</textarea>
-    </div>
-    <button class="btn primary" id="nextBtn">Continue</button>
-  `);
-  bindNav(() => {
-    state.grade.passing = Number(document.getElementById("passing").value) || 80;
-    state.grade.failClause = document.getElementById("failClause").value.trim();
-    state.grade.brokenClause = document.getElementById("brokenClause").value.trim();
-    if(!state.grade.failClause || !state.grade.brokenClause){
-      alert("Both clauses are required — what happens if you fail a week, and what happens the day you break your Hard Rule.");
-      return false;
-    }
-    return true;
-  });
-}
-
 function renderWitness(){
   app.innerHTML = stepChrome("My Witness", "This contract does not hold itself.", "The brother or room that will actually hold you to this — pulled back into the Discord.", `
     <div class="field">
@@ -394,16 +389,6 @@ function renderWitness(){
     if(!state.witness){ alert("Name your witness."); return false; }
     return true;
   });
-}
-
-function renderTerm(){
-  app.innerHTML = stepChrome("The Term", "A contract with no end date is a wish.", "", `
-    <div class="decl-text">
-      <p>This contract runs for twelve weeks from the date of signature. At the end of the term, it is reviewed on a call — and either renewed, or rewritten.</p>
-    </div>
-    <button class="btn primary" id="nextBtn" style="margin-top:1.6em">Continue</button>
-  `);
-  bindNav(() => true);
 }
 
 function renderSignature(){
@@ -460,7 +445,14 @@ function documentInnerHtml(record){
       <div class="kicker">The Contract</div>
       <h1>Niyyah</h1>
       <div class="who">${esc(record.name)}</div>
-      <div class="when">Signed ${fmtDate(record.signedAt)} &middot; Term ends ${fmtDate(new Date(new Date(record.signedAt).getTime() + 84*24*60*60*1000).toISOString())}</div>
+      <div class="when">Signed ${fmtDate(record.signedAt)}</div>
+    </div>
+
+    <div class="doc-section">
+      <div class="sec-label">The Vision</div>
+      <p><strong style="color:var(--cream)">As a trader:</strong> ${esc(record.vision.trader)}</p>
+      <p><strong style="color:var(--cream)">As a man:</strong> ${esc(record.vision.man)}</p>
+      <p><strong style="color:var(--cream)">As a servant:</strong> ${esc(record.vision.servant)}</p>
     </div>
 
     <div class="doc-section">
@@ -488,28 +480,8 @@ function documentInnerHtml(record){
     </div>
 
     <div class="doc-section">
-      <div class="sec-label">My Grade</div>
-      <table class="doc-grade-table">
-        <tr><td>Hard Rule followed</td><td>1&ndash;5</td></tr>
-        <tr><td>Daily Rule followed</td><td>1&ndash;5</td></tr>
-        <tr><td>Recovery Rule followed</td><td>1&ndash;5</td></tr>
-        <tr><td>The Deed done</td><td>1&ndash;5</td></tr>
-        <tr><td>The Leaving held</td><td>1&ndash;5</td></tr>
-        <tr><td>Was I honest in my check-in today?</td><td>1&ndash;5</td></tr>
-      </table>
-      <p style="margin-top:.8em">Passing weekly score: <strong style="color:var(--cream)">${record.grade.passing}%</strong></p>
-      <p>If I fail a week: <em style="color:var(--cream)">${esc(record.grade.failClause)}</em></p>
-      <p>If I break my Hard Rule: <em style="color:var(--cream)">${esc(record.grade.brokenClause)}</em></p>
-    </div>
-
-    <div class="doc-section">
       <div class="sec-label">My Witness</div>
       <p>This contract is witnessed by <strong style="color:var(--cream)">${esc(record.witness)}</strong>.</p>
-    </div>
-
-    <div class="doc-section">
-      <div class="sec-label">The Term</div>
-      <p>Twelve weeks from the date of signature, then reviewed — renewed or rewritten.</p>
     </div>
 
     <div class="sig-line">
@@ -526,257 +498,59 @@ function renderDocument(record){
       <div style="max-width:600px;margin:1.6em auto 0">
         <button class="btn primary" id="downloadBtn">Download your contract. Post it in your room.</button>
       </div>
+      <div style="max-width:600px;margin:0 auto" class="turn">
+        <p>Your contract is signed. Now take your papers.</p>
+        <a class="btn ghost" href="papers.html" style="margin-top:1em">Take your papers</a>
+      </div>
     </div>`;
   document.getElementById("downloadBtn").addEventListener("click", () => exportContractPNG(record));
 }
 
-/* ---------- PNG export ----------
-   Draws the document directly onto a <canvas> with fillText/strokes —
-   no drawImage of an SVG/foreignObject. That SVG-rasterization technique
-   taints the canvas in Chrome (SecurityError on toDataURL) even for
-   same-origin, script-free content, so it can't be used here. Pure 2D
-   drawing primitives never taint the canvas, which is what makes this
-   approach reliable. Runs a measure pass (no drawing) to compute the
-   image height, then a draw pass at that height. */
+/* ---------- PNG export (shared engine in assets/canvas-doc.js) ---------- */
 
 function exportContractPNG(record){
-  const W = 1080, M = 72;
-  const contentW = W - M * 2;
-  const COLOR = {
-    bg: "#0c0a08", paper: "#151109", border: "rgba(201,163,95,.4)",
-    borderSoft: "rgba(242,237,225,.14)",
-    cream: "#f2ede1", muted: "#b7c2b9", muted2: "#8a9188",
-    gold: "#c9a35f", goldHi: "#e8cd93",
-  };
-  const SERIF = `Georgia, 'Times New Roman', serif`;
-  const SANS = `Arial, Helvetica, sans-serif`;
+  const b = DocRender.createBuilder();
+  const { COLOR, SERIF, SANS } = DocRender;
 
-  function wrapLines(ctx, text, maxWidth){
-    const words = String(text).split(/\s+/);
-    const lines = [];
-    let line = "";
-    for(const w of words){
-      const test = line ? line + " " + w : w;
-      if(line && ctx.measureText(test).width > maxWidth){
-        lines.push(line);
-        line = w;
-      }else{
-        line = test;
-      }
-    }
-    if(line) lines.push(line);
-    return lines;
-  }
-  function spacedWidth(ctx, text, spacing){
-    let w = 0;
-    for(const ch of text) w += ctx.measureText(ch).width + spacing;
-    return w - spacing;
-  }
-  function drawSpaced(ctx, text, x, y, spacing, align){
-    let startX = x;
-    if(align === "center") startX = x - spacedWidth(ctx, text, spacing) / 2;
-    let cx = startX;
-    for(const ch of text){ ctx.fillText(ch, cx, y); cx += ctx.measureText(ch).width + spacing; }
-  }
+  b.kicker("The Contract", COLOR.muted2, "center");
+  b.heading("Niyyah", `500 56px ${SERIF}`, COLOR.cream, 34, 30, "center");
+  b.heading(record.name, `italic 300 30px ${SERIF}`, COLOR.goldHi, 0, 12, "center");
+  b.paragraph(`Signed ${fmtDate(record.signedAt)}`, { font: `300 20px ${SANS}`, color: COLOR.muted2, lineHeight: 26, align: "center", gapAfter: 0 });
+  b.divider(36, 10);
 
-  const ops = [];
-  let y = 0;
-  const push = fn => ops.push(fn);
+  b.sectionLabel("The Vision");
+  b.paragraph(`As a trader: ${record.vision.trader}`, { color: COLOR.muted });
+  b.paragraph(`As a man: ${record.vision.man}`, { color: COLOR.muted });
+  b.paragraph(`As a servant: ${record.vision.servant}`, { color: COLOR.muted });
 
-  function heading(text, font, color, gapBefore, gapAfter, align){
-    push((ctx, measuring) => {
-      ctx.font = font;
-      y += gapBefore;
-      if(!measuring){
-        ctx.fillStyle = color;
-        ctx.textAlign = align || "left";
-        ctx.fillText(text, align === "center" ? W / 2 : M, y);
-        ctx.textAlign = "left";
-      }
-      y += gapAfter;
-    });
-  }
-  function kicker(text, color, align){
-    push((ctx, measuring) => {
-      ctx.font = `700 18px ${SANS}`;
-      y += 26;
-      if(!measuring){
-        ctx.fillStyle = color;
-        drawSpaced(ctx, text.toUpperCase(), align === "center" ? W / 2 : M, y, 4, align);
-      }
-      y += 18;
-    });
-  }
-  function paragraph(text, opts){
-    opts = opts || {};
-    const font = opts.font || `300 27px ${SERIF}`;
-    const color = opts.color || COLOR.muted;
-    const lineHeight = opts.lineHeight || 36;
-    const align = opts.align || "left";
-    push((ctx, measuring) => {
-      ctx.font = font;
-      const lines = wrapLines(ctx, text, opts.maxWidth || contentW);
-      for(const line of lines){
-        y += lineHeight;
-        if(!measuring){
-          ctx.fillStyle = color;
-          ctx.textAlign = align;
-          ctx.fillText(line, align === "center" ? W / 2 : M, y);
-          ctx.textAlign = "left";
-        }
-      }
-      y += opts.gapAfter != null ? opts.gapAfter : 14;
-    });
-  }
-  function sectionLabel(text){
-    push((ctx, measuring) => {
-      ctx.font = `700 19px ${SANS}`;
-      y += 44;
-      if(!measuring){
-        ctx.fillStyle = COLOR.gold;
-        drawSpaced(ctx, text.toUpperCase(), M, y, 3);
-      }
-      y += 20;
-    });
-  }
-  function divider(gapBefore, gapAfter, style){
-    gapBefore = gapBefore == null ? 30 : gapBefore;
-    gapAfter = gapAfter == null ? 30 : gapAfter;
-    push((ctx, measuring) => {
-      y += gapBefore;
-      if(!measuring){
-        ctx.strokeStyle = style || COLOR.border;
-        ctx.lineWidth = 1.5;
-        ctx.beginPath(); ctx.moveTo(M, y); ctx.lineTo(W - M, y); ctx.stroke();
-      }
-      y += gapAfter;
-    });
-  }
-  function gradeLine(label){
-    push((ctx, measuring) => {
-      ctx.font = `300 24px ${SANS}`;
-      y += 38;
-      if(!measuring){
-        ctx.fillStyle = COLOR.cream;
-        ctx.textAlign = "left";
-        ctx.fillText(label, M, y);
-        ctx.fillStyle = COLOR.muted2;
-        ctx.textAlign = "right";
-        ctx.fillText("1–5", W - M, y);
-        ctx.textAlign = "left";
-      }
-      y += 10;
-      if(!measuring){
-        ctx.strokeStyle = COLOR.borderSoft;
-        ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(M, y); ctx.lineTo(W - M, y); ctx.stroke();
-      }
-      y += 14;
-    });
-  }
+  b.sectionLabel("My Patterns");
+  b.paragraph(`${PATTERN_LABEL[record.primary]} enters when ${record.primaryEnters}`, { color: COLOR.muted });
+  b.paragraph(`${PATTERN_LABEL[record.secondary]} enters when ${record.secondaryEnters}`, { color: COLOR.muted });
 
-  /* ---- build the document ---- */
-  const term = fmtDate(new Date(new Date(record.signedAt).getTime() + 84 * 24 * 60 * 60 * 1000).toISOString());
+  b.sectionLabel("My Trading Rules");
+  b.paragraph("The Hard Rule", { font: `700 18px ${SANS}`, color: COLOR.muted2, lineHeight: 20, gapAfter: 6 });
+  b.paragraph(`“${record.rules.hard}”`, { font: `italic 300 26px ${SERIF}`, color: COLOR.cream, gapAfter: 16 });
+  b.paragraph("The Daily Rule", { font: `700 18px ${SANS}`, color: COLOR.muted2, lineHeight: 20, gapAfter: 6 });
+  b.paragraph(`“${record.rules.daily}”`, { font: `italic 300 26px ${SERIF}`, color: COLOR.cream, gapAfter: 16 });
+  b.paragraph("The Recovery Rule", { font: `700 18px ${SANS}`, color: COLOR.muted2, lineHeight: 20, gapAfter: 6 });
+  b.paragraph(`“${record.rules.recovery}”`, { font: `italic 300 26px ${SERIF}`, color: COLOR.cream, gapAfter: 4 });
 
-  y += 0;
-  kicker("The Contract", COLOR.muted2, "center");
-  heading("Niyyah", `500 56px ${SERIF}`, COLOR.cream, 34, 30, "center");
-  heading(record.name, `italic 300 30px ${SERIF}`, COLOR.goldHi, 0, 12, "center");
-  paragraph(`Signed ${fmtDate(record.signedAt)}  ·  Term ends ${term}`, { font: `300 20px ${SANS}`, color: COLOR.muted2, lineHeight: 26, align: "center", gapAfter: 0 });
-  divider(36, 10);
+  b.sectionLabel("My Life");
+  record.life.forEach(r => b.paragraph(`${r.area} — ${r.action}`, { color: COLOR.muted }));
 
-  sectionLabel("My Patterns");
-  paragraph(`${PATTERN_LABEL[record.primary]} enters when ${record.primaryEnters}`, { color: COLOR.muted });
-  paragraph(`${PATTERN_LABEL[record.secondary]} enters when ${record.secondaryEnters}`, { color: COLOR.muted });
+  b.sectionLabel("My Deen");
+  b.paragraph("The Deed", { font: `700 18px ${SANS}`, color: COLOR.muted2, lineHeight: 20, gapAfter: 6 });
+  b.paragraph(`“${record.deed}”`, { font: `italic 300 26px ${SERIF}`, color: COLOR.cream, gapAfter: 16 });
+  b.paragraph("The Leaving", { font: `700 18px ${SANS}`, color: COLOR.muted2, lineHeight: 20, gapAfter: 6 });
+  b.paragraph(`“${record.leaving}”`, { font: `italic 300 26px ${SERIF}`, color: COLOR.cream, gapAfter: 4 });
 
-  sectionLabel("My Trading Rules");
-  paragraph("The Hard Rule", { font: `700 18px ${SANS}`, color: COLOR.muted2, lineHeight: 20, gapAfter: 6 });
-  paragraph(`“${record.rules.hard}”`, { font: `italic 300 26px ${SERIF}`, color: COLOR.cream, gapAfter: 16 });
-  paragraph("The Daily Rule", { font: `700 18px ${SANS}`, color: COLOR.muted2, lineHeight: 20, gapAfter: 6 });
-  paragraph(`“${record.rules.daily}”`, { font: `italic 300 26px ${SERIF}`, color: COLOR.cream, gapAfter: 16 });
-  paragraph("The Recovery Rule", { font: `700 18px ${SANS}`, color: COLOR.muted2, lineHeight: 20, gapAfter: 6 });
-  paragraph(`“${record.rules.recovery}”`, { font: `italic 300 26px ${SERIF}`, color: COLOR.cream, gapAfter: 4 });
+  b.sectionLabel("My Witness");
+  b.paragraph(`This contract is witnessed by ${record.witness}.`, { color: COLOR.muted });
 
-  sectionLabel("My Life");
-  record.life.forEach(r => paragraph(`${r.area} — ${r.action}`, { color: COLOR.muted }));
+  b.divider(20, 0);
+  b.signatureLine(record.name, fmtDate(record.signedAt));
 
-  sectionLabel("My Deen");
-  paragraph("The Deed", { font: `700 18px ${SANS}`, color: COLOR.muted2, lineHeight: 20, gapAfter: 6 });
-  paragraph(`“${record.deed}”`, { font: `italic 300 26px ${SERIF}`, color: COLOR.cream, gapAfter: 16 });
-  paragraph("The Leaving", { font: `700 18px ${SANS}`, color: COLOR.muted2, lineHeight: 20, gapAfter: 6 });
-  paragraph(`“${record.leaving}”`, { font: `italic 300 26px ${SERIF}`, color: COLOR.cream, gapAfter: 4 });
-
-  sectionLabel("My Grade");
-  gradeLine("Hard Rule followed");
-  gradeLine("Daily Rule followed");
-  gradeLine("Recovery Rule followed");
-  gradeLine("The Deed done");
-  gradeLine("The Leaving held");
-  gradeLine("Was I honest in my check-in today?");
-  paragraph(`Passing weekly score: ${record.grade.passing}%`, { font: `300 24px ${SANS}`, color: COLOR.cream, lineHeight: 30, gapAfter: 6 });
-  paragraph(`If I fail a week: “${record.grade.failClause}”`, { font: `italic 300 24px ${SERIF}`, color: COLOR.muted });
-  paragraph(`If I break my Hard Rule: “${record.grade.brokenClause}”`, { font: `italic 300 24px ${SERIF}`, color: COLOR.muted });
-
-  sectionLabel("My Witness");
-  paragraph(`This contract is witnessed by ${record.witness}.`, { color: COLOR.muted });
-
-  sectionLabel("The Term");
-  paragraph("Twelve weeks from the date of signature, then reviewed — renewed or rewritten.", { color: COLOR.muted });
-
-  divider(20, 0);
-  push((ctx, measuring) => {
-    ctx.font = `italic 300 34px ${SERIF}`;
-    y += 46;
-    if(!measuring){
-      ctx.fillStyle = COLOR.cream;
-      ctx.textAlign = "left";
-      ctx.fillText(record.name, M, y);
-      ctx.font = `300 20px ${SANS}`;
-      ctx.fillStyle = COLOR.muted2;
-      ctx.textAlign = "right";
-      ctx.fillText(fmtDate(record.signedAt), W - M, y);
-      ctx.textAlign = "left";
-    }
-  });
-
-  /* ---- pass 1: measure ---- */
-  const measureCanvas = document.createElement("canvas");
-  const mctx = measureCanvas.getContext("2d");
-  y = M;
-  for(const op of ops) op(mctx, true);
-  const totalHeight = Math.ceil(y + M);
-
-  /* ---- pass 2: draw ---- */
-  const scale = 2;
-  const canvas = document.createElement("canvas");
-  canvas.width = W * scale;
-  canvas.height = totalHeight * scale;
-  const ctx = canvas.getContext("2d");
-  ctx.scale(scale, scale);
-  ctx.fillStyle = COLOR.bg;
-  ctx.fillRect(0, 0, W, totalHeight);
-  ctx.fillStyle = COLOR.paper;
-  ctx.fillRect(0, 0, W, totalHeight);
-  ctx.strokeStyle = COLOR.border;
-  ctx.lineWidth = 1;
-  ctx.strokeRect(0.5, 0.5, W - 1, totalHeight - 1);
-  ctx.textBaseline = "alphabetic";
-
-  y = M;
-  for(const op of ops) op(ctx, false);
-
-  try{
-    const dataUrl = canvas.toDataURL("image/png");
-    const a = document.createElement("a");
-    a.download = "niyyah-contract.png";
-    a.href = dataUrl;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  }catch(err){
-    console.warn("PNG export failed:", err);
-    alert("Couldn't generate the image in this browser. Try again, or screenshot this page.");
-  }
+  DocRender.renderAndDownload(b, "niyyah-contract.png");
 }
 
 /* ---------- Boot ---------- */
