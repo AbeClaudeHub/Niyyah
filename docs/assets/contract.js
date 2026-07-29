@@ -130,6 +130,17 @@ const LIFE_EXAMPLES = [
   { area: "Anger", action: "Walk outside for five minutes before I respond to anyone." },
 ];
 
+/* The second Vision clause is written as a man or as a woman — the member
+   chooses. The stored field stays `vision.man` so contracts signed before
+   this choice existed keep loading; `selfAs` only decides the wording. */
+const SELF_WORD = { man: "man", woman: "woman" };
+function selfWord(selfAs){ return SELF_WORD[selfAs] || SELF_WORD.man; }
+function selfPlaceholder(selfAs){
+  return selfAs === "woman"
+    ? "The woman my family and sisters will know, inshAllah:"
+    : "The man my family and brothers will know, inshAllah:";
+}
+
 let diag = null;
 try{ diag = JSON.parse(localStorage.getItem("niyyah_diagnosis") || "null"); }catch(_){}
 
@@ -137,6 +148,7 @@ const state = {
   primary: (diag && diag.primary) || "",
   secondary: (diag && diag.secondary) || "",
   vision: { trader: "", man: "", servant: "" },
+  selfAs: "man",
   patterns: [],
   patternMoments: {},
   rules: { hard: "", daily: "", recovery: "" },
@@ -240,7 +252,7 @@ function renderDeclaration(){
   app.innerHTML = stepChrome("The Declaration", "Read this before you write anything.", "", `
     <div class="decl-text">
       <p>I am entering this contract with my eyes open. My results in the market are downstream of my discipline, not my strategy — I have been shown my patterns, and I no longer get to say I didn't know.</p>
-      <p>This contract is between me and <em>Allah</em> before it is between me and any group, any room, or any brother watching. What I write here is a covenant, not a caption.</p>
+      <p>This contract is between me and <em>Allah</em> before it is between me and any group, any room, or anyone watching. What I write here is a covenant, not a caption.</p>
       <p>A contract written casually will be broken casually. I am taking the next fifteen minutes seriously, because what I sign today does not come with an expiration date.</p>
     </div>
     <button class="btn primary" id="nextBtn" disabled style="margin-top:2em">Continue</button>
@@ -265,13 +277,17 @@ function renderVision(){
   app.innerHTML = stepChrome("The Vision", "Where you see yourself, inshAllah.", "<em>InshAllah</em> — \"if Allah wills.\" Not slogans — a real picture of who you're becoming. One example under each prompt to set the register; the answer has to be yours.", `
     <div class="field">
       <label class="f-label">As a trader</label>
-      <p class="hint" style="margin-bottom:.5em">e.g. Someone who takes the setups on his plan and leaves the rest alone, win or lose.</p>
+      <p class="hint" style="margin-bottom:.5em">e.g. Someone who takes the setups on their plan and leaves the rest alone, win or lose.</p>
       <textarea id="visionTrader" placeholder="The trader I am becoming, inshAllah:">${esc(state.vision.trader)}</textarea>
     </div>
     <div class="field">
-      <label class="f-label">As a man</label>
+      <label class="f-label" id="selfLabel">As a ${selfWord(state.selfAs)}</label>
+      <div class="toggle-pair" style="margin-bottom:.7em">
+        <button type="button" class="toggle-btn self-btn${state.selfAs === "woman" ? "" : " selected"}" data-self="man">As a man</button>
+        <button type="button" class="toggle-btn self-btn${state.selfAs === "woman" ? " selected" : ""}" data-self="woman">As a woman</button>
+      </div>
       <p class="hint" style="margin-bottom:.5em">e.g. Someone whose word is the same in the group chat as it is at home.</p>
-      <textarea id="visionMan" placeholder="The man my family and brothers will know, inshAllah:">${esc(state.vision.man)}</textarea>
+      <textarea id="visionMan" placeholder="${esc(selfPlaceholder(state.selfAs))}">${esc(state.vision.man)}</textarea>
     </div>
     <div class="field">
       <label class="f-label">As a servant</label>
@@ -280,12 +296,20 @@ function renderVision(){
     </div>
     <button class="btn primary" id="nextBtn">Continue</button>
   `);
+  document.querySelectorAll(".self-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      state.selfAs = btn.dataset.self === "woman" ? "woman" : "man";
+      document.querySelectorAll(".self-btn").forEach(b => b.classList.toggle("selected", b === btn));
+      document.getElementById("selfLabel").textContent = `As a ${selfWord(state.selfAs)}`;
+      document.getElementById("visionMan").placeholder = selfPlaceholder(state.selfAs);
+    });
+  });
   bindNav(() => {
     state.vision.trader = document.getElementById("visionTrader").value.trim();
     state.vision.man = document.getElementById("visionMan").value.trim();
     state.vision.servant = document.getElementById("visionServant").value.trim();
     if(!state.vision.trader || !state.vision.man || !state.vision.servant){
-      alert("All three — trader, man, servant — are required.");
+      alert(`All three — trader, ${selfWord(state.selfAs)}, servant — are required.`);
       return false;
     }
     return true;
@@ -630,7 +654,7 @@ function documentInnerHtml(record){
     <div class="doc-section">
       <div class="sec-label">The Vision</div>
       <p><strong style="color:var(--cream)">As a trader:</strong> ${esc(vision.trader)}</p>
-      <p><strong style="color:var(--cream)">As a man:</strong> ${esc(vision.man)}</p>
+      <p><strong style="color:var(--cream)">As a ${esc(selfWord(record.selfAs))}:</strong> ${esc(vision.man)}</p>
       <p><strong style="color:var(--cream)">As a servant:</strong> ${esc(vision.servant)}</p>
     </div>
 
@@ -767,7 +791,7 @@ function exportContractPNG(record){
 
   b.sectionLabel("The Vision");
   b.paragraph(`As a trader: ${record.vision.trader}`, { color: COLOR.muted });
-  b.paragraph(`As a man: ${record.vision.man}`, { color: COLOR.muted });
+  b.paragraph(`As a ${selfWord(record.selfAs)}: ${record.vision.man}`, { color: COLOR.muted });
   b.paragraph(`As a servant: ${record.vision.servant}`, { color: COLOR.muted });
 
   b.sectionLabel("My Patterns");
@@ -826,6 +850,7 @@ function prefillFromLegacy(rec){
     state.vision.man = rec.vision.man || "";
     state.vision.servant = rec.vision.servant || "";
   }
+  if(rec.selfAs === "woman" || rec.selfAs === "man") state.selfAs = rec.selfAs;
   if(rec.rules && typeof rec.rules === "object"){
     state.rules.hard = rec.rules.hard || "";
     state.rules.daily = rec.rules.daily || "";

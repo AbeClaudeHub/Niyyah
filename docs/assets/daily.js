@@ -268,6 +268,16 @@ function renderCheckOutForm(){
 
       <div class="grade-total"><span class="label">Daily total</span><span class="value" id="totalVal">0 / 30</span></div>
 
+      <div class="wiz-kicker" style="margin-top:1.8em">The Day Itself</div>
+      ${toggleRow("waqiah", "Did I read Surah Al-Waqi'ah?", [{ value: "yes", label: "Yes" }, { value: "no", label: "No" }])}
+      ${toggleRow("yaseen", "Did I read Surah Yaseen?", [{ value: "yes", label: "Yes" }, { value: "no", label: "No" }])}
+
+      <div class="field">
+        <label class="f-label">How many trades did I take today?</label>
+        <p class="hint" style="margin-bottom:.5em">The real number, including the ones you'd rather not count.</p>
+        <input type="number" id="coTrades" min="0" max="999" step="1" inputmode="numeric" placeholder="e.g. 3" />
+      </div>
+
       <div class="field" style="margin-top:1.8em">
         <label class="f-label">One sentence — where did the nafs show up today?</label>
         <input type="text" id="coSentence" placeholder="e.g. Impatience, twenty minutes before close." />
@@ -296,13 +306,25 @@ function renderCheckOutForm(){
     });
   });
 
+  const toggles = {};
+  document.querySelectorAll(".toggle-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.id;
+      document.querySelectorAll(`.toggle-btn[data-id="${id}"]`).forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      toggles[id] = btn.dataset.value;
+    });
+  });
+
   document.getElementById("genBtn").addEventListener("click", () => {
     const sentence = document.getElementById("coSentence").value.trim();
     const brokenClause = document.getElementById("coBroken").value.trim();
+    const tradesRaw = document.getElementById("coTrades").value.trim();
     const need = ["hard", "daily", "recovery", "deed", "leaving", "honesty"];
     const allScored = need.every(k => scores[k]);
-    if(!allScored || !sentence || !brokenClause){
-      alert("Score all six lines, add your one sentence, and write your broken-rule clause.");
+    const tradesValid = tradesRaw !== "" && Number.isFinite(Number(tradesRaw)) && Number(tradesRaw) >= 0;
+    if(!allScored || !sentence || !brokenClause || !toggles.waqiah || !toggles.yaseen || !tradesValid){
+      alert("Score all six lines, answer both recitation checks, put in your trade count, add your one sentence, and write your broken-rule clause.");
       return;
     }
     const total = need.reduce((sum, k) => sum + scores[k], 0);
@@ -311,12 +333,19 @@ function renderCheckOutForm(){
       name: paperSource.name,
       scores: { hard: scores.hard, daily: scores.daily, recovery: scores.recovery, deed: scores.deed, leaving: scores.leaving, honesty: scores.honesty },
       total, sentence, brokenClause,
+      waqiah: toggles.waqiah, yaseen: toggles.yaseen, trades: Math.floor(Number(tradesRaw)),
       hardRuleText: paperSource.rules.hard, dailyRuleText: paperSource.rules.daily, recoveryRuleText: paperSource.rules.recovery,
       deedText: paperSource.deed, leavingText: paperSource.leaving,
     };
     try{ localStorage.setItem("niyyah_checkout", JSON.stringify(record)); }catch(_){}
     renderCheckOutDoc(record);
   });
+}
+
+/* Check-outs saved before "The Day Itself" existed simply omit that section
+   rather than printing blanks. */
+function hasDayFields(record){
+  return !!(record && record.waqiah && record.yaseen && record.trades !== undefined && record.trades !== null);
 }
 
 function checkoutDocInnerHtml(record){
@@ -343,6 +372,14 @@ function checkoutDocInnerHtml(record){
       </table>
       <p style="margin-top:.8em">Daily total: <strong style="color:var(--cream)">${record.total} / 30</strong></p>
     </div>
+
+    ${hasDayFields(record) ? `
+    <div class="doc-section">
+      <div class="sec-label">The Day Itself</div>
+      <p>Surah Al-Waqi'ah: <strong style="color:var(--cream)">${record.waqiah === "yes" ? "Read" : "Not read"}</strong></p>
+      <p>Surah Yaseen: <strong style="color:var(--cream)">${record.yaseen === "yes" ? "Read" : "Not read"}</strong></p>
+      <p>Trades taken: <strong style="color:var(--cream)">${esc(String(record.trades))}</strong></p>
+    </div>` : ""}
 
     <div class="doc-section">
       <div class="sec-label">One Sentence</div>
@@ -451,6 +488,13 @@ function exportCheckOutPNG(record){
   b.gradeLine(`My Leaving — "${record.leavingText}"`, `${record.scores.leaving}/5`);
   b.gradeLine("Honesty — was I fully honest on this paper today?", `${record.scores.honesty}/5`);
   b.paragraph(`Daily total: ${record.total} / 30`, { font: `300 24px ${SANS}`, color: COLOR.cream, lineHeight: 30, gapAfter: 6 });
+
+  if(hasDayFields(record)){
+    b.sectionLabel("The Day Itself");
+    b.paragraph(`Surah Al-Waqi'ah: ${record.waqiah === "yes" ? "Read" : "Not read"}`, { color: COLOR.muted });
+    b.paragraph(`Surah Yaseen: ${record.yaseen === "yes" ? "Read" : "Not read"}`, { color: COLOR.muted });
+    b.paragraph(`Trades taken: ${record.trades}`, { color: COLOR.muted });
+  }
 
   b.sectionLabel("One Sentence");
   b.paragraph(`Where the nafs showed up today: “${record.sentence}”`, { color: COLOR.muted });
