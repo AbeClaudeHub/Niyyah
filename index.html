@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>The Mirror — an intention journal</title>
+<meta name="description" content="A pre/post-trade intention journal. Everything stays on this device.">
+<style>
+:root{
+  --bg:#0d0d0e;
+  --bg-raised:#161618;
+  --border:#2a2a2d;
+  --text:#e9e6e0;
+  --text-dim:#a8a39a;
+  --text-faint:#6f6a62;
+  --accent:#b08d57;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+#app{max-width:640px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;}
+header.app-header{padding:1.25rem 1.25rem 0.25rem;}
+header.app-header .wordmark{font-family:Georgia,"Iowan Old Style",serif;font-size:1.4rem;letter-spacing:0.02em;}
+#storage-banner{background:rgba(176,60,60,0.12);border:1px solid rgba(176,60,60,0.4);color:#d99;padding:0.75rem 1rem;margin:0.75rem 1.25rem 0;border-radius:4px;font-size:0.85rem;}
+main{flex:1;padding:1rem 1.25rem 6rem;}
+.screen{display:none;}
+.screen.active{display:block;animation:fade .15s ease;}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+.tagline{color:var(--text-dim);font-size:0.95rem;margin-bottom:1.75rem;line-height:1.6;}
+.step-count{color:var(--text-faint);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.6rem;}
+.prompt{font-size:clamp(1.4rem,5vw,1.9rem);font-weight:600;margin-bottom:1.1rem;line-height:1.3;}
+textarea,input[type=text]{
+  width:100%;background:var(--bg-raised);border:1px solid var(--border);color:var(--text);
+  border-radius:6px;padding:0.9rem;font-size:1.05rem;font-family:inherit;
+}
+textarea{resize:vertical;min-height:8rem;}
+textarea:focus,input:focus{outline:none;border-color:var(--accent);}
+.wizard-actions{display:flex;justify-content:space-between;align-items:center;margin-top:1.25rem;gap:0.75rem;}
+.btn-primary{background:var(--accent);color:#161006;border:none;padding:0.85rem 1.4rem;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;}
+.btn-primary:disabled{opacity:0.35;cursor:not-allowed;}
+.btn-ghost{background:transparent;color:var(--text-dim);border:1px solid var(--border);padding:0.85rem 1.2rem;border-radius:6px;cursor:pointer;font-size:0.95rem;}
+.btn-danger{background:transparent;color:#c97a7a;border:1px solid #5a3232;padding:0.85rem 1.2rem;border-radius:6px;cursor:pointer;font-size:0.95rem;}
+.btn-link{background:none;border:none;color:var(--text-dim);font-size:0.9rem;cursor:pointer;padding:0;margin-bottom:1rem;text-decoration:underline;}
+
+.review-block{margin-bottom:1.25rem;}
+.review-block h3{font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:0.35rem;}
+.review-block p{font-size:1.05rem;white-space:pre-wrap;}
+.review-plan p{color:var(--accent);}
+
+.entry-list{list-style:none;}
+.entry-row{width:100%;text-align:left;background:var(--bg-raised);border:1px solid var(--border);border-radius:6px;padding:0.9rem 1rem;margin-bottom:0.6rem;color:var(--text);cursor:pointer;display:flex;flex-direction:column;gap:0.25rem;font-family:inherit;}
+.entry-date{font-size:0.75rem;color:var(--text-faint);}
+.entry-snip{font-size:0.98rem;}
+
+.meta{color:var(--text-faint);font-size:0.8rem;margin-bottom:0.85rem;}
+.recall-block{background:var(--bg-raised);border:1px solid var(--border);border-radius:6px;padding:1rem;margin-bottom:1.5rem;}
+.recall-block h3{font-size:0.78rem;text-transform:uppercase;color:var(--text-faint);letter-spacing:0.06em;margin-bottom:0.5rem;}
+.recall-block p{margin-bottom:0.5rem;font-size:0.95rem;white-space:pre-wrap;}
+.precommit{color:var(--accent);}
+
+fieldset{border:none;margin-bottom:1.25rem;}
+.tag-option{display:flex;align-items:center;gap:0.6rem;padding:0.75rem 0.2rem;border-bottom:1px solid var(--border);font-size:1rem;cursor:pointer;}
+.tag-option:last-child{border-bottom:none;}
+.tag-option input{width:1.1rem;height:1.1rem;accent-color:var(--accent);flex-shrink:0;}
+
+.field-row{margin-bottom:1.1rem;}
+.small-label{display:block;font-size:0.85rem;color:var(--text-dim);margin-bottom:0.4rem;}
+.yesno{display:flex;gap:1.5rem;}
+.yesno label{display:flex;align-items:center;gap:0.4rem;font-size:0.95rem;cursor:pointer;}
+.yesno input{accent-color:var(--accent);}
+
+.muted{color:var(--text-dim);}
+.muted.small{font-size:0.85rem;margin-bottom:1.25rem;}
+
+.headline{font-size:1.15rem;margin-bottom:1.5rem;line-height:1.55;}
+.bar-list{margin-bottom:1.5rem;}
+.bar-row{margin-bottom:0.9rem;}
+.bar-label{display:flex;justify-content:space-between;gap:0.5rem;font-size:0.92rem;margin-bottom:0.3rem;}
+.bar-label span:first-child{flex:1;}
+.bar-value{color:var(--text-dim);font-variant-numeric:tabular-nums;white-space:nowrap;}
+.bar-track{height:10px;background:var(--bg-raised);border-radius:3px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:3px;}
+.bar-fill.loss{background:var(--accent);}
+.bar-fill.gain{background:rgba(176,141,87,0.35);}
+
+.stat-line{font-size:0.98rem;margin-bottom:0.5rem;}
+.stat-line.secondary{color:var(--text-dim);font-size:0.88rem;margin-top:0.75rem;}
+
+.reflect-then,.reflect-now{background:var(--bg-raised);border:1px solid var(--border);border-radius:6px;padding:1rem;margin-bottom:1rem;}
+.reflect-then h3,.reflect-now h3{font-size:0.78rem;text-transform:uppercase;color:var(--text-faint);letter-spacing:0.06em;margin-bottom:0.6rem;}
+.reflect-then p,.reflect-now p{margin-bottom:0.5rem;font-size:0.95rem;white-space:pre-wrap;}
+@media (min-width:640px){
+  .reflect-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+}
+
+.privacy-note{color:var(--text-dim);font-size:0.9rem;margin:1rem 0 1.5rem;line-height:1.65;}
+.data-actions{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1rem;}
+.file-label{text-align:center;}
+.data-msg{font-size:0.85rem;color:var(--accent);min-height:1.2rem;}
+.data-stats{color:var(--text-dim);font-size:0.9rem;margin-bottom:1rem;}
+
+.scripture-placeholder{border:1px dashed var(--border);color:var(--text-faint);font-size:0.82rem;font-style:italic;padding:0.75rem 1rem;margin-top:1.5rem;border-radius:4px;line-height:1.5;}
+
+#bottomnav{position:fixed;bottom:0;left:0;right:0;background:var(--bg-raised);border-top:1px solid var(--border);display:flex;max-width:640px;margin:0 auto;}
+#bottomnav button{flex:1;background:none;border:none;color:var(--text-faint);padding:0.9rem 0.25rem 1.15rem;font-size:0.8rem;cursor:pointer;font-family:inherit;}
+#bottomnav button.active{color:var(--accent);}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="app-header">
+    <span class="wordmark">The Mirror</span>
+  </header>
+  <div id="storage-banner" hidden>Storage is blocked in this browser (often private/incognito mode). Entries will disappear when this tab closes — export before you leave if you want to keep them.</div>
+
+  <main>
+    <section id="screen-new" class="screen">
+      <p class="tagline">Not a P&amp;L tracker. State your intention before the trade. Name your behavior after it.</p>
+      <div id="new-content"></div>
+    </section>
+
+    <section id="screen-close" class="screen">
+      <div id="close-content"></div>
+    </section>
+
+    <section id="screen-mirror" class="screen">
+      <div id="mirror-content"></div>
+    </section>
+
+    <section id="screen-week" class="screen">
+      <div id="week-content"></div>
+    </section>
+
+    <section id="screen-data" class="screen">
+      <div id="data-content"></div>
+    </section>
+  </main>
+
+  <nav id="bottomnav">
+    <button type="button" data-nav="new">New</button>
+    <button type="button" data-nav="close">Close</button>
+    <button type="button" data-nav="mirror">Mirror</button>
+    <button type="button" data-nav="week">Week</button>
+    <button type="button" data-nav="data">Data</button>
+  </nav>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var STORAGE_KEY = "themirror.entries.v1";
+
+var TAGS = [
+  "Followed my plan",
+  "Moved my stop",
+  "Chased the entry",
+  "Sized up out of ego",
+  "Sized down out of fear",
+  "Closed early out of doubt",
+  "Took it out of boredom",
+  "Revenge trade"
+];
+
+var TAG_PHRASE = {
+  "Followed my plan":"following your plan",
+  "Moved my stop":"moving your stop",
+  "Chased the entry":"chasing the entry",
+  "Sized up out of ego":"sizing up out of ego",
+  "Sized down out of fear":"sizing down out of fear",
+  "Closed early out of doubt":"closing early out of doubt",
+  "Took it out of boredom":"trading out of boredom",
+  "Revenge trade":"revenge trading"
+};
+
+function storageAvailable(){
+  try{
+    var x = "__mirror_test__";
+    localStorage.setItem(x, x);
+    localStorage.removeItem(x);
+    return true;
+  }catch(e){
+    return false;
+  }
+}
+
+var storageOK = storageAvailable();
+
+function loadEntries(){
+  if(!storageOK) return [];
+  try{
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return [];
+    var parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  }catch(e){
+    return [];
+  }
+}
+
+function persist(){
+  if(!storageOK) return;
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state.entries));
+  }catch(e){
+    // quota or other write failure — data stays in memory for this session
+  }
+}
+
+function uid(){
+  return "e_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2,8);
+}
+
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, function(ch){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch];
+  });
+}
+
+function truncate(str, n){
+  str = str || "";
+  return str.length > n ? str.slice(0, n - 1) + "…" : str;
+}
+
+function formatDate(ts){
+  return new Date(ts).toLocaleString(undefined, {month:"short", day:"numeric", hour:"numeric", minute:"2-digit"});
+}
+
+function formatR(n){
+  var abs = Math.abs(n);
+  var s = abs.toFixed(1);
+  if(s.slice(-2) === ".0") s = s.slice(0, -2);
+  return s;
+}
+
+function todayStr(){
+  return new Date().toISOString().slice(0,10);
+}
+
+function verseBox(theme){
+  var text = {
+    sabr: "[VERSE PLACEHOLDER — patience / sabr]",
+    niyyah: "[HADITH PLACEHOLDER — sincerity of intention / niyyah]",
+    tawakkul: "[VERSE PLACEHOLDER — trust in Allah / tawakkul]",
+    muhasabah: "[HADITH PLACEHOLDER — self-reckoning / muhasabah]"
+  }[theme] || "[PLACEHOLDER]";
+  return '<div class="scripture-placeholder">' + text + "</div>";
+}
+
+var state = {
+  entries: loadEntries()
+};
+
+var ui = {
+  activeScreen: "new",
+  newStep: 1,
+  newAnswers: {reason:"", invalidation:"", plan:""},
+  activeCloseId: null,
+  closeForm: {tag:"", breached:"", result:"", note:""}
+};
+
+function computeTagStats(entries){
+  var map = {};
+  TAGS.forEach(function(t){ map[t] = {sum:0, count:0}; });
+  entries.forEach(function(e){
+    if(e.status === "closed" && typeof e.result === "number" && !isNaN(e.result) && map[e.tag]){
+      map[e.tag].sum += e.result;
+      map[e.tag].count += 1;
+    }
+  });
+  return map;
+}
+
+function renderAll(){
+  updateNavActive();
+  updateStorageBanner();
+  renderNew();
+  renderClose();
+  renderMirror();
+  renderWeek();
+  renderData();
+  document.querySelectorAll(".screen").forEach(function(s){
+    s.classList.toggle("active", s.id === "screen-" + ui.activeScreen);
+  });
+}
+
+function updateNavActive(){
+  document.querySelectorAll("#bottomnav button").forEach(function(b){
+    b.classList.toggle("active", b.dataset.nav === ui.activeScreen);
+  });
+}
+
+function updateStorageBanner(){
+  var el = document.getElementById("storage-banner");
+  el.hidden = storageOK;
+}
+
+// ---------- Screen 1: New ----------
+
+function renderNew(){
+  var container = document.getElementById("new-content");
+  var steps = [
+    {key:"reason", label:"Why this trade?"},
+    {key:"invalidation", label:"What invalidates it?"},
+    {key:"plan", label:"If this loses, what will you do in the next 10 minutes?"}
+  ];
+
+  if(ui.newStep <= 3){
+    var step = steps[ui.newStep - 1];
+    container.innerHTML =
+      '<p class="step-count">' + ui.newStep + ' / 3</p>' +
+      '<h2 class="prompt">' + escapeHtml(step.label) + '</h2>' +
+      '<textarea id="new-input" rows="6" placeholder="Write it straight. No hedging.">' + escapeHtml(ui.newAnswers[step.key]) + '</textarea>' +
+      '<div class="wizard-actions">' +
+        (ui.newStep > 1 ? '<button type="button" class="btn-ghost" id="new-back">Back</button>' : '<span></span>') +
+        '<button type="button" class="btn-primary" id="new-next" disabled>' + (ui.newStep < 3 ? "Next" : "Review") + '</button>' +
+      '</div>' +
+      (ui.newStep === 1 ? verseBox("niyyah") : "");
+
+    var ta = container.querySelector("#new-input");
+    var nextBtn = container.querySelector("#new-next");
+    function syncBtn(){ nextBtn.disabled = ta.value.trim().length === 0; }
+    syncBtn();
+    ta.addEventListener("input", function(){
+      ui.newAnswers[step.key] = ta.value;
+      syncBtn();
+    });
+    if(ui.newStep > 1){
+      container.querySelector("#new-back").addEventListener("click", function(){
+        ui.newAnswers[step.key] = ta.value;
+        ui.newStep -= 1;
+        renderNew();
+      });
+    }
+    nextBtn.addEventListener("click", function(){
+      ui.newAnswers[step.key] = ta.value;
+      ui.newStep += 1;
+      renderNew();
+    });
+  } else {
+    container.innerHTML =
+      '<p class="step-count">Review</p>' +
+      '<div class="review-block"><h3>Why this trade</h3><p>' + escapeHtml(ui.newAnswers.reason) + '</p></div>' +
+      '<div class="review-block"><h3>What invalidates it</h3><p>' + escapeHtml(ui.newAnswers.invalidation) + '</p></div>' +
+      '<div class="review-block review-plan"><h3>If it loses, in 10 minutes</h3><p>' + escapeHtml(ui.newAnswers.plan) + '</p></div>' +
+      '<div class="wizard-actions">' +
+        '<button type="button" class="btn-ghost" id="new-back">Back</button>' +
+        '<button type="button" class="btn-primary" id="new-log">Log it</button>' +
+      '</div>';
+
+    container.querySelector("#new-back").addEventListener("click", function(){
+      ui.newStep = 3;
+      renderNew();
+    });
+    container.querySelector("#new-log").addEventListener("click", function(){
+      var entry = {
+        id: uid(),
+        createdAt: Date.now(),
+        reason: ui.newAnswers.reason.trim(),
+        invalidation: ui.newAnswers.invalidation.trim(),
+        plan: ui.newAnswers.plan.trim(),
+        status: "open",
+        tag: null,
+        breached: null,
+        result: null,
+        note: "",
+        closedAt: null
+      };
+      state.entries.push(entry);
+      persist();
+      ui.newStep = 1;
+      ui.newAnswers = {reason:"", invalidation:"", plan:""};
+      ui.activeScreen = "close";
+      renderAll();
+      window.scrollTo(0,0);
+    });
+  }
+}
+
+// ---------- Screen 2: Close ----------
+
+function renderClose(){
+  var container = document.getElementById("close-content");
+
+  if(ui.activeCloseId){
+    var entry = state.entries.find(function(e){ return e.id === ui.activeCloseId; });
+    if(!entry){
+      ui.activeCloseId = null;
+      renderClose();
+      return;
+    }
+    container.innerHTML =
+      '<button type="button" class="btn-link" id="close-cancel">&larr; All open trades</button>' +
+      '<p class="meta">Opened ' + formatDate(entry.createdAt) + '</p>' +
+      '<div class="recall-block">' +
+        '<h3>You said</h3>' +
+        '<p><strong>Why:</strong> ' + escapeHtml(entry.reason) + '</p>' +
+        '<p><strong>Invalidation:</strong> ' + escapeHtml(entry.invalidation) + '</p>' +
+        '<p class="precommit"><strong>Your plan if it lost:</strong> ' + escapeHtml(entry.plan) + '</p>' +
+      '</div>' +
+      '<h2 class="prompt">What did you actually do?</h2>' +
+      '<fieldset class="tag-list">' +
+        TAGS.map(function(t){
+          return '<label class="tag-option"><input type="radio" name="close-tag" value="' + escapeHtml(t) + '"' + (ui.closeForm.tag === t ? " checked" : "") + '><span>' + escapeHtml(t) + '</span></label>';
+        }).join("") +
+      '</fieldset>' +
+      '<div class="field-row">' +
+        '<label class="small-label">Did you breach the invalidation you named above?</label>' +
+        '<div class="yesno">' +
+          '<label><input type="radio" name="close-breached" value="yes"' + (ui.closeForm.breached === "yes" ? " checked" : "") + '> Yes</label>' +
+          '<label><input type="radio" name="close-breached" value="no"' + (ui.closeForm.breached === "no" ? " checked" : "") + '> No</label>' +
+        '</div>' +
+      '</div>' +
+      '<div class="field-row">' +
+        '<label class="small-label" for="close-result">Result, in R (optional)</label>' +
+        '<input type="text" inputmode="decimal" id="close-result" placeholder="e.g. -1 or +2.5" value="' + escapeHtml(ui.closeForm.result) + '">' +
+      '</div>' +
+      '<div class="field-row">' +
+        '<label class="small-label" for="close-note">One line (optional)</label>' +
+        '<input type="text" id="close-note" maxlength="140" value="' + escapeHtml(ui.closeForm.note) + '">' +
+      '</div>' +
+      '<div class="wizard-actions">' +
+        '<span></span>' +
+        '<button type="button" class="btn-primary" id="close-save" disabled>Save</button>' +
+      '</div>';
+
+    var saveBtn = container.querySelector("#close-save");
+    function sync(){ saveBtn.disabled = !(ui.closeForm.tag && ui.closeForm.breached); }
+    container.querySelectorAll('input[name="close-tag"]').forEach(function(r){
+      r.addEventListener("change", function(){ ui.closeForm.tag = r.value; sync(); });
+    });
+    container.querySelectorAll('input[name="close-breached"]').forEach(function(r){
+      r.addEventListener("change", function(){ ui.closeForm.breached = r.value; sync(); });
+    });
+    container.querySelector("#close-result").addEventListener("input", function(e){ ui.closeForm.result = e.target.value; });
+    container.querySelector("#close-note").addEventListener("input", function(e){ ui.closeForm.note = e.target.value; });
+    sync();
+
+    container.querySelector("#close-cancel").addEventListener("click", function(){
+      ui.activeCloseId = null;
+      ui.closeForm = {tag:"", breached:"", result:"", note:""};
+      renderClose();
+    });
+    saveBtn.addEventListener("click", function(){
+      entry.status = "closed";
+      entry.tag = ui.closeForm.tag;
+      entry.breached = ui.closeForm.breached === "yes";
+      var r = parseFloat(ui.closeForm.result);
+      entry.result = isNaN(r) ? null : r;
+      entry.note = ui.closeForm.note.trim();
+      entry.closedAt = Date.now();
+      persist();
+      ui.activeCloseId = null;
+      ui.closeForm = {tag:"", breached:"", result:"", note:""};
+      ui.activeScreen = "mirror";
+      renderAll();
+      window.scrollTo(0,0);
+    });
+  } else {
+    var open = state.entries.filter(function(e){ return e.status === "open"; }).sort(function(a,b){ return b.createdAt - a.createdAt; });
+    if(open.length === 0){
+      container.innerHTML = '<h2 class="prompt">Nothing open</h2><p class="muted">Every trade you\'ve logged has been closed and named. Start a new one from the New tab.</p>';
+    } else {
+      container.innerHTML =
+        '<h2 class="prompt">Open trades</h2>' +
+        '<ul class="entry-list">' +
+          open.map(function(e){
+            return '<li><button type="button" class="entry-row" data-id="' + escapeHtml(e.id) + '"><span class="entry-date">' + formatDate(e.createdAt) + '</span><span class="entry-snip">' + escapeHtml(truncate(e.reason, 80)) + '</span></button></li>';
+          }).join("") +
+        '</ul>';
+      container.querySelectorAll(".entry-row").forEach(function(btn){
+        btn.addEventListener("click", function(){
+          ui.activeCloseId = btn.dataset.id;
+          ui.closeForm = {tag:"", breached:"", result:"", note:""};
+          renderClose();
+        });
+      });
+    }
+  }
+}
+
+// ---------- Screen 3: Mirror ----------
+
+function renderMirror(){
+  var container = document.getElementById("mirror-content");
+  var closed = state.entries.filter(function(e){ return e.status === "closed"; });
+
+  if(closed.length === 0){
+    container.innerHTML = '<h2 class="prompt">The Mirror</h2><p class="muted">You haven\'t closed a trade yet. There\'s nothing to reflect back until you do.</p>' + verseBox("sabr");
+    return;
+  }
+
+  var withResult = closed.filter(function(e){ return typeof e.result === "number"; });
+  var breachCount = closed.filter(function(e){ return e.breached; }).length;
+  var disciplineCount = closed.filter(function(e){ return e.tag === "Followed my plan"; }).length;
+  var disciplineRate = Math.round((disciplineCount / closed.length) * 100);
+
+  var barsHtml, headlineHtml;
+
+  if(withResult.length === 0){
+    barsHtml = '<p class="muted">No results logged yet. Add an R multiple when you close a trade and this fills in.</p>';
+    headlineHtml = "";
+  } else {
+    var stats = computeTagStats(closed);
+    var rows = TAGS.map(function(t){ return {tag:t, sum: stats[t].sum, count: stats[t].count}; })
+                   .filter(function(r){ return r.count > 0; })
+                   .sort(function(a,b){ return a.sum - b.sum; });
+    var maxAbs = Math.max.apply(null, rows.map(function(r){ return Math.abs(r.sum); }).concat([0.0001]));
+
+    barsHtml = '<div class="bar-list">' + rows.map(function(r){
+      var pct = (Math.abs(r.sum) / maxAbs * 100).toFixed(1);
+      return '<div class="bar-row">' +
+        '<div class="bar-label"><span>' + escapeHtml(r.tag) + '</span><span class="bar-value">' + (r.sum >= 0 ? "+" : "-") + formatR(r.sum) + 'R</span></div>' +
+        '<div class="bar-track"><div class="bar-fill ' + (r.sum < 0 ? "loss" : "gain") + '" style="width:' + pct + '%"></div></div>' +
+      '</div>';
+    }).join("") + '</div>';
+
+    var worst = (rows.length && rows[0].sum < 0) ? rows[0] : null;
+    var best = null;
+    for(var i = rows.length - 1; i >= 0; i--){
+      if(rows[i].sum > 0 && (!worst || rows[i].tag !== worst.tag)){ best = rows[i]; break; }
+    }
+
+    if(worst && best){
+      headlineHtml = '<p class="headline">You lost ' + formatR(worst.sum) + 'R to ' + TAG_PHRASE[worst.tag] + ' and made ' + formatR(best.sum) + 'R ' + TAG_PHRASE[best.tag] + '.</p>';
+    } else if(worst){
+      headlineHtml = '<p class="headline">You lost ' + formatR(worst.sum) + 'R to ' + TAG_PHRASE[worst.tag] + '.</p>';
+    } else if(best){
+      headlineHtml = '<p class="headline">No single behavior has cost you net R yet. Your best: ' + formatR(best.sum) + 'R ' + TAG_PHRASE[best.tag] + '.</p>';
+    } else {
+      headlineHtml = "";
+    }
+  }
+
+  container.innerHTML =
+    '<h2 class="prompt">The Mirror</h2>' +
+    headlineHtml +
+    barsHtml +
+    '<p class="stat-line">You broke your own invalidation on <strong>' + breachCount + '</strong> of ' + closed.length + ' trades.</p>' +
+    '<p class="stat-line secondary">Discipline rate — followed your plan: <strong>' + disciplineRate + '%</strong> (' + disciplineCount + '/' + closed.length + ')</p>' +
+    verseBox("sabr");
+}
+
+// ---------- Screen 4: Week ----------
+
+function renderWeek(){
+  var container = document.getElementById("week-content");
+  var weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  var weekClosed = state.entries.filter(function(e){ return e.status === "closed" && e.closedAt && e.closedAt >= weekAgo; });
+
+  if(weekClosed.length === 0){
+    container.innerHTML = '<h2 class="prompt">This week</h2><p class="muted">No trades closed in the last 7 days.</p>';
+    return;
+  }
+
+  var worstEntry;
+  var withR = weekClosed.filter(function(e){ return typeof e.result === "number"; });
+  if(withR.length > 0){
+    worstEntry = withR.reduce(function(a,b){ return a.result <= b.result ? a : b; });
+  } else {
+    var breached = weekClosed.filter(function(e){ return e.breached; }).sort(function(a,b){ return b.closedAt - a.closedAt; });
+    worstEntry = breached.length > 0 ? breached[0] : weekClosed.sort(function(a,b){ return b.closedAt - a.closedAt; })[0];
+  }
+
+  container.innerHTML =
+    '<h2 class="prompt">This week</h2>' +
+    '<p class="muted small">Your worst entry from the past 7 days, in your own words.</p>' +
+    '<div class="reflect-wrap">' +
+      '<div class="reflect-then">' +
+        '<h3>What you told yourself</h3>' +
+        '<p><strong>Why this trade:</strong> ' + escapeHtml(worstEntry.reason) + '</p>' +
+        '<p><strong>What invalidates it:</strong> ' + escapeHtml(worstEntry.invalidation) + '</p>' +
+        '<p><strong>If it lost, in 10 minutes:</strong> ' + escapeHtml(worstEntry.plan) + '</p>' +
+      '</div>' +
+      '<div class="reflect-now">' +
+        '<h3>What happened</h3>' +
+        '<p><strong>Tag:</strong> ' + escapeHtml(worstEntry.tag || "—") + '</p>' +
+        '<p><strong>Result:</strong> ' + (typeof worstEntry.result === "number" ? (worstEntry.result >= 0 ? "+" : "") + worstEntry.result + "R" : "—") + '</p>' +
+        '<p><strong>Breached your invalidation:</strong> ' + (worstEntry.breached ? "Yes" : "No") + '</p>' +
+        (worstEntry.note ? '<p><strong>Note:</strong> ' + escapeHtml(worstEntry.note) + '</p>' : "") +
+      '</div>' +
+    '</div>' +
+    verseBox("muhasabah");
+}
+
+// ---------- Screen 5: Data ----------
+
+function renderData(){
+  var container = document.getElementById("data-content");
+  var total = state.entries.length;
+  var open = state.entries.filter(function(e){ return e.status === "open"; }).length;
+  var closed = total - open;
+
+  container.innerHTML =
+    '<h2 class="prompt">Your data</h2>' +
+    '<p class="data-stats">' + total + ' entries logged — ' + open + ' open, ' + closed + ' closed.</p>' +
+    '<p class="privacy-note">Nothing you write here leaves this device. There is no account, no server, no analytics, no network request of any kind. Your words stay in this browser until you delete or export them.</p>' +
+    '<div class="data-actions">' +
+      '<button type="button" class="btn-primary" id="export-btn">Export journal (.json)</button>' +
+      '<label class="btn-ghost file-label">Import journal (.json)<input type="file" id="import-input" accept="application/json,.json" hidden></label>' +
+      '<button type="button" class="btn-danger" id="clear-btn">Delete everything</button>' +
+    '</div>' +
+    '<p id="data-msg" class="data-msg" aria-live="polite"></p>' +
+    verseBox("tawakkul");
+
+  container.querySelector("#export-btn").addEventListener("click", exportJournal);
+  container.querySelector("#import-input").addEventListener("change", handleImport);
+  container.querySelector("#clear-btn").addEventListener("click", clearAll);
+}
+
+function setDataMsg(text){
+  var el = document.getElementById("data-msg");
+  if(el) el.textContent = text;
+}
+
+function exportJournal(){
+  var payload = {version:1, exportedAt: new Date().toISOString(), entries: state.entries};
+  var blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = "the-mirror-journal-" + todayStr() + ".json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  setDataMsg("Journal exported.");
+}
+
+function normalizeEntry(entry){
+  return {
+    id: entry && entry.id ? String(entry.id) : uid(),
+    createdAt: typeof entry.createdAt === "number" ? entry.createdAt : Date.now(),
+    reason: String(entry.reason || ""),
+    invalidation: String(entry.invalidation || ""),
+    plan: String(entry.plan || ""),
+    status: entry.status === "closed" ? "closed" : "open",
+    tag: TAGS.indexOf(entry.tag) !== -1 ? entry.tag : null,
+    breached: entry.breached === true,
+    result: typeof entry.result === "number" && !isNaN(entry.result) ? entry.result : null,
+    note: String(entry.note || ""),
+    closedAt: typeof entry.closedAt === "number" ? entry.closedAt : null
+  };
+}
+
+function handleImport(e){
+  var file = e.target.files[0];
+  if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(){
+    try{
+      var parsed = JSON.parse(reader.result);
+      var incoming = Array.isArray(parsed) ? parsed : (parsed && Array.isArray(parsed.entries) ? parsed.entries : null);
+      if(!incoming) throw new Error("bad format");
+      var existingIds = {};
+      state.entries.forEach(function(x){ existingIds[x.id] = true; });
+      var added = 0;
+      incoming.forEach(function(raw){
+        var entry = normalizeEntry(raw || {});
+        if(!existingIds[entry.id]){
+          state.entries.push(entry);
+          existingIds[entry.id] = true;
+          added++;
+        }
+      });
+      persist();
+      renderAll();
+      setDataMsg("Imported " + added + " new entr" + (added === 1 ? "y" : "ies") + ".");
+    }catch(err){
+      setDataMsg("Could not read that file. Make sure it's a journal export from this app.");
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = "";
+}
+
+function clearAll(){
+  if(!confirm("Delete every entry in this journal? This cannot be undone. Export first if you want to keep it.")) return;
+  state.entries = [];
+  persist();
+  renderAll();
+  setDataMsg("Journal cleared.");
+}
+
+// ---------- Init ----------
+
+function init(){
+  document.querySelectorAll("#bottomnav button").forEach(function(b){
+    b.addEventListener("click", function(){
+      ui.activeScreen = b.dataset.nav;
+      ui.activeCloseId = null;
+      renderAll();
+      window.scrollTo(0,0);
+    });
+  });
+  renderAll();
+}
+
+init();
+})();
+</script>
+</body>
+</html>
