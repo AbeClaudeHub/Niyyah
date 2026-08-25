@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FARRIS — Egyptian Atelier · Cairo</title>
+<meta name="description" content="FARRIS. Hand-loomed Egyptian linen, gold-thread embroidery and desert-dyed silk, cut in Cairo since 1962." />
+<meta name="theme-color" content="#07080c" />
+<meta property="og:title" content="FARRIS — Egyptian Atelier" />
+<meta property="og:description" content="Hand-loomed Egyptian linen. Gold thread. Cut in Cairo since 1962." />
+<meta property="og:type" content="website" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2307080c'/%3E%3Cpath d='M50 18 L78 50 L50 82 L22 50 Z' fill='none' stroke='%23e0b661' stroke-width='5'/%3E%3Ccircle cx='50' cy='50' r='9' fill='%23e0b661'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/farris.css" />
+</head>
+<body>
+
+<!-- ══════════════ SHARED SVG DEFS (patterns, gradients, filters) ══════════════ -->
+<svg class="svg-defs" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="gGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"  stop-color="#f7e2ab"/>
+      <stop offset="38%" stop-color="#e0b661"/>
+      <stop offset="62%" stop-color="#a97b2b"/>
+      <stop offset="100%" stop-color="#f2d494"/>
+    </linearGradient>
+    <linearGradient id="gLinen" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0%"   stop-color="#f4ead6"/>
+      <stop offset="55%"  stop-color="#ddcdb0"/>
+      <stop offset="100%" stop-color="#b9a382"/>
+    </linearGradient>
+    <linearGradient id="gLapis" x1="0" y1="0" x2="0.5" y2="1">
+      <stop offset="0%"   stop-color="#4a7fc9"/>
+      <stop offset="50%"  stop-color="#1f4585"/>
+      <stop offset="100%" stop-color="#0e2148"/>
+    </linearGradient>
+    <linearGradient id="gCarnelian" x1="0" y1="0" x2="0.5" y2="1">
+      <stop offset="0%"   stop-color="#d9704f"/>
+      <stop offset="52%"  stop-color="#b4442f"/>
+      <stop offset="100%" stop-color="#5d1d16"/>
+    </linearGradient>
+    <linearGradient id="gFaience" x1="0" y1="0" x2="0.5" y2="1">
+      <stop offset="0%"   stop-color="#7fe0cb"/>
+      <stop offset="50%"  stop-color="#2fbfa3"/>
+      <stop offset="100%" stop-color="#0e5b52"/>
+    </linearGradient>
+    <linearGradient id="gObsidian" x1="0" y1="0" x2="0.5" y2="1">
+      <stop offset="0%"   stop-color="#3a3f52"/>
+      <stop offset="50%"  stop-color="#14161f"/>
+      <stop offset="100%" stop-color="#05060a"/>
+    </linearGradient>
+    <linearGradient id="gSheen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="45%"  stop-color="#ffffff" stop-opacity=".55"/>
+      <stop offset="55%"  stop-color="#ffffff" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Nile chevron / water -->
+    <pattern id="pWater" width="24" height="14" patternUnits="userSpaceOnUse">
+      <path d="M0 10 L6 4 L12 10 L18 4 L24 10" fill="none" stroke="#fff" stroke-opacity=".34" stroke-width="1.6"/>
+    </pattern>
+    <!-- Lotus band -->
+    <pattern id="pLotus" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M15 24 C6 20 6 9 15 5 C24 9 24 20 15 24 Z" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="1.4"/>
+      <path d="M15 24 L15 6 M15 20 C9 18 8 12 9 9 M15 20 C21 18 22 12 21 9" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="1.1"/>
+    </pattern>
+    <!-- Scarab lattice -->
+    <pattern id="pLattice" width="26" height="26" patternUnits="userSpaceOnUse">
+      <path d="M13 1 L25 13 L13 25 L1 13 Z" fill="none" stroke="#fff" stroke-opacity=".26" stroke-width="1.3"/>
+      <circle cx="13" cy="13" r="2.6" fill="#fff" fill-opacity=".2"/>
+    </pattern>
+    <!-- Papyrus rib -->
+    <pattern id="pRib" width="12" height="12" patternUnits="userSpaceOnUse">
+      <path d="M2 0 L2 12 M8 0 L8 12" stroke="#fff" stroke-opacity=".18" stroke-width="1.5"/>
+    </pattern>
+    <!-- Fine weave -->
+    <pattern id="pWeave" width="8" height="8" patternUnits="userSpaceOnUse">
+      <path d="M0 4 H8 M4 0 V8" stroke="#fff" stroke-opacity=".14" stroke-width="1"/>
+    </pattern>
+
+    <filter id="fGrain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+    <filter id="fSoft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+    <filter id="fDrape" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+  </defs>
+</svg>
+
+<!-- ══════════════ PRELOADER ══════════════ -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__inner">
+    <svg class="loader__mark" viewBox="0 0 200 200">
+      <g fill="none" stroke="url(#gGold)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path class="ld" d="M100 22 L166 100 L100 178 L34 100 Z"/>
+        <path class="ld" d="M100 48 L144 100 L100 152 L56 100 Z"/>
+        <path class="ld" d="M62 100 H138"/>
+        <path class="ld" d="M100 62 V138"/>
+      </g>
+      <circle class="ld-dot" cx="100" cy="100" r="7" fill="url(#gGold)"/>
+    </svg>
+    <div class="loader__word"><span>F</span><span>A</span><span>R</span><span>R</span><span>I</span><span>S</span></div>
+    <div class="loader__bar"><i id="loaderBar"></i></div>
+  </div>
+</div>
+
+<!-- ══════════════ CHROME ══════════════ -->
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+<div class="scrollbar" aria-hidden="true"><i id="scrollFill"></i></div>
+
+<header class="nav" id="nav">
+  <a class="nav__brand" href="#top" aria-label="Farris home">
+    <svg viewBox="0 0 40 40" class="nav__glyph" aria-hidden="true">
+      <path d="M20 4 L34 20 L20 36 L6 20 Z" fill="none" stroke="url(#gGold)" stroke-width="2"/>
+      <circle cx="20" cy="20" r="3.4" fill="url(#gGold)"/>
+    </svg>
+    <span class="nav__word">FARRIS</span>
+  </a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="#collections">Collections</a>
+    <a href="#atelier">Atelier</a>
+    <a href="#lookbook">Lookbook</a>
+    <a href="#story">Story</a>
+  </nav>
+  <div class="nav__end">
+    <span class="nav__ar" lang="ar" dir="rtl">فارس</span>
+    <a class="btn btn--ghost" href="#journal">Private Fitting</a>
+  </div>
+  <button class="nav__burger" id="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i></button>
+</header>
+
+<div class="drawer" id="drawer" aria-hidden="true">
+  <a href="#collections">Collections</a>
+  <a href="#atelier">Atelier</a>
+  <a href="#lookbook">Lookbook</a>
+  <a href="#story">Story</a>
+  <a href="#journal">Private Fitting</a>
+  <span lang="ar" dir="rtl">فارس · القاهرة</span>
+</div>
+
+<main id="top">
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero" id="hero">
+  <div class="hero__sky" aria-hidden="true"></div>
+  <canvas class="hero__dust" id="dust" aria-hidden="true"></canvas>
+
+  <svg class="hero__scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <circle class="sun" cx="1140" cy="676" r="112" fill="url(#gGold)" opacity=".75"/>
+    <circle class="sun-halo" cx="1140" cy="676" r="210" fill="#e0b661" opacity=".16" filter="url(#fSoft)"/>
+    <g class="par" data-depth="6" opacity=".55">
+      <path d="M0 700 L300 470 L600 700 Z" fill="#161a2b"/>
+      <path d="M300 470 L600 700 L470 700 Z" fill="#0e1120" opacity=".8"/>
+    </g>
+    <g class="par" data-depth="10" opacity=".8">
+      <path d="M900 720 L1240 430 L1580 720 Z" fill="#0f1322"/>
+      <path d="M1240 430 L1580 720 L1400 720 Z" fill="#080a14" opacity=".85"/>
+      <path d="M620 730 L830 570 L1040 730 Z" fill="#0b0e1a"/>
+    </g>
+    <g class="par" data-depth="16">
+      <defs>
+        <linearGradient id="gDune" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#2a1a24"/>
+          <stop offset="34%"  stop-color="#140f19"/>
+          <stop offset="100%" stop-color="#06070d"/>
+        </linearGradient>
+      </defs>
+      <path d="M0 726 C260 704 420 742 700 720 C980 698 1180 736 1600 712 L1600 920 L0 920 Z" fill="url(#gDune)"/>
+      <path d="M0 726 C260 704 420 742 700 720 C980 698 1180 736 1600 712"
+            fill="none" stroke="#e0b661" stroke-opacity=".22" stroke-width="1.5"/>
+      <path d="M0 800 C320 780 620 812 940 792 C1200 776 1400 800 1600 788"
+            fill="none" stroke="#e0b661" stroke-opacity=".07" stroke-width="1"/>
+    </g>
+  </svg>
+
+  <div class="hero__content">
+    <p class="hero__eyebrow reveal"><i></i> Cairo · Est. 1962 · Maison of Linen &amp; Gold</p>
+    <h1 class="hero__title">
+      <span class="ht" data-t="F">F</span><span class="ht" data-t="A">A</span><span class="ht" data-t="R">R</span><span class="ht" data-t="R">R</span><span class="ht" data-t="I">I</span><span class="ht" data-t="S">S</span>
+    </h1>
+    <p class="hero__ar" lang="ar" dir="rtl">فَارِس</p>
+    <p class="hero__sub reveal">Garments cut from the long-staple cotton of the Delta, dyed in desert
+      mineral, and finished with gold thread by hands that learned the stitch from their mothers.</p>
+    <div class="hero__cta reveal">
+      <a class="btn btn--gold mag" href="#collections"><span>Enter the Collection</span></a>
+      <a class="btn btn--line mag" href="#atelier"><span>Inside the Atelier</span></a>
+    </div>
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true"><span>SCROLL</span><i></i></div>
+
+  <div class="hero__meta" aria-hidden="true">
+    <span>30°02′N 31°14′E</span>
+    <span>LOT 01 — KHAMSEEN</span>
+  </div>
+</section>
+
+<!-- ══════════════ MARQUEE ══════════════ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__row">
+    <div class="marquee__set">
+      <span>Long-Staple Giza Cotton</span><b>◆</b><span lang="ar" dir="rtl">قطن مصري</span><b>◆</b>
+      <span>Hand-Loomed Linen</span><b>◆</b><span>Gold Thread</span><b>◆</b>
+      <span lang="ar" dir="rtl">خيط ذهبي</span><b>◆</b><span>Desert-Dyed Silk</span><b>◆</b>
+      <span>Cut in Cairo</span><b>◆</b>
+    </div>
+    <div class="marquee__set">
+      <span>Long-Staple Giza Cotton</span><b>◆</b><span lang="ar" dir="rtl">قطن مصري</span><b>◆</b>
+      <span>Hand-Loomed Linen</span><b>◆</b><span>Gold Thread</span><b>◆</b>
+      <span lang="ar" dir="rtl">خيط ذهبي</span><b>◆</b><span>Desert-Dyed Silk</span><b>◆</b>
+      <span>Cut in Cairo</span><b>◆</b>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ STORY ══════════════ -->
+<section class="story" id="story">
+  <div class="story__art">
+    <svg viewBox="0 0 480 560" class="loom" aria-hidden="true">
+      <rect x="24" y="24" width="432" height="512" fill="#0d1019"/>
+      <rect x="24" y="24" width="432" height="512" fill="none" stroke="url(#gGold)" stroke-opacity=".4" stroke-width="1"/>
+      <g class="loom__warp" stroke="#e0b661" stroke-opacity=".16" stroke-width="1.1"></g>
+      <g class="loom__weft" stroke="#2fbfa3" stroke-opacity=".2" stroke-width="1.8"></g>
+      <rect x="24" y="24" width="432" height="512" fill="url(#gSheen)" opacity=".07"/>
+      <circle cx="240" cy="262" r="150" fill="#e0b661" opacity=".07" filter="url(#fSoft)"/>
+      <!-- Wedjat — the Eye of Horus, drawn on as the section enters -->
+      <g class="loom__glyphs" fill="none" stroke="url(#gGold)" stroke-width="2.2"
+         stroke-linecap="round" stroke-opacity=".95">
+        <path class="gd" d="M136 212 C176 176 258 170 316 200"/>
+        <path class="gd" d="M144 254 C186 212 272 214 318 254"/>
+        <path class="gd" d="M144 254 C182 292 274 294 318 254"/>
+        <circle class="gd" cx="226" cy="252" r="19"/>
+        <path class="gd" d="M318 254 L372 224"/>
+        <path class="gd" d="M186 282 L168 348"/>
+        <path class="gd" d="M238 288 C236 336 264 366 302 358 C326 353 332 330 318 318"/>
+        <path class="gd" d="M120 424 H360"/>
+        <path class="gd" d="M144 462 C144 436 168 424 186 448 C204 424 228 436 228 462
+                             C228 436 252 424 270 448 C288 424 312 436 312 462"/>
+      </g>
+    </svg>
+    <div class="story__stamp" aria-hidden="true">
+      <span>EST.</span><strong>1962</strong><span>CAIRO</span>
+    </div>
+  </div>
+
+  <div class="story__text">
+    <p class="kicker reveal"><i></i>The House</p>
+    <h2 class="split">Three generations at the same loom, in the same room off Sharia el-Muizz.</h2>
+    <p class="lede reveal">Farris began as a single bolt of linen and a stubborn belief: that a garment
+      should outlive the season that made it. Sixty years on, nothing about that has softened.</p>
+    <p class="body reveal">Every piece leaves Cairo with a hand-inked lot number, the weaver's initials,
+      and a repair promise that has no expiry date. We make fewer things. We make them once.</p>
+
+    <div class="stats">
+      <div class="stat reveal"><strong data-count="62">0</strong><span>Years at the loom</span></div>
+      <div class="stat reveal"><strong data-count="41">0</strong><span>Artisans in the atelier</span></div>
+      <div class="stat reveal"><strong data-count="9">0</strong><span>Pieces per style, per year</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ COLLECTIONS ══════════════ -->
+<section class="collections" id="collections">
+  <div class="sec-head">
+    <p class="kicker reveal"><i></i>Autumn / Winter — Lot 01</p>
+    <h2 class="split">The Khamseen Collection</h2>
+    <p class="lede reveal">Named for the wind that carries the desert into the city for fifty days.
+      Six pieces, each cut to move the way that wind does.</p>
+  </div>
+
+  <div class="grid" id="grid"><!-- injected --></div>
+</section>
+
+<!-- ══════════════ NILE SCENE ══════════════ -->
+<section class="nile" id="nile">
+  <svg class="nile__svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="gDusk" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#120b1f"/>
+        <stop offset="34%"  stop-color="#3b1e35"/>
+        <stop offset="58%"  stop-color="#8a3f38"/>
+        <stop offset="74%"  stop-color="#d08444"/>
+        <stop offset="88%"  stop-color="#f0c072"/>
+      </linearGradient>
+      <linearGradient id="gRiver" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#e8b96f"/>
+        <stop offset="26%"  stop-color="#8a5a4a"/>
+        <stop offset="100%" stop-color="#0c1020"/>
+      </linearGradient>
+    </defs>
+    <rect width="1600" height="640" fill="url(#gDusk)"/>
+    <circle class="nile__sun" cx="820" cy="590" r="96" fill="#ffe9b0"/>
+    <circle cx="820" cy="590" r="180" fill="#ffcf7a" opacity=".28" filter="url(#fSoft)"/>
+    <g class="nile__l1">
+      <path d="M0 610 L280 460 L560 610 Z" fill="#2a1526" opacity=".92"/>
+      <path d="M1020 615 L1300 430 L1580 615 Z" fill="#22111f" opacity=".95"/>
+      <path d="M600 620 L760 520 L920 620 Z" fill="#2e1729" opacity=".9"/>
+    </g>
+    <rect y="636" width="1600" height="264" fill="url(#gRiver)"/>
+    <!-- sun's reflected column on the water -->
+    <path d="M756 636 L884 636 L960 900 L680 900 Z" fill="#ffd28a" opacity=".22" filter="url(#fSoft)"/>
+    <g class="nile__ripples" stroke="#ffd79a" stroke-opacity=".4" stroke-width="2.4" fill="none">
+      <path d="M672 676 h296"/><path d="M708 704 h224"/><path d="M652 732 h336"/>
+      <path d="M716 760 h208"/><path d="M660 790 h320"/><path d="M688 820 h264"/>
+    </g>
+    <g transform="translate(556,281) scale(.6)">
+      <g class="nile__boat">
+        <path d="M740 632 L740 500 L836 632 Z" fill="#2b1220" opacity=".95"/>
+        <path d="M740 632 L740 548 L698 632 Z" fill="#3a1a26" opacity=".95"/>
+        <path d="M740 500 L740 636" stroke="#ffd79a" stroke-opacity=".5" stroke-width="4"/>
+        <path d="M696 636 h158 l-20 22 h-122 Z" fill="#180d14"/>
+      </g>
+    </g>
+    <g class="nile__palms" fill="#150a14">
+      <path d="M120 640 q6 -70 2 -110 q-30 12 -46 -6 q26 -6 44 4 q-16 -30 4 -50 q10 24 6 46 q18 -26 46 -22 q-24 12 -40 32 q26 -6 42 10 q-30 2 -44 16 q-2 44 4 80 Z"/>
+      <path d="M1480 646 q7 -76 3 -118 q-32 12 -50 -8 q28 -6 48 6 q-18 -32 4 -54 q12 26 8 50 q20 -28 50 -24 q-26 14 -44 34 q28 -6 46 12 q-32 2 -48 18 q-2 48 4 84 Z"/>
+    </g>
+  </svg>
+
+  <div class="nile__copy">
+    <p class="kicker reveal"><i></i>Where the colour comes from</p>
+    <h2 class="split">We do not invent our palette. We collect it.</h2>
+    <p class="lede reveal">Carnelian from the Eastern Desert. Faience blue from the kilns at Qena.
+      The exact ochre of the river at the twentieth minute after sunset.</p>
+    <div class="swatches">
+      <div class="sw reveal" style="--c:#b4442f"><span>Carnelian</span></div>
+      <div class="sw reveal" style="--c:#2fbfa3"><span>Faience</span></div>
+      <div class="sw reveal" style="--c:#1f4585"><span>Lapis</span></div>
+      <div class="sw reveal" style="--c:#ddcdb0"><span>Raw Linen</span></div>
+      <div class="sw reveal" style="--c:#e0b661"><span>Leaf Gold</span></div>
+      <div class="sw reveal" style="--c:#14161f"><span>Obsidian</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ ATELIER ══════════════ -->
+<section class="atelier" id="atelier">
+  <div class="sec-head">
+    <p class="kicker reveal"><i></i>The Making</p>
+    <h2 class="split">Forty-one pairs of hands, in order.</h2>
+  </div>
+
+  <div class="steps">
+    <div class="steps__rail" aria-hidden="true"><i id="railFill"></i></div>
+    <article class="step reveal">
+      <span class="step__n">01</span>
+      <h3>The Bolt</h3>
+      <p>Giza 96 cotton is bought on the field, before the gin. We take the second picking only —
+        longer staple, fewer breaks, a hand that gets better with washing.</p>
+    </article>
+    <article class="step reveal">
+      <span class="step__n">02</span>
+      <h3>The Dye Pit</h3>
+      <p>Six sunken vats of mineral and madder in the courtyard. No two lots match, and we have
+        stopped apologising for it — that variance is the signature.</p>
+    </article>
+    <article class="step reveal">
+      <span class="step__n">03</span>
+      <h3>The Loom</h3>
+      <p>Four wooden looms, all older than the house. Nine metres a day, on a good day, from a
+        weaver who will not be hurried by anyone, including us.</p>
+    </article>
+    <article class="step reveal">
+      <span class="step__n">04</span>
+      <h3>The Needle</h3>
+      <p>Gold-wrapped thread, couched by hand along the placket and hem. Between eleven and
+        forty hours per piece, depending on how much of the lotus you asked for.</p>
+    </article>
+    <article class="step reveal">
+      <span class="step__n">05</span>
+      <h3>The Mark</h3>
+      <p>Lot number inked, weaver's initials stitched inside the left seam, and the piece is
+        yours — with a repair promise that does not expire.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ══════════════ LOOKBOOK (horizontal) ══════════════ -->
+<section class="lookbook" id="lookbook">
+  <div class="lookbook__sticky">
+    <div class="lookbook__head">
+      <p class="kicker"><i></i>Lookbook — Khamseen</p>
+      <h2>Worn in the dust,<br/>not the studio.</h2>
+    </div>
+    <div class="lookbook__track" id="lbTrack"><!-- injected --></div>
+    <div class="lookbook__hint" aria-hidden="true">DRAG · SCROLL</div>
+  </div>
+</section>
+
+<!-- ══════════════ PRESS ══════════════ -->
+<section class="press">
+  <div class="press__quote">
+    <svg class="press__mark" viewBox="0 0 120 60" aria-hidden="true">
+      <path d="M6 54 C6 22 26 6 52 6" fill="none" stroke="url(#gGold)" stroke-width="1.4"/>
+      <path d="M114 54 C114 22 94 6 68 6" fill="none" stroke="url(#gGold)" stroke-width="1.4"/>
+      <path d="M60 10 L70 30 L60 50 L50 30 Z" fill="url(#gGold)" opacity=".9"/>
+    </svg>
+    <blockquote class="split">“The most quietly confident thing coming out of the Mediterranean right now.”</blockquote>
+    <cite class="reveal">— Vogue Arabia, Autumn Issue</cite>
+  </div>
+</section>
+
+<!-- ══════════════ JOURNAL / SIGNUP ══════════════ -->
+<section class="journal" id="journal">
+  <div class="journal__frame">
+    <svg class="journal__band" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true">
+      <rect width="1200" height="40" fill="url(#pLattice)" opacity=".5"/>
+    </svg>
+    <p class="kicker reveal"><i></i>By Appointment</p>
+    <h2 class="split">A private fitting in Cairo, or wherever you are.</h2>
+    <p class="lede reveal">Nine pieces per style, per year. Leave an address and we will write when the
+      next lot comes off the loom — never more than four times a year.</p>
+
+    <form class="form" id="form" novalidate>
+      <div class="form__row">
+        <input type="email" id="email" placeholder="your@address" autocomplete="email" aria-label="Email address" required />
+        <button class="btn btn--gold mag" type="submit"><span>Request Access</span></button>
+      </div>
+      <p class="form__note" id="formNote" role="status">We write rarely. We never share the list.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer class="foot">
+  <div class="foot__top">
+    <div class="foot__brand">
+      <span class="foot__lockup">
+        <svg viewBox="0 0 40 40" class="nav__glyph" aria-hidden="true">
+          <path d="M20 4 L34 20 L20 36 L6 20 Z" fill="none" stroke="url(#gGold)" stroke-width="2"/>
+          <circle cx="20" cy="20" r="3.4" fill="url(#gGold)"/>
+        </svg>
+        <span class="nav__word">FARRIS</span>
+      </span>
+      <p lang="ar" dir="rtl">دار فارس — القاهرة</p>
+    </div>
+    <div class="foot__col">
+      <h4>House</h4>
+      <a href="#story">Our Story</a><a href="#atelier">The Atelier</a><a href="#nile">Palette</a>
+    </div>
+    <div class="foot__col">
+      <h4>Shop</h4>
+      <a href="#collections">Khamseen Lot 01</a><a href="#lookbook">Lookbook</a><a href="#journal">Private Fitting</a>
+    </div>
+    <div class="foot__col">
+      <h4>Atelier</h4>
+      <span>14 Sharia el-Muizz</span><span>El-Gamaleya, Cairo</span><span>Sat–Thu, 10–19</span>
+    </div>
+  </div>
+  <div class="foot__rule" aria-hidden="true"></div>
+  <div class="foot__bot">
+    <span>© <span id="yr">2026</span> Maison Farris. Cut in Cairo.</span>
+    <svg class="foot__glyphs" viewBox="0 0 200 34" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="20" cy="11" r="6"/><path d="M20 17 V31 M12 22 H28"/>
+        <path d="M58 12 C64 6 78 6 84 12 C78 19 64 19 58 12 Z"/>
+        <circle cx="71" cy="12.5" r="2.4" fill="currentColor" stroke="none"/>
+        <path d="M62 17 L58 28 M75 18 C75 25 80 28 85 26"/>
+        <ellipse cx="122" cy="17" rx="7.5" ry="10.5"/>
+        <path d="M122 7 V27 M114.5 12 L106 7 M129.5 12 L138 7 M114.5 22 L106 27 M129.5 22 L138 27"/>
+        <path d="M172 4 V30 M164 12 H180 M164 18 H180 M164 24 H180"/>
+      </g>
+    </svg>
+    <span>Care · Repairs · Terms</span>
+  </div>
+</footer>
+
+</main>
+
+<script src="assets/farris.js"></script>
+</body>
+</html>
