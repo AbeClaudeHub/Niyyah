@@ -1,8 +1,6 @@
 {
-  "rewrites": [
-    { "source": "/", "destination": "/docs/index.html" },
-    { "source": "/((?!docs/).*)", "destination": "/docs/$1" }
-  ],
+  "outputDirectory": "docs",
+  "cleanUrls": true,
   "headers": [
     {
       "source": "/(.*)",
