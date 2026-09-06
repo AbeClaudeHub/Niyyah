@@ -509,119 +509,136 @@
       "name": "Qishd",
       "category": "dessert",
       "image": "assets/products/qishd.jpg",
-      "source": "قشد-1-01.jpg"
+      "source": "قشد-1-01.jpg",
+      "note": "Photographed, but this row is off the website menu."
     },
     {
       "slug": "truffle",
       "name": "Truffle",
       "category": "dessert",
       "image": "assets/products/truffle.jpg",
-      "source": "ترافل.jpg"
+      "source": "ترافل.jpg",
+      "note": "Photographed, but this row is off the website menu."
     },
     {
       "slug": "crunch",
       "name": "Crunch",
       "category": "dessert",
       "image": "assets/products/crunch.jpg",
-      "source": "كرنش-01.jpg"
+      "source": "كرنش-01.jpg",
+      "note": "Photographed, but this row is off the website menu."
     },
     {
       "slug": "tiramisu",
       "name": "Tiramisu",
       "category": "dessert",
       "image": "assets/products/tiramisu.jpg",
-      "source": "تيراميسو.png"
+      "source": "تيراميسو.png",
+      "note": "Photographed, but this row is off the website menu."
     },
     {
       "slug": "umm-ali",
       "name": "Umm Ali",
       "category": "dessert",
       "image": "assets/products/umm-ali.jpg",
-      "source": "أم-علي-01.jpg"
+      "source": "أم-علي-01.jpg",
+      "note": "Photographed, but this row is off the website menu."
     },
     {
       "slug": "basbousa",
       "name": "Basbousa",
       "category": "dessert",
       "image": "assets/products/basbousa.jpg",
-      "source": "البسبوسة-01.jpg"
+      "source": "البسبوسة-01.jpg",
+      "note": "Photographed, but this row is off the website menu."
     },
     {
       "slug": "pudding",
       "name": "Pudding",
       "category": "dessert",
       "image": "assets/products/pudding.jpg",
-      "source": "بودينغ-01.jpg"
+      "source": "بودينغ-01.jpg",
+      "note": "Photographed, but this row is off the website menu."
     },
     {
       "slug": "cookies",
       "name": "Cookies",
       "category": "dessert",
       "image": "assets/products/cookies.jpg",
-      "source": "كوكيز-01.jpg"
+      "source": "كوكيز-01.jpg",
+      "note": "Photographed, but this row is off the website menu."
     },
     {
       "slug": "berry-muffin",
       "name": "Berry Muffin",
       "category": "dessert",
       "image": "assets/products/berry-muffin.jpg",
-      "source": "مافن-توت-01.jpg"
+      "source": "مافن-توت-01.jpg",
+      "note": "Photographed, but this row is off the website menu."
     },
     {
       "slug": "chocolate-muffin",
       "name": "Chocolate Muffin",
       "category": "dessert",
       "image": "assets/products/chocolate-muffin.jpg",
-      "source": "مفن-شوكولاته-01.jpg"
+      "source": "مفن-شوكولاته-01.jpg",
+      "note": "Photographed, but this row is off the website menu."
     },
     {
       "slug": "vanilla-ice-cream",
       "name": "Vanilla Ice Cream",
       "category": "dessert",
       "image": "assets/products/vanilla-ice-cream.jpg",
-      "source": "ايسكريم-فانيليا-01.jpg"
+      "source": "ايسكريم-فانيليا-01.jpg",
+      "note": "Photographed, but this row is off the website menu."
     },
     {
       "slug": "ice-cream-mix",
       "name": "Ice Cream Mix",
       "category": "dessert",
       "image": "assets/products/ice-cream-mix.jpg",
-      "source": "ايسكيرم-مكس-01.jpg"
+      "source": "ايسكيرم-مكس-01.jpg",
+      "note": "Photographed, but this row is off the website menu."
     },
     {
       "slug": "eclair",
       "name": "Eclair",
       "category": "dessert",
       "image": "assets/products/eclair.jpg",
-      "source": "اكلير-scaled.jpg"
+      "source": "اكلير-scaled.jpg",
+      "note": "Photographed, but this row is off the website menu."
     },
     {
       "slug": "pistachio-kunafa",
       "name": "Pistachio Bar",
       "category": "dessert",
       "image": "assets/products/pistachio-kunafa.jpg",
-      "source": "كنافة-فستق-2-scaled.jpg"
+      "source": "كنافة-فستق-2-scaled.jpg",
+      "note": "Photographed, but this row is off the website menu."
     },
     {
       "slug": "chocolate-sticks",
       "name": "Chocolate Sticks",
       "category": "dessert",
       "image": "assets/products/chocolate-sticks.jpg",
-      "source": "شوكولاتة-ستيكس-2-scaled.jpg"
+      "source": "شوكولاتة-ستيكس-2-scaled.jpg",
+      "note": "Photographed, but this row is off the website menu."
     },
     {
       "slug": "halloumi",
       "name": "Halloumi",
       "category": "savoury",
       "image": "assets/products/halloumi.jpg",
-      "source": "الحلوم-01.jpg"
+      "source": "الحلوم-01.jpg",
+      "note": "Photographed, but this row is off the website menu."
     },
     {
       "slug": "falafel",
       "name": "Falafel",
       "category": "savoury",
       "image": "assets/products/falafel.jpg",
-      "source": "الفلافل-01.jpg"
+      "source": "الفلافل-01.jpg",
+      "note": "Photographed, but this row is off the website menu."
     }
   ]
 }
