@@ -1,0 +1,610 @@
+{
+  "note": "Kyan product catalogue. Photos are the brand's own studio shots from kyancafe.com, resized to 900px. 'source' is the original Arabic filename in that library.",
+  "categories": {
+    "hot": "Hot Coffee",
+    "iced": "Iced Coffee",
+    "refresh": "Refreshers",
+    "tea": "Tea Corner",
+    "juice": "Juices",
+    "pastry": "Pastries",
+    "dessert": "Desserts",
+    "savoury": "Savoury Bites"
+  },
+  "products": [
+    {
+      "slug": "espresso",
+      "name": "Espresso",
+      "category": "hot",
+      "image": "assets/products/espresso.jpg",
+      "source": "اسبريسو-01.jpg"
+    },
+    {
+      "slug": "americano",
+      "name": "Americano",
+      "category": "hot",
+      "image": "assets/products/americano.jpg",
+      "source": "امريكانو-حار-01.jpg"
+    },
+    {
+      "slug": "todays-coffee",
+      "name": "Today's Coffee",
+      "category": "hot",
+      "image": "assets/products/todays-coffee.jpg",
+      "source": "قهوة-اليوم-وسط-01.jpg"
+    },
+    {
+      "slug": "todays-coffee-cold",
+      "name": "Today's Coffee · Cold",
+      "category": "hot",
+      "image": "assets/products/todays-coffee-cold.jpg",
+      "source": "قهوة-اليوم-بارد-01.jpg"
+    },
+    {
+      "slug": "turkish-coffee",
+      "name": "Turkish Coffee",
+      "category": "hot",
+      "image": "assets/products/turkish-coffee.jpg",
+      "source": "قهوة-تركية-01.jpg"
+    },
+    {
+      "slug": "saudi-coffee",
+      "name": "Saudi Coffee",
+      "category": "hot",
+      "image": "assets/products/saudi-coffee.jpg",
+      "source": "قهوة-سعودية-01.jpg"
+    },
+    {
+      "slug": "arabic-coffee",
+      "name": "Arabic Coffee",
+      "category": "hot",
+      "image": "assets/products/arabic-coffee.jpg",
+      "source": "قهوة-عربي--scaled.jpg"
+    },
+    {
+      "slug": "french-coffee",
+      "name": "French Coffee",
+      "category": "hot",
+      "image": "assets/products/french-coffee.jpg",
+      "source": "قهوة-فرنسي-scaled.jpg"
+    },
+    {
+      "slug": "italian-coffee",
+      "name": "Italian Coffee",
+      "category": "hot",
+      "image": "assets/products/italian-coffee.jpg",
+      "source": "ايطالي-01.jpg"
+    },
+    {
+      "slug": "latte",
+      "name": "Latte",
+      "category": "hot",
+      "image": "assets/products/latte.jpg",
+      "source": "لاتية-01.jpg"
+    },
+    {
+      "slug": "cappuccino",
+      "name": "Cappuccino",
+      "category": "hot",
+      "image": "assets/products/cappuccino.jpg",
+      "source": "كابتشينو-01.jpg"
+    },
+    {
+      "slug": "flat-white",
+      "name": "Flat White",
+      "category": "hot",
+      "image": "assets/products/flat-white.jpg",
+      "source": "فلات-وايت-01.jpg"
+    },
+    {
+      "slug": "caramel-macchiato",
+      "name": "Caramel Macchiato",
+      "category": "hot",
+      "image": "assets/products/caramel-macchiato.jpg",
+      "source": "كراميل-ميكاتو-01.jpg"
+    },
+    {
+      "slug": "spanish-latte-hot",
+      "name": "Spanish Latte",
+      "category": "hot",
+      "image": "assets/products/spanish-latte-hot.jpg",
+      "source": "سبانيش-لاتيه-01.jpg"
+    },
+    {
+      "slug": "mocha",
+      "name": "Mocha",
+      "category": "hot",
+      "image": "assets/products/mocha.jpg",
+      "source": "موكا-01.jpg"
+    },
+    {
+      "slug": "hot-chocolate",
+      "name": "Hot Chocolate",
+      "category": "hot",
+      "image": "assets/products/hot-chocolate.jpg",
+      "source": "هوت-شوكلت-01.jpg"
+    },
+    {
+      "slug": "hanini-qishd",
+      "name": "Hanini & Qishd",
+      "category": "hot",
+      "image": "assets/products/hanini-qishd.jpg",
+      "source": "الحنيني-ولاقشد.png"
+    },
+    {
+      "slug": "qishd",
+      "name": "Qishd",
+      "category": "hot",
+      "image": "assets/products/qishd.jpg",
+      "source": "قشد-1-01.jpg"
+    },
+    {
+      "slug": "ice-spanish-latte",
+      "name": "Ice Spanish Latte",
+      "category": "iced",
+      "image": "assets/products/ice-spanish-latte.jpg",
+      "source": "ايس-سبانيش-01.jpg"
+    },
+    {
+      "slug": "ice-latte",
+      "name": "Ice Latte",
+      "category": "iced",
+      "image": "assets/products/ice-latte.jpg",
+      "source": "ايس-لاتية-01.jpg"
+    },
+    {
+      "slug": "ice-americano",
+      "name": "Ice Americano",
+      "category": "iced",
+      "image": "assets/products/ice-americano.jpg",
+      "source": "ايس-امريكاو-01.jpg"
+    },
+    {
+      "slug": "ice-mocha",
+      "name": "Ice Mocha",
+      "category": "iced",
+      "image": "assets/products/ice-mocha.jpg",
+      "source": "ايس-موكا-01.jpg"
+    },
+    {
+      "slug": "ice-italian",
+      "name": "Ice Italian",
+      "category": "iced",
+      "image": "assets/products/ice-italian.jpg",
+      "source": "ايس-ايطالي.jpg"
+    },
+    {
+      "slug": "ice-matcha",
+      "name": "Ice Matcha",
+      "category": "iced",
+      "image": "assets/products/ice-matcha.jpg",
+      "source": "ايس-ماتشا-01.jpg"
+    },
+    {
+      "slug": "ice-shaken",
+      "name": "Ice Shaken",
+      "category": "iced",
+      "image": "assets/products/ice-shaken.jpg",
+      "source": "ايس-شيكن-01.jpg"
+    },
+    {
+      "slug": "mocha-oreo",
+      "name": "Mocha Oreo",
+      "category": "iced",
+      "image": "assets/products/mocha-oreo.jpg",
+      "source": "اويرو-01.jpg"
+    },
+    {
+      "slug": "mocha-snickers",
+      "name": "Mocha Snickers",
+      "category": "iced",
+      "image": "assets/products/mocha-snickers.jpg",
+      "source": "سنيكرس-01.jpg"
+    },
+    {
+      "slug": "pistachio-latte",
+      "name": "Pistachio",
+      "category": "iced",
+      "image": "assets/products/pistachio-latte.jpg",
+      "source": "بستاشيو-01.jpg"
+    },
+    {
+      "slug": "kyan-red",
+      "name": "Kyan Red",
+      "category": "refresh",
+      "image": "assets/products/kyan-red.jpg",
+      "source": "كيان-أحمر-01.jpg"
+    },
+    {
+      "slug": "kyan-green",
+      "name": "Kyan Green",
+      "category": "refresh",
+      "image": "assets/products/kyan-green.jpg",
+      "source": "كيان-اخضر-01.jpg"
+    },
+    {
+      "slug": "kyan-watermelon",
+      "name": "Kyan Watermelon",
+      "category": "refresh",
+      "image": "assets/products/kyan-watermelon.jpg",
+      "source": "كيان-بطيخ-01.jpg"
+    },
+    {
+      "slug": "kyan-black",
+      "name": "Kyan Black",
+      "category": "refresh",
+      "image": "assets/products/kyan-black.jpg",
+      "source": "بلاك-كيان-01.jpg"
+    },
+    {
+      "slug": "roshan-red",
+      "name": "Roshan Red",
+      "category": "refresh",
+      "image": "assets/products/roshan-red.jpg",
+      "source": "روشان-احمر-01.jpg"
+    },
+    {
+      "slug": "roshan-blue",
+      "name": "Roshan Blue",
+      "category": "refresh",
+      "image": "assets/products/roshan-blue.jpg",
+      "source": "روشان-ازرق-01.jpg"
+    },
+    {
+      "slug": "roshan-black",
+      "name": "Roshan Black",
+      "category": "refresh",
+      "image": "assets/products/roshan-black.jpg",
+      "source": "روشان-بلاك-01.jpg"
+    },
+    {
+      "slug": "sunshine",
+      "name": "Sunshine",
+      "category": "refresh",
+      "image": "assets/products/sunshine.jpg",
+      "source": "سن-شاين.jpg-1.jpeg"
+    },
+    {
+      "slug": "truffle",
+      "name": "Truffle",
+      "category": "refresh",
+      "image": "assets/products/truffle.jpg",
+      "source": "ترافل.jpg"
+    },
+    {
+      "slug": "ma-adri-wesho",
+      "name": "Ma Adri Wesho",
+      "category": "refresh",
+      "image": "assets/products/ma-adri-wesho.jpg",
+      "source": "ما-ادري-وشو1-scaled.jpg"
+    },
+    {
+      "slug": "twin-turbo",
+      "name": "Twin Turbo",
+      "category": "refresh",
+      "image": "assets/products/twin-turbo.jpg",
+      "source": "توين-تيربو-01.jpg"
+    },
+    {
+      "slug": "slush",
+      "name": "Slush",
+      "category": "refresh",
+      "image": "assets/products/slush.jpg",
+      "source": "سلاش-01.jpg"
+    },
+    {
+      "slug": "slush-red",
+      "name": "Slush Red",
+      "category": "refresh",
+      "image": "assets/products/slush-red.jpg",
+      "source": "سلاش-احمر-01.jpg"
+    },
+    {
+      "slug": "slush-blue",
+      "name": "Slush Blue",
+      "category": "refresh",
+      "image": "assets/products/slush-blue.jpg",
+      "source": "سلاش-ازرق-01.jpg"
+    },
+    {
+      "slug": "slush-mix",
+      "name": "Slush Mix",
+      "category": "refresh",
+      "image": "assets/products/slush-mix.jpg",
+      "source": "مكس-سلاش-scaled.jpg"
+    },
+    {
+      "slug": "regular-tea",
+      "name": "Regular Tea",
+      "category": "tea",
+      "image": "assets/products/regular-tea.jpg",
+      "source": "شاي-عادي-01.jpg"
+    },
+    {
+      "slug": "talqimah-tea",
+      "name": "Talqimah Tea",
+      "category": "tea",
+      "image": "assets/products/talqimah-tea.jpg",
+      "source": "شاي-تلقيمة-01.jpg"
+    },
+    {
+      "slug": "green-tea",
+      "name": "Green Tea",
+      "category": "tea",
+      "image": "assets/products/green-tea.jpg",
+      "source": "شاي-اخضر-01.jpg"
+    },
+    {
+      "slug": "moroccan-tea",
+      "name": "Moroccan Tea",
+      "category": "tea",
+      "image": "assets/products/moroccan-tea.jpg",
+      "source": "شاي-مغربي-01.jpg"
+    },
+    {
+      "slug": "red-tea",
+      "name": "Red Tea",
+      "category": "tea",
+      "image": "assets/products/red-tea.jpg",
+      "source": "شاهي-احمر--scaled.jpg"
+    },
+    {
+      "slug": "karak",
+      "name": "Karak",
+      "category": "tea",
+      "image": "assets/products/karak.jpg",
+      "source": "كرك-01.jpg"
+    },
+    {
+      "slug": "karak-milk",
+      "name": "Tea With Milk",
+      "category": "tea",
+      "image": "assets/products/karak-milk.jpg",
+      "source": "شاهي-كرك-scaled.jpg"
+    },
+    {
+      "slug": "karkade",
+      "name": "Karkade",
+      "category": "tea",
+      "image": "assets/products/karkade.jpg",
+      "source": "كركدية-01.jpg"
+    },
+    {
+      "slug": "hot-karkade",
+      "name": "Hot Karkade",
+      "category": "tea",
+      "image": "assets/products/hot-karkade.jpg",
+      "source": "كركدية-حار-01.jpg"
+    },
+    {
+      "slug": "karkade-mango",
+      "name": "Karkade Mango",
+      "category": "tea",
+      "image": "assets/products/karkade-mango.jpg",
+      "source": "كركدية-مانجو-01.jpg"
+    },
+    {
+      "slug": "ice-karkade",
+      "name": "Ice Karkade",
+      "category": "tea",
+      "image": "assets/products/ice-karkade.jpg",
+      "source": "ايس-كركدية-scaled.jpg"
+    },
+    {
+      "slug": "ice-tea",
+      "name": "Ice Tea",
+      "category": "tea",
+      "image": "assets/products/ice-tea.jpg",
+      "source": "ايس-تي-01.jpg"
+    },
+    {
+      "slug": "ice-tea-cherry",
+      "name": "Ice Tea Cherry",
+      "category": "tea",
+      "image": "assets/products/ice-tea-cherry.jpg",
+      "source": "ايس-تي-كرز.png"
+    },
+    {
+      "slug": "orange-juice",
+      "name": "Orange Juice",
+      "category": "juice",
+      "image": "assets/products/orange-juice.jpg",
+      "source": "عصير-برتقال-01.jpg"
+    },
+    {
+      "slug": "lemon-mint",
+      "name": "Lemon Mint",
+      "category": "juice",
+      "image": "assets/products/lemon-mint.jpg",
+      "source": "ليمون-نعناع-01.jpg"
+    },
+    {
+      "slug": "plain-croissant",
+      "name": "Plain Croissant",
+      "category": "pastry",
+      "image": "assets/products/plain-croissant.jpg",
+      "source": "كروسان-سادة-01.jpg"
+    },
+    {
+      "slug": "chocolate-croissant",
+      "name": "Chocolate Croissant",
+      "category": "pastry",
+      "image": "assets/products/chocolate-croissant.jpg",
+      "source": "كروسان-شوكلاته-01.jpg"
+    },
+    {
+      "slug": "pistachio-croissant",
+      "name": "Pistachio Croissant",
+      "category": "pastry",
+      "image": "assets/products/pistachio-croissant.jpg",
+      "source": "كروسان-بستاشيو-01.jpg"
+    },
+    {
+      "slug": "croissant-mix",
+      "name": "Croissant Mix",
+      "category": "pastry",
+      "image": "assets/products/croissant-mix.jpg",
+      "source": "كروسان-مكس-01.jpg"
+    },
+    {
+      "slug": "milk-biscuit-croissant",
+      "name": "Milk Biscuit Croissant",
+      "category": "pastry",
+      "image": "assets/products/milk-biscuit-croissant.jpg",
+      "source": "كروسان-بسكوت-حليب.jpg"
+    },
+    {
+      "slug": "biscuit-sauce-croissant",
+      "name": "Biscuit Sauce Croissant",
+      "category": "pastry",
+      "image": "assets/products/biscuit-sauce-croissant.jpg",
+      "source": "كروسون-صوص-بسكوت-scaled.jpg"
+    },
+    {
+      "slug": "pistachio-crepe",
+      "name": "Pistachio Crepe",
+      "category": "pastry",
+      "image": "assets/products/pistachio-crepe.jpg",
+      "source": "كريب-بستاشيو-01.jpg"
+    },
+    {
+      "slug": "fettuccine-crepe",
+      "name": "Fettuccine Crepe",
+      "category": "pastry",
+      "image": "assets/products/fettuccine-crepe.jpg",
+      "source": "كريب-فوتشيني-01.jpg"
+    },
+    {
+      "slug": "crepe-mix",
+      "name": "Crepe Mix",
+      "category": "pastry",
+      "image": "assets/products/crepe-mix.jpg",
+      "source": "كريب-مكس-01.jpg"
+    },
+    {
+      "slug": "belgian-waffle",
+      "name": "Belgian Waffle",
+      "category": "pastry",
+      "image": "assets/products/belgian-waffle.jpg",
+      "source": "وافل-بلجيكي-01.jpg"
+    },
+    {
+      "slug": "waffle-crunch",
+      "name": "Waffle Crunch",
+      "category": "pastry",
+      "image": "assets/products/waffle-crunch.jpg",
+      "source": "وافل-كرنش-01.jpg"
+    },
+    {
+      "slug": "waffle",
+      "name": "Waffle",
+      "category": "pastry",
+      "image": "assets/products/waffle.jpg",
+      "source": "وافل.png"
+    },
+    {
+      "slug": "crunch",
+      "name": "Crunch",
+      "category": "pastry",
+      "image": "assets/products/crunch.jpg",
+      "source": "كرنش-01.jpg"
+    },
+    {
+      "slug": "tiramisu",
+      "name": "Tiramisu",
+      "category": "dessert",
+      "image": "assets/products/tiramisu.jpg",
+      "source": "تيراميسو.png"
+    },
+    {
+      "slug": "umm-ali",
+      "name": "Umm Ali",
+      "category": "dessert",
+      "image": "assets/products/umm-ali.jpg",
+      "source": "أم-علي-01.jpg"
+    },
+    {
+      "slug": "basbousa",
+      "name": "Basbousa",
+      "category": "dessert",
+      "image": "assets/products/basbousa.jpg",
+      "source": "البسبوسة-01.jpg"
+    },
+    {
+      "slug": "pudding",
+      "name": "Pudding",
+      "category": "dessert",
+      "image": "assets/products/pudding.jpg",
+      "source": "بودينغ-01.jpg"
+    },
+    {
+      "slug": "cookies",
+      "name": "Cookies",
+      "category": "dessert",
+      "image": "assets/products/cookies.jpg",
+      "source": "كوكيز-01.jpg"
+    },
+    {
+      "slug": "berry-muffin",
+      "name": "Berry Muffin",
+      "category": "dessert",
+      "image": "assets/products/berry-muffin.jpg",
+      "source": "مافن-توت-01.jpg"
+    },
+    {
+      "slug": "chocolate-muffin",
+      "name": "Chocolate Muffin",
+      "category": "dessert",
+      "image": "assets/products/chocolate-muffin.jpg",
+      "source": "مفن-شوكولاته-01.jpg"
+    },
+    {
+      "slug": "vanilla-ice-cream",
+      "name": "Vanilla Ice Cream",
+      "category": "dessert",
+      "image": "assets/products/vanilla-ice-cream.jpg",
+      "source": "ايسكريم-فانيليا-01.jpg"
+    },
+    {
+      "slug": "ice-cream-mix",
+      "name": "Ice Cream Mix",
+      "category": "dessert",
+      "image": "assets/products/ice-cream-mix.jpg",
+      "source": "ايسكيرم-مكس-01.jpg"
+    },
+    {
+      "slug": "eclair",
+      "name": "Eclair",
+      "category": "dessert",
+      "image": "assets/products/eclair.jpg",
+      "source": "اكلير-scaled.jpg"
+    },
+    {
+      "slug": "pistachio-kunafa",
+      "name": "Pistachio Bar",
+      "category": "dessert",
+      "image": "assets/products/pistachio-kunafa.jpg",
+      "source": "كنافة-فستق-2-scaled.jpg"
+    },
+    {
+      "slug": "chocolate-sticks",
+      "name": "Chocolate Sticks",
+      "category": "dessert",
+      "image": "assets/products/chocolate-sticks.jpg",
+      "source": "شوكولاتة-ستيكس-2-scaled.jpg"
+    },
+    {
+      "slug": "halloumi",
+      "name": "Halloumi",
+      "category": "savoury",
+      "image": "assets/products/halloumi.jpg",
+      "source": "الحلوم-01.jpg"
+    },
+    {
+      "slug": "falafel",
+      "name": "Falafel",
+      "category": "savoury",
+      "image": "assets/products/falafel.jpg",
+      "source": "الفلافل-01.jpg"
+    }
+  ]
+}
