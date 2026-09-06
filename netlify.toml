@@ -6,6 +6,12 @@
   publish = "docs"
   command = ""
 
+# The Kyan site used to live at /kyan; it is the landing page now.
+[[redirects]]
+  from = "/kyan"
+  to = "/"
+  status = 301
+
 # Pretty 404 -> send unknown paths back to the landing page.
 [[redirects]]
   from = "/*"
