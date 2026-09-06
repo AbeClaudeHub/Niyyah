@@ -212,6 +212,12 @@
   var closeBtn = $("#menuClose");
   var lastFocus = null;
 
+  /* The board opens over the page rather than at its own address. With
+     nothing on the history stack a phone's Back button leaves the site
+     instead of shutting the board, so opening pushes one entry and Back
+     pops it: Back closes the board and keeps you here. */
+  var pushedEntry = false;
+
   function openMenu() {
     if (!modal) return;
     lastFocus = document.activeElement;
@@ -221,10 +227,14 @@
     window.requestAnimationFrame(function () {
       window.requestAnimationFrame(function () { modal.classList.add("is-open"); });
     });
+    if (!pushedEntry) {
+      try { history.pushState({ kyanMenu: true }, ""); pushedEntry = true; } catch (err) {}
+    }
     if (closeBtn) closeBtn.focus();
   }
 
-  function closeMenu() {
+  /* fromBack: the entry is already gone, so do not pop it a second time */
+  function closeMenu(fromBack) {
     if (!modal || modal.hidden) return;
     modal.classList.remove("is-open");
     document.body.classList.remove("is-locked");
@@ -232,7 +242,16 @@
     if (reduced) done();
     else setTimeout(done, 350);
     if (lastFocus && lastFocus.focus) lastFocus.focus();
+    if (pushedEntry) {
+      pushedEntry = false;
+      if (fromBack !== true) { try { history.back(); } catch (err) {} }
+    }
   }
+
+  window.addEventListener("popstate", function () {
+    if (modal && !modal.hidden) closeMenu(true);
+    else pushedEntry = false;
+  });
 
   /* Each category is its own little carousel: one product in front,
      arrows, dots, keyboard and swipe to step through the rest. */
@@ -286,7 +305,19 @@
   });
 
   if (openBtn) openBtn.addEventListener("click", openMenu);
-  if (closeBtn) closeBtn.addEventListener("click", closeMenu);
+
+  /* On a phone the sheet is the whole navigation, so "Menu" there should
+     open the board itself rather than scroll to the section that links to
+     it. The href stays as the fallback when scripting is off. */
+  var sheetMenu = $('#sheet a[href="#menu"]');
+  if (sheetMenu && modal) {
+    sheetMenu.addEventListener("click", function (e) {
+      e.preventDefault();
+      setSheet(false);
+      openMenu();
+    });
+  }
+  if (closeBtn) closeBtn.addEventListener("click", function () { closeMenu(); });
   if (modal) {
     modal.addEventListener("click", function (e) { if (e.target === modal) closeMenu(); });
     /* keep tabbing inside the dialog while it is open */
