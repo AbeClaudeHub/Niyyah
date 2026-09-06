@@ -1391,3 +1391,85 @@ body.is-locked { overflow: hidden; }
 @media (max-width: 620px) {
   .drink__shot { border-radius: 14px; margin-bottom: 10px; }
 }
+
+/* ═══════════════ hero: the real product photograph ═══════════════ */
+.cup-photo {
+  position: relative;
+  margin: 0;
+  width: min(400px, 82%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 40px 90px rgba(13, 38, 48, 0.28), 0 0 0 12px rgba(255, 255, 255, 0.22);
+  animation: bobCup 7s var(--ease-io) infinite;
+}
+.cup-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.06); }
+
+/* ═══════════════ menu: one section at a time ═══════════════ */
+.menu-modal__chips {
+  margin: 0;
+  padding: 14px clamp(16px, 2.6vw, 30px);
+  background: #fff;
+  border-bottom: 1px solid var(--line-soft);
+  flex: none;
+}
+.menu-modal__stage { position: relative; display: flex; min-height: 0; flex: 1; }
+.menu-modal__scroll { flex: 1; padding-inline: clamp(58px, 5.4vw, 78px); }
+
+.menu-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  color: var(--denim-700);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(13, 38, 48, 0.18);
+  transition: all 0.3s var(--ease);
+}
+.menu-arrow:hover { background: var(--aqua-500); color: #fff; transform: translateY(-50%) scale(1.08); }
+.menu-arrow:active { transform: translateY(-50%) scale(0.95); }
+.menu-arrow--prev { left: clamp(4px, 1vw, 14px); }
+.menu-arrow--next { right: clamp(4px, 1vw, 14px); }
+
+.menu-slide[hidden] { display: none; }
+.menu-slide { animation: slideIn 0.45s var(--ease) both; }
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(26px); }
+  to { opacity: 1; transform: none; }
+}
+.menu-slide__head { text-align: center; margin-bottom: 26px; }
+.menu-slide__head h3 { font-size: clamp(24px, 3vw, 34px); font-weight: 700; letter-spacing: -0.028em; color: var(--denim-800); }
+.menu-slide__head p { margin: 6px 0 0; font-size: 14px; color: var(--ink-faint); }
+
+.menu-modal__foot { justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+.menu-dots { display: flex; gap: 9px; }
+.menu-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: var(--aqua-200);
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+}
+.menu-dot.is-on { background: var(--aqua-500); width: 26px; border-radius: 5px; }
+
+.drink__price--ask { font-size: 12.5px; font-weight: 600; color: var(--ink-faint); letter-spacing: 0; }
+
+@media (max-width: 900px) {
+  .menu-arrow { width: 44px; height: 44px; }
+  .menu-arrow--prev { left: 2px; }
+  .menu-arrow--next { right: 2px; }
+  .menu-modal__scroll { padding-inline: 50px; }
+}
+@media (max-width: 620px) {
+  .cup-photo { width: min(300px, 78%); box-shadow: 0 24px 50px rgba(13,38,48,.26), 0 0 0 8px rgba(255,255,255,.22); }
+  .menu-modal__foot { flex-direction: column-reverse; }
+  .menu-modal__foot .btn { width: 100%; }
+}

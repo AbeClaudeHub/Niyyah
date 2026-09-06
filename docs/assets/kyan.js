@@ -187,7 +187,7 @@
   }
 
   /* -------------------------------------------------------- menu filter */
-  var tabs = $$(".tab");
+  var tabs = $$(".tabs:not(.menu-modal__chips) .tab");
   var items = $$("#menuGrid .drink");
 
   tabs.forEach(function (tab) {
@@ -250,6 +250,43 @@
     if (reduced) done();
     else setTimeout(done, 350);
     if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  /* the board is shown a section at a time */
+  var slides = $$(".menu-slide", modal || document);
+  var chips = $$(".menu-modal__chips .tab", modal || document);
+  var dots = $$(".menu-dot", modal || document);
+  var scroller = $("#menuScroll");
+  var at = 0;
+
+  function goTo(i, focusArrow) {
+    if (!slides.length) return;
+    at = (i + slides.length) % slides.length;
+    slides.forEach(function (s, k) {
+      var on = k === at;
+      s.hidden = !on;
+      s.classList.toggle("is-active", on);
+    });
+    chips.forEach(function (c, k) { c.setAttribute("aria-pressed", String(k === at)); });
+    dots.forEach(function (d, k) { d.classList.toggle("is-on", k === at); });
+    if (scroller) scroller.scrollTop = 0;
+    if (focusArrow !== false && modal) modal.setAttribute("data-at", String(at));
+  }
+
+  chips.forEach(function (c) {
+    c.addEventListener("click", function () { goTo(parseInt(c.getAttribute("data-slide"), 10)); });
+  });
+  dots.forEach(function (d) {
+    d.addEventListener("click", function () { goTo(parseInt(d.getAttribute("data-slide"), 10)); });
+  });
+  var prevBtn = $("#menuPrev"), nextBtn = $("#menuNext");
+  if (prevBtn) prevBtn.addEventListener("click", function () { goTo(at - 1); });
+  if (nextBtn) nextBtn.addEventListener("click", function () { goTo(at + 1); });
+  if (modal) {
+    modal.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); goTo(at + 1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); goTo(at - 1); }
+    });
   }
 
   if (openBtn) openBtn.addEventListener("click", openMenu);
