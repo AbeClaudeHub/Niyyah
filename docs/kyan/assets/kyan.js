@@ -153,7 +153,7 @@
 
   /* -------------------------------------------------------- menu filter */
   var tabs = $$(".tab");
-  var items = $$("#menuGrid .item");
+  var items = $$("#menuGrid .mrow");
 
   tabs.forEach(function (tab) {
     tab.addEventListener("click", function () {
@@ -188,23 +188,6 @@
       if (next) { e.preventDefault(); next.focus(); next.click(); }
     });
   });
-
-  /* --------------------------------------------------------- card tilt */
-  if (!reduced && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    $$("[data-tilt]").forEach(function (card) {
-      card.addEventListener("mousemove", function (e) {
-        var r = card.getBoundingClientRect();
-        var px = (e.clientX - r.left) / r.width - 0.5;
-        var py = (e.clientY - r.top) / r.height - 0.5;
-        card.style.transform =
-          "perspective(900px) translateY(-6px) rotateX(" + (-py * 5).toFixed(2) +
-          "deg) rotateY(" + (px * 5).toFixed(2) + "deg)";
-      });
-      card.addEventListener("mouseleave", function () {
-        card.style.transform = "";
-      });
-    });
-  }
 
   /* --------------------------------------------- open / closed, NY time */
   var OPEN_HOUR = 7;   /* 7:00 AM */

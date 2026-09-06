@@ -4,22 +4,20 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>KYAN Cafe — Morris Park, The Bronx · Saudi coffee in New York</title>
-<meta name="description" content="KYAN Cafe, 689 Morris Park Ave, The Bronx. Saudi coffee, Turkish coffee, karak and the Spanish latte people cross boroughs for — the first Saudi coffee house to open in the United States." />
-<meta name="theme-color" content="#04102b" />
+<meta name="description" content="KYAN Cafe, 689 Morris Park Ave, The Bronx. Saudi coffee, Turkish coffee, karak and the Spanish latte people cross boroughs for. Open 7am to midnight, seven days." />
+<meta name="theme-color" content="#2bafc4" />
 <meta name="color-scheme" content="light" />
-<link rel="canonical" href="https://kyan.cafe/" />
 
 <meta property="og:type" content="website" />
 <meta property="og:title" content="KYAN Cafe — Morris Park, The Bronx" />
 <meta property="og:description" content="Saudi coffee, karak and the Spanish latte. 689 Morris Park Ave, open until midnight." />
-<meta property="og:locale" content="en_US" />
 <meta name="twitter:card" content="summary_large_image" />
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%231b4fe0'/%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='5'%3E%3Crect x='27' y='27' width='46' height='46'/%3E%3Crect x='27' y='27' width='46' height='46' transform='rotate(45 50 50)'/%3E%3C/g%3E%3Ccircle cx='50' cy='50' r='7' fill='%23ffffff'/%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='24' fill='%232bafc4'/%3E%3Cpath d='M18 13v22M18 24l11-11M18 24l11 11' stroke='%23fff' stroke-width='3.6' stroke-linecap='round' fill='none'/%3E%3C/svg%3E" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Manrope:wght@400;500;600;700;800&family=Reem+Kufi:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Reem+Kufi:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/kyan.css" />
 
 <script type="application/ld+json">
@@ -46,98 +44,67 @@
 </head>
 <body>
 
-<!-- ═══════════════════════════════════ shared icon symbols ═══════════════════════════════════ -->
+<!-- ══════════════════════════ shared gradients ══════════════════════════ -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
-    <linearGradient id="gPorcelain" x1="0" y1="0" x2=".4" y2="1">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="60%" stop-color="#eef3ff"/>
-      <stop offset="100%" stop-color="#cddbff"/>
+    <linearGradient id="gCup" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#ddd0b6"/>
+      <stop offset="14%"  stop-color="#f2ead9"/>
+      <stop offset="42%"  stop-color="#fdfbf6"/>
+      <stop offset="74%"  stop-color="#f0e7d4"/>
+      <stop offset="100%" stop-color="#d6c8ac"/>
     </linearGradient>
-    <linearGradient id="gBlue" x1="0" y1="0" x2=".5" y2="1">
-      <stop offset="0%" stop-color="#6d95ff"/>
-      <stop offset="55%" stop-color="#1b4fe0"/>
-      <stop offset="100%" stop-color="#0b2a63"/>
+    <linearGradient id="gLid" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#e3e8ea"/>
+      <stop offset="18%"  stop-color="#ffffff"/>
+      <stop offset="62%"  stop-color="#fbfdfd"/>
+      <stop offset="100%" stop-color="#dde3e6"/>
+    </linearGradient>
+    <linearGradient id="gGlassBody" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity=".42"/>
+      <stop offset="30%"  stop-color="#ffffff" stop-opacity=".12"/>
+      <stop offset="80%"  stop-color="#ffffff" stop-opacity=".22"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity=".48"/>
     </linearGradient>
     <linearGradient id="gCoffee" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#d8bd92"/>
-      <stop offset="45%" stop-color="#b08d5c"/>
-      <stop offset="100%" stop-color="#6f5330"/>
+      <stop offset="0%"   stop-color="#d6b98d"/>
+      <stop offset="45%"  stop-color="#ac8552"/>
+      <stop offset="100%" stop-color="#7a5a32"/>
     </linearGradient>
     <linearGradient id="gMilk" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="100%" stop-color="#e6edff"/>
+      <stop offset="0%"   stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f2ead9"/>
     </linearGradient>
     <linearGradient id="gSheen" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
-      <stop offset="50%" stop-color="#ffffff" stop-opacity=".5"/>
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="50%"  stop-color="#ffffff" stop-opacity=".55"/>
       <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </linearGradient>
-
-    <!-- menu icons, 32×32 -->
-    <symbol id="i-hot" viewBox="0 0 32 32">
-      <g fill="none" stroke="#1b4fe0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M6 12h16v8a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6z"/>
-        <path d="M22 14h2.5a3.5 3.5 0 0 1 0 7H22"/>
-        <path d="M11 8c0-1.5 1.2-1.8 1.2-3.2M16 8c0-1.5 1.2-1.8 1.2-3.2" opacity=".65"/>
-      </g>
-    </symbol>
-    <symbol id="i-iced" viewBox="0 0 32 32">
-      <g fill="none" stroke="#1b4fe0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M8 8h16l-2 18a2 2 0 0 1-2 1.8h-8A2 2 0 0 1 10 26z"/>
-        <path d="M9.4 15h13.2"/>
-        <path d="M20 8 24 3"/>
-        <rect x="12.6" y="17.6" width="4.4" height="4.4" rx="1" transform="rotate(18 14.8 19.8)" opacity=".6"/>
-      </g>
-    </symbol>
-    <symbol id="i-tea" viewBox="0 0 32 32">
-      <g fill="none" stroke="#1b4fe0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M7 13h14c0 7-2 12-7 12s-7-5-7-12z"/>
-        <path d="M21 15h3a3 3 0 0 1 0 6h-2"/>
-        <path d="M5 28h20"/>
-        <path d="M12 9c0-1.6 1.4-2 1.4-3.6M17 9c0-1.6 1.4-2 1.4-3.6" opacity=".65"/>
-      </g>
-    </symbol>
-    <symbol id="i-pastry" viewBox="0 0 32 32">
-      <g fill="none" stroke="#1b4fe0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 21c3-1.5 5-4 6-7 1.8 3 4.2 4.6 7 4.6s5.2-1.6 7-4.6c1 3 3 5.5 6 7-2.5 3-7.6 4.6-13 4.6S5.5 24 3 21z"/>
-        <path d="M13 18.4 12 24M19 18.4 20 24" opacity=".55"/>
-      </g>
-    </symbol>
-    <symbol id="i-sweet" viewBox="0 0 32 32">
-      <g fill="none" stroke="#1b4fe0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M5 26V16.5c0-1.4 1-2.5 2.4-2.5h17.2c1.4 0 2.4 1.1 2.4 2.5V26z"/>
-        <path d="M3 26h26"/>
-        <path d="M5 20c2.6 0 2.6-2 5.2-2s2.6 2 5.2 2 2.6-2 5.2-2 2.6 2 5.2 2" opacity=".6"/>
-        <path d="M16 13.5V10M16 8a1.6 1.6 0 1 0 0-3.2A1.6 1.6 0 0 0 16 8z"/>
-      </g>
-    </symbol>
   </defs>
 </svg>
 
-<!-- ═══════════════════════════════════ preloader ═══════════════════════════════════ -->
+<!-- ══════════════════════════ preloader ══════════════════════════ -->
 <div id="preload">
   <div class="preload-mark">
+    <svg viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="23" fill="#fff" fill-opacity=".16"/>
+      <path d="M18 13v22M18 24l11-11M18 24l11 11" stroke="#fff" stroke-width="3.6" stroke-linecap="round" fill="none"/>
+    </svg>
     <div class="ar">كيان</div>
     <div class="en">KYAN CAFE</div>
-    <div class="preload-bar"><i></i></div>
   </div>
 </div>
 
 <a class="skip" href="#main">Skip to content</a>
 <div class="progress" id="progress" aria-hidden="true"></div>
 
-<!-- ═══════════════════════════════════ nav ═══════════════════════════════════ -->
+<!-- ══════════════════════════ nav ══════════════════════════ -->
 <header class="nav" id="nav">
   <div class="nav__inner">
     <a class="brand" href="#top" aria-label="KYAN Cafe — home">
-      <svg class="brand__mark" viewBox="0 0 100 100" aria-hidden="true">
-        <rect class="plate" width="100" height="100" rx="24" fill="#ffffff" fill-opacity=".12"/>
-        <g fill="none" stroke="currentColor" stroke-width="5">
-          <rect x="27" y="27" width="46" height="46"/>
-          <rect x="27" y="27" width="46" height="46" transform="rotate(45 50 50)"/>
-        </g>
-        <circle cx="50" cy="50" r="7" fill="currentColor"/>
+      <svg class="brand__mark" viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="24" fill="#2bafc4"/>
+        <path d="M18 13v22M18 24l11-11M18 24l11 11" stroke="#fff" stroke-width="3.6" stroke-linecap="round" fill="none"/>
       </svg>
       <span class="brand__type"><b>KYAN</b><span>Morris Park · Bronx</span></span>
     </a>
@@ -152,10 +119,10 @@
 
     <div class="status" id="status" aria-live="polite">
       <span class="status__dot" aria-hidden="true"></span>
-      <span id="statusText">7 AM – midnight, daily</span>
+      <span id="statusText">7am – midnight, daily</span>
     </div>
 
-    <a class="btn btn--solid btn--sm nav__cta" href="tel:+13472934901">
+    <a class="btn btn--primary btn--sm" href="tel:+13472934901">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 1.9.6 2.8a2 2 0 0 1-.5 2.1L8.1 9.7a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2z"/></svg>
       Call the shop
     </a>
@@ -173,103 +140,106 @@
   <a href="#room">The Room <small>المكان</small></a>
   <a href="#visit">Visit <small>الزيارة</small></a>
   <div class="sheet__foot">
-    <a class="btn btn--solid" href="tel:+13472934901" style="justify-content:center">Call (347) 293-4901</a>
-    <a class="btn btn--ghost" href="https://maps.google.com/?q=689+Morris+Park+Ave+Bronx+NY+10462" target="_blank" rel="noopener" style="justify-content:center">Get directions</a>
+    <a class="btn btn--onaqua" href="tel:+13472934901">Call (347) 293-4901</a>
+    <a class="btn btn--ghostaqua" href="https://maps.google.com/?q=689+Morris+Park+Ave+Bronx+NY+10462" target="_blank" rel="noopener">Get directions</a>
   </div>
 </div>
 
 <main id="main">
 
-<!-- ═══════════════════════════════════ hero ═══════════════════════════════════ -->
-<section class="hero tile-bg" id="top">
-  <div class="hero__glow" aria-hidden="true"></div>
-  <div class="hero__ghost" aria-hidden="true">كيان</div>
+<!-- ══════════════════════════ hero ══════════════════════════ -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero__inner">
 
-  <div class="hero__inner">
-    <div class="hero__copy">
-      <p class="eyebrow">689 Morris Park Ave · Bronx</p>
-      <h1>
-        <span class="ln"><span>Fourteen years of</span></span>
-        <span class="ln"><span>Saudi coffee.</span></span>
-        <span class="ln"><span><em>One New York address.</em></span></span>
-      </h1>
-      <p class="hero__lede">
-        Kyan began in 2009 in Unayzah, a town in Saudi Arabia's Al-Qassim province, and
-        grew into more than <b>400 coffee houses across seven countries</b>. In 2024 it
-        crossed an ocean and opened on Morris Park Avenue — the first Saudi coffee
-        chain ever to open in the United States.
-      </p>
-      <div class="hero__acts">
-        <a class="btn btn--solid" href="#menu">
-          See the menu
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-        <a class="btn btn--ghost" href="#visit">Hours &amp; directions</a>
+      <div class="hero__copy">
+        <p class="eyebrow"><i></i> 689 Morris Park Ave · Bronx</p>
+        <h1>
+          <span class="ln"><span>Saudi coffee,</span></span>
+          <span class="ln"><span>poured on</span></span>
+          <span class="ln"><span><em>Morris Park.</em></span></span>
+        </h1>
+        <p class="lede">
+          Kyan started in 2009 in Unayzah and grew to more than <b>400 coffee houses
+          across seven countries</b>. In 2024 it crossed an ocean and opened here — the
+          first Saudi coffee chain ever to open in the United States.
+        </p>
+
+        <div class="hero__acts">
+          <a class="btn btn--primary" href="#menu">
+            See the menu
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn--quiet" href="#visit">Hours &amp; directions</a>
+        </div>
+
+        <div class="hero__meta">
+          <span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2.5"/></svg>
+            Open 7am – midnight
+          </span>
+          <span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.4 9.2-8 10.4C7.4 21.2 4 17 4 12V6z"/><path d="M9 12l2 2 4.5-4.5"/></svg>
+            Everything halal
+          </span>
+          <span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+            Two minutes off the 5
+          </span>
+        </div>
       </div>
-    </div>
 
-    <div class="hero__art" aria-hidden="true">
-      <svg class="steam" viewBox="0 0 130 130" aria-hidden="true">
-        <path d="M40 126c-10-20 10-30 0-50s8-32 2-48"/>
-        <path d="M66 126c-11-22 11-32 0-54s9-34 3-52"/>
-        <path d="M92 126c-10-20 10-30 0-50s8-30 2-46"/>
-      </svg>
+      <div class="stage">
+        <div class="stage__ring" aria-hidden="true"></div>
+        <div class="stage__disc" aria-hidden="true"></div>
 
-      <!-- dallah — the Arabian coffee pot -->
-      <svg class="cup" viewBox="0 0 300 430" role="img" aria-label="An Arabian dallah coffee pot">
-        <ellipse cx="150" cy="398" rx="84" ry="14" fill="#030b1f" opacity=".55"/>
+        <svg class="steam" viewBox="0 0 108 118" aria-hidden="true">
+          <path d="M26 114c-9-18 9-27 0-45s7-29 2-43"/>
+          <path d="M54 114c-10-20 10-29 0-49s8-31 3-47"/>
+          <path d="M82 114c-9-18 9-27 0-45s7-27 2-41"/>
+        </svg>
 
-        <!-- handle -->
-        <path d="M220 252c40 14 44 72 8 94" fill="none" stroke="url(#gBlue)" stroke-width="14" stroke-linecap="round"/>
+        <!-- the shop's own cup: cream stock, denim wordmark -->
+        <svg class="cup" viewBox="0 0 300 400" role="img" aria-label="A Kyan Cafe takeaway cup">
+          <ellipse cx="150" cy="384" rx="86" ry="14" fill="#0d2630" opacity=".18"/>
+          <path d="M52 100 86 366c.6 6 5 10 11 10h106c6 0 10.4-4 11-10L248 100z" fill="url(#gCup)"/>
+          <path d="M42 100V78c0-14 10-22 26-25 24-4 54-6 82-6s58 2 82 6c16 3 26 11 26 25v22z" fill="url(#gLid)"/>
+          <path d="M42 88h216" stroke="#d5dde0" stroke-width="2"/>
+          <rect x="186" y="60" width="42" height="13" rx="6.5" fill="#dbe3e6"/>
+          <circle cx="156" cy="136" r="15" fill="#2bafc4"/>
+          <path d="M152 129v14M152 136l7-7M152 136l7 7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+          <g transform="translate(114 250) rotate(-90)">
+            <text text-anchor="middle" font-family="Fraunces, Georgia, serif" font-style="italic" font-size="23" fill="#2a6ba5">cafe</text>
+          </g>
+          <text text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="46" fill="#2a6ba5" letter-spacing="1">
+            <tspan x="157" y="198">K</tspan>
+            <tspan x="156" y="243">Y</tspan>
+            <tspan x="155" y="288">A</tspan>
+            <tspan x="154" y="333">N</tspan>
+          </text>
+          <path d="M74 118c8 84 16 190 20 246" stroke="url(#gSheen)" stroke-width="13" fill="none" opacity=".85"/>
+        </svg>
 
-        <!-- body -->
-        <ellipse cx="150" cy="384" rx="60" ry="12" fill="url(#gPorcelain)" stroke="#1b4fe0" stroke-width="2.5"/>
-        <path d="M92 384c-18-30-18-70-14-98 6-38 18-62 38-74h68c20 12 32 36 38 74 4 28 4 68-14 98z"
-              fill="url(#gPorcelain)" stroke="#1b4fe0" stroke-width="2.5" stroke-linejoin="round"/>
+        <div class="badge badge--a">
+          <span class="badge__ico" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6.1.8-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L3.3 9.4l6.1-.8z"/></svg>
+          </span>
+          <span><b>4.7 stars</b><small>Hundreds of reviews</small></span>
+        </div>
 
-        <!-- neck -->
-        <path d="M114 214l6-46h60l6 46z" fill="url(#gPorcelain)" stroke="#1b4fe0" stroke-width="2.5" stroke-linejoin="round"/>
+        <div class="badge badge--b">
+          <span class="badge__ico" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 13h2.4a2.6 2.6 0 0 1 0 5.2H17"/><path d="M9 7c0-1.2 1-1.5 1-2.6M13.5 7c0-1.2 1-1.5 1-2.6"/></svg>
+          </span>
+          <span><b>Spanish Latte</b><small>The one they come for</small></span>
+        </div>
+      </div>
 
-        <!-- beak -->
-        <path d="M108 248C80 222 58 180 48 130l18-8c12 48 32 82 64 106z"
-              fill="url(#gPorcelain)" stroke="#1b4fe0" stroke-width="2.5" stroke-linejoin="round"/>
-
-        <!-- collar, lid, finial -->
-        <rect x="108" y="156" width="84" height="14" rx="7" fill="url(#gBlue)"/>
-        <path d="M118 156c4-28 14-42 32-48 18 6 28 20 32 48z" fill="url(#gPorcelain)" stroke="#1b4fe0" stroke-width="2.5" stroke-linejoin="round"/>
-        <circle cx="150" cy="100" r="9" fill="url(#gBlue)"/>
-        <path d="M150 91V74" stroke="#1b4fe0" stroke-width="4" stroke-linecap="round"/>
-
-        <!-- painted bands and the eight-point star -->
-        <g fill="none" stroke="#1b4fe0" stroke-width="2" opacity=".5">
-          <path d="M88 266h124M92 344h116"/>
-        </g>
-        <g fill="none" stroke="#1b4fe0" stroke-width="2.4" opacity=".8">
-          <rect x="128" y="282" width="44" height="44"/>
-          <rect x="128" y="282" width="44" height="44" transform="rotate(45 150 304)"/>
-        </g>
-        <circle cx="150" cy="304" r="6" fill="#1b4fe0"/>
-        <path d="M110 238c-12 70-8 108-2 132" stroke="url(#gSheen)" stroke-width="9" fill="none" opacity=".75"/>
-      </svg>
-    </div>
-  </div>
-
-  <div class="scroll-cue" aria-hidden="true"><span>Scroll</span><i></i></div>
-</section>
-
-<!-- ═══════════════════════════════════ facts ═══════════════════════════════════ -->
-<section class="facts" aria-label="Kyan by the numbers">
-  <div class="wrap" style="padding-inline:0">
-    <div class="facts__grid">
-      <div class="fact"><b data-count="2009" data-plain>2009</b><span>Founded in Unayzah</span></div>
-      <div class="fact"><b data-count="400" data-suffix="+">400+</b><span>Coffee houses</span></div>
-      <div class="fact"><b data-count="7">7</b><span>Countries</span></div>
-      <div class="fact"><b data-count="1" data-prefix="#">#1</b><span>Saudi chain in the U.S.</span></div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════ ribbon ═══════════════════════════════════ -->
+<!-- ══════════════════════════ ribbon ══════════════════════════ -->
 <div class="ribbon" aria-hidden="true">
   <div class="ribbon__track">
     <div class="ribbon__set">
@@ -285,31 +255,29 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════ story ═══════════════════════════════════ -->
+<!-- ══════════════════════════ story ══════════════════════════ -->
 <section class="sec sec--paper" id="story">
   <div class="wrap">
     <div class="story">
       <div>
-        <div class="sec__head" data-reveal>
+        <div class="head" style="margin-bottom:34px" data-reveal>
           <p class="kicker">The story</p>
           <h2 class="title">From a street in Unayzah to <em>Morris Park Avenue</em></h2>
           <p class="lede">
             Kyan was never built on one flagship. It was built on repetition — the same
             cup, the same welcome, the same hour of the evening, four hundred times over.
-            Morris Park is where that habit landed in New York, on a stretch of the Bronx
-            the neighbourhood calls Little Yemen, where Arab coffee culture was already
-            at home long before we arrived.
+            Morris Park is where that habit landed in New York.
           </p>
         </div>
 
         <div class="timeline">
           <div class="tl" data-reveal>
             <b>2009 · Unayzah</b>
-            <p>A single small shop opens in Al-Qassim, in the Saudi interior, serving coffee and tea to a neighbourhood that keeps coming back.</p>
+            <p>One small shop opens in Al-Qassim, in the Saudi interior, serving coffee and tea to a neighbourhood that keeps coming back.</p>
           </div>
           <div class="tl" data-reveal data-delay="1">
-            <b>The Kingdom</b>
-            <p>The shop becomes a chain. Kyan spreads across Saudi Arabia and grows into the largest privately held coffee and tea retailer in the country.</p>
+            <b>Across the Kingdom</b>
+            <p>The shop becomes a chain and grows into one of the largest privately held coffee and tea retailers in Saudi Arabia.</p>
           </div>
           <div class="tl" data-reveal data-delay="2">
             <b>The Gulf &amp; beyond</b>
@@ -317,88 +285,72 @@
           </div>
           <div class="tl is-now" data-reveal data-delay="3">
             <b>2024 · The Bronx</b>
-            <p>Kyan opens at 689 Morris Park Avenue: the first Saudi Arabian coffee chain to open a store in the United States, and our first outside the Middle East.</p>
+            <p>Kyan opens at 689 Morris Park Avenue: the first Saudi Arabian coffee chain to open a store in the United States, on a stretch of the Bronx the neighbourhood calls Little Yemen.</p>
           </div>
         </div>
       </div>
 
-      <div class="plate-art" data-reveal data-delay="2">
-        <svg viewBox="0 0 400 400" role="img" aria-label="A blue and white ceramic plate with an eight-point star">
-          <circle cx="200" cy="200" r="192" fill="url(#gPorcelain)"/>
-          <circle cx="200" cy="200" r="192" fill="none" stroke="#1b4fe0" stroke-width="3"/>
-          <circle cx="200" cy="200" r="178" fill="none" stroke="#1b4fe0" stroke-width="1.5" opacity=".5"/>
-          <g class="spin">
-            <circle cx="200" cy="200" r="166" fill="none" stroke="#1b4fe0" stroke-width="12" stroke-dasharray="4 18" opacity=".55"/>
-            <circle cx="200" cy="200" r="148" fill="none" stroke="#1b4fe0" stroke-width="2" stroke-dasharray="22 12" opacity=".7"/>
-          </g>
-          <circle cx="200" cy="200" r="132" fill="none" stroke="#1b4fe0" stroke-width="2.5"/>
-          <g fill="none" stroke="#1b4fe0" stroke-width="3">
-            <rect x="118" y="118" width="164" height="164"/>
-            <rect x="118" y="118" width="164" height="164" transform="rotate(45 200 200)"/>
-          </g>
-          <circle cx="200" cy="200" r="74" fill="#ffffff" stroke="#1b4fe0" stroke-width="2.5"/>
-          <g fill="none" stroke="#1b4fe0" stroke-width="2" opacity=".65">
-            <rect x="164" y="164" width="72" height="72"/>
-            <rect x="164" y="164" width="72" height="72" transform="rotate(45 200 200)"/>
-          </g>
-          <circle cx="200" cy="200" r="44" fill="#1b4fe0"/>
-          <text x="200" y="200" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="Reem Kufi, serif" font-size="38">كيان</text>
-        </svg>
-        <p class="plate-cap">Blue on white, after the <b>ceramic tradition</b> that runs from Qassim to Iznik — the colour scheme of the room, and of this page.</p>
-      </div>
+      <figure class="note-card" data-reveal data-delay="2" style="margin:0">
+        <div class="ar" aria-hidden="true">كيان</div>
+        <blockquote>Arab coffee culture was already at home on this street. Kyan didn't introduce it — it joined it.</blockquote>
+        <figcaption>Morris Park · Little Yemen</figcaption>
+      </figure>
+    </div>
+
+    <div class="facts" data-reveal>
+      <div class="fact"><b data-count="2009" data-plain>2009</b><span>Founded in Unayzah</span></div>
+      <div class="fact"><b data-count="400" data-suffix="+">400+</b><span>Coffee houses</span></div>
+      <div class="fact"><b data-count="7">7</b><span>Countries</span></div>
+      <div class="fact"><b data-count="1" data-prefix="#">#1</b><span>Saudi chain in the U.S.</span></div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════ signature ═══════════════════════════════════ -->
-<section class="sec sec--ink tile-bg" id="signature">
+<!-- ══════════════════════════ signature ══════════════════════════ -->
+<section class="sec sec--aqua" id="signature">
   <div class="wrap">
     <div class="sig">
-      <div class="glass-stage" data-reveal>
-        <svg class="glass" id="glass" viewBox="0 0 240 400" role="img" aria-label="An iced Spanish latte in a tall glass">
+      <div class="sig__stage" data-reveal>
+        <svg class="glass" id="glass" viewBox="0 0 240 400" role="img" aria-label="An iced Spanish latte in a clear cup">
           <defs>
             <clipPath id="clipGlass">
-              <path d="M62 66 68 344c.6 15 8 22 22 22h60c14 0 21.4-7 22-22L174 66z"/>
+              <path d="M56 104 74 340c.7 11 8 17 19 17h54c11 0 18.3-6 19-17L184 104z"/>
             </clipPath>
           </defs>
 
-          <ellipse cx="120" cy="380" rx="70" ry="12" fill="#030b1f" opacity=".5"/>
+          <ellipse cx="120" cy="372" rx="72" ry="12" fill="#0d2630" opacity=".2"/>
 
-          <!-- liquid, revealed on scroll -->
           <g clip-path="url(#clipGlass)">
             <g class="fill">
-              <rect x="55" y="180" width="130" height="200" fill="url(#gMilk)"/>
-              <rect x="55" y="120" width="130" height="66" fill="url(#gCoffee)"/>
-              <rect x="55" y="112" width="130" height="12" fill="#e8d9bd" opacity=".9"/>
-              <path d="M55 186c18-9 34 6 52 0s34-9 52 0 26 3 26 3v10H55z" fill="#c9a877" opacity=".55"/>
-              <!-- ice -->
-              <g fill="#ffffff" opacity=".55">
-                <rect x="78" y="128" width="38" height="38" rx="7" transform="rotate(-14 97 147)"/>
-                <rect x="124" y="150" width="34" height="34" rx="7" transform="rotate(20 141 167)"/>
-                <rect x="92" y="182" width="32" height="32" rx="7" transform="rotate(8 108 198)"/>
+              <rect x="48" y="196" width="146" height="200" fill="url(#gMilk)"/>
+              <rect x="48" y="134" width="146" height="68" fill="url(#gCoffee)"/>
+              <rect x="48" y="126" width="146" height="12" fill="#e3d0ad"/>
+              <path d="M48 200c20-10 36 7 56 0s36-10 56 0 34 4 34 4v12H48z" fill="#c39f6c" opacity=".6"/>
+              <g fill="#ffffff" opacity=".5">
+                <rect x="72" y="142" width="38" height="38" rx="8" transform="rotate(-14 91 161)"/>
+                <rect x="120" y="164" width="34" height="34" rx="8" transform="rotate(20 137 181)"/>
+                <rect x="86" y="198" width="32" height="32" rx="8" transform="rotate(8 102 214)"/>
               </g>
             </g>
           </g>
 
-          <!-- glass body -->
-          <path d="M62 66 68 344c.6 15 8 22 22 22h60c14 0 21.4-7 22-22L174 66z" fill="#ffffff" fill-opacity=".07" stroke="#a8c2ff" stroke-width="3" stroke-linejoin="round"/>
-          <path d="M56 66h124" stroke="#a8c2ff" stroke-width="5" stroke-linecap="round"/>
-          <path d="M80 96c-2 90 0 180 4 244" stroke="url(#gSheen)" stroke-width="10" fill="none"/>
-          <!-- straw -->
-          <path d="M150 78 196 24" stroke="#1b4fe0" stroke-width="11" stroke-linecap="round"/>
-          <path d="M150 78 196 24" stroke="#6d95ff" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 14"/>
+          <path d="M56 104 74 340c.7 11 8 17 19 17h54c11 0 18.3-6 19-17L184 104z" fill="url(#gGlassBody)" stroke="#ffffff" stroke-width="3" stroke-opacity=".8" stroke-linejoin="round"/>
+          <path d="M48 104V96c0-26 18-40 72-40s72 14 72 40v8z" fill="#ffffff" fill-opacity=".55"/>
+          <path d="M44 104h152" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+          <path d="M74 130c-2 84 0 168 4 202" stroke="url(#gSheen)" stroke-width="11" fill="none"/>
+          <path d="M150 74 206 20" stroke="#2a6ba5" stroke-width="12" stroke-linecap="round"/>
+          <path d="M150 74 206 20" stroke="#8ad5df" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 14"/>
         </svg>
       </div>
 
       <div>
-        <div class="sec__head" style="margin-bottom:0" data-reveal data-delay="1">
+        <div class="head" style="margin-bottom:0" data-reveal data-delay="1">
           <p class="kicker">The one they come back for</p>
           <h2 class="title">The <em>Spanish Latte</em></h2>
           <p class="lede">
-            Espresso poured over sweetened condensed milk, then cold milk and ice —
-            served long, in a glass, so the layers hold for the first three seconds and
-            then don't. It is the drink the reviews are actually about, the reason the
-            line runs down Morris Park Avenue after 2pm on a Saturday.
+            Espresso poured over sweetened condensed milk, then cold milk and ice — served
+            long, in a glass, so the layers hold for about three seconds and then don't. It
+            is the drink the reviews are actually about.
           </p>
         </div>
 
@@ -409,7 +361,7 @@
           <li><b>Order it with</b><span>A pistachio croissant, still warm</span></li>
         </ul>
 
-        <div class="price-tag" data-reveal data-delay="3">
+        <div class="sig__price" data-reveal data-delay="3">
           <b>$4.90</b><span>Iced · listed price</span>
         </div>
       </div>
@@ -417,10 +369,10 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════ menu ═══════════════════════════════════ -->
-<section class="sec sec--porcelain" id="menu">
+<!-- ══════════════════════════ menu ══════════════════════════ -->
+<section class="sec sec--cream" id="menu">
   <div class="wrap">
-    <div class="sec__head center" data-reveal>
+    <div class="head center" data-reveal>
       <p class="kicker">The menu</p>
       <h2 class="title">Two coffee traditions, <em>one counter</em></h2>
       <p class="lede">
@@ -439,305 +391,226 @@
       <button type="button" class="tab" aria-pressed="false" data-filter="sweet">Sweets</button>
     </div>
 
-    <div class="menu-grid" id="menuGrid">
+    <div class="menu-list" id="menuGrid">
 
-      <!-- ── hot coffee ── -->
-      <article class="item" data-cat="hot">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-hot"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Saudi Coffee <span class="ar">قهوة عربية</span></h3><span class="price">$2.99</span></div>
-          <p>Lightly roasted, cardamom-heavy, poured pale and thin from the dallah. Bitter and floral.</p>
-          <span class="flag">The house tradition</span>
+      <!-- hot coffee -->
+      <article class="mrow" data-cat="hot">
+        <div class="mrow__top">
+          <h3>Saudi Coffee <span class="ar">قهوة عربية</span></h3>
+          <i class="dots"></i><span class="price">$2.99</span>
         </div>
+        <p>Lightly roasted, cardamom-heavy, poured pale and thin from the dallah. Bitter and floral.</p>
+        <span class="flag">The house tradition</span>
       </article>
 
-      <article class="item" data-cat="hot">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-hot"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Turkish Coffee <span class="ar">قهوة تركية</span></h3><span class="price">$2.99</span></div>
-          <p>Ground to powder and brought up slowly in the cezve. Served unfiltered — let the last centimetre settle.</p>
+      <article class="mrow" data-cat="hot">
+        <div class="mrow__top">
+          <h3>Turkish Coffee <span class="ar">قهوة تركية</span></h3>
+          <i class="dots"></i><span class="price">$2.99</span>
         </div>
+        <p>Ground to powder and brought up slowly in the cezve. Served unfiltered — let the last centimetre settle.</p>
       </article>
 
-      <article class="item" data-cat="hot">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-hot"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Americano</h3><span class="price">$2.99</span></div>
-          <p>Two shots lengthened with hot water. The cheapest good thing on the board.</p>
+      <article class="mrow" data-cat="hot">
+        <div class="mrow__top">
+          <h3>Americano</h3>
+          <i class="dots"></i><span class="price">$2.99</span>
         </div>
+        <p>Two shots lengthened with hot water. The cheapest good thing on the board.</p>
       </article>
 
-      <article class="item" data-cat="hot">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-hot"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Latte</h3><span class="price">$4.99</span></div>
-          <p>Espresso and steamed milk, poured to a thin cap of foam.</p>
+      <article class="mrow" data-cat="hot">
+        <div class="mrow__top">
+          <h3>Latte</h3>
+          <i class="dots"></i><span class="price">$4.99</span>
         </div>
+        <p>Espresso and steamed milk, poured to a thin cap of foam.</p>
       </article>
 
-      <article class="item" data-cat="hot">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-hot"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Cappuccino</h3></div>
-          <p>Shorter, drier, more foam than milk. Ask for it extra dry and we will.</p>
-        </div>
+      <article class="mrow" data-cat="hot">
+        <div class="mrow__top"><h3>Spanish Latte <span class="ar">سبانيش لاتيه</span></h3></div>
+        <p>The signature, served hot: espresso over condensed milk, finished with steamed whole milk.</p>
+        <span class="flag">Most ordered</span>
       </article>
 
-      <article class="item" data-cat="hot">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-hot"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Spanish Latte <span class="ar">سبانيش لاتيه</span></h3></div>
-          <p>The signature, served hot: espresso over condensed milk, finished with steamed whole milk.</p>
-          <span class="flag">Most ordered</span>
-        </div>
+      <article class="mrow" data-cat="hot">
+        <div class="mrow__top"><h3>Cappuccino</h3></div>
+        <p>Shorter, drier, more foam than milk. Ask for it extra dry and we will.</p>
       </article>
 
-      <article class="item" data-cat="hot">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-hot"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Mocha</h3></div>
-          <p>Espresso, chocolate, steamed milk. Sweet enough to count as dessert.</p>
-        </div>
+      <article class="mrow" data-cat="hot">
+        <div class="mrow__top"><h3>Mocha</h3></div>
+        <p>Espresso, chocolate, steamed milk. Sweet enough to count as dessert.</p>
       </article>
 
-      <article class="item" data-cat="hot">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-hot"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Hot Chocolate</h3></div>
-          <p>For the half of the table that doesn't drink coffee at eleven at night.</p>
-        </div>
+      <article class="mrow" data-cat="hot">
+        <div class="mrow__top"><h3>Hot Chocolate</h3></div>
+        <p>For the half of the table that doesn't drink coffee at eleven at night.</p>
       </article>
 
-      <!-- ── iced ── -->
-      <article class="item" data-cat="iced">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-iced"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Iced Spanish Latte</h3><span class="price">$4.90</span></div>
-          <p>The one people cross boroughs for. Condensed milk under espresso, stirred at the table.</p>
-          <span class="flag">Signature</span>
+      <!-- iced -->
+      <article class="mrow" data-cat="iced">
+        <div class="mrow__top">
+          <h3>Iced Spanish Latte</h3>
+          <i class="dots"></i><span class="price">$4.90</span>
         </div>
+        <p>The one people cross boroughs for. Condensed milk under espresso, stirred at the table.</p>
+        <span class="flag">Signature</span>
       </article>
 
-      <article class="item" data-cat="iced">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-iced"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Iced Americano</h3></div>
-          <p>Espresso, cold water, ice. Clean and long.</p>
-        </div>
+      <article class="mrow" data-cat="iced">
+        <div class="mrow__top"><h3>Iced Americano</h3></div>
+        <p>Espresso, cold water, ice. Clean and long.</p>
       </article>
 
-      <article class="item" data-cat="iced">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-iced"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Iced Latte</h3></div>
-          <p>Cold milk, two shots, no sugar unless you ask.</p>
-        </div>
+      <article class="mrow" data-cat="iced">
+        <div class="mrow__top"><h3>Iced Latte</h3></div>
+        <p>Cold milk, two shots, no sugar unless you ask.</p>
       </article>
 
-      <article class="item" data-cat="iced">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-iced"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Shaken White Mocha</h3></div>
-          <p>White chocolate and espresso shaken hard over ice until it goes cloudy.</p>
-        </div>
+      <article class="mrow" data-cat="iced">
+        <div class="mrow__top"><h3>Shaken White Mocha</h3></div>
+        <p>White chocolate and espresso shaken hard over ice until it goes cloudy.</p>
       </article>
 
-      <article class="item" data-cat="iced">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-iced"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Oreo Mocha</h3></div>
-          <p>Blended, crumbed on top, unapologetic.</p>
-        </div>
+      <article class="mrow" data-cat="iced">
+        <div class="mrow__top"><h3>Oreo Mocha</h3></div>
+        <p>Blended, crumbed on top, unapologetic.</p>
       </article>
 
-      <article class="item" data-cat="iced">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-iced"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Affogato</h3></div>
-          <p>A scoop of vanilla, a shot poured over it at the counter.</p>
-        </div>
+      <article class="mrow" data-cat="iced">
+        <div class="mrow__top"><h3>Affogato</h3></div>
+        <p>A scoop of vanilla, a shot poured over it at the counter.</p>
       </article>
 
-      <!-- ── tea & cold ── -->
-      <article class="item" data-cat="tea">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-tea"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Karak Tea <span class="ar">كرك</span></h3></div>
-          <p>Black tea boiled with evaporated milk, cardamom and saffron. The late-night order.</p>
-          <span class="flag">After 9pm favourite</span>
-        </div>
+      <!-- tea & cold -->
+      <article class="mrow" data-cat="tea">
+        <div class="mrow__top"><h3>Karak Tea <span class="ar">كرك</span></h3></div>
+        <p>Black tea boiled with evaporated milk, cardamom and saffron. The late-night order.</p>
+        <span class="flag">After 9pm favourite</span>
       </article>
 
-      <article class="item" data-cat="tea">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-tea"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Green Tea</h3></div>
-          <p>Loose leaf, brewed short so it never turns bitter.</p>
-        </div>
+      <article class="mrow" data-cat="tea">
+        <div class="mrow__top"><h3>Green Tea</h3></div>
+        <p>Loose leaf, brewed short so it never turns bitter.</p>
       </article>
 
-      <article class="item" data-cat="tea">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-tea"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Roshan Red</h3></div>
-          <p>The house cold mix — sharp, red, faintly floral. Order it once and you'll understand the name on the board.</p>
-        </div>
+      <article class="mrow" data-cat="tea">
+        <div class="mrow__top"><h3>Roshan Red</h3></div>
+        <p>The house cold mix — sharp, red, faintly floral.</p>
       </article>
 
-      <article class="item" data-cat="tea">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-tea"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Roshan Black</h3></div>
-          <p>Its darker sibling: cola, citrus and syrup over crushed ice.</p>
-        </div>
+      <article class="mrow" data-cat="tea">
+        <div class="mrow__top"><h3>Roshan Black</h3></div>
+        <p>Its darker sibling: cola, citrus and syrup over crushed ice.</p>
       </article>
 
-      <article class="item" data-cat="tea">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-tea"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Twin Turbo</h3></div>
-          <p>The one the Morris Park night shift runs on. Don't order it at midnight.</p>
-        </div>
+      <article class="mrow" data-cat="tea">
+        <div class="mrow__top"><h3>Twin Turbo</h3></div>
+        <p>The one the Morris Park night shift runs on. Don't order it at midnight.</p>
       </article>
 
-      <article class="item" data-cat="tea">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-tea"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Lemon Mint</h3></div>
-          <p>Blended fresh, no concentrate. Also: orange juice, squeezed to order.</p>
-        </div>
+      <article class="mrow" data-cat="tea">
+        <div class="mrow__top"><h3>Lemon Mint</h3></div>
+        <p>Blended fresh, no concentrate. Also: orange juice, squeezed to order.</p>
       </article>
 
-      <!-- ── pastries ── -->
-      <article class="item" data-cat="pastry">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-pastry"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Pistachio Croissant</h3></div>
-          <p>Split, filled with pistachio cream, dusted green. Gone by early evening most days.</p>
-          <span class="flag">Sells out</span>
-        </div>
+      <!-- pastries -->
+      <article class="mrow" data-cat="pastry">
+        <div class="mrow__top"><h3>Pistachio Croissant</h3></div>
+        <p>Split, filled with pistachio cream, dusted green. Gone by early evening most days.</p>
+        <span class="flag">Sells out</span>
       </article>
 
-      <article class="item" data-cat="pastry">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-pastry"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Butter Croissant</h3></div>
-          <p>Laminated, baked through, shatters properly when you pull it apart.</p>
-        </div>
+      <article class="mrow" data-cat="pastry">
+        <div class="mrow__top"><h3>Butter Croissant</h3></div>
+        <p>Laminated, baked through, shatters properly when you pull it apart.</p>
       </article>
 
-      <article class="item" data-cat="pastry">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-pastry"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Chocolate Croissant</h3></div>
-          <p>Two batons of dark chocolate, warmed on request.</p>
-        </div>
+      <article class="mrow" data-cat="pastry">
+        <div class="mrow__top"><h3>Chocolate Croissant</h3></div>
+        <p>Two batons of dark chocolate, warmed on request.</p>
       </article>
 
-      <article class="item" data-cat="pastry">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-pastry"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Club Sandwich</h3></div>
-          <p>Four builds on the board, pressed to order — the only savoury thing here, and it holds its own.</p>
-        </div>
+      <article class="mrow" data-cat="pastry">
+        <div class="mrow__top"><h3>Club Sandwich</h3></div>
+        <p>Four builds on the board, pressed to order — the only savoury thing here.</p>
       </article>
 
-      <!-- ── sweets ── -->
-      <article class="item" data-cat="sweet">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-sweet"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Crepe Pudding</h3></div>
-          <p>Layered crepe and cream set in a cup, cold, spooned rather than cut.</p>
-        </div>
+      <!-- sweets -->
+      <article class="mrow" data-cat="sweet">
+        <div class="mrow__top"><h3>Crepe Pudding</h3></div>
+        <p>Layered crepe and cream set in a cup, cold, spooned rather than cut.</p>
       </article>
 
-      <article class="item" data-cat="sweet">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-sweet"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Chocolate Crepe</h3></div>
-          <p>Made to order on the griddle, folded, sauced, handed over hot.</p>
-        </div>
+      <article class="mrow" data-cat="sweet">
+        <div class="mrow__top"><h3>Chocolate Crepe</h3></div>
+        <p>Made to order on the griddle, folded, sauced, handed over hot.</p>
       </article>
 
-      <article class="item" data-cat="sweet">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-sweet"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Belgian Waffles</h3></div>
-          <p>Pearl sugar in the batter, so the outside caramelises in the iron.</p>
-        </div>
+      <article class="mrow" data-cat="sweet">
+        <div class="mrow__top"><h3>Belgian Waffles</h3></div>
+        <p>Pearl sugar in the batter, so the outside caramelises in the iron.</p>
       </article>
 
-      <article class="item" data-cat="sweet">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-sweet"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Brownie Cubes</h3></div>
-          <p>Dense, barely set in the middle, sold by the handful.</p>
-        </div>
+      <article class="mrow" data-cat="sweet">
+        <div class="mrow__top"><h3>Brownie Cubes</h3></div>
+        <p>Dense, barely set in the middle, sold by the handful.</p>
       </article>
 
-      <article class="item" data-cat="sweet">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-sweet"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Donuts</h3></div>
-          <p>Glazed, filled, or plain with the cardamom coffee.</p>
-        </div>
+      <article class="mrow" data-cat="sweet">
+        <div class="mrow__top"><h3>Donuts</h3></div>
+        <p>Glazed, filled, or plain with the cardamom coffee.</p>
       </article>
 
-      <article class="item" data-cat="sweet">
-        <svg class="item__ico" aria-hidden="true"><use href="#i-sweet"/></svg>
-        <div class="item__body">
-          <div class="item__top"><h3>Ice Cream</h3></div>
-          <p>By the scoop, or drowned in espresso as an affogato.</p>
-        </div>
+      <article class="mrow" data-cat="sweet">
+        <div class="mrow__top"><h3>Ice Cream</h3></div>
+        <p>By the scoop, or drowned in espresso as an affogato.</p>
       </article>
 
     </div>
 
     <p class="menu-note">
-      Prices shown are the ones publicly listed for the Bronx store and can change —
-      call <a href="tel:+13472934901" style="color:var(--blue-600);font-weight:600">(347) 293-4901</a>
-      to confirm. The full board carries roughly seventy drinks and sweets.
+      Listed prices are the ones published for the Bronx store and can change — call
+      <a href="tel:+13472934901">(347) 293-4901</a> to confirm. The full board carries
+      roughly seventy drinks and sweets.
     </p>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════ the room ═══════════════════════════════════ -->
-<section class="sec sec--paper tile-bg tile-bg--light" id="room">
+<!-- ══════════════════════════ the room ══════════════════════════ -->
+<section class="sec sec--paper" id="room">
   <div class="wrap">
-    <div class="sec__head center" data-reveal>
+    <div class="head center" data-reveal>
       <p class="kicker">The room</p>
       <h2 class="title">Built for the <em>second hour</em></h2>
       <p class="lede">
-        Most coffee shops are designed for the first fifteen minutes. This one is
-        designed for what happens after — the table you don't get asked to give back.
+        Most coffee shops are designed for the first fifteen minutes. This one is designed
+        for what happens after — the table you don't get asked to give back.
       </p>
     </div>
 
     <div class="trio">
-      <div class="card" data-tilt data-reveal>
-        <svg class="card__ico" viewBox="0 0 48 48" fill="none" stroke="#1b4fe0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="24" cy="24" r="19"/>
-          <path d="M24 13v11l7 5"/>
-        </svg>
+      <div class="card" data-reveal>
+        <span class="card__ico" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2.5"/></svg>
+        </span>
         <h3>Open until midnight</h3>
         <p>Seven days a week, from seven in the morning. Late is not an exception here — it's the point. Expect a wait on weekend afternoons after two.</p>
       </div>
 
-      <div class="card" data-tilt data-reveal data-delay="1">
-        <svg class="card__ico" viewBox="0 0 48 48" fill="none" stroke="#1b4fe0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M24 5 39 11v12c0 9.4-6.2 17.6-15 20-8.8-2.4-15-10.6-15-20V11z"/>
-          <path d="M17 24l5 5 10-10"/>
-        </svg>
+      <div class="card" data-reveal data-delay="1">
+        <span class="card__ico" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.4 9.2-8 10.4C7.4 21.2 4 17 4 12V6z"/><path d="M9 12l2 2 4.5-4.5"/></svg>
+        </span>
         <h3>Halal, all of it</h3>
-        <p>Every item on the board, front to back, with no asterisks and nothing you need to ask twice about. It is why Morris Park adopted the place so quickly.</p>
+        <p>Every item on the board, front to back, with no asterisks and nothing you need to ask twice about. It is part of why Morris Park adopted the place so quickly.</p>
       </div>
 
-      <div class="card" data-tilt data-reveal data-delay="2">
-        <svg class="card__ico" viewBox="0 0 48 48" fill="none" stroke="#1b4fe0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M6 40V16l18-10 18 10v24"/>
-          <path d="M18 40V27h12v13"/>
-          <path d="M2 40h44"/>
-        </svg>
+      <div class="card" data-reveal data-delay="2">
+        <span class="card__ico" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10l8-5 8 5v10"/><path d="M9.5 20v-6h5v6"/><path d="M2 20h20"/></svg>
+        </span>
         <h3>Little Yemen</h3>
         <p>Morris Park Avenue already had the grocers, the bakeries and the late tables. Kyan didn't introduce Arab coffee culture to this street — it joined it.</p>
       </div>
@@ -745,10 +618,10 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════ quotes ═══════════════════════════════════ -->
-<section class="sec sec--ink" aria-label="What people say">
+<!-- ══════════════════════════ quotes ══════════════════════════ -->
+<section class="sec sec--tint" aria-label="What people say">
   <div class="wrap">
-    <div class="sec__head center" data-reveal>
+    <div class="head center" data-reveal>
       <p class="kicker">4.7 stars · hundreds of reviews</p>
       <h2 class="title">What the neighbourhood <em>keeps saying</em></h2>
     </div>
@@ -773,22 +646,22 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════ visit ═══════════════════════════════════ -->
-<section class="sec sec--porcelain" id="visit">
+<!-- ══════════════════════════ visit ══════════════════════════ -->
+<section class="sec sec--paper" id="visit">
   <div class="wrap">
     <div class="visit">
       <div>
-        <div class="sec__head" style="margin-bottom:28px" data-reveal>
+        <div class="head" style="margin-bottom:26px" data-reveal>
           <p class="kicker">Visit</p>
           <h2 class="title">689 Morris Park Ave, <em>The Bronx</em></h2>
         </div>
 
-        <dl class="info-rows" data-reveal data-delay="1">
+        <dl class="rows" data-reveal data-delay="1">
           <div class="row">
             <dt>Address</dt>
             <dd>
               <a href="https://maps.google.com/?q=689+Morris+Park+Ave+Bronx+NY+10462" target="_blank" rel="noopener">689 Morris Park Avenue, Bronx, NY 10462</a>
-              <small>Between the shops on the Morris Park strip — look for the blue.</small>
+              <small>On the Morris Park strip — look for the turquoise.</small>
             </dd>
           </div>
           <div class="row">
@@ -820,64 +693,56 @@
         </dl>
 
         <div class="visit__acts" data-reveal data-delay="2">
-          <a class="btn btn--solid" href="https://maps.google.com/?q=689+Morris+Park+Ave+Bronx+NY+10462" target="_blank" rel="noopener">
+          <a class="btn btn--primary" href="https://maps.google.com/?q=689+Morris+Park+Ave+Bronx+NY+10462" target="_blank" rel="noopener">
             Get directions
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
           </a>
-          <a class="btn btn--outline" href="tel:+13472934901">Call (347) 293-4901</a>
+          <a class="btn btn--quiet" href="tel:+13472934901">Call (347) 293-4901</a>
         </div>
       </div>
 
       <div class="map" data-reveal data-delay="1">
         <svg viewBox="0 0 600 380" role="img" aria-label="Simplified map of Morris Park Avenue showing Kyan Cafe">
-          <rect width="600" height="380" fill="#f2f6ff"/>
-          <g fill="#e2ebff">
-            <rect x="40" y="40" width="150" height="140" rx="4"/>
-            <rect x="220" y="40" width="120" height="140" rx="4"/>
-            <rect x="372" y="40" width="180" height="140" rx="4"/>
-            <rect x="40" y="252" width="150" height="120" rx="4"/>
-            <rect x="220" y="252" width="120" height="120" rx="4"/>
-            <rect x="372" y="252" width="180" height="120" rx="4"/>
+          <rect width="600" height="380" fill="#f2fbfc"/>
+          <g fill="#dff2f5">
+            <rect x="40" y="40" width="150" height="140" rx="6"/>
+            <rect x="220" y="40" width="120" height="140" rx="6"/>
+            <rect x="372" y="40" width="180" height="140" rx="6"/>
+            <rect x="40" y="252" width="150" height="120" rx="6"/>
+            <rect x="220" y="252" width="120" height="120" rx="6"/>
+            <rect x="372" y="252" width="180" height="120" rx="6"/>
           </g>
 
-          <!-- avenue -->
           <rect x="0" y="192" width="600" height="46" fill="#ffffff"/>
-          <path d="M0 192h600M0 238h600" stroke="#1b4fe0" stroke-width="2" opacity=".45"/>
-          <path d="M0 215h600" stroke="#6d95ff" stroke-width="2" stroke-dasharray="16 14"/>
-          <text x="24" y="208" fill="#1436a8" font-family="Manrope, sans-serif" font-size="12" font-weight="700" letter-spacing="2.4">MORRIS PARK AVE</text>
+          <path d="M0 192h600M0 238h600" stroke="#bce8ee" stroke-width="2.5"/>
+          <path d="M0 215h600" stroke="#8ad5df" stroke-width="2.5" stroke-dasharray="16 14"/>
+          <text x="26" y="209" fill="#1f5580" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="800" letter-spacing="2.4">MORRIS PARK AVE</text>
 
-          <!-- cross streets -->
           <g>
             <rect x="192" y="0" width="28" height="380" fill="#ffffff"/>
             <rect x="342" y="0" width="30" height="380" fill="#ffffff"/>
-            <path d="M192 0v380M220 0v380M342 0v380M372 0v380" stroke="#1b4fe0" stroke-width="1.5" opacity=".3"/>
+            <path d="M192 0v380M220 0v380M342 0v380M372 0v380" stroke="#bce8ee" stroke-width="2"/>
           </g>
 
-          <!-- elevated 5 line -->
-          <path d="M0 108h600" stroke="#1b4fe0" stroke-width="3" stroke-dasharray="2 10" opacity=".5"/>
+          <path d="M0 108h600" stroke="#8ad5df" stroke-width="3.5" stroke-dasharray="3 11"/>
           <g transform="translate(478 108)">
-            <circle r="15" fill="#1b4fe0"/>
-            <text text-anchor="middle" dominant-baseline="central" fill="#fff" font-family="Manrope, sans-serif" font-size="16" font-weight="800">5</text>
+            <circle r="16" fill="#2a6ba5"/>
+            <text text-anchor="middle" dominant-baseline="central" fill="#fff" font-family="'Plus Jakarta Sans', sans-serif" font-size="17" font-weight="800">5</text>
           </g>
-          <text x="452" y="86" text-anchor="middle" fill="#1436a8" font-family="Manrope, sans-serif" font-size="10.5" font-weight="700" letter-spacing="1.6">MORRIS PARK STN</text>
+          <text x="452" y="84" text-anchor="middle" fill="#1f5580" font-family="'Plus Jakarta Sans', sans-serif" font-size="10.5" font-weight="800" letter-spacing="1.6">MORRIS PARK STN</text>
 
-          <!-- pin -->
-          <circle class="map__ping" cx="300" cy="216" r="14" fill="#1b4fe0" opacity=".35"/>
+          <circle class="map__ping" cx="300" cy="216" r="14" fill="#2bafc4" opacity=".4"/>
           <g class="map__pin">
-            <path d="M300 176c-13.8 0-25 11.2-25 25 0 18 25 39 25 39s25-21 25-39c0-13.8-11.2-25-25-25z" fill="#1b4fe0"/>
-            <circle cx="300" cy="201" r="9.5" fill="#fff"/>
-            <g fill="none" stroke="#1b4fe0" stroke-width="2">
-              <rect x="295.5" y="196.5" width="9" height="9"/>
-              <rect x="295.5" y="196.5" width="9" height="9" transform="rotate(45 300 201)"/>
-            </g>
+            <path d="M300 174c-14.4 0-26 11.6-26 26 0 18.6 26 40 26 40s26-21.4 26-40c0-14.4-11.6-26-26-26z" fill="#2bafc4"/>
+            <circle cx="300" cy="200" r="10.5" fill="#fff"/>
+            <path d="M297 194v12M297 200l5.5-5.5M297 200l5.5 5.5" stroke="#2bafc4" stroke-width="2.2" stroke-linecap="round" fill="none"/>
           </g>
-          <text x="300" y="266" text-anchor="middle" fill="#04102b" font-family="Manrope, sans-serif" font-size="13" font-weight="800" letter-spacing="1.4">KYAN · 689</text>
+          <text x="300" y="268" text-anchor="middle" fill="#143a56" font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="800" letter-spacing="1.4">KYAN · 689</text>
 
-          <!-- compass -->
-          <g transform="translate(552 330)" opacity=".55">
-            <circle r="18" fill="none" stroke="#1b4fe0" stroke-width="1.5"/>
-            <path d="M0 -11 4 3 0 0 -4 3z" fill="#1b4fe0"/>
-            <text y="-20" text-anchor="middle" fill="#1436a8" font-family="Manrope, sans-serif" font-size="9" font-weight="800">N</text>
+          <g transform="translate(552 330)" opacity=".6">
+            <circle r="18" fill="none" stroke="#8ad5df" stroke-width="2"/>
+            <path d="M0 -11 4 3 0 0 -4 3z" fill="#2bafc4"/>
+            <text y="-21" text-anchor="middle" fill="#1f5580" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="800">N</text>
           </g>
         </svg>
 
@@ -886,15 +751,15 @@
             <b>Morris Park, The Bronx</b>
             <small>Two minutes east of the 5 train.</small>
           </div>
-          <a class="btn btn--outline btn--sm" href="https://maps.google.com/?q=689+Morris+Park+Ave+Bronx+NY+10462" target="_blank" rel="noopener">Open in Maps</a>
+          <a class="btn btn--quiet btn--sm" href="https://maps.google.com/?q=689+Morris+Park+Ave+Bronx+NY+10462" target="_blank" rel="noopener">Open in Maps</a>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════ cta ═══════════════════════════════════ -->
-<section class="cta tile-bg">
+<!-- ══════════════════════════ cta ══════════════════════════ -->
+<section class="cta">
   <div class="wrap">
     <h2 data-reveal>Come at <em>eleven</em>.<br />That's when it's good.</h2>
     <p data-reveal data-delay="1">
@@ -902,20 +767,21 @@
       built for. Bring someone you want to sit with for two hours.
     </p>
     <div class="cta__acts" data-reveal data-delay="2">
-      <a class="btn btn--solid" href="https://maps.google.com/?q=689+Morris+Park+Ave+Bronx+NY+10462" target="_blank" rel="noopener">Get directions</a>
-      <a class="btn btn--ghost" href="tel:+13472934901">Call (347) 293-4901</a>
+      <a class="btn btn--primary" href="https://maps.google.com/?q=689+Morris+Park+Ave+Bronx+NY+10462" target="_blank" rel="noopener">Get directions</a>
+      <a class="btn btn--ghostaqua" href="tel:+13472934901">Call (347) 293-4901</a>
     </div>
   </div>
 </section>
 
-</main>
-
-<!-- ═══════════════════════════════════ footer ═══════════════════════════════════ -->
+<!-- ══════════════════════════ footer ══════════════════════════ -->
 <footer class="foot">
   <div class="wrap">
     <div class="foot__top">
       <div class="foot__brand">
-        <div class="ar">كيان</div>
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="24" r="24" fill="#2bafc4"/>
+          <path d="M18 13v22M18 24l11-11M18 24l11 11" stroke="#fff" stroke-width="3.6" stroke-linecap="round" fill="none"/>
+        </svg>
         <p>Saudi coffee since 2009. Morris Park Avenue since 2024. Open seven days, from seven in the morning until midnight.</p>
       </div>
 
@@ -945,7 +811,7 @@
           <li><a href="https://www.instagram.com/kyancafe/" target="_blank" rel="noopener">@kyancafe — worldwide</a></li>
           <li><a href="https://kyancafe.com/en/home/" target="_blank" rel="noopener">kyancafe.com</a></li>
         </ul>
-        <div class="socials" style="margin-top:18px">
+        <div class="socials">
           <a href="https://www.instagram.com/kyancafeny/" target="_blank" rel="noopener" aria-label="Instagram">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.2" fill="currentColor" stroke="none"/></svg>
           </a>
@@ -967,7 +833,7 @@
 </footer>
 
 <button class="totop" id="totop" aria-label="Back to top">
-  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
 </button>
 
 <script src="assets/kyan.js"></script>
