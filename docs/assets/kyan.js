@@ -153,7 +153,7 @@
 
   /* -------------------------------------------------------- menu filter */
   var tabs = $$(".tab");
-  var items = $$("#menuGrid .mrow");
+  var items = $$("#menuGrid .drink");
 
   tabs.forEach(function (tab) {
     tab.addEventListener("click", function () {

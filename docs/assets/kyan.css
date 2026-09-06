@@ -358,8 +358,12 @@ html:not(.js) .nav { position: absolute; }
   background: var(--aqua-500);
   color: #fff;
   overflow: hidden;
-  padding: calc(var(--nav-h) + clamp(24px, 5vh, 52px)) 0 clamp(56px, 8vh, 92px);
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--nav-h) + 20px) 0 clamp(46px, 6vh, 76px);
 }
+.hero > .wrap { width: 100%; }
 
 /* soft light behind the composition */
 .hero__glow {
@@ -401,7 +405,6 @@ html:not(.js) .nav { position: absolute; }
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   gap: clamp(24px, 4vw, 56px);
   align-items: center;
-  min-height: calc(100svh - var(--nav-h) - 150px);
 }
 
 .hero .eyebrow {
@@ -815,7 +818,27 @@ h2.title em {
 .tab:hover { border-color: var(--aqua-400); color: var(--aqua-700); transform: translateY(-2px); }
 .tab[aria-pressed="true"] { background: var(--aqua-500); border-color: var(--aqua-500); color: #fff; box-shadow: var(--sh-aqua); }
 
-.menu-list { display: grid; grid-template-columns: 1fr 1fr; gap: 4px clamp(36px, 5vw, 76px); align-content: start; }
+.drink-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(178px, 1fr));
+  gap: clamp(12px, 1.6vw, 20px);
+}
+.drink {
+  background: #fff;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-lg);
+  padding: 24px 16px 22px;
+  text-align: center;
+  animation: rowIn 0.45s var(--ease) both;
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+.drink[hidden] { display: none; }
+.drink:hover { transform: translateY(-6px); box-shadow: var(--sh-lg); border-color: var(--aqua-200); }
+.drink__art { width: 100%; height: 128px; margin: 0 auto 14px; transition: transform 0.5s var(--ease); }
+.drink:hover .drink__art { transform: translateY(-4px) rotate(-3deg); }
+.drink h3 { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--denim-800); line-height: 1.35; }
+.drink h3 .ar { display: block; font-family: var(--arabic); font-size: 13px; font-weight: 400; color: var(--aqua-600); margin-top: 5px; }
+.drink .flag { margin-top: 11px; }
 .mrow {
   padding: 20px 0;
   border-bottom: 1px solid var(--line-soft);
@@ -840,7 +863,7 @@ h2.title em {
 }
 .mrow .price { font-size: 17px; font-weight: 700; letter-spacing: -0.02em; color: var(--aqua-600); white-space: nowrap; }
 .mrow p { margin: 5px 0 0; font-size: 13.5px; line-height: 1.58; color: var(--ink-soft); max-width: 52ch; }
-.mrow .flag {
+.flag {
   display: inline-block;
   margin-top: 9px;
   font-size: 9.5px;
@@ -1095,6 +1118,12 @@ h2.title em {
   .status { display: none; }
   .badge { padding: 10px 14px; }
   .badge b { font-size: 13px; }
+  /* two drinks per row rather than one giant card */
+  .drink-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .drink { padding: 18px 10px 16px; border-radius: var(--r-md); }
+  .drink__art { height: 96px; margin-bottom: 10px; }
+  .drink h3 { font-size: 13.5px; }
+  .drink h3 .ar { font-size: 12px; }
   .stage { min-height: 340px; }
   /* narrower stage: keep the cards off the cup's face */
   .cup { width: min(224px, 56%); }
