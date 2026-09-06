@@ -131,7 +131,8 @@ h1, h2, h3 {
 @keyframes preloadOut { to { opacity: 0; visibility: hidden; } }
 
 .preload-mark { text-align: center; color: #fff; }
-.preload-mark svg { width: 64px; height: 64px; margin: 0 auto 16px; animation: markIn 0.8s var(--ease) both; }
+.preload-mark img { width: 74px; height: 74px; object-fit: contain; margin: 0 auto 16px;
+  filter: brightness(0) invert(1); animation: markIn 0.8s var(--ease) both, markSpin 9s var(--ease-io) 0.8s infinite; }
 @keyframes markIn {
   from { opacity: 0; transform: scale(0.7) rotate(-25deg); }
   to { opacity: 1; transform: none; }
@@ -176,12 +177,23 @@ h1, h2, h3 {
 html:not(.js) .nav { position: absolute; }
 
 .brand { display: flex; align-items: center; gap: 12px; margin-right: auto; }
-.brand__mark { width: 42px; height: 42px; flex: none; transition: transform 0.6s var(--ease); }
-.brand:hover .brand__mark { transform: rotate(-12deg) scale(1.06); }
-.brand__mark .disc { fill: #fff; transition: fill 0.45s var(--ease); }
-.brand__mark .glyph { stroke: var(--aqua-500); transition: stroke 0.45s var(--ease); }
-.nav.is-stuck .brand__mark .disc { fill: var(--aqua-500); }
-.nav.is-stuck .brand__mark .glyph { stroke: #fff; }
+/* The mark turns, slowly, the whole time it is on screen. White over the
+   turquoise page; its own turquoise once the nav goes white. */
+.brand__mark {
+  width: 44px; height: 44px; flex: none;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  animation: markSpin 9s var(--ease-io) infinite;
+  transition: filter 0.45s var(--ease);
+}
+.nav.is-stuck .brand__mark { filter: none; }
+.brand:hover .brand__mark { animation-duration: 2.4s; }
+/* It rests upright and turns a full circle every few seconds, rather than
+   spinning without pause — a mark caught permanently mid-tilt reads broken. */
+@keyframes markSpin {
+  0%, 62% { transform: rotate(0deg); }
+  100%    { transform: rotate(360deg); }
+}
 
 .brand__type { display: flex; flex-direction: column; line-height: 1; }
 .brand__type b {
@@ -895,7 +907,8 @@ h2.title em {
 .foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; }
 .foot a { transition: color 0.3s var(--ease); }
 .foot a:hover { color: #fff; }
-.foot__brand svg { width: 48px; height: 48px; margin-bottom: 16px; }
+.foot__brand img { width: 52px; height: 52px; object-fit: contain; margin-bottom: 16px;
+  filter: brightness(0) invert(1); animation: markSpin 9s var(--ease-io) infinite; }
 .foot__brand p { margin: 0; max-width: 32ch; line-height: 1.7; }
 .foot__bottom {
   padding-top: 24px;
@@ -997,7 +1010,11 @@ h2.title em {
   .hero { padding: calc(var(--nav-h) + 12px) 0 28px; }
   .hero__inner { gap: 14px; }
   .hero h1 { font-size: clamp(21px, 7.6vw, 40px); }
-  .hero__acts { margin-top: 20px; gap: 10px; }
+  /* stacked, the copy reads centred rather than pinned to the left edge */
+  .hero__copy { text-align: center; }
+  .hero .eyebrow { margin-inline: auto; }
+  .hero__acts { margin-top: 20px; gap: 10px; justify-content: center; }
+  .hero__copy .btn { width: auto; }
   .cup { width: min(210px, 52%); }
 }
 
@@ -1028,6 +1045,7 @@ h2.title em {
   }
   [data-reveal] { opacity: 1; transform: none; }
   .btn--menu::after { display: none; }
+  .brand__mark, .preload-mark img, .foot__brand img { animation: none !important; }
   /* park the label face-on rather than mid-turn */
   .cup .label { animation: none; transform: none; opacity: 1; }
   .cup .label--b { display: none; }
@@ -1439,3 +1457,90 @@ body.is-locked { overflow: hidden; }
   .pnav { width: 38px; height: 38px; }
   .mcat__head { align-items: center; }
 }
+
+/* ═══════════════════════ one blue, the whole way down ═══════════════════════
+   The page is a single turquoise ground. Sections no longer alternate; the
+   white cards, the map and the menu dialog carry the contrast instead. */
+body { background: var(--aqua-500); }
+
+.sec--paper,
+.sec--cream,
+.sec--tint,
+.announce,
+.cta,
+.foot { background: var(--aqua-500); color: #fff; }
+
+/* type on the blue */
+.sec h2, .sec h3, .sec h4 { color: #fff; }
+.sec .kicker { color: #fff; }
+.sec .kicker::before, .sec .kicker::after { background: rgba(255, 255, 255, 0.5); }
+.sec h2.title em { color: var(--cream-200); }
+.sec .lede { color: rgba(255, 255, 255, 0.9); }
+.sec .lede b { color: #fff; }
+
+/* the marquee keeps its own weight with rules rather than a second colour */
+.ribbon {
+  background: var(--aqua-500);
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+}
+.ribbon__set i { background: rgba(255, 255, 255, 0.65); }
+
+/* the story: timeline and figures */
+.timeline::before { background: linear-gradient(180deg, #fff, rgba(255, 255, 255, 0.25)); }
+.tl::before { background: var(--aqua-500); border-color: rgba(255, 255, 255, 0.75); }
+.tl.is-now::before { background: #fff; border-color: #fff; box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.22); }
+.tl.is-next::before { border-color: rgba(255, 255, 255, 0.7); background: var(--aqua-500); }
+.tl b { color: #fff; }
+.tl p { color: rgba(255, 255, 255, 0.82); }
+
+.note-card {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: none;
+}
+.note-card::after { background: rgba(255, 255, 255, 0.10); }
+
+.fact { background: rgba(255, 255, 255, 0.13); }
+.fact:hover { background: rgba(255, 255, 255, 0.22); }
+.fact b { color: #fff; }
+.fact span { color: rgba(255, 255, 255, 0.8); }
+
+/* the menu note under the board */
+.menu-note { color: rgba(255, 255, 255, 0.85); }
+.menu-note a { color: #fff; border-bottom: 2px solid rgba(255, 255, 255, 0.5); }
+
+/* visit: rows, hours and links */
+.row { border-bottom-color: rgba(255, 255, 255, 0.22); }
+.row:first-child { border-top-color: rgba(255, 255, 255, 0.22); }
+.row dt { color: rgba(255, 255, 255, 0.8); }
+.row dd { color: #fff; }
+.row dd a { border-bottom-color: rgba(255, 255, 255, 0.5); }
+.row dd a:hover { border-color: #fff; }
+.row dd small { color: rgba(255, 255, 255, 0.75); }
+.hours li { color: rgba(255, 255, 255, 0.88); }
+.hours li.today { color: #fff; }
+
+/* the closing panel loses its darker ground with everything else */
+.cta::before, .cta::after { background: rgba(255, 255, 255, 0.16); }
+.cta h2 em { color: var(--cream-200); }
+.cta p { color: rgba(255, 255, 255, 0.86); }
+
+/* footer, same ground, hairlines lifted so they still read */
+.foot { color: rgba(255, 255, 255, 0.82); }
+.foot h4 { color: #fff; }
+.foot__top { border-bottom-color: rgba(255, 255, 255, 0.28); }
+.foot__bottom { color: rgba(255, 255, 255, 0.66); }
+.socials a { border-color: rgba(255, 255, 255, 0.4); }
+.socials a:hover { background: #fff; border-color: #fff; color: var(--aqua-600); }
+
+/* buttons that assumed a light ground */
+.btn--quiet { border-color: rgba(255, 255, 255, 0.55); color: #fff; }
+.btn--quiet:hover { border-color: #fff; color: #fff; background: rgba(255, 255, 255, 0.16); }
+.totop { background: #fff; color: var(--aqua-600); }
+.totop:hover { background: var(--cream-100); color: var(--aqua-700); }
+
+/* the white cards keep their own dark type */
+.quote h2, .quote h3, .announce__body h3, .map__foot b,
+.menu-modal h3, .menu-modal h4 { color: var(--denim-800); }
+.announce__body p { color: var(--ink-soft); }
