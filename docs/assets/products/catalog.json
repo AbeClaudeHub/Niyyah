@@ -33,13 +33,6 @@
       "source": "قهوة-اليوم-وسط-01.jpg"
     },
     {
-      "slug": "todays-coffee-cold",
-      "name": "Today's Coffee · Cold",
-      "category": "hot",
-      "image": "assets/products/todays-coffee-cold.jpg",
-      "source": "قهوة-اليوم-بارد-01.jpg"
-    },
-    {
       "slug": "turkish-coffee",
       "name": "Turkish Coffee",
       "category": "hot",
@@ -96,13 +89,6 @@
       "source": "فلات-وايت-01.jpg"
     },
     {
-      "slug": "caramel-macchiato",
-      "name": "Caramel Macchiato",
-      "category": "hot",
-      "image": "assets/products/caramel-macchiato.jpg",
-      "source": "كراميل-ميكاتو-01.jpg"
-    },
-    {
       "slug": "spanish-latte-hot",
       "name": "Spanish Latte",
       "category": "hot",
@@ -132,11 +118,25 @@
       "note": "Not a product shot — a Saudi campaign poster with riyal prices printed on it. Off the menu until there is a real photo."
     },
     {
-      "slug": "qishd",
-      "name": "Qishd",
+      "slug": "ma-adri-wesho",
+      "name": "Ma Adri Wesho",
       "category": "hot",
-      "image": "assets/products/qishd.jpg",
-      "source": "قشد-1-01.jpg"
+      "image": "assets/products/ma-adri-wesho.jpg",
+      "source": "ما-ادري-وشو1-scaled.jpg"
+    },
+    {
+      "slug": "todays-coffee-cold",
+      "name": "Today's Coffee · Cold",
+      "category": "iced",
+      "image": "assets/products/todays-coffee-cold.jpg",
+      "source": "قهوة-اليوم-بارد-01.jpg"
+    },
+    {
+      "slug": "caramel-macchiato",
+      "name": "Ice Caramel Macchiato",
+      "category": "iced",
+      "image": "assets/products/caramel-macchiato.jpg",
+      "source": "كراميل-ميكاتو-01.jpg"
     },
     {
       "slug": "ice-spanish-latte",
@@ -209,6 +209,14 @@
       "source": "بستاشيو-01.jpg"
     },
     {
+      "slug": "ice-chocolate",
+      "name": "Ice Chocolate",
+      "category": "iced",
+      "image": "assets/products/ice-chocolate.jpg",
+      "source": "هوت-شوكلت-01.jpg",
+      "note": "Image file is byte-identical to ice-mocha.jpg; needs its own photo."
+    },
+    {
       "slug": "kyan-red",
       "name": "Kyan Red",
       "category": "refresh",
@@ -263,20 +271,6 @@
       "category": "refresh",
       "image": "assets/products/sunshine.jpg",
       "source": "سن-شاين.jpg-1.jpeg"
-    },
-    {
-      "slug": "truffle",
-      "name": "Truffle",
-      "category": "refresh",
-      "image": "assets/products/truffle.jpg",
-      "source": "ترافل.jpg"
-    },
-    {
-      "slug": "ma-adri-wesho",
-      "name": "Ma Adri Wesho",
-      "category": "refresh",
-      "image": "assets/products/ma-adri-wesho.jpg",
-      "source": "ما-ادري-وشو1-scaled.jpg"
     },
     {
       "slug": "twin-turbo",
@@ -511,9 +505,23 @@
       "source": "وافل.png"
     },
     {
+      "slug": "qishd",
+      "name": "Qishd",
+      "category": "dessert",
+      "image": "assets/products/qishd.jpg",
+      "source": "قشد-1-01.jpg"
+    },
+    {
+      "slug": "truffle",
+      "name": "Truffle",
+      "category": "dessert",
+      "image": "assets/products/truffle.jpg",
+      "source": "ترافل.jpg"
+    },
+    {
       "slug": "crunch",
       "name": "Crunch",
-      "category": "pastry",
+      "category": "dessert",
       "image": "assets/products/crunch.jpg",
       "source": "كرنش-01.jpg"
     },
@@ -614,14 +622,6 @@
       "category": "savoury",
       "image": "assets/products/falafel.jpg",
       "source": "الفلافل-01.jpg"
-    },
-    {
-      "slug": "ice-chocolate",
-      "name": "Ice Chocolate",
-      "category": "iced",
-      "image": "assets/products/ice-chocolate.jpg",
-      "source": "هوت-شوكلت-01.jpg",
-      "note": "Image file is byte-identical to ice-mocha.jpg; needs its own photo."
     }
   ]
 }

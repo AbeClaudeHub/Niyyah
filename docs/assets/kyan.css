@@ -1027,6 +1027,7 @@ h2.title em {
     transition-duration: 0.001ms !important;
   }
   [data-reveal] { opacity: 1; transform: none; }
+  .btn--menu::after { display: none; }
   /* park the label face-on rather than mid-turn */
   .cup .label { animation: none; transform: none; opacity: 1; }
   .cup .label--b { display: none; }
@@ -1107,15 +1108,81 @@ h2.title em {
 [data-reveal][data-delay="4"] { transition-delay: 0.32s; }
 .tl.is-next::before { border-style: dashed; border-color: var(--aqua-400); background: #fff; }
 
-/* ═══════════════════════ menu: teaser row ═══════════════════════ */
-.feature-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(12px, 1.6vw, 20px);
-  margin-bottom: 40px;
+/* ═══════════ menu: the line-up, one thing from every row ═══════════ */
+.lineup {
+  margin: 0 0 clamp(26px, 3.4vw, 40px);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--sh-md);
+  background: #cfe8f5;
 }
-.drink--feature { padding: 26px 16px 24px; }
-.btn--lg { padding: 18px 36px; font-size: 15.5px; }
+.lineup img { width: 100%; height: auto; display: block; }
+
+/* On a phone the full row would shrink each product to a thumbnail, so the
+   strip keeps its height and scrolls sideways instead. */
+@media (max-width: 760px) {
+  .lineup { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .lineup::-webkit-scrollbar { display: none; }
+  .lineup img { height: 210px; width: auto; max-width: none; }
+}
+
+/* the button under it: fills on hover, and the arrow leads the way */
+.btn--menu {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 19px 30px;
+  font-size: 15.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  color: #fff;
+  background: var(--denim-800);
+  box-shadow: 0 14px 30px rgba(13, 38, 48, 0.24);
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+/* the aqua sweep, held behind the label */
+.btn--menu::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(105deg, var(--aqua-500), var(--aqua-400) 55%, var(--aqua-600));
+  transform: translateX(-101%);
+  transition: transform 0.5s var(--ease);
+}
+.btn--menu:hover, .btn--menu:focus-visible { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(43, 175, 196, 0.34); }
+.btn--menu:hover::before, .btn--menu:focus-visible::before { transform: none; }
+.btn--menu:active { transform: translateY(-1px); }
+
+.btn--menu .btn__ico { display: grid; place-items: center; transition: transform 0.45s var(--ease); }
+.btn--menu:hover .btn__ico { transform: rotate(-90deg); }
+
+.btn--menu .btn__arrow { display: grid; place-items: center; transition: transform 0.45s var(--ease); }
+.btn--menu:hover .btn__arrow { transform: translateX(5px); }
+
+/* a slow breath so the button reads as the thing to press */
+.btn--menu::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -2;
+  border-radius: inherit;
+  border: 2px solid var(--aqua-400);
+  opacity: 0;
+  animation: menuPulse 3.4s var(--ease-io) infinite;
+}
+@keyframes menuPulse {
+  0%   { opacity: 0;   transform: scale(1); }
+  32%  { opacity: 0.5; transform: scale(1); }
+  70%, 100% { opacity: 0; transform: scale(1.13); }
+}
+.btn--menu:hover::after { animation-play-state: paused; opacity: 0; }
 
 /* ═══════════════════════ menu: the full board ═══════════════════════ */
 .menu-modal {
@@ -1221,15 +1288,10 @@ body.is-locked { overflow: hidden; }
 /* art drifts a little slower than the page */
 [data-parallax] { will-change: transform; }
 
-@media (max-width: 900px) {
-  .feature-row { grid-template-columns: 1fr 1fr; }
-}
 @media (max-width: 620px) {
-  .feature-row { grid-template-columns: 1fr 1fr; gap: 10px; }
-  .drink--feature { padding: 18px 10px 16px; }
   .menu-modal { padding: 0; }
   .menu-modal__sheet { border-radius: 0; max-height: 100%; height: 100%; }
-  .btn--lg { padding: 15px 26px; font-size: 14.5px; }
+  .btn--menu { padding: 16px 24px; font-size: 14.5px; width: 100%; justify-content: center; }
   .order-cta { flex-direction: column; }
   .order-cta .btn { width: 100%; }
 }
@@ -1258,7 +1320,6 @@ body.is-locked { overflow: hidden; }
 .drink:hover .drink__shot img { transform: scale(1.07); }
 .drink__shot--art { display: grid; place-items: center; }
 .drink__shot--art .drink__art { width: auto; height: 78%; margin: 0; }
-.drink--feature .drink__shot { border-radius: 20px; }
 
 @media (max-width: 620px) {
   .drink__shot { border-radius: 14px; margin-bottom: 10px; }
