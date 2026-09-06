@@ -252,42 +252,56 @@
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
-  /* the board is shown a section at a time */
-  var slides = $$(".menu-slide", modal || document);
-  var chips = $$(".menu-modal__chips .tab", modal || document);
-  var dots = $$(".menu-dot", modal || document);
-  var scroller = $("#menuScroll");
-  var at = 0;
+  /* Each category is its own little carousel: one product in front,
+     arrows, dots, keyboard and swipe to step through the rest. */
+  $$(".mcat", modal || document).forEach(function (cat) {
+    var cards = $$(".pcard", cat);
+    var dots = $$(".pdot", cat);
+    var counter = $(".mcat__count b", cat);
+    var track = $(".mcat__track", cat);
+    var at = 0;
 
-  function goTo(i, focusArrow) {
-    if (!slides.length) return;
-    at = (i + slides.length) % slides.length;
-    slides.forEach(function (s, k) {
-      var on = k === at;
-      s.hidden = !on;
-      s.classList.toggle("is-active", on);
-    });
-    chips.forEach(function (c, k) { c.setAttribute("aria-pressed", String(k === at)); });
-    dots.forEach(function (d, k) { d.classList.toggle("is-on", k === at); });
-    if (scroller) scroller.scrollTop = 0;
-    if (focusArrow !== false && modal) modal.setAttribute("data-at", String(at));
-  }
+    function show(next) {
+      if (!cards.length) return;
+      next = (next + cards.length) % cards.length;
+      if (next === at) return;
+      var prev = cards[at];
+      prev.classList.remove("is-active");
+      prev.classList.add("is-leaving");
+      prev.setAttribute("aria-hidden", "true");
+      window.setTimeout(function () { prev.classList.remove("is-leaving"); }, 420);
+      at = next;
+      cards[at].classList.add("is-active");
+      cards[at].removeAttribute("aria-hidden");
+      dots.forEach(function (d, k) { d.classList.toggle("is-on", k === at); });
+      if (counter) counter.textContent = String(at + 1);
+    }
 
-  chips.forEach(function (c) {
-    c.addEventListener("click", function () { goTo(parseInt(c.getAttribute("data-slide"), 10)); });
-  });
-  dots.forEach(function (d) {
-    d.addEventListener("click", function () { goTo(parseInt(d.getAttribute("data-slide"), 10)); });
-  });
-  var prevBtn = $("#menuPrev"), nextBtn = $("#menuNext");
-  if (prevBtn) prevBtn.addEventListener("click", function () { goTo(at - 1); });
-  if (nextBtn) nextBtn.addEventListener("click", function () { goTo(at + 1); });
-  if (modal) {
-    modal.addEventListener("keydown", function (e) {
-      if (e.key === "ArrowRight") { e.preventDefault(); goTo(at + 1); }
-      if (e.key === "ArrowLeft") { e.preventDefault(); goTo(at - 1); }
+    var prevBtn = $(".pnav--prev", cat), nextBtn = $(".pnav--next", cat);
+    if (prevBtn) prevBtn.addEventListener("click", function () { show(at - 1); });
+    if (nextBtn) nextBtn.addEventListener("click", function () { show(at + 1); });
+    dots.forEach(function (d, k) { d.addEventListener("click", function () { show(k); }); });
+
+    /* swipe, on the track only, so vertical scrolling still works */
+    if (track) {
+      var x0 = null, y0 = null;
+      track.addEventListener("touchstart", function (e) {
+        x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+      }, { passive: true });
+      track.addEventListener("touchend", function (e) {
+        if (x0 === null) return;
+        var dx = e.changedTouches[0].clientX - x0;
+        var dy = e.changedTouches[0].clientY - y0;
+        if (Math.abs(dx) > 42 && Math.abs(dx) > Math.abs(dy)) show(at + (dx < 0 ? 1 : -1));
+        x0 = y0 = null;
+      }, { passive: true });
+    }
+
+    cat.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); show(at + 1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); show(at - 1); }
     });
-  }
+  });
 
   if (openBtn) openBtn.addEventListener("click", openMenu);
   if (closeBtn) closeBtn.addEventListener("click", closeMenu);

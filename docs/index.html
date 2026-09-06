@@ -842,243 +842,607 @@
           <circle cx="24" cy="24" r="24" fill="#2bafc4"/>
           <path d="M18 13v22M18 24l11-11M18 24l11 11" stroke="#fff" stroke-width="3.6" stroke-linecap="round" fill="none"/>
         </svg>
-        <span><b id="menuModalTitle">The Menu</b><small>689 Morris Park Ave · Bronx</small></span>
+        <span><b id="menuModalTitle">The Menu</b><small>Swipe each row · 689 Morris Park Ave</small></span>
       </div>
       <button type="button" class="menu-modal__x" id="menuClose" aria-label="Close the menu">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </header>
 
-    <div class="tabs menu-modal__chips" role="group" aria-label="Jump to a section">
-            <button type="button" class="tab" aria-pressed="true" data-slide="0">Coffee</button>
-      <button type="button" class="tab" aria-pressed="false" data-slide="1">Iced</button>
-      <button type="button" class="tab" aria-pressed="false" data-slide="2">Tea Corner</button>
-      <button type="button" class="tab" aria-pressed="false" data-slide="3">Sweets</button>
-    </div>
+    <div class="menu-modal__scroll" id="menuScroll">
+      <section class="mcat" data-cat="0" aria-label="Hot Coffee">
+        <header class="mcat__head">
+          <div>
+            <h3>Hot Coffee</h3>
+            <p class="mcat__ar">قهوة ساخنة</p>
+          </div>
+          <span class="mcat__count"><b>1</b> / 11</span>
+        </header>
 
-    <div class="menu-modal__stage">
-      <button type="button" class="menu-arrow menu-arrow--prev" id="menuPrev" aria-label="Previous section">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
-      </button>
-      <div class="menu-modal__scroll" id="menuScroll">
-      <section class="menu-slide is-active" data-slide="0" aria-label="Coffee">
-        <header class="menu-slide__head">
-          <h3>Coffee</h3>
-          <p>Hot from the board</p>
-        </header>
-        <div class="drink-grid">
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/todays-coffee.jpg" alt="Today&#x27;s Coffee" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Today&#x27;s Coffee<span class="sub">Medium</span></h3>
-            <p class="drink__price">$2.49</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/todays-coffee.jpg" alt="Today&#x27;s Coffee" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Today&#x27;s Coffee<span class="sub">Large</span></h3>
-            <p class="drink__price">$3.49</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/turkish-coffee.jpg" alt="Turkish Coffee" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Turkish Coffee<span class="ar">قهوة تركية</span></h3>
-            <p class="drink__price">$2.99</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/italian-coffee.jpg" alt="Italian Coffee" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Italian Coffee</h3>
-            <p class="drink__price">$4.49</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/mocha.jpg" alt="Mocha" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Mocha</h3>
-            <p class="drink__price">$5.49</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/hot-chocolate.jpg" alt="Hot Chocolate" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Hot Chocolate</h3>
-            <p class="drink__price">$4.99</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/hot-karkade.jpg" alt="Hot Karkade" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Hot Karkade<span class="ar">كركديه</span></h3>
-            <p class="drink__price">$4.99</p>
-            <span class="flag">New</span>
-          </article>
+        <div class="mcat__stage">
+          <button type="button" class="pnav pnav--prev" aria-label="Previous in Hot Coffee">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <div class="mcat__track">
+            <article class="pcard is-active" data-i="0">
+              <div class="pcard__shot"><img src="assets/products/saudi-coffee.jpg" alt="Saudi Coffee" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Saudi Coffee</h4>
+                <p class="pcard__ar">قهوة عربية</p>
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="1" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/turkish-coffee.jpg" alt="Turkish Coffee" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Turkish Coffee</h4>
+                <p class="pcard__ar">قهوة تركية</p>
+                <p class="pcard__price">$2.99</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="2" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/todays-coffee.jpg" alt="Today&#x27;s Coffee" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Today&#x27;s Coffee</h4>
+                
+                <p class="pcard__price">$2.49</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="3" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/espresso.jpg" alt="Espresso" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Espresso</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="4" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/americano.jpg" alt="Americano" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Americano</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="5" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/latte.jpg" alt="Latte" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Latte</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="6" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/cappuccino.jpg" alt="Cappuccino" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Cappuccino</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="7" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/spanish-latte-hot.jpg" alt="Spanish Latte" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Spanish Latte</h4>
+                <p class="pcard__ar">سبانيش لاتيه</p>
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="8" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/italian-coffee.jpg" alt="Italian Coffee" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Italian Coffee</h4>
+                
+                <p class="pcard__price">$4.49</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="9" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/mocha.jpg" alt="Mocha" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Mocha</h4>
+                
+                <p class="pcard__price">$5.49</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="10" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/hot-chocolate.jpg" alt="Hot Chocolate" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Hot Chocolate</h4>
+                
+                <p class="pcard__price">$4.99</p>
+              </div>
+            </article>
+          </div>
+          <button type="button" class="pnav pnav--next" aria-label="Next in Hot Coffee">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
         </div>
+
+        <div class="pdots"><button type="button" class="pdot is-on" data-i="0" aria-label="Saudi Coffee"></button><button type="button" class="pdot" data-i="1" aria-label="Turkish Coffee"></button><button type="button" class="pdot" data-i="2" aria-label="Today&#x27;s Coffee"></button><button type="button" class="pdot" data-i="3" aria-label="Espresso"></button><button type="button" class="pdot" data-i="4" aria-label="Americano"></button><button type="button" class="pdot" data-i="5" aria-label="Latte"></button><button type="button" class="pdot" data-i="6" aria-label="Cappuccino"></button><button type="button" class="pdot" data-i="7" aria-label="Spanish Latte"></button><button type="button" class="pdot" data-i="8" aria-label="Italian Coffee"></button><button type="button" class="pdot" data-i="9" aria-label="Mocha"></button><button type="button" class="pdot" data-i="10" aria-label="Hot Chocolate"></button></div>
       </section>
-      <section class="menu-slide" data-slide="1" aria-label="Iced" hidden>
-        <header class="menu-slide__head">
-          <h3>Iced</h3>
-          <p>Cold, and the reason for the queue</p>
+      <section class="mcat" data-cat="1" aria-label="Iced Coffee">
+        <header class="mcat__head">
+          <div>
+            <h3>Iced Coffee</h3>
+            <p class="mcat__ar">قهوة باردة</p>
+          </div>
+          <span class="mcat__count"><b>1</b> / 9</span>
         </header>
-        <div class="drink-grid">
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/ice-spanish-latte.jpg" alt="Ice Spanish Latte" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Ice Spanish Latte</h3>
-            <p class="drink__price">$5.99</p>
-            <span class="flag">Signature</span>
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/ice-chocolate.jpg" alt="Ice Chocolate" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Ice Chocolate</h3>
-            <p class="drink__price">$5.99</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/ice-karak.jpg" alt="Ice Karak" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Ice Karak</h3>
-            <p class="drink__price">$4.99</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/mocha-oreo.jpg" alt="Mocha Oreo" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Mocha Oreo</h3>
-            <p class="drink__price">$5.99</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/mocha-snickers.jpg" alt="Mocha Snickers" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Mocha Snickers</h3>
-            <p class="drink__price">$5.99</p>
-            
-          </article>
+
+        <div class="mcat__stage">
+          <button type="button" class="pnav pnav--prev" aria-label="Previous in Iced Coffee">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <div class="mcat__track">
+            <article class="pcard is-active" data-i="0">
+              <div class="pcard__shot"><img src="assets/products/ice-spanish-latte.jpg" alt="Ice Spanish Latte" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Ice Spanish Latte</h4>
+                
+                <p class="pcard__price">$5.99</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="1" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/ice-latte.jpg" alt="Ice Latte" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Ice Latte</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="2" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/ice-americano.jpg" alt="Ice Americano" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Ice Americano</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="3" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/ice-mocha.jpg" alt="Ice Mocha" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Ice Mocha</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="4" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/mocha-oreo.jpg" alt="Mocha Oreo" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Mocha Oreo</h4>
+                
+                <p class="pcard__price">$5.99</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="5" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/mocha-snickers.jpg" alt="Mocha Snickers" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Mocha Snickers</h4>
+                
+                <p class="pcard__price">$5.99</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="6" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/ice-chocolate.jpg" alt="Ice Chocolate" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Ice Chocolate</h4>
+                
+                <p class="pcard__price">$5.99</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="7" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/ice-matcha.jpg" alt="Ice Matcha" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Ice Matcha</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="8" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/ice-italian.jpg" alt="Ice Italian" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Ice Italian</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+          </div>
+          <button type="button" class="pnav pnav--next" aria-label="Next in Iced Coffee">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
         </div>
+
+        <div class="pdots"><button type="button" class="pdot is-on" data-i="0" aria-label="Ice Spanish Latte"></button><button type="button" class="pdot" data-i="1" aria-label="Ice Latte"></button><button type="button" class="pdot" data-i="2" aria-label="Ice Americano"></button><button type="button" class="pdot" data-i="3" aria-label="Ice Mocha"></button><button type="button" class="pdot" data-i="4" aria-label="Mocha Oreo"></button><button type="button" class="pdot" data-i="5" aria-label="Mocha Snickers"></button><button type="button" class="pdot" data-i="6" aria-label="Ice Chocolate"></button><button type="button" class="pdot" data-i="7" aria-label="Ice Matcha"></button><button type="button" class="pdot" data-i="8" aria-label="Ice Italian"></button></div>
       </section>
-      <section class="menu-slide" data-slide="2" aria-label="Tea Corner" hidden>
-        <header class="menu-slide__head">
-          <h3>Tea Corner</h3>
-          <p>The late-night end of the board</p>
+      <section class="mcat" data-cat="2" aria-label="Refreshers">
+        <header class="mcat__head">
+          <div>
+            <h3>Refreshers</h3>
+            <p class="mcat__ar">منعشات</p>
+          </div>
+          <span class="mcat__count"><b>1</b> / 10</span>
         </header>
-        <div class="drink-grid">
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/regular-tea.jpg" alt="Regular Tea" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Regular Tea<span class="ar">شاي</span></h3>
-            <p class="drink__price">$1.99</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/talqimah-tea.jpg" alt="Talqimah Tea" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Talqimah Tea<span class="ar">تلقيمة</span></h3>
-            <p class="drink__price">$2.49</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/green-tea.jpg" alt="Green Tea" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Green Tea</h3>
-            <p class="drink__price">$2.49</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/tea-with-milk.jpg" alt="Tea With Milk" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Tea With Milk</h3>
-            <p class="drink__price">$2.99</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/karak-regular.jpg" alt="Karak Regular" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Karak Regular<span class="ar">كرك</span></h3>
-            <p class="drink__price">$4.99</p>
-            <span class="flag">House favourite</span>
-          </article>
+
+        <div class="mcat__stage">
+          <button type="button" class="pnav pnav--prev" aria-label="Previous in Refreshers">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <div class="mcat__track">
+            <article class="pcard is-active" data-i="0">
+              <div class="pcard__shot"><img src="assets/products/kyan-red.jpg" alt="Kyan Red" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Kyan Red</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="1" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/kyan-green.jpg" alt="Kyan Green" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Kyan Green</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="2" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/kyan-watermelon.jpg" alt="Kyan Watermelon" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Kyan Watermelon</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="3" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/kyan-black.jpg" alt="Kyan Black" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Kyan Black</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="4" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/roshan-red.jpg" alt="Roshan Red" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Roshan Red</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="5" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/roshan-blue.jpg" alt="Roshan Blue" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Roshan Blue</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="6" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/roshan-black.jpg" alt="Roshan Black" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Roshan Black</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="7" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/twin-turbo.jpg" alt="Twin Turbo" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Twin Turbo</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="8" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/slush-red.jpg" alt="Slush Red" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Slush Red</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="9" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/slush-blue.jpg" alt="Slush Blue" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Slush Blue</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+          </div>
+          <button type="button" class="pnav pnav--next" aria-label="Next in Refreshers">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
         </div>
+
+        <div class="pdots"><button type="button" class="pdot is-on" data-i="0" aria-label="Kyan Red"></button><button type="button" class="pdot" data-i="1" aria-label="Kyan Green"></button><button type="button" class="pdot" data-i="2" aria-label="Kyan Watermelon"></button><button type="button" class="pdot" data-i="3" aria-label="Kyan Black"></button><button type="button" class="pdot" data-i="4" aria-label="Roshan Red"></button><button type="button" class="pdot" data-i="5" aria-label="Roshan Blue"></button><button type="button" class="pdot" data-i="6" aria-label="Roshan Black"></button><button type="button" class="pdot" data-i="7" aria-label="Twin Turbo"></button><button type="button" class="pdot" data-i="8" aria-label="Slush Red"></button><button type="button" class="pdot" data-i="9" aria-label="Slush Blue"></button></div>
       </section>
-      <section class="menu-slide" data-slide="3" aria-label="Sweets" hidden>
-        <header class="menu-slide__head">
-          <h3>Sweets</h3>
-          <p>From the case, refilled through the day</p>
+      <section class="mcat" data-cat="3" aria-label="Tea Corner">
+        <header class="mcat__head">
+          <div>
+            <h3>Tea Corner</h3>
+            <p class="mcat__ar">ركن الشاي</p>
+          </div>
+          <span class="mcat__count"><b>1</b> / 8</span>
         </header>
-        <div class="drink-grid">
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/pistachio-croissant.jpg" alt="Pistachio Croissant" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Pistachio Croissant</h3>
-            <p class="drink__price drink__price--ask">Ask at the counter</p>
-            <span class="flag">Sells out</span>
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/chocolate-croissant.jpg" alt="Chocolate Croissant" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Chocolate Croissant</h3>
-            <p class="drink__price drink__price--ask">Ask at the counter</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/plain-croissant.jpg" alt="Plain Croissant" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Plain Croissant</h3>
-            <p class="drink__price drink__price--ask">Ask at the counter</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/pistachio-crepe.jpg" alt="Pistachio Crepe" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Pistachio Crepe</h3>
-            <p class="drink__price drink__price--ask">Ask at the counter</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/belgian-waffle.jpg" alt="Belgian Waffle" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Belgian Waffle</h3>
-            <p class="drink__price drink__price--ask">Ask at the counter</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/tiramisu.jpg" alt="Tiramisu" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Tiramisu</h3>
-            <p class="drink__price drink__price--ask">Ask at the counter</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/umm-ali.jpg" alt="Umm Ali" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Umm Ali<span class="ar">أم علي</span></h3>
-            <p class="drink__price drink__price--ask">Ask at the counter</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/basbousa.jpg" alt="Basbousa" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Basbousa<span class="ar">بسبوسة</span></h3>
-            <p class="drink__price drink__price--ask">Ask at the counter</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/pudding.jpg" alt="Pudding" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Pudding</h3>
-            <p class="drink__price drink__price--ask">Ask at the counter</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/cookies.jpg" alt="Cookies" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Cookies</h3>
-            <p class="drink__price drink__price--ask">Ask at the counter</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/chocolate-muffin.jpg" alt="Chocolate Muffin" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Chocolate Muffin</h3>
-            <p class="drink__price drink__price--ask">Ask at the counter</p>
-            
-          </article>
-          <article class="drink">
-            <div class="drink__shot"><img src="assets/products/vanilla-ice-cream.jpg" alt="Vanilla Ice Cream" loading="lazy" decoding="async" width="760" height="576"></div>
-            <h3>Vanilla Ice Cream</h3>
-            <p class="drink__price drink__price--ask">Ask at the counter</p>
-            
-          </article>
+
+        <div class="mcat__stage">
+          <button type="button" class="pnav pnav--prev" aria-label="Previous in Tea Corner">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <div class="mcat__track">
+            <article class="pcard is-active" data-i="0">
+              <div class="pcard__shot"><img src="assets/products/karak.jpg" alt="Karak" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Karak</h4>
+                <p class="pcard__ar">كرك</p>
+                <p class="pcard__price">$4.99</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="1" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/regular-tea.jpg" alt="Regular Tea" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Regular Tea</h4>
+                <p class="pcard__ar">شاي</p>
+                <p class="pcard__price">$1.99</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="2" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/talqimah-tea.jpg" alt="Talqimah Tea" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Talqimah Tea</h4>
+                <p class="pcard__ar">تلقيمة</p>
+                <p class="pcard__price">$2.49</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="3" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/green-tea.jpg" alt="Green Tea" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Green Tea</h4>
+                
+                <p class="pcard__price">$2.49</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="4" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/karak-milk.jpg" alt="Tea With Milk" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Tea With Milk</h4>
+                
+                <p class="pcard__price">$2.99</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="5" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/moroccan-tea.jpg" alt="Moroccan Tea" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Moroccan Tea</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="6" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/hot-karkade.jpg" alt="Hot Karkade" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Hot Karkade</h4>
+                <p class="pcard__ar">كركديه</p>
+                <p class="pcard__price">$4.99</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="7" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/ice-tea.jpg" alt="Ice Tea" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Ice Tea</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+          </div>
+          <button type="button" class="pnav pnav--next" aria-label="Next in Tea Corner">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
         </div>
+
+        <div class="pdots"><button type="button" class="pdot is-on" data-i="0" aria-label="Karak"></button><button type="button" class="pdot" data-i="1" aria-label="Regular Tea"></button><button type="button" class="pdot" data-i="2" aria-label="Talqimah Tea"></button><button type="button" class="pdot" data-i="3" aria-label="Green Tea"></button><button type="button" class="pdot" data-i="4" aria-label="Tea With Milk"></button><button type="button" class="pdot" data-i="5" aria-label="Moroccan Tea"></button><button type="button" class="pdot" data-i="6" aria-label="Hot Karkade"></button><button type="button" class="pdot" data-i="7" aria-label="Ice Tea"></button></div>
       </section>
-        <p class="menu-note">
-          Board prices at the Bronx store. Sweets change through the day —
-          call <a href="tel:+13472934901">(347) 293-4901</a> or check Uber Eats.
-        </p>
-      </div>
-      <button type="button" class="menu-arrow menu-arrow--next" id="menuNext" aria-label="Next section">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-      </button>
+      <section class="mcat" data-cat="4" aria-label="Pastries">
+        <header class="mcat__head">
+          <div>
+            <h3>Pastries</h3>
+            <p class="mcat__ar">معجنات</p>
+          </div>
+          <span class="mcat__count"><b>1</b> / 7</span>
+        </header>
+
+        <div class="mcat__stage">
+          <button type="button" class="pnav pnav--prev" aria-label="Previous in Pastries">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <div class="mcat__track">
+            <article class="pcard is-active" data-i="0">
+              <div class="pcard__shot"><img src="assets/products/pistachio-croissant.jpg" alt="Pistachio Croissant" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Pistachio Croissant</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="1" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/chocolate-croissant.jpg" alt="Chocolate Croissant" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Chocolate Croissant</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="2" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/plain-croissant.jpg" alt="Plain Croissant" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Plain Croissant</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="3" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/croissant-mix.jpg" alt="Croissant Mix" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Croissant Mix</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="4" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/pistachio-crepe.jpg" alt="Pistachio Crepe" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Pistachio Crepe</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="5" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/fettuccine-crepe.jpg" alt="Fettuccine Crepe" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Fettuccine Crepe</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="6" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/belgian-waffle.jpg" alt="Belgian Waffle" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Belgian Waffle</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+          </div>
+          <button type="button" class="pnav pnav--next" aria-label="Next in Pastries">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <div class="pdots"><button type="button" class="pdot is-on" data-i="0" aria-label="Pistachio Croissant"></button><button type="button" class="pdot" data-i="1" aria-label="Chocolate Croissant"></button><button type="button" class="pdot" data-i="2" aria-label="Plain Croissant"></button><button type="button" class="pdot" data-i="3" aria-label="Croissant Mix"></button><button type="button" class="pdot" data-i="4" aria-label="Pistachio Crepe"></button><button type="button" class="pdot" data-i="5" aria-label="Fettuccine Crepe"></button><button type="button" class="pdot" data-i="6" aria-label="Belgian Waffle"></button></div>
+      </section>
+      <section class="mcat" data-cat="5" aria-label="Desserts">
+        <header class="mcat__head">
+          <div>
+            <h3>Desserts</h3>
+            <p class="mcat__ar">حلويات</p>
+          </div>
+          <span class="mcat__count"><b>1</b> / 7</span>
+        </header>
+
+        <div class="mcat__stage">
+          <button type="button" class="pnav pnav--prev" aria-label="Previous in Desserts">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <div class="mcat__track">
+            <article class="pcard is-active" data-i="0">
+              <div class="pcard__shot"><img src="assets/products/tiramisu.jpg" alt="Tiramisu" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Tiramisu</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="1" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/umm-ali.jpg" alt="Umm Ali" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Umm Ali</h4>
+                <p class="pcard__ar">أم علي</p>
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="2" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/basbousa.jpg" alt="Basbousa" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Basbousa</h4>
+                <p class="pcard__ar">بسبوسة</p>
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="3" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/pudding.jpg" alt="Pudding" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Pudding</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="4" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/cookies.jpg" alt="Cookies" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Cookies</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="5" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/vanilla-ice-cream.jpg" alt="Vanilla Ice Cream" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Vanilla Ice Cream</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="6" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/eclair.jpg" alt="Eclair" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Eclair</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+          </div>
+          <button type="button" class="pnav pnav--next" aria-label="Next in Desserts">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <div class="pdots"><button type="button" class="pdot is-on" data-i="0" aria-label="Tiramisu"></button><button type="button" class="pdot" data-i="1" aria-label="Umm Ali"></button><button type="button" class="pdot" data-i="2" aria-label="Basbousa"></button><button type="button" class="pdot" data-i="3" aria-label="Pudding"></button><button type="button" class="pdot" data-i="4" aria-label="Cookies"></button><button type="button" class="pdot" data-i="5" aria-label="Vanilla Ice Cream"></button><button type="button" class="pdot" data-i="6" aria-label="Eclair"></button></div>
+      </section>
+      <section class="mcat" data-cat="6" aria-label="Juices">
+        <header class="mcat__head">
+          <div>
+            <h3>Juices</h3>
+            <p class="mcat__ar">عصائر</p>
+          </div>
+          <span class="mcat__count"><b>1</b> / 2</span>
+        </header>
+
+        <div class="mcat__stage">
+          <button type="button" class="pnav pnav--prev" aria-label="Previous in Juices">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <div class="mcat__track">
+            <article class="pcard is-active" data-i="0">
+              <div class="pcard__shot"><img src="assets/products/orange-juice.jpg" alt="Orange Juice" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Orange Juice</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+            <article class="pcard" data-i="1" aria-hidden="true">
+              <div class="pcard__shot"><img src="assets/products/lemon-mint.jpg" alt="Lemon Mint" loading="lazy" decoding="async" width="900" height="682"></div>
+              <div class="pcard__body">
+                <h4>Lemon Mint</h4>
+                
+                <p class="pcard__price pcard__price--ask">Ask at the counter</p>
+              </div>
+            </article>
+          </div>
+          <button type="button" class="pnav pnav--next" aria-label="Next in Juices">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <div class="pdots"><button type="button" class="pdot is-on" data-i="0" aria-label="Orange Juice"></button><button type="button" class="pdot" data-i="1" aria-label="Lemon Mint"></button></div>
+      </section>
+      <p class="menu-note">
+        Board prices at the Bronx store; the rest change through the day —
+        call <a href="tel:+13472934901">(347) 293-4901</a> or check Uber Eats.
+      </p>
     </div>
 
     <footer class="menu-modal__foot">
-      <div class="menu-dots"><button type="button" class="menu-dot is-on" data-slide="0" aria-label="Coffee"></button><button type="button" class="menu-dot" data-slide="1" aria-label="Iced"></button><button type="button" class="menu-dot" data-slide="2" aria-label="Tea Corner"></button><button type="button" class="menu-dot" data-slide="3" aria-label="Sweets"></button></div>
       <a class="btn btn--eats" href="https://www.ubereats.com/store/kyan-coffee-corp/dUQQP7SjVjqRdFQojBXkFQ" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h16l-1.2 12.2a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8z"/><path d="M8.5 8V6a3.5 3.5 0 0 1 7 0v2"/></svg> Order on Uber Eats</a>
     </footer>
   </div>
