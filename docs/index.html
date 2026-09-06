@@ -38,7 +38,7 @@
   "telephone": "+1-347-293-4901",
   "servesCuisine": ["Coffee", "Saudi", "Middle Eastern", "Desserts"],
   "priceRange": "$",
-  "openingHours": "Mo-Su 07:00-24:00",
+  "openingHours": "Mo-Su 07:00-23:59",
   "potentialAction": {
     "@type": "OrderAction",
     "target": {
@@ -57,16 +57,15 @@
 <body>
 
 <!-- ══════════════════════ drink & food artwork ══════════════════════
-     One symbol per vessel. Each card sets --liq / --liq2 / --foam /
-     --straw, which inherit into the <use> shadow tree, so a single
-     drawing serves every drink that comes in that glass.            -->
+     One symbol per vessel. Cards set --liq / --liq2 / --liq3 / --foam /
+     --drizzle / --bits / --straw; custom properties inherit into the
+     <use> shadow tree, so one drawing serves every drink in that glass. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
     <clipPath id="cIced"><path d="M34 44 40 126c.4 6 5 10 11 10h18c6 0 10.6-4 11-10L86 44z"/></clipPath>
     <clipPath id="cGlass"><path d="M38 34 42 124c.3 7 5 11 11 11h14c6 0 10.7-4 11-11L82 34z"/></clipPath>
     <clipPath id="cDcup"><path d="M38 56 44 120c.3 6 5 10 11 10h10c6 0 10.7-4 11-10L82 56z"/></clipPath>
 
-    <!-- ceramic cup and saucer, for anything served hot -->
     <symbol id="d-hot" viewBox="24 50 85 88">
       <ellipse cx="60" cy="126" rx="44" ry="9" fill="#fbfdfd" stroke="#cfe0e5" stroke-width="1.5"/>
       <path d="M90 74c14 3 18 12 15 21-3 9-12 12-20 11" fill="none" stroke="#e2ecef" stroke-width="7" stroke-linecap="round"/>
@@ -74,11 +73,11 @@
       <ellipse cx="60" cy="62" rx="32" ry="8.5" fill="#f4f9fa" stroke="#cfe0e5" stroke-width="1.6"/>
       <ellipse cx="60" cy="62.5" rx="27" ry="6.6" fill="var(--liq)"/>
       <ellipse cx="60" cy="62" rx="17" ry="4" fill="var(--foam, transparent)"/>
+      <ellipse cx="60" cy="62" rx="9" ry="2.1" fill="var(--bits, transparent)"/>
       <path d="M40 78c9 38 6 42 6 42" stroke="#ffffff" stroke-width="5" fill="none" opacity=".65"/>
     </symbol>
 
-    <!-- finjan: the small handleless cup for Saudi and Turkish coffee -->
-    <symbol id="d-finjan" viewBox="18 66 84 70">
+    <symbol id="d-finjan" viewBox="24 60 72 80">
       <ellipse cx="60" cy="124" rx="40" ry="8.5" fill="#fbfdfd" stroke="#cfe0e5" stroke-width="1.5"/>
       <path d="M40 76h40l-4 34c-.5 5-4 7-8 7H52c-4 0-7.5-2-8-7z" fill="#fff" stroke="#cfe0e5" stroke-width="1.6"/>
       <ellipse cx="60" cy="76" rx="20" ry="5.6" fill="#f4f9fa" stroke="#cfe0e5" stroke-width="1.6"/>
@@ -87,27 +86,33 @@
       <path d="M48 88c5 24 4 28 4 28" stroke="#fff" stroke-width="3.5" fill="none" opacity=".6"/>
     </symbol>
 
-    <!-- clear cup, dome lid, straw — every iced drink -->
     <symbol id="d-iced" viewBox="26 6 68 142">
       <ellipse cx="60" cy="139" rx="32" ry="5.5" fill="#0d2630" opacity=".12"/>
       <g clip-path="url(#cIced)">
-        <rect x="30" y="84" width="60" height="62" fill="var(--liq2, var(--liq))"/>
-        <rect x="30" y="44" width="60" height="42" fill="var(--liq)"/>
+        <rect x="30" y="98" width="60" height="48" fill="var(--liq3, var(--liq2, var(--liq)))"/>
+        <rect x="30" y="70" width="60" height="30" fill="var(--liq2, var(--liq))"/>
+        <rect x="30" y="44" width="60" height="27" fill="var(--liq)"/>
         <rect x="30" y="44" width="60" height="9" fill="var(--foam, transparent)"/>
+        <g stroke="var(--drizzle, transparent)" stroke-width="3" fill="none" stroke-linecap="round" opacity=".85">
+          <path d="M38 58c2 14-2 22 1 34M50 52c3 18-2 26 1 40M70 54c-3 16 2 24-1 38M82 60c-2 12 2 20-1 30"/>
+        </g>
         <g fill="#fff" opacity=".42">
           <rect x="40" y="56" width="18" height="18" rx="4" transform="rotate(-14 49 65)"/>
           <rect x="62" y="70" width="16" height="16" rx="4" transform="rotate(18 70 78)"/>
           <rect x="45" y="88" width="15" height="15" rx="4" transform="rotate(6 52 95)"/>
         </g>
+        <g fill="var(--bits, transparent)">
+          <circle cx="44" cy="49" r="2.6"/><circle cx="54" cy="46" r="2"/><circle cx="64" cy="50" r="2.8"/>
+          <circle cx="74" cy="47" r="2.2"/><circle cx="58" cy="53" r="1.8"/><circle cx="80" cy="52" r="2"/>
+        </g>
       </g>
-      <path d="M34 44 40 126c.4 6 5 10 11 10h18c6 0 10.6-4 11-10L86 44z" fill="#fff" fill-opacity=".14" stroke="#cfe0e5" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M34 44 40 126c.4 6 5 10 11 10h18c6 0 10.6-4 11-10L86 44z" fill="#fff" fill-opacity=".13" stroke="#cfe0e5" stroke-width="1.8" stroke-linejoin="round"/>
       <path d="M30 44v-3c0-11 8-17 30-17s30 6 30 17v3z" fill="#eef5f7" stroke="#cfe0e5" stroke-width="1.5"/>
       <path d="M29 44h62" stroke="#dbe8ec" stroke-width="4" stroke-linecap="round"/>
       <path d="M74 30 92 11" stroke="var(--straw, #2a6ba5)" stroke-width="6.5" stroke-linecap="round"/>
       <path d="M44 60c-1 34 0 50 2 58" stroke="#fff" stroke-width="4" fill="none" opacity=".5"/>
     </symbol>
 
-    <!-- tall glass — tea, karak, the cold mixes, juice -->
     <symbol id="d-glass" viewBox="28 28 64 118">
       <ellipse cx="60" cy="138" rx="30" ry="5.5" fill="#0d2630" opacity=".12"/>
       <g clip-path="url(#cGlass)">
@@ -126,26 +131,8 @@
     <symbol id="d-croissant" viewBox="16 54 88 78">
       <ellipse cx="60" cy="118" rx="42" ry="9" fill="#fbfdfd" stroke="#cfe0e5" stroke-width="1.5"/>
       <path d="M24 102c0-26 16-44 36-44s36 18 36 44c-9-9-17-13-25-13-6 0-8 4-11 4s-5-4-11-4c-8 0-16 4-25 13z" fill="var(--liq)" stroke="#c39350" stroke-width="1.6" stroke-linejoin="round"/>
-      <g stroke="#c39350" stroke-width="1.4" fill="none" opacity=".7">
-        <path d="M42 68c-4 10-6 20-6 28M60 58v34M78 68c4 10 6 20 6 28"/>
-      </g>
+      <g stroke="#c39350" stroke-width="1.4" fill="none" opacity=".7"><path d="M42 68c-4 10-6 20-6 28M60 58v34M78 68c4 10 6 20 6 28"/></g>
       <path d="M37 76c8-7 15-9 23-9s15 2 23 9" stroke="var(--foam, transparent)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-    </symbol>
-
-    <symbol id="d-waffle" viewBox="24 46 72 88">
-      <ellipse cx="60" cy="122" rx="42" ry="9" fill="#fbfdfd" stroke="#cfe0e5" stroke-width="1.5"/>
-      <rect x="28" y="62" width="64" height="52" rx="11" fill="var(--liq)" stroke="#c39350" stroke-width="1.6"/>
-      <g stroke="#c39350" stroke-width="1.4" opacity=".62">
-        <path d="M28 79h64M28 96h64M45 62v52M60 62v52M75 62v52"/>
-      </g>
-      <path d="M34 62c9-11 17-13 26-13s17 2 26 13z" fill="var(--foam, transparent)"/>
-    </symbol>
-
-    <symbol id="d-donut" viewBox="18 44 84 90">
-      <ellipse cx="60" cy="122" rx="40" ry="8.5" fill="#fbfdfd" stroke="#cfe0e5" stroke-width="1.5"/>
-      <circle cx="60" cy="82" r="34" fill="var(--liq)" stroke="#c39350" stroke-width="1.6"/>
-      <path d="M26 80c4-18 18-30 34-30s30 12 34 30c-5 7-12 3-17 8s-10 1-17 3-10-5-17-7-12 2-17-4z" fill="var(--foam, transparent)"/>
-      <circle cx="60" cy="82" r="11" fill="#fbfdfd" stroke="#cfe0e5" stroke-width="1.5"/>
     </symbol>
 
     <symbol id="d-cup" viewBox="28 24 64 118">
@@ -157,13 +144,6 @@
       </g>
       <path d="M38 56 44 120c.3 6 5 10 11 10h10c6 0 10.7-4 11-10L82 56z" fill="#fff" fill-opacity=".12" stroke="#cfe0e5" stroke-width="1.8" stroke-linejoin="round"/>
       <path d="M36 56h48" stroke="#dbe8ec" stroke-width="4" stroke-linecap="round"/>
-    </symbol>
-
-    <symbol id="d-sandwich" viewBox="16 48 88 84">
-      <ellipse cx="60" cy="120" rx="42" ry="9" fill="#fbfdfd" stroke="#cfe0e5" stroke-width="1.5"/>
-      <path d="M20 110 46 52l26 58z" fill="var(--liq)" stroke="#c39350" stroke-width="1.6" stroke-linejoin="round"/>
-      <path d="M50 110 76 52l26 58z" fill="var(--liq)" stroke="#c39350" stroke-width="1.6" stroke-linejoin="round"/>
-      <path d="M34 86h24M64 86h24" stroke="var(--foam, transparent)" stroke-width="6" stroke-linecap="round"/>
     </symbol>
   </defs>
 </svg>
@@ -246,7 +226,7 @@
 
     <div class="status" id="status" aria-live="polite">
       <span class="status__dot" aria-hidden="true"></span>
-      <span id="statusText">7am – midnight, daily</span>
+      <span id="statusText">7am – 11:59pm, daily</span>
     </div>
 
     <a class="btn btn--white btn--sm nav__order" href="https://www.ubereats.com/store/kyan-coffee-corp/dUQQP7SjVjqRdFQojBXkFQ" target="_blank" rel="noopener">
@@ -293,7 +273,7 @@
           <span class="ln"><span>From Saudi</span></span>
           <span class="ln"><span><span class="thin">to</span>&nbsp;NYC</span></span>
         </h1>
-        <p class="hero__sub">Saudi coffee house. Open till midnight, seven days.</p>
+        <p class="hero__sub">Saudi coffee house. Open till 11:59 PM, seven days.</p>
 
         <div class="hero__acts">
           <a class="btn btn--white" href="https://www.ubereats.com/store/kyan-coffee-corp/dUQQP7SjVjqRdFQojBXkFQ" target="_blank" rel="noopener">
@@ -315,60 +295,98 @@
           <path d="M80 108c-9-17 9-26 0-43s7-26 2-39"/>
         </svg>
 
-        <!-- The shop's cup. The printed label revolves around it. -->
-        <svg class="cup" viewBox="0 0 300 400" role="img" aria-label="A Kyan Cafe takeaway cup, turning">
+        <!-- The Ice Spanish Latte. The printed label revolves around the cup. -->
+        <svg class="cup" viewBox="0 0 300 430" role="img" aria-label="An iced Spanish latte in a Kyan cup, turning">
           <defs>
-            <clipPath id="clipCup">
-              <path d="M52 100 86 366c.6 6 5 10 11 10h106c6 0 10.4-4 11-10L248 100z"/>
+            <clipPath id="heroCup">
+              <path d="M52 108 84 374c.6 8 7.2 14 15.2 14h101.6c8 0 14.6-6 15.2-14L248 108z"/>
             </clipPath>
+            <linearGradient id="hEspresso" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3b2110"/><stop offset="100%" stop-color="#5c3a1d"/>
+            </linearGradient>
+            <linearGradient id="hCaramel" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#7d4f26"/><stop offset="100%" stop-color="#b07c46"/>
+            </linearGradient>
+            <linearGradient id="hMilk" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#c9a476"/><stop offset="100%" stop-color="#e7cfa8"/>
+            </linearGradient>
+            <linearGradient id="hRound" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%"   stop-color="#1b0f06" stop-opacity=".46"/>
+              <stop offset="10%"  stop-color="#1b0f06" stop-opacity=".18"/>
+              <stop offset="34%"  stop-color="#ffffff" stop-opacity="0"/>
+              <stop offset="50%"  stop-color="#ffffff" stop-opacity=".17"/>
+              <stop offset="68%"  stop-color="#ffffff" stop-opacity="0"/>
+              <stop offset="90%"  stop-color="#1b0f06" stop-opacity=".22"/>
+              <stop offset="100%" stop-color="#1b0f06" stop-opacity=".5"/>
+            </linearGradient>
+            <linearGradient id="hLid" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#dfe9ec"/><stop offset="22%" stop-color="#ffffff"/>
+              <stop offset="70%" stop-color="#f7fbfc"/><stop offset="100%" stop-color="#d5e1e5"/>
+            </linearGradient>
           </defs>
 
-          <ellipse cx="150" cy="384" rx="86" ry="14" fill="#0d2630" opacity=".18"/>
+          <ellipse cx="150" cy="398" rx="88" ry="15" fill="#0d2630" opacity=".24"/>
 
-          <!-- cup stock -->
-          <path d="M52 100 86 366c.6 6 5 10 11 10h106c6 0 10.4-4 11-10L248 100z" fill="#f6f0e3"/>
+          <!-- straw, behind the lid -->
+          <path d="M172 84 236 16" stroke="#17415f" stroke-width="16" stroke-linecap="round"/>
+          <path d="M172 84 236 16" stroke="#8ad5df" stroke-width="5.5" stroke-linecap="round" stroke-dasharray="12 16"/>
 
-          <!-- the revolving print -->
-          <g clip-path="url(#clipCup)">
+          <!-- the drink -->
+          <g clip-path="url(#heroCup)">
+            <rect x="46" y="256" width="208" height="150" fill="url(#hMilk)"/>
+            <rect x="46" y="174" width="208" height="84" fill="url(#hCaramel)"/>
+            <rect x="46" y="104" width="208" height="72" fill="url(#hEspresso)"/>
+            <path d="M46 256c24-13 42 9 66 0s42-12 66 0 32 6 76 3v14H46z" fill="#a9784a" opacity=".6"/>
+            <path d="M46 174c26-14 44 10 70 0s44-13 70 0 30 6 68 3v12H46z" fill="#67421f" opacity=".55"/>
+
+            <!-- caramel drizzle running down the inside of the cup -->
+            <g stroke="#8a5010" stroke-width="7" fill="none" stroke-linecap="round" opacity=".7">
+              <path d="M70 120c6 40-6 60 4 96M104 112c9 50-5 70 5 108M150 116c-8 46 6 66-4 104M196 110c10 48-4 68 6 106M230 124c-7 34 5 52-4 86"/>
+            </g>
+
+            <!-- ice -->
+            <g fill="#ffffff" opacity=".3">
+              <rect x="82" y="136" width="48" height="48" rx="11" transform="rotate(-14 106 160)"/>
+              <rect x="150" y="120" width="42" height="42" rx="10" transform="rotate(16 171 141)"/>
+              <rect x="116" y="194" width="44" height="44" rx="11" transform="rotate(8 138 216)"/>
+              <rect x="180" y="180" width="38" height="38" rx="9" transform="rotate(-20 199 199)"/>
+            </g>
+
+            <!-- the revolving print -->
             <g class="label">
-              <circle cx="150" cy="136" r="15" fill="#2bafc4"/>
-              <path d="M146 129v14M146 136l7-7M146 136l7 7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none"/>
-              <g transform="translate(108 250) rotate(-90)">
-                <text text-anchor="middle" font-family="Yellowtail, cursive" font-size="27" fill="#2a6ba5">cafe</text>
+              <g transform="translate(106 254) rotate(-90)">
+                <text text-anchor="middle" font-family="Yellowtail, cursive" font-size="27" fill="#fffaf0">cafe</text>
               </g>
-              <text text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="46" fill="#2a6ba5" letter-spacing="1">
-                <tspan x="151" y="198">K</tspan>
-                <tspan x="150" y="243">Y</tspan>
-                <tspan x="149" y="288">A</tspan>
-                <tspan x="148" y="333">N</tspan>
+              <text text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="50" fill="#fffaf0" letter-spacing="1">
+                <tspan x="158" y="200">K</tspan><tspan x="157" y="248">Y</tspan>
+                <tspan x="156" y="296">A</tspan><tspan x="155" y="344">N</tspan>
+              </text>
+            </g>
+            <g class="label label--b">
+              <g transform="translate(106 254) rotate(-90)">
+                <text text-anchor="middle" font-family="Yellowtail, cursive" font-size="27" fill="#fffaf0">cafe</text>
+              </g>
+              <text text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="50" fill="#fffaf0" letter-spacing="1">
+                <tspan x="158" y="200">K</tspan><tspan x="157" y="248">Y</tspan>
+                <tspan x="156" y="296">A</tspan><tspan x="155" y="344">N</tspan>
               </text>
             </g>
 
-            <g class="label label--b">
-              <circle cx="150" cy="136" r="15" fill="#2bafc4"/>
-              <path d="M146 129v14M146 136l7-7M146 136l7 7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none"/>
-              <g transform="translate(108 250) rotate(-90)">
-                <text text-anchor="middle" font-family="Yellowtail, cursive" font-size="27" fill="#2a6ba5">cafe</text>
-              </g>
-              <text text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="46" fill="#2a6ba5" letter-spacing="1">
-                <tspan x="151" y="198">K</tspan>
-                <tspan x="150" y="243">Y</tspan>
-                <tspan x="149" y="288">A</tspan>
-                <tspan x="148" y="333">N</tspan>
-              </text>
-            </g>
+            <!-- cylinder shading over everything, so the cup reads round -->
+            <rect x="46" y="100" width="208" height="300" fill="url(#hRound)"/>
           </g>
 
-          <!-- cylinder shading sits over the print, so the cup reads round -->
-          <path d="M52 100 86 366c.6 6 5 10 11 10h106c6 0 10.4-4 11-10L248 100z" fill="url(#gShade)"/>
+          <!-- cup wall -->
+          <path d="M52 108 84 374c.6 8 7.2 14 15.2 14h101.6c8 0 14.6-6 15.2-14L248 108z"
+                fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M86 148c-4 92 0 176 6 216" stroke="#ffffff" stroke-width="13" fill="none" opacity=".26"/>
 
-          <!-- lid -->
-          <path d="M42 100V78c0-14 10-22 26-25 24-4 54-6 82-6s58 2 82 6c16 3 26 11 26 25v22z" fill="url(#gLid)"/>
-          <path d="M42 88h216" stroke="#d5dde0" stroke-width="2"/>
-          <rect x="186" y="60" width="42" height="13" rx="6.5" fill="#dbe3e6"/>
-
-          <!-- specular -->
-          <path d="M74 118c8 84 16 190 20 246" stroke="url(#gSheen)" stroke-width="13" fill="none" opacity=".8"/>
+          <!-- dome lid -->
+          <path d="M60 96c0-30 26-48 90-48s90 18 90 48z" fill="url(#hLid)" stroke="#c9d9de" stroke-width="2"/>
+          <ellipse cx="150" cy="106" rx="98" ry="13" fill="url(#hLid)" stroke="#c9d9de" stroke-width="2"/>
+          <ellipse cx="150" cy="103" rx="88" ry="9" fill="#ffffff" opacity=".85"/>
+          <path d="M96 76c14-10 32-14 54-14" stroke="#ffffff" stroke-width="7" fill="none" stroke-linecap="round" opacity=".9"/>
+          <ellipse cx="181" cy="79" rx="15" ry="9" fill="#e5edf0" stroke="#c9d9de" stroke-width="1.6" transform="rotate(-42 181 79)"/>
         </svg>
 
         <div class="badge badge--a">
@@ -398,12 +416,12 @@
     <div class="ribbon__set">
       <span>Spanish Latte</span><i></i><span>Karak</span><i></i><span>Saudi Coffee</span><i></i>
       <span>Pistachio Croissant</span><i></i><span>Turkish Coffee</span><i></i><span>Crepe Pudding</span><i></i>
-      <span>Roshan Red</span><i></i><span>Open till midnight</span><i></i>
+      <span>Roshan Red</span><i></i><span>Open till late</span><i></i>
     </div>
     <div class="ribbon__set">
       <span>Spanish Latte</span><i></i><span>Karak</span><i></i><span>Saudi Coffee</span><i></i>
       <span>Pistachio Croissant</span><i></i><span>Turkish Coffee</span><i></i><span>Crepe Pudding</span><i></i>
-      <span>Roshan Red</span><i></i><span>Open till midnight</span><i></i>
+      <span>Roshan Red</span><i></i><span>Open till late</span><i></i>
     </div>
   </div>
 </div>
@@ -415,208 +433,40 @@
       <p class="kicker">The menu</p>
       <h2 class="title">Two traditions, <em>one counter</em></h2>
       <p class="lede">
-        Americanos and lattes on one side of the board; Saudi coffee, Turkish coffee and
-        karak on the other. Everything halal.
+        Saudi and Turkish coffee on one side of the board, the iced drinks and the tea
+        corner on the other. Everything halal.
       </p>
     </div>
 
-    <div class="tabs" role="group" aria-label="Filter the menu by category" data-reveal>
-      <button type="button" class="tab" aria-pressed="true" data-filter="all">Everything</button>
-      <button type="button" class="tab" aria-pressed="false" data-filter="hot">Hot Coffee</button>
-      <button type="button" class="tab" aria-pressed="false" data-filter="iced">Iced</button>
-      <button type="button" class="tab" aria-pressed="false" data-filter="tea">Tea &amp; Cold</button>
-      <button type="button" class="tab" aria-pressed="false" data-filter="pastry">Pastries</button>
-      <button type="button" class="tab" aria-pressed="false" data-filter="sweet">Sweets</button>
-    </div>
-
-    <div class="drink-grid" id="menuGrid">
-      <article class="drink" data-cat="hot" style="--liq:#d9b871">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Saudi Coffee"><use href="#d-finjan"/></svg>
-        <h3>Saudi Coffee<span class="ar">قهوة عربية</span></h3>
-        <span class="flag">Tradition</span>
-      </article>
-
-      <article class="drink" data-cat="hot" style="--liq:#3f2416;--foam:#b08453">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Turkish Coffee"><use href="#d-finjan"/></svg>
-        <h3>Turkish Coffee<span class="ar">قهوة تركية</span></h3>
-        
-      </article>
-
-      <article class="drink" data-cat="hot" style="--liq:#43260f;--foam:#6b4526">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Americano"><use href="#d-hot"/></svg>
-        <h3>Americano</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="hot" style="--liq:#c3a077;--foam:#f2e7d6">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Latte"><use href="#d-hot"/></svg>
-        <h3>Latte</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="hot" style="--liq:#bb8d58;--foam:#f0e0c6">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Spanish Latte"><use href="#d-hot"/></svg>
-        <h3>Spanish Latte<span class="ar">سبانيش لاتيه</span></h3>
-        <span class="flag">Most ordered</span>
-      </article>
-
-      <article class="drink" data-cat="hot" style="--liq:#b98b5e;--foam:#f8efe1">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Cappuccino"><use href="#d-hot"/></svg>
-        <h3>Cappuccino</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="hot" style="--liq:#63391f;--foam:#e9d7c2">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Mocha"><use href="#d-hot"/></svg>
-        <h3>Mocha</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="hot" style="--liq:#54301c;--foam:#f3e4d4">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Hot Chocolate"><use href="#d-hot"/></svg>
-        <h3>Hot Chocolate</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="iced" style="--liq:#b98b5e;--liq2:#f6eddd">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Iced Spanish Latte"><use href="#d-iced"/></svg>
-        <h3>Iced Spanish Latte</h3>
-        <span class="flag">Signature</span>
-      </article>
-
-      <article class="drink" data-cat="iced" style="--liq:#43260f;--liq2:#5a3620">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Iced Americano"><use href="#d-iced"/></svg>
-        <h3>Iced Americano</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="iced" style="--liq:#c19a6b;--liq2:#f3e9d9">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Iced Latte"><use href="#d-iced"/></svg>
-        <h3>Iced Latte</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="iced" style="--liq:#d5b78e;--liq2:#f8f2e6">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Shaken White Mocha"><use href="#d-iced"/></svg>
-        <h3>Shaken White Mocha</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="iced" style="--liq:#3b2a22;--liq2:#6b4c3c;--foam:#ffffff">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Oreo Mocha"><use href="#d-iced"/></svg>
-        <h3>Oreo Mocha</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="iced" style="--liq:#5f3c22;--liq2:#7a5233;--foam:#fdf6ea">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Affogato"><use href="#d-cup"/></svg>
-        <h3>Affogato</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="tea" style="--liq:#c98a4b;--foam:#e8cba3">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Karak Tea"><use href="#d-glass"/></svg>
-        <h3>Karak Tea<span class="ar">كرك</span></h3>
-        <span class="flag">Late night</span>
-      </article>
-
-      <article class="drink" data-cat="tea" style="--liq:#a9c66d">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Green Tea"><use href="#d-glass"/></svg>
-        <h3>Green Tea</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="tea" style="--liq:#cf3b46">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Roshan Red"><use href="#d-glass"/></svg>
-        <h3>Roshan Red</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="tea" style="--liq:#2b1c17">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Roshan Black"><use href="#d-glass"/></svg>
-        <h3>Roshan Black</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="tea" style="--liq:#e8a33d">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Twin Turbo"><use href="#d-glass"/></svg>
-        <h3>Twin Turbo</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="tea" style="--liq:#bcd88c;--foam:#d9ecb4">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Lemon Mint"><use href="#d-glass"/></svg>
-        <h3>Lemon Mint</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="pastry" style="--liq:#e0b46c;--foam:#a9c66d">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Pistachio Croissant"><use href="#d-croissant"/></svg>
-        <h3>Pistachio Croissant</h3>
-        <span class="flag">Sells out</span>
-      </article>
-
-      <article class="drink" data-cat="pastry" style="--liq:#e0b46c">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Butter Croissant"><use href="#d-croissant"/></svg>
-        <h3>Butter Croissant</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="pastry" style="--liq:#d8a75f;--foam:#5b3320">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Chocolate Croissant"><use href="#d-croissant"/></svg>
-        <h3>Chocolate Croissant</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="pastry" style="--liq:#e9c98c;--foam:#c46a5a">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Club Sandwich"><use href="#d-sandwich"/></svg>
-        <h3>Club Sandwich</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="sweet" style="--liq:#f4e7d2;--liq2:#e0c39a;--foam:#fdf7ec">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Crepe Pudding"><use href="#d-cup"/></svg>
-        <h3>Crepe Pudding</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="sweet" style="--liq:#e6d3b6;--liq2:#5b3320;--foam:#5b3320">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Chocolate Crepe"><use href="#d-cup"/></svg>
-        <h3>Chocolate Crepe</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="sweet" style="--liq:#e6b871;--foam:#fdf3e2">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Belgian Waffles"><use href="#d-waffle"/></svg>
-        <h3>Belgian Waffles</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="sweet" style="--liq:#4a2a1a;--liq2:#3a1f13">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Brownie Cubes"><use href="#d-cup"/></svg>
-        <h3>Brownie Cubes</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="sweet" style="--liq:#e0b46c;--foam:#f0a9c0">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Donuts"><use href="#d-donut"/></svg>
-        <h3>Donuts</h3>
-        
-      </article>
-
-      <article class="drink" data-cat="sweet" style="--liq:#fdf6ea;--liq2:#f2e6d0;--foam:#fdf6ea">
-        <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Ice Cream"><use href="#d-cup"/></svg>
-        <h3>Ice Cream</h3>
-        
-      </article>
+    <div class="feature-row" data-stagger>
+        <article class="drink drink--feature" style="--liq:#6b4526;--liq2:#b98a5c;--liq3:#e6d0ae;--drizzle:#8a5522">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Ice Spanish Latte"><use href="#d-iced"/></svg>
+          <h3>Ice Spanish Latte</h3>
+          <p class="drink__price">$5.99</p>
+        </article>
+        <article class="drink drink--feature" style="--liq:#c98a4b;--foam:#e8cba3">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Karak Regular"><use href="#d-glass"/></svg>
+          <h3>Karak Regular</h3>
+          <p class="drink__price">$4.99</p>
+        </article>
+        <article class="drink drink--feature" style="--liq:#3f2416;--foam:#b08453">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Turkish Coffee"><use href="#d-finjan"/></svg>
+          <h3>Turkish Coffee</h3>
+          <p class="drink__price">$2.99</p>
+        </article>
+        <article class="drink drink--feature" style="--liq:#2f2320;--liq2:#4a3630;--liq3:#7d6259;--foam:#ffffff;--bits:#221a17">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Mocha Oreo"><use href="#d-iced"/></svg>
+          <h3>Mocha Oreo</h3>
+          <p class="drink__price">$5.99</p>
+        </article>
     </div>
 
     <div class="order-cta" data-reveal>
-      <a class="btn btn--eats" href="https://www.ubereats.com/store/kyan-coffee-corp/dUQQP7SjVjqRdFQojBXkFQ" target="_blank" rel="noopener">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h16l-1.2 12.2a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8z"/><path d="M8.5 8V6a3.5 3.5 0 0 1 7 0v2"/></svg>
-        Order on Uber Eats
-      </a>
-      <small>For today's prices, call <a href="tel:+13472934901">(347) 293-4901</a>.</small>
+      <button type="button" class="btn btn--primary btn--lg" id="menuOpen" aria-haspopup="dialog">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+        See the full menu
+      </button>
+      <a class="btn btn--eats" href="https://www.ubereats.com/store/kyan-coffee-corp/dUQQP7SjVjqRdFQojBXkFQ" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h16l-1.2 12.2a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8z"/><path d="M8.5 8V6a3.5 3.5 0 0 1 7 0v2"/></svg> Order on Uber Eats</a>
     </div>
   </div>
 </section>
@@ -686,7 +536,7 @@
       </figure>
     </div>
 
-    <div class="facts" data-reveal>
+    <div class="facts" data-stagger>
       <div class="fact"><b data-count="2009" data-plain>2009</b><span>Founded in Unayzah</span></div>
       <div class="fact"><b data-count="400" data-suffix="+">400+</b><span>Coffee houses</span></div>
       <div class="fact"><b data-count="7">7</b><span>Countries</span></div>
@@ -699,7 +549,7 @@
 <section class="sec sec--aqua" id="signature">
   <div class="wrap">
     <div class="sig">
-      <div class="sig__stage" data-reveal>
+      <div class="sig__stage" data-reveal data-parallax="0.05">
         <svg class="glass" id="glass" viewBox="0 0 240 400" role="img" aria-label="An iced Spanish latte in a clear cup">
           <defs>
             <clipPath id="clipGlass">
@@ -766,8 +616,8 @@
       </p>
     </div>
 
-    <div class="trio">
-      <div class="card" data-reveal>
+    <div class="trio" data-stagger>
+      <div class="card">
         <span class="card__ico" aria-hidden="true">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2.5"/></svg>
         </span>
@@ -775,7 +625,7 @@
         <p>Seven days a week, from seven in the morning. Late is not an exception here — it's the point. Expect a wait on weekend afternoons after two.</p>
       </div>
 
-      <div class="card" data-reveal data-delay="1">
+      <div class="card">
         <span class="card__ico" aria-hidden="true">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.4 9.2-8 10.4C7.4 21.2 4 17 4 12V6z"/><path d="M9 12l2 2 4.5-4.5"/></svg>
         </span>
@@ -783,7 +633,7 @@
         <p>Every item on the board, front to back, with no asterisks and nothing you need to ask twice about.</p>
       </div>
 
-      <div class="card" data-reveal data-delay="2">
+      <div class="card">
         <span class="card__ico" aria-hidden="true">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10l8-5 8 5v10"/><path d="M9.5 20v-6h5v6"/><path d="M2 20h20"/></svg>
         </span>
@@ -802,18 +652,18 @@
       <h2 class="title">What the neighbourhood <em>keeps saying</em></h2>
     </div>
 
-    <div class="quotes">
-      <figure class="quote" data-reveal>
+    <div class="quotes" data-stagger>
+      <figure class="quote">
         <div class="stars" aria-label="Five stars">★★★★★</div>
         <blockquote>"The iced Spanish latte is the whole reason I come. Sweet, but the coffee still tastes like coffee."</blockquote>
         <figcaption>A recurring note across public reviews</figcaption>
       </figure>
-      <figure class="quote" data-reveal data-delay="1">
+      <figure class="quote">
         <div class="stars" aria-label="Five stars">★★★★★</div>
         <blockquote>"Cozy, soft music, comfortable seating. You can actually sit for a while."</blockquote>
         <figcaption>On the room</figcaption>
       </figure>
-      <figure class="quote" data-reveal data-delay="2">
+      <figure class="quote">
         <div class="stars" aria-label="Five stars">★★★★★</div>
         <blockquote>"Come before 2pm on a weekend or bring your patience. Worth it either way."</blockquote>
         <figcaption>On the queue</figcaption>
@@ -848,13 +698,13 @@
             <dt>Hours</dt>
             <dd>
               <ul class="hours" id="hours">
-                <li data-day="1"><span>Monday</span><span>7:00 AM – 12:00 AM</span></li>
-                <li data-day="2"><span>Tuesday</span><span>7:00 AM – 12:00 AM</span></li>
-                <li data-day="3"><span>Wednesday</span><span>7:00 AM – 12:00 AM</span></li>
-                <li data-day="4"><span>Thursday</span><span>7:00 AM – 12:00 AM</span></li>
-                <li data-day="5"><span>Friday</span><span>7:00 AM – 12:00 AM</span></li>
-                <li data-day="6"><span>Saturday</span><span>7:00 AM – 12:00 AM</span></li>
-                <li data-day="0"><span>Sunday</span><span>7:00 AM – 12:00 AM</span></li>
+                <li data-day="1"><span>Monday</span><span>7:00 AM – 11:59 PM</span></li>
+                <li data-day="2"><span>Tuesday</span><span>7:00 AM – 11:59 PM</span></li>
+                <li data-day="3"><span>Wednesday</span><span>7:00 AM – 11:59 PM</span></li>
+                <li data-day="4"><span>Thursday</span><span>7:00 AM – 11:59 PM</span></li>
+                <li data-day="5"><span>Friday</span><span>7:00 AM – 11:59 PM</span></li>
+                <li data-day="6"><span>Saturday</span><span>7:00 AM – 11:59 PM</span></li>
+                <li data-day="0"><span>Sunday</span><span>7:00 AM – 11:59 PM</span></li>
               </ul>
               <small>Weekend nights often run later. Call ahead if you're coming after eleven.</small>
             </dd>
@@ -959,7 +809,7 @@
           <circle cx="24" cy="24" r="24" fill="#2bafc4"/>
           <path d="M18 13v22M18 24l11-11M18 24l11 11" stroke="#fff" stroke-width="3.6" stroke-linecap="round" fill="none"/>
         </svg>
-        <p>Saudi coffee since 2009. Morris Park Avenue since 2024. Open seven days, from seven in the morning until midnight.</p>
+        <p>Saudi coffee since 2009. Morris Park Avenue since 2024. Open seven days, from seven in the morning until 11:59 at night.</p>
       </div>
 
       <div>
@@ -1010,6 +860,150 @@
     </div>
   </div>
 </footer>
+
+<!-- ══════════════════════════ full menu ══════════════════════════ -->
+<div class="menu-modal" id="menuModal" role="dialog" aria-modal="true" aria-labelledby="menuModalTitle" hidden>
+  <div class="menu-modal__sheet" role="document">
+    <header class="menu-modal__bar">
+      <div class="menu-modal__id">
+        <svg viewBox="0 0 48 48" aria-hidden="true" width="38" height="38">
+          <circle cx="24" cy="24" r="24" fill="#2bafc4"/>
+          <path d="M18 13v22M18 24l11-11M18 24l11 11" stroke="#fff" stroke-width="3.6" stroke-linecap="round" fill="none"/>
+        </svg>
+        <span>
+          <b id="menuModalTitle">The Menu</b>
+          <small>689 Morris Park Ave · Bronx</small>
+        </span>
+      </div>
+      <button type="button" class="menu-modal__x" id="menuClose" aria-label="Close the menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+
+    <div class="menu-modal__scroll">
+      <div class="tabs" role="group" aria-label="Filter the menu by category">
+                <button type="button" class="tab" aria-pressed="true" data-filter="all">Everything</button>
+        <button type="button" class="tab" aria-pressed="false" data-filter="coffee">Coffee</button>
+        <button type="button" class="tab" aria-pressed="false" data-filter="iced">Iced</button>
+        <button type="button" class="tab" aria-pressed="false" data-filter="tea">Tea Corner</button>
+      </div>
+
+      <div class="drink-grid" id="menuGrid">
+        <article class="drink" data-cat="coffee" style="--liq:#43260f;--foam:#7a5030">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Today&#x27;s Coffee"><use href="#d-hot"/></svg>
+          <h3>Today&#x27;s Coffee<span class="sub">Medium</span></h3>
+          <p class="drink__price">$2.49</p>
+          
+        </article>
+        <article class="drink" data-cat="coffee" style="--liq:#43260f;--foam:#7a5030">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Today&#x27;s Coffee"><use href="#d-hot"/></svg>
+          <h3>Today&#x27;s Coffee<span class="sub">Large</span></h3>
+          <p class="drink__price">$3.49</p>
+          
+        </article>
+        <article class="drink" data-cat="coffee" style="--liq:#3f2416;--foam:#b08453">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Turkish Coffee"><use href="#d-finjan"/></svg>
+          <h3>Turkish Coffee<span class="ar">قهوة تركية</span></h3>
+          <p class="drink__price">$2.99</p>
+          
+        </article>
+        <article class="drink" data-cat="coffee" style="--liq:#3c2110;--foam:#c39a6b">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Italian Coffee"><use href="#d-hot"/></svg>
+          <h3>Italian Coffee</h3>
+          <p class="drink__price">$4.49</p>
+          
+        </article>
+        <article class="drink" data-cat="coffee" style="--liq:#5b3320;--foam:#e4cdb4;--bits:#4a2a1a">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Mocha"><use href="#d-hot"/></svg>
+          <h3>Mocha</h3>
+          <p class="drink__price">$5.49</p>
+          
+        </article>
+        <article class="drink" data-cat="coffee" style="--liq:#54301c;--foam:#f3e4d4">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Hot Chocolate"><use href="#d-hot"/></svg>
+          <h3>Hot Chocolate</h3>
+          <p class="drink__price">$4.99</p>
+          
+        </article>
+        <article class="drink" data-cat="coffee" style="--liq:#a3182c;--foam:#c94254">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Hot Karkade"><use href="#d-hot"/></svg>
+          <h3>Hot Karkade<span class="ar">كركديه</span></h3>
+          <p class="drink__price">$4.99</p>
+          <span class="flag">New</span>
+        </article>
+        <article class="drink" data-cat="iced" style="--liq:#6b4526;--liq2:#b98a5c;--liq3:#e6d0ae;--drizzle:#8a5522">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Ice Spanish Latte"><use href="#d-iced"/></svg>
+          <h3>Ice Spanish Latte</h3>
+          <p class="drink__price">$5.99</p>
+          <span class="flag">Signature</span>
+        </article>
+        <article class="drink" data-cat="iced" style="--liq:#4a2a18;--liq2:#6b4128;--liq3:#a9805c;--drizzle:#2f1a0e">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Ice Chocolate"><use href="#d-iced"/></svg>
+          <h3>Ice Chocolate</h3>
+          <p class="drink__price">$5.99</p>
+          
+        </article>
+        <article class="drink" data-cat="iced" style="--liq:#b8804a;--liq2:#cd9a63;--liq3:#e2bd8c;--foam:#e8cba3">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Ice Karak"><use href="#d-iced"/></svg>
+          <h3>Ice Karak</h3>
+          <p class="drink__price">$4.99</p>
+          
+        </article>
+        <article class="drink" data-cat="iced" style="--liq:#2f2320;--liq2:#4a3630;--liq3:#7d6259;--foam:#ffffff;--bits:#221a17">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Mocha Oreo"><use href="#d-iced"/></svg>
+          <h3>Mocha Oreo</h3>
+          <p class="drink__price">$5.99</p>
+          
+        </article>
+        <article class="drink" data-cat="iced" style="--liq:#5a3520;--liq2:#8d5f38;--liq3:#c99a68;--foam:#f4e3cb;--bits:#c58a3f;--drizzle:#7a4a1e">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Mocha Snickers"><use href="#d-iced"/></svg>
+          <h3>Mocha Snickers</h3>
+          <p class="drink__price">$5.99</p>
+          
+        </article>
+        <article class="drink" data-cat="tea" style="--liq:#c2762f">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Regular Tea"><use href="#d-glass"/></svg>
+          <h3>Regular Tea<span class="ar">شاي</span></h3>
+          <p class="drink__price">$1.99</p>
+          
+        </article>
+        <article class="drink" data-cat="tea" style="--liq:#d08f43">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Talqimah Tea"><use href="#d-glass"/></svg>
+          <h3>Talqimah Tea<span class="ar">تلقيمة</span></h3>
+          <p class="drink__price">$2.49</p>
+          
+        </article>
+        <article class="drink" data-cat="tea" style="--liq:#a9c66d">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Green Tea"><use href="#d-glass"/></svg>
+          <h3>Green Tea</h3>
+          <p class="drink__price">$2.49</p>
+          
+        </article>
+        <article class="drink" data-cat="tea" style="--liq:#cfa273;--foam:#e8d3b4">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Tea With Milk"><use href="#d-glass"/></svg>
+          <h3>Tea With Milk</h3>
+          <p class="drink__price">$2.99</p>
+          
+        </article>
+        <article class="drink" data-cat="tea" style="--liq:#c98a4b;--foam:#e8cba3">
+          <svg class="drink__art" viewBox="0 0 120 150" role="img" aria-label="Karak Regular"><use href="#d-glass"/></svg>
+          <h3>Karak Regular<span class="ar">كرك</span></h3>
+          <p class="drink__price">$4.99</p>
+          <span class="flag">House favourite</span>
+        </article>
+      </div>
+
+      <p class="menu-note">
+        Board prices at the Bronx store. The full board carries more than this —
+        call <a href="tel:+13472934901">(347) 293-4901</a> or check Uber Eats for today's list.
+      </p>
+    </div>
+
+    <footer class="menu-modal__foot">
+      <a class="btn btn--eats" href="https://www.ubereats.com/store/kyan-coffee-corp/dUQQP7SjVjqRdFQojBXkFQ" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h16l-1.2 12.2a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8z"/><path d="M8.5 8V6a3.5 3.5 0 0 1 7 0v2"/></svg> Order on Uber Eats</a>
+    </footer>
+  </div>
+</div>
 
 <button class="totop" id="totop" aria-label="Back to top">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>

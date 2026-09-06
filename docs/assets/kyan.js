@@ -80,7 +80,9 @@
     a.addEventListener("click", function () { setSheet(false); });
   });
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") setSheet(false);
+    if (e.key !== "Escape") return;
+    if (modal && !modal.hidden) { closeMenu(); return; }
+    setSheet(false);
   });
 
   /* ------------------------------------------------------------ reveals */
@@ -98,6 +100,39 @@
       });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.01 });
     revealables.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ------------------------------------------------- scroll choreography */
+  var choreo = $$("[data-rise], [data-stagger]");
+  if (!("IntersectionObserver" in window) || reduced) {
+    choreo.forEach(function (el) { el.classList.add("in"); });
+  } else {
+    var sio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add("in"); sio.unobserve(entry.target); }
+      });
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.01 });
+    choreo.forEach(function (el) { sio.observe(el); });
+  }
+
+  /* artwork drifts a little slower than the page it sits on */
+  var floaters = $$("[data-parallax]");
+  if (floaters.length && !reduced && window.matchMedia("(min-width: 901px)").matches) {
+    var pTicking = false;
+    var drift = function () {
+      var mid = window.innerHeight / 2;
+      floaters.forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.bottom < -200 || r.top > window.innerHeight + 200) return;
+        var depth = parseFloat(el.getAttribute("data-parallax")) || 0.06;
+        el.style.transform = "translate3d(0," + ((r.top + r.height / 2 - mid) * -depth).toFixed(2) + "px,0)";
+      });
+      pTicking = false;
+    };
+    window.addEventListener("scroll", function () {
+      if (!pTicking) { pTicking = true; window.requestAnimationFrame(drift); }
+    }, { passive: true });
+    drift();
   }
 
   /* ----------------------------------------------------------- counters */
@@ -189,9 +224,53 @@
     });
   });
 
+  /* ------------------------------------------------------- the full menu */
+  var modal = $("#menuModal");
+  var openBtn = $("#menuOpen");
+  var closeBtn = $("#menuClose");
+  var lastFocus = null;
+
+  function openMenu() {
+    if (!modal) return;
+    lastFocus = document.activeElement;
+    modal.hidden = false;
+    document.body.classList.add("is-locked");
+    /* let the browser paint the hidden state first so the transition runs */
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () { modal.classList.add("is-open"); });
+    });
+    if (closeBtn) closeBtn.focus();
+  }
+
+  function closeMenu() {
+    if (!modal || modal.hidden) return;
+    modal.classList.remove("is-open");
+    document.body.classList.remove("is-locked");
+    var done = function () { modal.hidden = true; };
+    if (reduced) done();
+    else setTimeout(done, 350);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  if (openBtn) openBtn.addEventListener("click", openMenu);
+  if (closeBtn) closeBtn.addEventListener("click", closeMenu);
+  if (modal) {
+    modal.addEventListener("click", function (e) { if (e.target === modal) closeMenu(); });
+    /* keep tabbing inside the dialog while it is open */
+    modal.addEventListener("keydown", function (e) {
+      if (e.key !== "Tab") return;
+      var f = $$('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])', modal)
+        .filter(function (el) { return el.offsetParent !== null; });
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+  }
+
   /* --------------------------------------------- open / closed, NY time */
-  var OPEN_HOUR = 7;   /* 7:00 AM */
-  var CLOSE_HOUR = 24; /* midnight */
+  var OPEN_MIN = 7 * 60; /* 7:00 AM */
+  var CLOSE_MIN = 23 * 60 + 59; /* 11:59 PM */
 
   function nyNow() {
     /* weekday + wall-clock time in America/New_York, wherever the visitor is */
@@ -226,14 +305,14 @@
     try { now = nyNow(); } catch (err) { return; }
 
     var mins = now.hour * 60 + now.minute;
-    var isOpen = mins >= OPEN_HOUR * 60 && mins < CLOSE_HOUR * 60;
+    var isOpen = mins >= OPEN_MIN && mins <= CLOSE_MIN;
 
     pill.classList.toggle("is-open", isOpen);
     pill.classList.toggle("is-closed", !isOpen);
 
     if (isOpen) {
-      var left = CLOSE_HOUR * 60 - mins;
-      label.textContent = left <= 60 ? "Closing in " + left + " min" : "Open until midnight";
+      var left = CLOSE_MIN - mins;
+      label.textContent = left <= 60 ? "Closing in " + left + " min" : "Open until 11:59 PM";
     } else {
       label.textContent = "Opens at 7 AM";
     }
