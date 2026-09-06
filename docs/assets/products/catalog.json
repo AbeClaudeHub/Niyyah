@@ -128,7 +128,8 @@
       "name": "Hanini & Qishd",
       "category": "hot",
       "image": "assets/products/hanini-qishd.jpg",
-      "source": "الحنيني-ولاقشد.png"
+      "source": "الحنيني-ولاقشد.png",
+      "note": "Not a product shot — a Saudi campaign poster with riyal prices printed on it. Off the menu until there is a real photo."
     },
     {
       "slug": "qishd",
@@ -588,7 +589,7 @@
     },
     {
       "slug": "pistachio-kunafa",
-      "name": "Pistachio Kunafa",
+      "name": "Pistachio Bar",
       "category": "dessert",
       "image": "assets/products/pistachio-kunafa.jpg",
       "source": "كنافة-فستق-2-scaled.jpg"
@@ -619,7 +620,8 @@
       "name": "Ice Chocolate",
       "category": "iced",
       "image": "assets/products/ice-chocolate.jpg",
-      "source": "هوت-شوكلت-01.jpg"
+      "source": "هوت-شوكلت-01.jpg",
+      "note": "Image file is byte-identical to ice-mocha.jpg; needs its own photo."
     }
   ]
 }
