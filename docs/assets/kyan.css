@@ -1544,3 +1544,32 @@ body { background: var(--aqua-500); }
 .quote h2, .quote h3, .announce__body h3, .map__foot b,
 .menu-modal h3, .menu-modal h4 { color: var(--denim-800); }
 .announce__body p { color: var(--ink-soft); }
+
+/* ═══════════════════ no accidental zoom on a quick tap ═══════════════════
+   iOS reads two taps in quick succession as a request to zoom. Stepping a
+   row with the arrows or dots, or tapping just after a swipe, is exactly
+   that shape of gesture, so the board and everything pressable opt out of
+   double-tap zoom. `manipulation` removes only that: pinch-to-zoom still
+   works everywhere, which is the one people actually need. */
+a,
+button,
+.btn,
+.pnav,
+.pdot,
+.tab,
+.burger,
+.totop,
+.pcard,
+.lineup,
+.menu-modal,
+.menu-modal__sheet,
+.sheet {
+  touch-action: manipulation;
+}
+
+/* A fast double tap on an arrow used to select its glyph as text as well. */
+.pnav, .pdot, .burger, .totop, .menu-modal__x {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
