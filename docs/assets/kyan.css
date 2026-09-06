@@ -835,7 +835,8 @@ h2.title em {
 .drink[hidden] { display: none; }
 .drink:hover { transform: translateY(-6px); box-shadow: var(--sh-lg); border-color: var(--aqua-200); }
 .drink__art { width: 100%; height: 128px; margin: 0 auto 14px; transition: transform 0.5s var(--ease); }
-.drink:hover .drink__art { transform: translateY(-4px) rotate(-3deg); }
+.drink__shot .drink__art { height: 100%; }
+.drink:hover .drink__shot--art .drink__art { transform: translateY(-3px) rotate(-3deg); }
 .drink h3 { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--denim-800); line-height: 1.35; }
 .drink h3 .ar { display: block; font-family: var(--arabic); font-size: 13px; font-weight: 400; color: var(--aqua-600); margin-top: 5px; }
 .drink h3 .sub { display: block; font-size: 12.5px; font-weight: 500; color: var(--ink-faint); margin-top: 4px; }
@@ -1129,7 +1130,7 @@ h2.title em {
   /* two drinks per row rather than one giant card */
   .drink-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
   .drink { padding: 18px 10px 16px; border-radius: var(--r-md); }
-  .drink__art { height: 96px; margin-bottom: 10px; }
+
   .drink h3 { font-size: 13.5px; }
   .drink h3 .ar { font-size: 12px; }
   .stage { min-height: 340px; }
@@ -1362,4 +1363,31 @@ body.is-locked { overflow: hidden; }
 }
 @media (prefers-reduced-motion: reduce) {
   [data-rise], [data-stagger] > * { opacity: 1 !important; transform: none !important; }
+}
+
+/* ═══════════════════ product photography ═══════════════════
+   Photo and illustration sit in the same tile, so a card looks
+   the same whether or not a shot exists for that drink.       */
+.drink__shot {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  background: linear-gradient(160deg, #dff1f7, #c7e6f2);
+}
+.drink__shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s var(--ease);
+}
+.drink:hover .drink__shot img { transform: scale(1.07); }
+.drink__shot--art { display: grid; place-items: center; }
+.drink__shot--art .drink__art { width: auto; height: 78%; margin: 0; }
+.drink--feature .drink__shot { border-radius: 20px; }
+
+@media (max-width: 620px) {
+  .drink__shot { border-radius: 14px; margin-bottom: 10px; }
 }
