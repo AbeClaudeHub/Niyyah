@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>KYAN Cafe — Morris Park, The Bronx · Saudi coffee in New York</title>
+<title>KYAN Cafe — From Saudi to NYC · Morris Park, The Bronx</title>
 <meta name="description" content="KYAN Cafe, 689 Morris Park Ave, The Bronx. Saudi coffee, Turkish coffee, karak and the Spanish latte people cross boroughs for. Open 7am to midnight, seven days." />
 <meta name="theme-color" content="#2bafc4" />
 <meta name="color-scheme" content="light" />
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="KYAN Cafe — Morris Park, The Bronx" />
+<meta property="og:title" content="KYAN Cafe — From Saudi to NYC" />
 <meta property="og:description" content="Saudi coffee, karak and the Spanish latte. 689 Morris Park Ave, open until midnight." />
 <meta name="twitter:card" content="summary_large_image" />
 
@@ -17,7 +17,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Reem+Kufi:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Yellowtail&family=Reem+Kufi:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/kyan.css" />
 
 <script type="application/ld+json">
@@ -47,18 +47,21 @@
 <!-- ══════════════════════════ shared gradients ══════════════════════════ -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
-    <linearGradient id="gCup" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%"   stop-color="#ddd0b6"/>
-      <stop offset="14%"  stop-color="#f2ead9"/>
-      <stop offset="42%"  stop-color="#fdfbf6"/>
-      <stop offset="74%"  stop-color="#f0e7d4"/>
-      <stop offset="100%" stop-color="#d6c8ac"/>
+    <!-- the cylinder: dark at both edges, bright just off-centre -->
+    <linearGradient id="gShade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#4f4430" stop-opacity=".46"/>
+      <stop offset="9%"   stop-color="#8a7a5c" stop-opacity=".18"/>
+      <stop offset="30%"  stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="46%"  stop-color="#ffffff" stop-opacity=".28"/>
+      <stop offset="64%"  stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="90%"  stop-color="#8a7a5c" stop-opacity=".20"/>
+      <stop offset="100%" stop-color="#463c2a" stop-opacity=".50"/>
     </linearGradient>
     <linearGradient id="gLid" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%"   stop-color="#e3e8ea"/>
+      <stop offset="0%"   stop-color="#dde3e6"/>
       <stop offset="18%"  stop-color="#ffffff"/>
       <stop offset="62%"  stop-color="#fbfdfd"/>
-      <stop offset="100%" stop-color="#dde3e6"/>
+      <stop offset="100%" stop-color="#d7dee1"/>
     </linearGradient>
     <linearGradient id="gGlassBody" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%"   stop-color="#ffffff" stop-opacity=".42"/>
@@ -87,7 +90,7 @@
 <div id="preload">
   <div class="preload-mark">
     <svg viewBox="0 0 48 48" aria-hidden="true">
-      <circle cx="24" cy="24" r="23" fill="#fff" fill-opacity=".16"/>
+      <circle cx="24" cy="24" r="23" fill="#fff" fill-opacity=".18"/>
       <path d="M18 13v22M18 24l11-11M18 24l11 11" stroke="#fff" stroke-width="3.6" stroke-linecap="round" fill="none"/>
     </svg>
     <div class="ar">كيان</div>
@@ -103,8 +106,8 @@
   <div class="nav__inner">
     <a class="brand" href="#top" aria-label="KYAN Cafe — home">
       <svg class="brand__mark" viewBox="0 0 48 48" aria-hidden="true">
-        <circle cx="24" cy="24" r="24" fill="#2bafc4"/>
-        <path d="M18 13v22M18 24l11-11M18 24l11 11" stroke="#fff" stroke-width="3.6" stroke-linecap="round" fill="none"/>
+        <circle class="disc" cx="24" cy="24" r="24"/>
+        <path class="glyph" d="M18 13v22M18 24l11-11M18 24l11 11" stroke-width="3.6" stroke-linecap="round" fill="none"/>
       </svg>
       <span class="brand__type"><b>KYAN</b><span>Morris Park · Bronx</span></span>
     </a>
@@ -122,7 +125,7 @@
       <span id="statusText">7am – midnight, daily</span>
     </div>
 
-    <a class="btn btn--primary btn--sm" href="tel:+13472934901">
+    <a class="btn btn--white btn--sm" href="tel:+13472934901">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 1.9.6 2.8a2 2 0 0 1-.5 2.1L8.1 9.7a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2z"/></svg>
       Call the shop
     </a>
@@ -140,8 +143,8 @@
   <a href="#room">The Room <small>المكان</small></a>
   <a href="#visit">Visit <small>الزيارة</small></a>
   <div class="sheet__foot">
-    <a class="btn btn--onaqua" href="tel:+13472934901">Call (347) 293-4901</a>
-    <a class="btn btn--ghostaqua" href="https://maps.google.com/?q=689+Morris+Park+Ave+Bronx+NY+10462" target="_blank" rel="noopener">Get directions</a>
+    <a class="btn btn--white" href="tel:+13472934901">Call (347) 293-4901</a>
+    <a class="btn btn--outline-w" href="https://maps.google.com/?q=689+Morris+Park+Ave+Bronx+NY+10462" target="_blank" rel="noopener">Get directions</a>
   </div>
 </div>
 
@@ -149,75 +152,99 @@
 
 <!-- ══════════════════════════ hero ══════════════════════════ -->
 <section class="hero" id="top">
+  <div class="hero__glow" aria-hidden="true"></div>
+
+  <svg class="hero__bean" viewBox="0 0 24 32" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="16" rx="11" ry="15"/><path d="M12 3c-5 6-5 20 0 26" stroke="#2bafc4" stroke-width="2" fill="none" opacity=".5"/></svg>
+  <svg class="hero__bean" viewBox="0 0 24 32" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="16" rx="11" ry="15"/></svg>
+  <svg class="hero__bean" viewBox="0 0 24 32" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="16" rx="11" ry="15"/><path d="M12 3c-5 6-5 20 0 26" stroke="#2bafc4" stroke-width="2" fill="none" opacity=".5"/></svg>
+  <svg class="hero__bean" viewBox="0 0 24 32" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="16" rx="11" ry="15"/></svg>
+
   <div class="wrap">
     <div class="hero__inner">
 
       <div class="hero__copy">
         <p class="eyebrow"><i></i> 689 Morris Park Ave · Bronx</p>
+        <span class="hero__script">Since 2009</span>
         <h1>
-          <span class="ln"><span>Saudi coffee,</span></span>
-          <span class="ln"><span>poured on</span></span>
-          <span class="ln"><span><em>Morris Park.</em></span></span>
+          <span class="ln"><span>From Saudi</span></span>
+          <span class="ln"><span><span class="thin">to</span>&nbsp;NYC</span></span>
         </h1>
-        <p class="lede">
-          Kyan started in 2009 in Unayzah and grew to more than <b>400 coffee houses
-          across seven countries</b>. In 2024 it crossed an ocean and opened here — the
-          first Saudi coffee chain ever to open in the United States.
-        </p>
+        <p class="hero__sub">Saudi coffee house. Open till midnight, seven days.</p>
 
         <div class="hero__acts">
-          <a class="btn btn--primary" href="#menu">
+          <a class="btn btn--white" href="#menu">
             See the menu
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
-          <a class="btn btn--quiet" href="#visit">Hours &amp; directions</a>
-        </div>
-
-        <div class="hero__meta">
-          <span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2.5"/></svg>
-            Open 7am – midnight
-          </span>
-          <span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.4 9.2-8 10.4C7.4 21.2 4 17 4 12V6z"/><path d="M9 12l2 2 4.5-4.5"/></svg>
-            Everything halal
-          </span>
-          <span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
-            Two minutes off the 5
-          </span>
+          <a class="btn btn--outline-w" href="#visit">Find us</a>
         </div>
       </div>
 
       <div class="stage">
         <div class="stage__ring" aria-hidden="true"></div>
+        <div class="stage__ring stage__ring--2" aria-hidden="true"></div>
         <div class="stage__disc" aria-hidden="true"></div>
 
-        <svg class="steam" viewBox="0 0 108 118" aria-hidden="true">
-          <path d="M26 114c-9-18 9-27 0-45s7-29 2-43"/>
-          <path d="M54 114c-10-20 10-29 0-49s8-31 3-47"/>
-          <path d="M82 114c-9-18 9-27 0-45s7-27 2-41"/>
+        <svg class="steam" viewBox="0 0 104 112" aria-hidden="true">
+          <path d="M24 108c-9-17 9-26 0-43s7-28 2-41"/>
+          <path d="M52 108c-10-19 10-28 0-47s8-30 3-45"/>
+          <path d="M80 108c-9-17 9-26 0-43s7-26 2-39"/>
         </svg>
 
-        <!-- the shop's own cup: cream stock, denim wordmark -->
-        <svg class="cup" viewBox="0 0 300 400" role="img" aria-label="A Kyan Cafe takeaway cup">
+        <!-- The shop's cup. The printed label revolves around it. -->
+        <svg class="cup" viewBox="0 0 300 400" role="img" aria-label="A Kyan Cafe takeaway cup, turning">
+          <defs>
+            <clipPath id="clipCup">
+              <path d="M52 100 86 366c.6 6 5 10 11 10h106c6 0 10.4-4 11-10L248 100z"/>
+            </clipPath>
+          </defs>
+
           <ellipse cx="150" cy="384" rx="86" ry="14" fill="#0d2630" opacity=".18"/>
-          <path d="M52 100 86 366c.6 6 5 10 11 10h106c6 0 10.4-4 11-10L248 100z" fill="url(#gCup)"/>
+
+          <!-- cup stock -->
+          <path d="M52 100 86 366c.6 6 5 10 11 10h106c6 0 10.4-4 11-10L248 100z" fill="#f6f0e3"/>
+
+          <!-- the revolving print -->
+          <g clip-path="url(#clipCup)">
+            <g class="label">
+              <circle cx="150" cy="136" r="15" fill="#2bafc4"/>
+              <path d="M146 129v14M146 136l7-7M146 136l7 7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+              <g transform="translate(108 250) rotate(-90)">
+                <text text-anchor="middle" font-family="Yellowtail, cursive" font-size="27" fill="#2a6ba5">cafe</text>
+              </g>
+              <text text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="46" fill="#2a6ba5" letter-spacing="1">
+                <tspan x="151" y="198">K</tspan>
+                <tspan x="150" y="243">Y</tspan>
+                <tspan x="149" y="288">A</tspan>
+                <tspan x="148" y="333">N</tspan>
+              </text>
+            </g>
+
+            <g class="label label--b">
+              <circle cx="150" cy="136" r="15" fill="#2bafc4"/>
+              <path d="M146 129v14M146 136l7-7M146 136l7 7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+              <g transform="translate(108 250) rotate(-90)">
+                <text text-anchor="middle" font-family="Yellowtail, cursive" font-size="27" fill="#2a6ba5">cafe</text>
+              </g>
+              <text text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="46" fill="#2a6ba5" letter-spacing="1">
+                <tspan x="151" y="198">K</tspan>
+                <tspan x="150" y="243">Y</tspan>
+                <tspan x="149" y="288">A</tspan>
+                <tspan x="148" y="333">N</tspan>
+              </text>
+            </g>
+          </g>
+
+          <!-- cylinder shading sits over the print, so the cup reads round -->
+          <path d="M52 100 86 366c.6 6 5 10 11 10h106c6 0 10.4-4 11-10L248 100z" fill="url(#gShade)"/>
+
+          <!-- lid -->
           <path d="M42 100V78c0-14 10-22 26-25 24-4 54-6 82-6s58 2 82 6c16 3 26 11 26 25v22z" fill="url(#gLid)"/>
           <path d="M42 88h216" stroke="#d5dde0" stroke-width="2"/>
           <rect x="186" y="60" width="42" height="13" rx="6.5" fill="#dbe3e6"/>
-          <circle cx="156" cy="136" r="15" fill="#2bafc4"/>
-          <path d="M152 129v14M152 136l7-7M152 136l7 7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none"/>
-          <g transform="translate(114 250) rotate(-90)">
-            <text text-anchor="middle" font-family="Fraunces, Georgia, serif" font-style="italic" font-size="23" fill="#2a6ba5">cafe</text>
-          </g>
-          <text text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="46" fill="#2a6ba5" letter-spacing="1">
-            <tspan x="157" y="198">K</tspan>
-            <tspan x="156" y="243">Y</tspan>
-            <tspan x="155" y="288">A</tspan>
-            <tspan x="154" y="333">N</tspan>
-          </text>
-          <path d="M74 118c8 84 16 190 20 246" stroke="url(#gSheen)" stroke-width="13" fill="none" opacity=".85"/>
+
+          <!-- specular -->
+          <path d="M74 118c8 84 16 190 20 246" stroke="url(#gSheen)" stroke-width="13" fill="none" opacity=".8"/>
         </svg>
 
         <div class="badge badge--a">
@@ -237,6 +264,8 @@
 
     </div>
   </div>
+
+  <div class="scroll-cue" aria-hidden="true"><span>Scroll</span><i></i></div>
 </section>
 
 <!-- ══════════════════════════ ribbon ══════════════════════════ -->
@@ -260,13 +289,12 @@
   <div class="wrap">
     <div class="story">
       <div>
-        <div class="head" style="margin-bottom:34px" data-reveal>
+        <div class="head" style="margin-bottom:32px" data-reveal>
           <p class="kicker">The story</p>
-          <h2 class="title">From a street in Unayzah to <em>Morris Park Avenue</em></h2>
+          <h2 class="title">From Unayzah to <em>Morris Park</em></h2>
           <p class="lede">
-            Kyan was never built on one flagship. It was built on repetition — the same
-            cup, the same welcome, the same hour of the evening, four hundred times over.
-            Morris Park is where that habit landed in New York.
+            One shop in 2009 became more than four hundred across seven countries. In 2024
+            it crossed an ocean — the first Saudi coffee chain ever to open in the States.
           </p>
         </div>
 
@@ -285,7 +313,7 @@
           </div>
           <div class="tl is-now" data-reveal data-delay="3">
             <b>2024 · The Bronx</b>
-            <p>Kyan opens at 689 Morris Park Avenue: the first Saudi Arabian coffee chain to open a store in the United States, on a stretch of the Bronx the neighbourhood calls Little Yemen.</p>
+            <p>Kyan opens at 689 Morris Park Avenue, on a stretch of the Bronx the neighbourhood calls Little Yemen.</p>
           </div>
         </div>
       </div>
@@ -349,8 +377,7 @@
           <h2 class="title">The <em>Spanish Latte</em></h2>
           <p class="lede">
             Espresso poured over sweetened condensed milk, then cold milk and ice — served
-            long, in a glass, so the layers hold for about three seconds and then don't. It
-            is the drink the reviews are actually about.
+            long, so the layers hold for about three seconds and then don't.
           </p>
         </div>
 
@@ -374,11 +401,10 @@
   <div class="wrap">
     <div class="head center" data-reveal>
       <p class="kicker">The menu</p>
-      <h2 class="title">Two coffee traditions, <em>one counter</em></h2>
+      <h2 class="title">Two traditions, <em>one counter</em></h2>
       <p class="lede">
         Americanos and lattes on one side of the board; Saudi coffee, Turkish coffee and
-        karak on the other. Everything is halal, and the pastry case is refilled through
-        the day.
+        karak on the other. Everything halal.
       </p>
     </div>
 
@@ -393,7 +419,6 @@
 
     <div class="menu-list" id="menuGrid">
 
-      <!-- hot coffee -->
       <article class="mrow" data-cat="hot">
         <div class="mrow__top">
           <h3>Saudi Coffee <span class="ar">قهوة عربية</span></h3>
@@ -448,7 +473,6 @@
         <p>For the half of the table that doesn't drink coffee at eleven at night.</p>
       </article>
 
-      <!-- iced -->
       <article class="mrow" data-cat="iced">
         <div class="mrow__top">
           <h3>Iced Spanish Latte</h3>
@@ -483,7 +507,6 @@
         <p>A scoop of vanilla, a shot poured over it at the counter.</p>
       </article>
 
-      <!-- tea & cold -->
       <article class="mrow" data-cat="tea">
         <div class="mrow__top"><h3>Karak Tea <span class="ar">كرك</span></h3></div>
         <p>Black tea boiled with evaporated milk, cardamom and saffron. The late-night order.</p>
@@ -515,7 +538,6 @@
         <p>Blended fresh, no concentrate. Also: orange juice, squeezed to order.</p>
       </article>
 
-      <!-- pastries -->
       <article class="mrow" data-cat="pastry">
         <div class="mrow__top"><h3>Pistachio Croissant</h3></div>
         <p>Split, filled with pistachio cream, dusted green. Gone by early evening most days.</p>
@@ -537,7 +559,6 @@
         <p>Four builds on the board, pressed to order — the only savoury thing here.</p>
       </article>
 
-      <!-- sweets -->
       <article class="mrow" data-cat="sweet">
         <div class="mrow__top"><h3>Crepe Pudding</h3></div>
         <p>Layered crepe and cream set in a cup, cold, spooned rather than cut.</p>
@@ -572,8 +593,7 @@
 
     <p class="menu-note">
       Listed prices are the ones published for the Bronx store and can change — call
-      <a href="tel:+13472934901">(347) 293-4901</a> to confirm. The full board carries
-      roughly seventy drinks and sweets.
+      <a href="tel:+13472934901">(347) 293-4901</a> to confirm.
     </p>
   </div>
 </section>
@@ -586,7 +606,7 @@
       <h2 class="title">Built for the <em>second hour</em></h2>
       <p class="lede">
         Most coffee shops are designed for the first fifteen minutes. This one is designed
-        for what happens after — the table you don't get asked to give back.
+        for what happens after.
       </p>
     </div>
 
@@ -604,7 +624,7 @@
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.4 9.2-8 10.4C7.4 21.2 4 17 4 12V6z"/><path d="M9 12l2 2 4.5-4.5"/></svg>
         </span>
         <h3>Halal, all of it</h3>
-        <p>Every item on the board, front to back, with no asterisks and nothing you need to ask twice about. It is part of why Morris Park adopted the place so quickly.</p>
+        <p>Every item on the board, front to back, with no asterisks and nothing you need to ask twice about.</p>
       </div>
 
       <div class="card" data-reveal data-delay="2">
@@ -612,7 +632,7 @@
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10l8-5 8 5v10"/><path d="M9.5 20v-6h5v6"/><path d="M2 20h20"/></svg>
         </span>
         <h3>Little Yemen</h3>
-        <p>Morris Park Avenue already had the grocers, the bakeries and the late tables. Kyan didn't introduce Arab coffee culture to this street — it joined it.</p>
+        <p>Morris Park Avenue already had the grocers, the bakeries and the late tables. Kyan joined a street that was already awake.</p>
       </div>
     </div>
   </div>
@@ -716,7 +736,7 @@
           <rect x="0" y="192" width="600" height="46" fill="#ffffff"/>
           <path d="M0 192h600M0 238h600" stroke="#bce8ee" stroke-width="2.5"/>
           <path d="M0 215h600" stroke="#8ad5df" stroke-width="2.5" stroke-dasharray="16 14"/>
-          <text x="26" y="209" fill="#1f5580" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="800" letter-spacing="2.4">MORRIS PARK AVE</text>
+          <text x="26" y="209" fill="#1f5580" font-family="Poppins, sans-serif" font-size="12" font-weight="700" letter-spacing="2.4">MORRIS PARK AVE</text>
 
           <g>
             <rect x="192" y="0" width="28" height="380" fill="#ffffff"/>
@@ -727,9 +747,9 @@
           <path d="M0 108h600" stroke="#8ad5df" stroke-width="3.5" stroke-dasharray="3 11"/>
           <g transform="translate(478 108)">
             <circle r="16" fill="#2a6ba5"/>
-            <text text-anchor="middle" dominant-baseline="central" fill="#fff" font-family="'Plus Jakarta Sans', sans-serif" font-size="17" font-weight="800">5</text>
+            <text text-anchor="middle" dominant-baseline="central" fill="#fff" font-family="Poppins, sans-serif" font-size="17" font-weight="700">5</text>
           </g>
-          <text x="452" y="84" text-anchor="middle" fill="#1f5580" font-family="'Plus Jakarta Sans', sans-serif" font-size="10.5" font-weight="800" letter-spacing="1.6">MORRIS PARK STN</text>
+          <text x="452" y="84" text-anchor="middle" fill="#1f5580" font-family="Poppins, sans-serif" font-size="10.5" font-weight="600" letter-spacing="1.6">MORRIS PARK STN</text>
 
           <circle class="map__ping" cx="300" cy="216" r="14" fill="#2bafc4" opacity=".4"/>
           <g class="map__pin">
@@ -737,12 +757,12 @@
             <circle cx="300" cy="200" r="10.5" fill="#fff"/>
             <path d="M297 194v12M297 200l5.5-5.5M297 200l5.5 5.5" stroke="#2bafc4" stroke-width="2.2" stroke-linecap="round" fill="none"/>
           </g>
-          <text x="300" y="268" text-anchor="middle" fill="#143a56" font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="800" letter-spacing="1.4">KYAN · 689</text>
+          <text x="300" y="268" text-anchor="middle" fill="#143a56" font-family="Poppins, sans-serif" font-size="13" font-weight="700" letter-spacing="1.4">KYAN · 689</text>
 
           <g transform="translate(552 330)" opacity=".6">
             <circle r="18" fill="none" stroke="#8ad5df" stroke-width="2"/>
             <path d="M0 -11 4 3 0 0 -4 3z" fill="#2bafc4"/>
-            <text y="-21" text-anchor="middle" fill="#1f5580" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="800">N</text>
+            <text y="-21" text-anchor="middle" fill="#1f5580" font-family="Poppins, sans-serif" font-size="9" font-weight="700">N</text>
           </g>
         </svg>
 
@@ -761,14 +781,14 @@
 <!-- ══════════════════════════ cta ══════════════════════════ -->
 <section class="cta">
   <div class="wrap">
-    <h2 data-reveal>Come at <em>eleven</em>.<br />That's when it's good.</h2>
+    <h2 data-reveal>Come at <em>eleven</em>.</h2>
     <p data-reveal data-delay="1">
       The rush thins, the karak comes out, and the room settles into the thing it was
-      built for. Bring someone you want to sit with for two hours.
+      built for.
     </p>
     <div class="cta__acts" data-reveal data-delay="2">
       <a class="btn btn--primary" href="https://maps.google.com/?q=689+Morris+Park+Ave+Bronx+NY+10462" target="_blank" rel="noopener">Get directions</a>
-      <a class="btn btn--ghostaqua" href="tel:+13472934901">Call (347) 293-4901</a>
+      <a class="btn btn--outline-w" href="tel:+13472934901">Call (347) 293-4901</a>
     </div>
   </div>
 </section>
