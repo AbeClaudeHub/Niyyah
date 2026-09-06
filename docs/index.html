@@ -38,7 +38,19 @@
   "telephone": "+1-347-293-4901",
   "servesCuisine": ["Coffee", "Saudi", "Middle Eastern", "Desserts"],
   "priceRange": "$",
-  "openingHours": "Mo-Su 07:00-24:00"
+  "openingHours": "Mo-Su 07:00-24:00",
+  "potentialAction": {
+    "@type": "OrderAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://www.ubereats.com/store/kyan-coffee-corp/dUQQP7SjVjqRdFQojBXkFQ",
+      "actionPlatform": [
+        "http://schema.org/DesktopWebPlatform",
+        "http://schema.org/IOSPlatform",
+        "http://schema.org/AndroidPlatform"
+      ]
+    }
+  }
 }
 </script>
 </head>
@@ -284,6 +296,26 @@
   </div>
 </div>
 
+<!-- ══════════════════════════ next location ══════════════════════════ -->
+<section class="announce" aria-label="New location">
+  <div class="wrap">
+    <div class="announce__card" data-reveal>
+      <span class="announce__pin" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+      </span>
+      <div class="announce__body">
+        <span class="announce__tag">Coming soon</span>
+        <h3>Kyan is opening in <em>Bay Ridge, Brooklyn</em></h3>
+        <p>A second New York store is on the way. Follow along for the opening date.</p>
+      </div>
+      <a class="btn btn--primary" href="https://www.instagram.com/kyancafeny/" target="_blank" rel="noopener">
+        Follow for the date
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- ══════════════════════════ story ══════════════════════════ -->
 <section class="sec sec--paper" id="story">
   <div class="wrap">
@@ -314,6 +346,10 @@
           <div class="tl is-now" data-reveal data-delay="3">
             <b>2024 · The Bronx</b>
             <p>Kyan opens at 689 Morris Park Avenue, on a stretch of the Bronx the neighbourhood calls Little Yemen.</p>
+          </div>
+          <div class="tl is-next" data-reveal data-delay="4">
+            <b>Next · Bay Ridge, Brooklyn</b>
+            <p>A second New York store is on the way to Bay Ridge. Coming soon.</p>
           </div>
         </div>
       </div>
@@ -595,6 +631,14 @@
       Listed prices are the ones published for the Bronx store and can change — call
       <a href="tel:+13472934901">(347) 293-4901</a> to confirm.
     </p>
+
+    <div class="order-cta" data-reveal>
+      <a class="btn btn--eats" href="https://www.ubereats.com/store/kyan-coffee-corp/dUQQP7SjVjqRdFQojBXkFQ" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h16l-1.2 12.2a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8z"/><path d="M8.5 8V6a3.5 3.5 0 0 1 7 0v2"/></svg>
+        Order on Uber Eats
+      </a>
+      <small>Or come in — the pastry case is better in person.</small>
+    </div>
   </div>
 </section>
 
@@ -717,6 +761,7 @@
             Get directions
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
           </a>
+          <a class="btn btn--eats" href="https://www.ubereats.com/store/kyan-coffee-corp/dUQQP7SjVjqRdFQojBXkFQ" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h16l-1.2 12.2a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8z"/><path d="M8.5 8V6a3.5 3.5 0 0 1 7 0v2"/></svg> Order on Uber Eats</a>
           <a class="btn btn--quiet" href="tel:+13472934901">Call (347) 293-4901</a>
         </div>
       </div>
@@ -811,6 +856,8 @@
           <li><a href="https://maps.google.com/?q=689+Morris+Park+Ave+Bronx+NY+10462" target="_blank" rel="noopener">689 Morris Park Ave</a></li>
           <li>Bronx, NY 10462</li>
           <li><a href="tel:+13472934901">(347) 293-4901</a></li>
+          <li><a href="https://www.ubereats.com/store/kyan-coffee-corp/dUQQP7SjVjqRdFQojBXkFQ" target="_blank" rel="noopener">Order on Uber Eats</a></li>
+          <li>Bay Ridge, Brooklyn — coming soon</li>
         </ul>
       </div>
 
