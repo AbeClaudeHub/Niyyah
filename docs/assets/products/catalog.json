@@ -181,7 +181,7 @@
     },
     {
       "slug": "ice-shaken",
-      "name": "Ice Shaken",
+      "name": "Ice Shaken White Mocha",
       "category": "iced",
       "image": "assets/products/ice-shaken.jpg",
       "source": "ايس-شيكن-01.jpg"
@@ -202,7 +202,7 @@
     },
     {
       "slug": "pistachio-latte",
-      "name": "Pistachio",
+      "name": "Ice Pistachio Latte",
       "category": "iced",
       "image": "assets/products/pistachio-latte.jpg",
       "source": "بستاشيو-01.jpg"
@@ -355,6 +355,14 @@
       "source": "كرك-01.jpg"
     },
     {
+      "slug": "ice-karak",
+      "name": "Ice Karak",
+      "category": "tea",
+      "image": "assets/products/ice-karak.jpg",
+      "source": "كرك-01.jpg",
+      "note": "No iced-karak studio shot exists in the brand library yet; this reuses the karak photo."
+    },
+    {
       "slug": "karak-milk",
       "name": "Tea With Milk",
       "category": "tea",
@@ -475,7 +483,7 @@
     },
     {
       "slug": "crepe-mix",
-      "name": "Crepe Mix",
+      "name": "Fettuccine Crepe Mix",
       "category": "pastry",
       "image": "assets/products/crepe-mix.jpg",
       "source": "كريب-مكس-01.jpg"
@@ -580,7 +588,7 @@
     },
     {
       "slug": "pistachio-kunafa",
-      "name": "Pistachio Bar",
+      "name": "Pistachio Kunafa",
       "category": "dessert",
       "image": "assets/products/pistachio-kunafa.jpg",
       "source": "كنافة-فستق-2-scaled.jpg"
@@ -605,6 +613,13 @@
       "category": "savoury",
       "image": "assets/products/falafel.jpg",
       "source": "الفلافل-01.jpg"
+    },
+    {
+      "slug": "ice-chocolate",
+      "name": "Ice Chocolate",
+      "category": "iced",
+      "image": "assets/products/ice-chocolate.jpg",
+      "source": "هوت-شوكلت-01.jpg"
     }
   ]
 }

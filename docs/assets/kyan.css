@@ -425,15 +425,6 @@ html:not(.js) .nav { position: absolute; }
 }
 .hero .eyebrow i { width: 6px; height: 6px; border-radius: 50%; background: #fff; flex: none; }
 
-.hero__script {
-  display: block;
-  font-family: var(--script);
-  font-size: clamp(30px, 3.6vw, 50px);
-  line-height: 1;
-  color: rgba(255, 255, 255, 0.92);
-  margin: 26px 0 6px;
-}
-
 .hero h1 {
   color: #fff;
   font-weight: 800;
@@ -448,14 +439,6 @@ html:not(.js) .nav { position: absolute; }
 .hero h1 .ln { display: block; overflow: hidden; padding-bottom: 0.05em; }
 .hero h1 .ln > span { display: block; }
 .hero h1 .thin { font-weight: 300; letter-spacing: -0.02em; }
-
-.hero__sub {
-  margin: 26px 0 0;
-  font-size: clamp(15px, 1.35vw, 17px);
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.86);
-  max-width: 34ch;
-}
 
 .hero__acts { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 0; }
 
@@ -548,32 +531,6 @@ html:not(.js) .nav { position: absolute; }
   75% { opacity: 0.3; }
   100% { stroke-dashoffset: -54; opacity: 0; transform: translateY(-16px); }
 }
-
-.badge {
-  position: absolute;
-  background: #fff;
-  border-radius: var(--r-md);
-  padding: 13px 18px;
-  box-shadow: var(--sh-md);
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  white-space: nowrap;
-}
-.badge b { font-size: 14px; font-weight: 700; color: var(--denim-700); display: block; }
-.badge small { font-size: 11.5px; color: var(--ink-faint); display: block; margin-top: 1px; }
-.badge__ico {
-  width: 34px; height: 34px;
-  border-radius: 11px;
-  background: var(--aqua-100);
-  display: grid;
-  place-items: center;
-  color: var(--aqua-600);
-  flex: none;
-}
-.badge--a { left: -8%; top: 6%; animation: float 6s var(--ease-io) infinite; }
-.badge--b { right: -6%; bottom: 8%; animation: float 6s var(--ease-io) 2.4s infinite; }
-@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
 .scroll-cue {
   position: absolute;
@@ -761,51 +718,6 @@ h2.title em {
   color: var(--ink-faint);
 }
 
-/* ------------------------------------------------------------- signature */
-.sig { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(34px, 6vw, 80px); align-items: center; }
-.sig__stage { position: relative; display: grid; place-items: center; min-height: 430px; }
-.sig__stage::before {
-  content: "";
-  position: absolute;
-  width: 88%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.16);
-  animation: pulseRing 7s var(--ease-io) infinite;
-}
-@keyframes pulseRing { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.06); opacity: .7; } }
-.glass { position: relative; width: min(280px, 68%); filter: drop-shadow(0 26px 34px rgba(13, 38, 48, 0.24)); }
-.glass .fill { transform-box: fill-box; transform-origin: 50% 100%; transition: transform 1.4s var(--ease) 0.15s; }
-.js .glass:not(.filled) .fill { transform: scaleY(0); }
-
-.notes { list-style: none; margin: 28px 0 0; padding: 0; }
-.notes li {
-  display: grid;
-  grid-template-columns: 132px 1fr;
-  gap: 20px;
-  align-items: baseline;
-  padding: 15px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.24);
-  font-size: 15px;
-}
-.notes li:last-child { border-bottom: 1px solid rgba(255, 255, 255, 0.24); }
-.notes li b { font-size: 10.5px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.75); }
-.notes li span { color: #fff; }
-
-.sig__price {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 11px;
-  margin-top: 28px;
-  background: #fff;
-  color: var(--aqua-700);
-  padding: 13px 26px;
-  border-radius: 999px;
-  box-shadow: 0 14px 34px rgba(13, 38, 48, 0.16);
-}
-.sig__price b { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
-.sig__price span { font-size: 11px; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: var(--ink-faint); }
-
 /* ------------------------------------------------------------------ menu */
 .tabs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 44px; }
 .tab {
@@ -884,30 +796,6 @@ h2.title em {
 }
 .menu-note { margin-top: 32px; text-align: center; font-size: 13px; color: var(--ink-faint); }
 .menu-note a { color: var(--aqua-700); font-weight: 600; }
-
-/* ----------------------------------------------------------------- cards */
-.trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(14px, 2vw, 24px); }
-.card {
-  background: #fff;
-  border: 1px solid var(--line-soft);
-  border-radius: var(--r-lg);
-  padding: clamp(28px, 3vw, 40px);
-  transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
-}
-.card:hover { transform: translateY(-6px); box-shadow: var(--sh-lg); }
-.card__ico {
-  width: 56px; height: 56px;
-  border-radius: 18px;
-  background: var(--aqua-100);
-  display: grid;
-  place-items: center;
-  color: var(--aqua-600);
-  margin-bottom: 22px;
-  transition: transform 0.45s var(--ease), background 0.45s var(--ease);
-}
-.card:hover .card__ico { transform: rotate(-8deg) scale(1.06); background: var(--aqua-200); }
-.card h3 { font-size: clamp(20px, 2vw, 24px); font-weight: 700; margin-bottom: 11px; }
-.card p { margin: 0; font-size: 14.5px; line-height: 1.68; color: var(--ink-soft); }
 
 /* ---------------------------------------------------------------- quotes */
 .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(14px, 2vw, 24px); }
@@ -1066,8 +954,6 @@ h2.title em {
 .js .hero.ready h1 .ln > span { transform: none; }
 .js .hero h1 .ln:nth-child(2) > span { transition-delay: 0.22s; }
 .js .hero .eyebrow,
-.js .hero__script,
-.js .hero__sub,
 .js .hero__acts,
 .js .hero__meta,
 .js .stage,
@@ -1077,15 +963,11 @@ h2.title em {
   transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
 }
 .js .hero.ready .eyebrow,
-.js .hero.ready .hero__script,
-.js .hero.ready .hero__sub,
 .js .hero.ready .hero__acts,
 .js .hero.ready .hero__meta,
 .js .hero.ready .stage,
 .js .hero.ready .scroll-cue { opacity: 1; transform: none; }
 .js .hero.ready .eyebrow { transition-delay: 0.05s; }
-.js .hero.ready .hero__script { transition-delay: 0.12s; }
-.js .hero.ready .hero__sub { transition-delay: 0.42s; }
 .js .hero.ready .hero__acts { transition-delay: 0.5s; }
 .js .hero.ready .hero__meta { transition-delay: 0.58s; }
 .js .hero.ready .stage { transition-delay: 0.2s; }
@@ -1111,14 +993,10 @@ h2.title em {
   .burger { display: block; }
   .hero__inner { grid-template-columns: 1fr; min-height: 0; }
   .stage { min-height: 300px; margin-top: 12px; }
-  .badge--a { left: 0; }
-  .badge--b { right: 0; }
   .scroll-cue { display: none; }
   .hero { padding: calc(var(--nav-h) + 12px) 0 28px; }
   .hero__inner { gap: 14px; }
-  .hero__script { margin: 16px 0 2px; font-size: clamp(26px, 8vw, 36px); }
   .hero h1 { font-size: clamp(21px, 7.6vw, 40px); }
-  .hero__sub { margin-top: 16px; font-size: 14.5px; }
   .hero__acts { margin-top: 20px; gap: 10px; }
   .cup { width: min(210px, 52%); }
 }
@@ -1130,8 +1008,6 @@ h2.title em {
   .facts { grid-template-columns: 1fr 1fr; }
   .notes li, .row { grid-template-columns: 1fr; gap: 4px; }
   .status { display: none; }
-  .badge { padding: 10px 14px; }
-  .badge b { font-size: 13px; }
   /* two drinks per row rather than one giant card */
   .drink-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
   .drink { padding: 18px 10px 16px; border-radius: var(--r-md); }
@@ -1141,8 +1017,6 @@ h2.title em {
   .stage { min-height: 340px; }
   /* narrower stage: keep the cards off the cup's face */
   .cup { width: min(224px, 56%); }
-  .badge--a { top: 2%; }
-  .badge--b { bottom: 2%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1241,13 +1115,6 @@ h2.title em {
   margin-bottom: 40px;
 }
 .drink--feature { padding: 26px 16px 24px; }
-.drink__price {
-  margin: 8px 0 0;
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--aqua-600);
-}
 .btn--lg { padding: 18px 36px; font-size: 15.5px; }
 
 /* ═══════════════════════ menu: the full board ═══════════════════════ */
@@ -1477,8 +1344,6 @@ body.is-locked { overflow: hidden; }
   line-height: 1.16;
 }
 .pcard__ar { margin: 6px 0 0; font-family: var(--arabic); font-size: 15px; color: var(--aqua-600); }
-.pcard__price { margin: 12px 0 0; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--aqua-600); }
-.pcard__price--ask { font-size: 13px; font-weight: 600; color: var(--ink-faint); letter-spacing: 0; }
 
 .pnav {
   flex: none;

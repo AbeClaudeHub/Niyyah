@@ -168,24 +168,6 @@
     counters.forEach(function (el) { cio.observe(el); });
   }
 
-  /* ------------------------------------------------------ the glass fill */
-  var glass = $("#glass");
-  if (glass) {
-    if (reduced || !("IntersectionObserver" in window)) {
-      glass.classList.add("filled");
-    } else {
-      var gio = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            glass.classList.add("filled");
-            gio.disconnect();
-          }
-        });
-      }, { threshold: 0.35 });
-      gio.observe(glass);
-    }
-  }
-
   /* -------------------------------------------------------- menu filter */
   var tabs = $$(".tabs:not(.menu-modal__chips) .tab");
   var items = $$("#menuGrid .drink");
